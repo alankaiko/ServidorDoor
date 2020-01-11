@@ -1,5 +1,7 @@
 package com.laudoecia.api.service;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,29 +9,34 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StreamUtils;
 
 import com.laudoecia.api.domain.Patient;
-import com.laudoecia.api.domain.Study;
 import com.laudoecia.api.repository.PatientRepository;
 import com.laudoecia.api.repository.filtro.PatientFilter;
+import com.laudoecia.api.repository.filtro.ResumoPatient;
 
 @Service
 public class PatientService {
 	@Autowired
 	private PatientRepository dao;
-	
-	@Autowired
-	private StudyService study;
-	
 	private final Logger LOG = LoggerFactory.getLogger(PatientService.class);
 
+	@Value("${pacs.storage.dcm}")
+	private String storageDir;
+	
 	public List<Patient> Listar() {
 		return this.dao.findAll(Sort.by(Sort.Direction.ASC, "datemodify"));
+	}
+	
+	public Page<ResumoPatient> ListaFiltros(PatientFilter filtro, Pageable page){
+		return this.dao.Resumir(filtro, page);		
 	}
 	
 	public Page<Patient> Listar(PatientFilter filtro, Pageable pageable){
@@ -121,7 +128,18 @@ public class PatientService {
 		}
 	}
 	
-	public Study estudo(Long idstudy){
-		return study.BuscarPorId(idstudy);
-	}
+	
+	public byte[] BuscarImagem(String instanceuid){
+		String caminho = this.storageDir + "/" + instanceuid + ".dcm";
+
+    	byte[] bytes = null;
+    	try {
+    		InputStream imagem = new FileInputStream(caminho);
+    		bytes = StreamUtils.copyToByteArray(imagem);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}                
+        return bytes;
+    }
+
 }

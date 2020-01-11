@@ -53,6 +53,7 @@ public class ServidorDoorApplication {
     @Bean //dicom server takes storage output directory, ae title and ports. Server listens same number of ports with same ae title 
     public Map<String, DicomServer> dicomServers(@Value("${pacs.storage.dcm}") String storageDir, @Value("${pacs.aetitle}") String aeTitle, @Value("#{'${pacs.ports}'.split(',')}") List<Integer> ports){
         Map<String, DicomServer> dicomServers = new HashMap<>();
+
         for (int port:ports) {
             dicomServers.put("DICOM_SERVER_AT_" + port, DicomServer.init(null, port, aeTitle, storageDir, asyncEventBus()));
         }

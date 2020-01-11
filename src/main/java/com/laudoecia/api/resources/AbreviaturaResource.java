@@ -39,6 +39,10 @@ public class AbreviaturaResource {
 		return this.service.Listar();
 	}
 	
+//	@GetMapping(params = "resumo")
+//	public Page<Abreviatura> Resumir(AbreviaturaFilter filtro, Pageable page) {
+//		return this.service.Filtrar(filtro, page);
+//	}
 	
 	@PostMapping
 	public ResponseEntity<Abreviatura> Salvar(@Valid @RequestBody Abreviatura abreviatura, HttpServletResponse resposta){

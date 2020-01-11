@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.laudoecia.api.domain.Crm;
@@ -22,7 +21,7 @@ public class CrmService {
 
 	
 	public List<Crm> Listar() {
-		return this.dao.findAll(Sort.by(Sort.Direction.ASC, "datemodify"));
+		return this.dao.findAll();
 	}
 
 	public Crm Criar(Crm crm) {

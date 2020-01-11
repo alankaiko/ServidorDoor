@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.laudoecia.api.domain.Abreviatura;
@@ -22,7 +21,7 @@ public class AbreviaturaService {
 
 	
 	public List<Abreviatura> Listar() {
-		return this.dao.findAll(Sort.by(Sort.Direction.ASC, "datemodify"));
+		return this.dao.findAll();
 	}
 
 	public Abreviatura Criar(Abreviatura abreviatura) {
@@ -83,6 +82,16 @@ public class AbreviaturaService {
 			return null;
 		}		
 	}
+
+//	public Page<Abreviatura> Filtrar(AbreviaturaFilter filtro, Pageable page) {
+//		try {
+//			return this.dao.Filtrando(filtro, page);
+//		} catch (Exception e) {
+//			LOG.error("Erro ao executar o metodo Filtrar------------------ de AbreviaturaService");
+//			e.printStackTrace();
+//			return null;
+//		}		
+//	}
 
 
 }

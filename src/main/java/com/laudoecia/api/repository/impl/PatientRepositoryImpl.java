@@ -19,6 +19,7 @@ import org.springframework.util.StringUtils;
 import com.laudoecia.api.domain.Patient;
 import com.laudoecia.api.domain.Patient_;
 import com.laudoecia.api.repository.filtro.PatientFilter;
+import com.laudoecia.api.repository.filtro.ResumoPatient;
 
 
 public class PatientRepositoryImpl implements PatientRepositoryQuery{
@@ -36,6 +37,25 @@ public class PatientRepositoryImpl implements PatientRepositoryQuery{
 			return null;
 		}
 		
+	}
+	
+	@Override
+	public Page<ResumoPatient> Resumir(PatientFilter filtro, Pageable pageable) {
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<ResumoPatient> criteria = builder.createQuery(ResumoPatient.class);
+		Root<Patient> root = criteria.from(Patient.class);
+		criteria.orderBy(builder.asc(root.get("idpatient")));
+		criteria.select(builder.construct(ResumoPatient.class, root.get(Patient_.idpatient), 
+			root.get(Patient_.patientid), root.get(Patient_.patientname), root.get(Patient_.birthday),
+			root.get(Patient_.patientage), root.get(Patient_.patientsex), root.get(Patient_.datecreate)));
+		
+		Predicate[] predicates = AdicionarRestricoes(builder, filtro, root);
+		criteria.where(predicates);
+		
+		TypedQuery<ResumoPatient> query = em.createQuery(criteria);
+		AdicionarPaginacao(query, pageable);
+		
+		return new PageImpl<>(query.getResultList(), pageable, Total(filtro));
 	}
 
 	@Override
@@ -76,7 +96,7 @@ public class PatientRepositoryImpl implements PatientRepositoryQuery{
 		return lista.toArray(new Predicate[lista.size()]);
 	}
 	
-	private void AdicionarPaginacao(TypedQuery<Patient> tiped, Pageable pageable) {
+	private void AdicionarPaginacao(TypedQuery<?> tiped, Pageable pageable) {
 		int paginaatual = pageable.getPageNumber();
 		int totalporpagina = pageable.getPageSize();
 		int primeiroRegistroDaPagina = paginaatual * totalporpagina;
@@ -95,6 +115,8 @@ public class PatientRepositoryImpl implements PatientRepositoryQuery{
 		query.select(builder.count(root));
 		return em.createQuery(query).getSingleResult();
 	}
+
+	
 	
 }
 

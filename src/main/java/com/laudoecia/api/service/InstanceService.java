@@ -34,8 +34,8 @@ public class InstanceService {
 		}
 	}
 
-	public Instance BuscarPorId(Long id) {
-		Optional<Instance> instancia = this.dao.findById(id);
+	public Instance BuscarPorId(Long codigo) {
+		Optional<Instance> instancia = this.dao.findById(codigo);
 
 		if (instancia.get() == null)
 			throw new EmptyResultDataAccessException(1);

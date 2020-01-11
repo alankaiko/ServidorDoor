@@ -1,7 +1,5 @@
 package com.laudoecia.api.resources;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -23,74 +21,64 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.laudoecia.api.domain.Patient;
-import com.laudoecia.api.domain.Series;
-import com.laudoecia.api.domain.Study;
 import com.laudoecia.api.event.RecursoCriadoEvent;
 import com.laudoecia.api.repository.filtro.PatientFilter;
+import com.laudoecia.api.repository.filtro.ResumoPatient;
 import com.laudoecia.api.service.PatientService;
 
 @RestController
 @RequestMapping("/servidor")
 @CrossOrigin("*")
 public class ServerDicom {
-	
+
 	@Autowired
 	private PatientService service;
-	
+
 	@Autowired
 	private ApplicationEventPublisher publisher;
-	
-	@GetMapping
-	public List<Patient> Listar(){
-		return this.service.Listar();
+
+	@GetMapping(params = "resumo")
+	public Page<ResumoPatient> Listar(PatientFilter filtro, Pageable page) {
+		return this.service.ListaFiltros(filtro, page);
 	}
 
 	@GetMapping("/filtro")
-	public Page<Patient> ListarPacientes(PatientFilter filtro, Pageable pageable){
+	public Page<Patient> ListarPacientes(PatientFilter filtro, Pageable pageable) {
 		return this.service.Listar(filtro, pageable);
 	}
-	
+
 	@PostMapping
-	public ResponseEntity<Patient> Salvar(@Valid @RequestBody Patient patient, HttpServletResponse resposta){
+	public ResponseEntity<Patient> Salvar(@Valid @RequestBody Patient patient, HttpServletResponse resposta) {
 		Patient salvo = this.service.Criar(patient);
 		this.publisher.publishEvent(new RecursoCriadoEvent(this, resposta, salvo.getIdpatient()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
 	}
-	
+
 	@GetMapping("/{idpatient}")
-	public ResponseEntity<Patient> PorId(@PathVariable Long idpatient){
-		Patient salvo = this.service.BuscarPorId(idpatient);
-		return ResponseEntity.ok(salvo);
+	public ResponseEntity<Patient> PorId(@PathVariable Long idpatient) {
+		Patient patient = this.service.BuscarPorId(idpatient);
+		return ResponseEntity.ok(patient);
 	}
-	
-	
+
 	@DeleteMapping("/{idpatient}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void Remover(@PathVariable Long idpatient) {
 		this.service.Deletar(idpatient);
 	}
-	
+
 	@PutMapping("/{idpatient}")
-	public ResponseEntity<Patient> Atualizar(@PathVariable Long idpatient,@Valid @RequestBody Patient paciente){
+	public ResponseEntity<Patient> Atualizar(@PathVariable Long idpatient, @Valid @RequestBody Patient paciente) {
 		Patient salvo = this.service.Atualizar(idpatient, paciente);
 		return ResponseEntity.ok(salvo);
 	}
-	
-	@GetMapping("/study/{idpatient}")
-	public List<Study> RetornaListaEstudo(@PathVariable long idpatient){
-		Patient paciente = this.service.BuscarPorId(idpatient);
-		return paciente.getStudyes();
+
+	@GetMapping(value = "/dicom/{instanceuid}")
+	public ResponseEntity<byte[]> BuscarArquivoDicom(@PathVariable String instanceuid) {
+		byte[] dados = this.service.BuscarImagem(instanceuid);
+		return ResponseEntity.ok().body(dados);
 	}
-	
-	@GetMapping("/series/{idstudy}")
-	public List<Series> RetornaListaSeries(@PathVariable Long idstudy){
-		System.out.println("agora aqui");
-		Study estudo = this.service.estudo(idstudy);
-		return estudo.getSeries();
-	}
+
 }
-
-
 
 
 

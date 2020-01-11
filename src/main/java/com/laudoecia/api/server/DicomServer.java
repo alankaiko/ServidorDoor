@@ -33,9 +33,11 @@ import org.dcm4che3.net.service.DicomServiceRegistry;
 import org.dcm4che3.util.SafeClose;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.google.common.eventbus.EventBus;
 import com.laudoecia.api.event.NewFileEvent;
+import com.laudoecia.api.utils.ConversorDicomJPG;
 
 
 public class DicomServer {
@@ -47,6 +49,9 @@ public class DicomServer {
     private final ApplicationEntity ae = new ApplicationEntity("*");
     private final Connection conn = new Connection();
     private File storageDir;
+    
+//    @Value("${pacs.storage.image}")
+//    private String armazenamentoimagem;
    
     private int status;
 
@@ -83,32 +88,8 @@ public class DicomServer {
                 
                 eventBus.post(new NewFileEvent(file));
                 
-                //let's parse the files
-                /*Attributes attrs = parse(file);
-                if(attrs != null){                	
-                	String studyiuid = attrs.getString(Tag.StudyInstanceUID);
-	         		String patientID = attrs.getString(Tag.PatientID);
-	         		patientID = (patientID == null || patientID.length() == 0) ? "<UNKNOWN>" : patientID;
-	         		Long projectID = -1L;
-	         		String patientName = attrs.getString(Tag.PatientName);
-	         		String institutionName = attrs.getString(Tag.InstitutionName);
-	         		String uniqueID = file.getName();
-	         		Date studyDate =  attrs.getDate(Tag.StudyDate);
-	         		Date studyTime =  attrs.getDate(Tag.StudyTime);         		
-	         		
-	         		String studyDateTime = (studyDate != null && studyTime != null)?new SimpleDateFormat("MM-dd-yyyy").format(studyDate)+" "+new SimpleDateFormat("HH-mm-ss").format(studyTime):"01-01-1901 01-01-01";
-	         	
-	         		
-	         		
-                	//eventBus.post(new NewLogEvent(as.toString(), "IMAGE_RECEIVED", ipAddress, studyDateTime, projectID, patientID, patientName, null, studyiuid, institutionName, uniqueID));
-                	//eventBus.post(new NewFileEvent(file, ipAddress, studyiuid, iuid, cuid, associationName));
-                	
-                }else{
-                	LOG.error("File Name {} could not be parsed!",file.getName());
-                }*/
-
-            }catch(EOFException e){
-            	//deleteFile(as, file); //broken file, just remove...     
+        
+            }catch(EOFException e){ 
             	LOG.error("Dicom Store EOFException: " + e.getMessage());               
             }
             catch (Exception e) {              
@@ -135,6 +116,7 @@ public class DicomServer {
         try {
             out.writeFileMetaInformation(fmi);
             data.copyTo(out);
+            //this.ConverterParaJPEG(file);
         } finally {
             SafeClose.close(out);
         }
@@ -148,6 +130,17 @@ public class DicomServer {
         } finally {
             SafeClose.close(in);
         }
+    }
+    
+    private void ConverterParaJPEG(File arquivo) {
+    	//File destino = new File("C:\\teste");
+    	try {
+			ConversorDicomJPG converter = new ConversorDicomJPG();
+			converter.Dcm2jpg(arquivo, this.storageDir);
+		} catch (Exception e) {
+			System.out.println("Erro na classe Servidor Armazenamento de Imagem Jpeg");
+			e.printStackTrace();
+		}
     }
 
     private static void deleteFile(Association as, File file) {

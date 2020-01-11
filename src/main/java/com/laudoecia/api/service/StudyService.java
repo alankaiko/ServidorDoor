@@ -94,7 +94,6 @@ public class StudyService {
 	}
 
 	public List<Study> BuscarPorIdPaciente(Long idpatient) {
-		System.out.println("metodo "+idpatient);
 		try {
 			return this.dao.findByPatientIdpatient(idpatient);
 		} catch (Exception e) {
