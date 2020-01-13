@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.laudoecia.api.component.ActiveDicoms;
+import com.laudoecia.api.component.DicomRepost;
 import com.laudoecia.api.domain.Dispositive;
 import com.laudoecia.api.domain.Instance;
 import com.laudoecia.api.domain.Patient;
@@ -43,7 +43,7 @@ public class DBServiceImpl implements DBService {
 	private EntityManager entityManager;
 
 	@Autowired
-	private ActiveDicoms activeDicoms;
+	private DicomRepost reposter;
 
 	@Transactional
 	@Override
@@ -184,7 +184,7 @@ public class DBServiceImpl implements DBService {
 			printStats(reader.getPatientName() + " " + reader.getPatientID() + " " + reader.getPatientAge() + " "
 					+ reader.getPatientSex() + " Started");
 			Patient patient = buildPatient(reader);
-			activeDicoms.add(reader.getMediaStorageSopInstanceUID(), patient.toString());
+			reposter.add(reader.getMediaStorageSopInstanceUID(), patient.toString());
 
 			if (patient != null) {
 				Study study = buildStudy(reader, patient);
@@ -207,20 +207,16 @@ public class DBServiceImpl implements DBService {
 						patient.setDatemodify(instance.getDatecreate());
 						this.PatientService.Criar(patient);
 
-						// try{ entityManager.getTransaction().commit(); } catch(Exception e){}
-
 						LOG.info("Dicom Instance saved successfully! {}", instance.toString());
 					}
 				}
 			}
 
-			// LOG.info("Yes {} exists!", reader.getMediaStorageSopInstanceUID());
-			activeDicoms.remove(reader.getMediaStorageSopInstanceUID());
+			reposter.remove(reader.getMediaStorageSopInstanceUID());
 
 			printStats(reader.getPatientName() + " " + reader.getPatientID() + " " + reader.getPatientAge() + " "
 					+ reader.getPatientSex() + " Ended");
-			LOG.info(
-					"=================================================================================================================================");
+			LOG.info("=================================================================================================================================");
 			LOG.info("");
 
 		} catch (Exception e) {
@@ -230,8 +226,6 @@ public class DBServiceImpl implements DBService {
 	}
 
 	public void printStats(String status) {
-		// String str = Thread.currentThread().getName().split("@@")[0];
-		// Thread.currentThread().setName(String.valueOf(Thread.currentThread().getId()));
 		LOG.info("{} {} {} [Active Threads: {}] ", Thread.currentThread().getId(), Thread.currentThread().getName(),
 				status, Thread.activeCount());
 

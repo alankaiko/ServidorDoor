@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
-import com.laudoecia.api.component.ActiveDicoms;
+import com.laudoecia.api.component.DicomRepost;
 import com.laudoecia.api.event.NewFileEvent;
 import com.laudoecia.api.server.DicomReader;
 import com.laudoecia.api.service.interf.DBService;
@@ -31,7 +31,7 @@ public class IncomingFileHandler {
 	private DBService dbService;
 	
 	@Autowired
-	private ActiveDicoms activeDicoms;
+	private DicomRepost activeDicoms;
 		
 	@Transactional
 	@Subscribe

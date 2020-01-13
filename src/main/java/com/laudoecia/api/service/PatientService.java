@@ -17,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
 
+import com.laudoecia.api.domain.Instance;
 import com.laudoecia.api.domain.Patient;
 import com.laudoecia.api.repository.PatientRepository;
 import com.laudoecia.api.repository.filtro.PatientFilter;
@@ -27,6 +28,9 @@ public class PatientService {
 	@Autowired
 	private PatientRepository dao;
 	private final Logger LOG = LoggerFactory.getLogger(PatientService.class);
+	
+	@Autowired
+	private InstanceService servInstance;
 
 	@Value("${pacs.storage.dcm}")
 	private String storageDir;
@@ -141,5 +145,10 @@ public class PatientService {
 		}                
         return bytes;
     }
+	
+	public List<Instance> BuscarPorInstanciasDoPaciente(Long idpatient){
+		Patient paciente = this.BuscarPorId(idpatient);
+		return paciente.getStudyes().get(0).getSeries().get(0).getInstance();
+	}
 
 }

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.laudoecia.api.domain.Patient;
+import com.laudoecia.api.domain.Series;
 import com.laudoecia.api.event.RecursoCriadoEvent;
 import com.laudoecia.api.repository.filtro.PatientFilter;
 import com.laudoecia.api.repository.filtro.ResumoPatient;
@@ -72,12 +73,17 @@ public class ServerDicom {
 		return ResponseEntity.ok(salvo);
 	}
 
-	@GetMapping(value = "/dicom/{instanceuid}")
+	@GetMapping("/dicom/{instanceuid}")
 	public ResponseEntity<byte[]> BuscarArquivoDicom(@PathVariable String instanceuid) {
 		byte[] dados = this.service.BuscarImagem(instanceuid);
 		return ResponseEntity.ok().body(dados);
 	}
 
+	@GetMapping("/series/{idpatient}")
+	public Series BuscarInstancias(@PathVariable Long idpatient){
+		Patient paciente = this.service.BuscarPorId(idpatient);
+		return paciente.getStudyes().get(0).getSeries().get(0);
+	}
 }
 
 
