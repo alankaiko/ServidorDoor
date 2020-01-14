@@ -49,19 +49,19 @@ public class PacienteResource {
 	
 	@DeleteMapping("/{codigo}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void Remover(@PathVariable Long id) {
-		this.service.Deletar(id);
+	public void Remover(@PathVariable Long codigo) {
+		this.service.Deletar(codigo);
 	}
 	
 	@GetMapping("/{codigo}")
-	public ResponseEntity<Paciente> PorId(@PathVariable Long id){
-		Paciente salvo = this.service.BuscarPorId(id);
+	public ResponseEntity<Paciente> PorId(@PathVariable Long codigo){
+		Paciente salvo = this.service.BuscarPorId(codigo);
 		return ResponseEntity.ok(salvo);
 	}
 	
 	@PutMapping("/{codigo}")
-	public ResponseEntity<Paciente> Atualizar(@PathVariable Long id, @Valid @RequestBody Paciente paciente){
-		Paciente salvo = this.service.Atualizar(id, paciente);
+	public ResponseEntity<Paciente> Atualizar(@PathVariable Long codigo, @Valid @RequestBody Paciente paciente){
+		Paciente salvo = this.service.Atualizar(codigo, paciente);
 		return ResponseEntity.ok(salvo);
 	}
 }

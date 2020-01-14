@@ -15,7 +15,7 @@ public class Abreviatura implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long codigo;
-	private String abreviatura;
+	private String titulo;
 	private String texto;
 
 	@Id
@@ -36,39 +36,13 @@ public class Abreviatura implements Serializable {
 	public void setTexto(String texto) {
 		this.texto = texto;
 	}
-	
-	@Column(name = "abreviatura")
-	public String getAbreviatura() {
-		return abreviatura;
+
+	public String getTitulo() {
+		return titulo;
 	}
 
-	public void setAbreviatura(String abreviatura) {
-		this.abreviatura = abreviatura;
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Abreviatura other = (Abreviatura) obj;
-		if (codigo == null) {
-			if (other.codigo != null)
-				return false;
-		} else if (!codigo.equals(other.codigo))
-			return false;
-		return true;
-	}
-	
 }

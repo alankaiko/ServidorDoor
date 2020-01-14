@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.laudoecia.api.domain.Patient;
 import com.laudoecia.api.repository.filtro.PatientFilter;
-import com.laudoecia.api.repository.filtro.ResumoPatient;
+import com.laudoecia.api.repository.resumo.ResumoPatient;
 
 public interface PatientRepositoryQuery {
 	public List<Patient> ListarMaximoCom(int primeiro, int maximo);

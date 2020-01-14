@@ -125,6 +125,50 @@ public class DicomReader {
     public Integer getXrayTubeCurrent() { return this.attr.getInt(Tag.XRayTubeCurrent, 0); }
     /*************************************************** Instance Info***********************************************************************/
     
+    /************************** TagImagem Info **************************************************************************************/
+    public String getimagetype() { return this.attr.getString(Tag.ImageType); }
+    public String getsopclassuid() { return this.attr.getString(Tag.SOPClassUID); }
+    public String getsopinstanceuid() { return this.attr.getString(Tag.SOPInstanceUID); }
+    public String getstudydate() { return this.attr.getString(Tag.StudyDate); }
+    public String getseriesdate() { return this.attr.getString(Tag.SeriesDate); }
+    public String getacquisitiondate() { return this.attr.getString(Tag.AcquisitionDate); }
+    public String getcontentdate() { return this.attr.getString(Tag.ContentDate); }
+    public String getstudytime() { return this.attr.getString(Tag.SeriesTime); }
+    public String getseriestime() { return this.attr.getString(Tag.AcquisitionTime); }
+    public String getacquisitiontime() { return this.attr.getString(Tag.AcquisitionTime); }
+    public String getcontenttime() { return this.attr.getString(Tag.ContentTime); }
+    public String getaccessionnumber() { return this.attr.getString(Tag.AccessionNumber); }
+    public String getmodality() { return this.attr.getString(Tag.Modality); }
+    public String getpresentationintenttype() { return this.attr.getString(Tag.PresentationIntentType); }
+    public String getmanufacturer() { return this.attr.getString(Tag.Manufacturer); }
+    public String getinstitutionname() { return this.attr.getString(Tag.InstitutionName); }
+    public String getinstitutionaddress() { return this.attr.getString(Tag.InstitutionAddress); }
+    public String getreferringphysiciansname() { return this.attr.getString(Tag.ReferringPhysicianName); }
+    public String getstationname() { return this.attr.getString(Tag.StationName); }
+    public String getstudydescription() { return this.attr.getString(Tag.StudyDescription); }
+    public String getseriesdescription() { return this.attr.getString(Tag.SeriesDescription); }
+    public String getinstitutionaldepartmentname() { return this.attr.getString(Tag.InstitutionalDepartmentName); }
+    public String getperformingphysiciansname() { return this.attr.getString(Tag.PerformingPhysicianName); }
+    public String getoperatorsname() { return this.attr.getString(Tag.OperatorsName); }
+    public String getmanufacturersmodelname() { return this.attr.getString(Tag.ManufacturerModelName); }
+    public String getreferencedpatientsequence() { return this.attr.getString(Tag.ReferencedPatientSequence); }
+    public String getanatomicregionsequence() { return this.attr.getString(Tag.AnatomicRegionSequence); }
+    public String getprimaryAnatomicstructuresequence() { return this.attr.getString(Tag.PrimaryAnatomicStructureSequence); }
+    public String getpatientsname() { return this.attr.getString(Tag.PatientName); }
+    public String getpatientid() { return this.attr.getString(Tag.PatientID); }
+    public String getpatientsbirthdate() { return this.attr.getString(Tag.PatientBirthDate); }
+    public String getsoftwareversions() { return this.attr.getString(Tag.SoftwareVersions); }
+    public String getimagerpixelspacing() { return this.attr.getString(Tag.ImagerPixelSpacing); }
+    public String getpositionertype() { return this.attr.getString(Tag.PositionerType); }
+    public String getdetectortype() { return this.attr.getString(Tag.DetectorType); }
+    public String getdetectordescription() { return this.attr.getString(Tag.DetectorDescription); }
+    public String getdetectormode() { return this.attr.getString(Tag.DetectorMode); }
+    public String gettimeoflastdetectorcalibration() { return this.attr.getString(Tag.TimeOfLastDetectorCalibration); }
+    public String getsamplesperpixel() { return this.attr.getString(Tag.SamplesPerPixel); }
+    public String getphotometricinterpretation() { return this.attr.getString(Tag.PhotometricInterpretation); }
+    public String getrows() { return this.attr.getString(Tag.Rows); }
+    public String getcolumns() { return this.attr.getString(Tag.Columns); }
+    /************************** End of TagImagem Info ***************************************/
     
     
     @Override

@@ -8,10 +8,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.laudoecia.api.domain.Abreviatura;
 import com.laudoecia.api.repository.AbreviaturasRepository;
+import com.laudoecia.api.repository.filtro.AbreviaturaFilter;
+import com.laudoecia.api.repository.resumo.ResumoAbreviatura;
 
 @Service
 public class AbreviaturaService {
@@ -83,14 +87,14 @@ public class AbreviaturaService {
 		}		
 	}
 
-//	public Page<Abreviatura> Filtrar(AbreviaturaFilter filtro, Pageable page) {
+//	public Page<ResumoAbreviatura> Resumindo(AbreviaturaFilter filtro, Pageable page){
 //		try {
-//			return this.dao.Filtrando(filtro, page);
+//			return this.dao.resumir(filtro, page);
 //		} catch (Exception e) {
-//			LOG.error("Erro ao executar o metodo Filtrar------------------ de AbreviaturaService");
+//			LOG.error("Erro ao executar o metodo Resumindo------------------ de AbreviaturaService");
 //			e.printStackTrace();
 //			return null;
-//		}		
+//		}	
 //	}
 
 

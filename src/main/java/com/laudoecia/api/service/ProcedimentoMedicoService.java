@@ -8,10 +8,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.laudoecia.api.domain.ProcedimentoMedico;
 import com.laudoecia.api.repository.ProcedimentoMedicoRepository;
+import com.laudoecia.api.repository.filtro.ProcedimentoMedicoFilter;
+import com.laudoecia.api.repository.resumo.ResumoProcedimentoMedico;
 
 @Service
 public class ProcedimentoMedicoService {
@@ -83,5 +87,14 @@ public class ProcedimentoMedicoService {
 		}		
 	}
 
+	public Page<ResumoProcedimentoMedico> Resumindo(ProcedimentoMedicoFilter filtro, Pageable page){
+		try {
+			return this.dao.resumir(filtro, page);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo Resumindo------------------ de ProcedimentoMedicoService");
+			e.printStackTrace();
+			return null;
+		}		
+	}
 
 }

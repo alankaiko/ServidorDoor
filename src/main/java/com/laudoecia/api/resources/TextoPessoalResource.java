@@ -49,19 +49,19 @@ public class TextoPessoalResource {
 	
 	@DeleteMapping("/{codigo}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void Remover(@PathVariable Long id) {
-		this.service.Deletar(id);
+	public void Remover(@PathVariable Long codigo) {
+		this.service.Deletar(codigo);
 	}
 	
 	@GetMapping("/{codigo}")
-	public ResponseEntity<TextoPessoal> PorId(@PathVariable Long id){
-		TextoPessoal salvo = this.service.BuscarPorId(id);
+	public ResponseEntity<TextoPessoal> PorId(@PathVariable Long codigo){
+		TextoPessoal salvo = this.service.BuscarPorId(codigo);
 		return ResponseEntity.ok(salvo);
 	}
 	
 	@PutMapping("/{codigo}")
-	public ResponseEntity<TextoPessoal> Atualizar(@PathVariable Long id, @Valid @RequestBody TextoPessoal texto){
-		TextoPessoal salvo = this.service.Atualizar(id, texto);
+	public ResponseEntity<TextoPessoal> Atualizar(@PathVariable Long codigo, @Valid @RequestBody TextoPessoal texto){
+		TextoPessoal salvo = this.service.Atualizar(codigo, texto);
 		return ResponseEntity.ok(salvo);
 	}
 }

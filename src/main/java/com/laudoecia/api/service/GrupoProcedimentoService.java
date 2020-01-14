@@ -8,10 +8,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.laudoecia.api.domain.GrupoProcedimento;
 import com.laudoecia.api.repository.GrupoProcedimentoRepository;
+import com.laudoecia.api.repository.filtro.GrupoProcedimentoFilter;
+import com.laudoecia.api.repository.resumo.ResumoGrupoProcedimento;
 
 @Service
 public class GrupoProcedimentoService {
@@ -81,6 +85,16 @@ public class GrupoProcedimentoService {
 			e.printStackTrace();
 			return null;
 		}		
+	}
+	
+	public Page<ResumoGrupoProcedimento> Resumindo(GrupoProcedimentoFilter filtro, Pageable page){
+		try {
+			return this.dao.resumir(filtro, page);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo Resumindo------------------ de GrupoProcedimentoService");
+			e.printStackTrace();
+			return null;
+		}	
 	}
 
 

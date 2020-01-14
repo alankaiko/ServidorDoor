@@ -54,14 +54,14 @@ public class CrmResource {
 	}
 	
 	@GetMapping("/{codigo}")
-	public ResponseEntity<Crm> PorId(@PathVariable Long id){
-		Crm salvo = this.service.BuscarPorId(id);
+	public ResponseEntity<Crm> PorId(@PathVariable Long codigo){
+		Crm salvo = this.service.BuscarPorId(codigo);
 		return ResponseEntity.ok(salvo);
 	}
 	
 	@PutMapping("/{codigo}")
-	public ResponseEntity<Crm> Atualizar(@PathVariable Long id, @Valid @RequestBody Crm crm){
-		Crm salvo = this.service.Atualizar(id, crm);
+	public ResponseEntity<Crm> Atualizar(@PathVariable Long codigo, @Valid @RequestBody Crm crm){
+		Crm salvo = this.service.Atualizar(codigo, crm);
 		return ResponseEntity.ok(salvo);
 	}
 }

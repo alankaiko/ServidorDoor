@@ -49,19 +49,19 @@ public class GrupoCid10Resource {
 	
 	@DeleteMapping("/{codigo}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void Remover(@PathVariable Long id) {
-		this.service.Deletar(id);
+	public void Remover(@PathVariable Long codigo) {
+		this.service.Deletar(codigo);
 	}
 	
 	@GetMapping("/{codigo}")
-	public ResponseEntity<GrupoCID10> PorId(@PathVariable Long id){
-		GrupoCID10 salvo = this.service.BuscarPorId(id);
+	public ResponseEntity<GrupoCID10> PorId(@PathVariable Long codigo){
+		GrupoCID10 salvo = this.service.BuscarPorId(codigo);
 		return ResponseEntity.ok(salvo);
 	}
 	
 	@PutMapping("/{codigo}")
-	public ResponseEntity<GrupoCID10> Atualizar(@PathVariable Long id, @Valid @RequestBody GrupoCID10 cid){
-		GrupoCID10 salvo = this.service.Atualizar(id, cid);
+	public ResponseEntity<GrupoCID10> Atualizar(@PathVariable Long codigo, @Valid @RequestBody GrupoCID10 cid){
+		GrupoCID10 salvo = this.service.Atualizar(codigo, cid);
 		return ResponseEntity.ok(salvo);
 	}
 }

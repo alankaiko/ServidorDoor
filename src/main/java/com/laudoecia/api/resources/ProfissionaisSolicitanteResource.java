@@ -49,19 +49,19 @@ public class ProfissionaisSolicitanteResource {
 	
 	@DeleteMapping("/{codigo}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void Remover(@PathVariable Long id) {
-		this.service.Deletar(id);
+	public void Remover(@PathVariable Long codigo) {
+		this.service.Deletar(codigo);
 	}
 	
 	@GetMapping("/{codigo}")
-	public ResponseEntity<ProfissionalSolicitante> PorId(@PathVariable Long id){
-		ProfissionalSolicitante salvo = this.service.BuscarPorId(id);
+	public ResponseEntity<ProfissionalSolicitante> PorId(@PathVariable Long codigo){
+		ProfissionalSolicitante salvo = this.service.BuscarPorId(codigo);
 		return ResponseEntity.ok(salvo);
 	}
 	
 	@PutMapping("/{codigo}")
-	public ResponseEntity<ProfissionalSolicitante> Atualizar(@PathVariable Long id, @Valid @RequestBody ProfissionalSolicitante profissional){
-		ProfissionalSolicitante salvo = this.service.Atualizar(id, profissional);
+	public ResponseEntity<ProfissionalSolicitante> Atualizar(@PathVariable Long codigo, @Valid @RequestBody ProfissionalSolicitante profissional){
+		ProfissionalSolicitante salvo = this.service.Atualizar(codigo, profissional);
 		return ResponseEntity.ok(salvo);
 	}
 }

@@ -33,7 +33,6 @@ import org.dcm4che3.net.service.DicomServiceRegistry;
 import org.dcm4che3.util.SafeClose;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 
 import com.google.common.eventbus.EventBus;
 import com.laudoecia.api.event.NewFileEvent;

@@ -30,6 +30,7 @@ public abstract class Instance_ {
 	public static volatile SingularAttribute<Instance, Series> series;
 	public static volatile SingularAttribute<Instance, String> windowwidth;
 	public static volatile SingularAttribute<Instance, Date> acquisitiondatetime;
+	public static volatile SingularAttribute<Instance, Tagimagem> tagimagem;
 	public static volatile SingularAttribute<Instance, Float> pixelspacing;
 	public static volatile SingularAttribute<Instance, String> imageorientation;
 
@@ -54,6 +55,7 @@ public abstract class Instance_ {
 	public static final String SERIES = "series";
 	public static final String WINDOWWIDTH = "windowwidth";
 	public static final String ACQUISITIONDATETIME = "acquisitiondatetime";
+	public static final String TAGIMAGEM = "tagimagem";
 	public static final String PIXELSPACING = "pixelspacing";
 	public static final String IMAGEORIENTATION = "imageorientation";
 

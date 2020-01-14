@@ -8,10 +8,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.laudoecia.api.domain.ProfissionalExecutante;
 import com.laudoecia.api.repository.ProfissionaisExecutantesRepository;
+import com.laudoecia.api.repository.filtro.ProfissionalExecutanteFilter;
+import com.laudoecia.api.repository.resumo.ResumoProfissionalExecutante;
 
 @Service
 public class ProfissionaisExecutantesService {
@@ -83,5 +87,14 @@ public class ProfissionaisExecutantesService {
 		}		
 	}
 
+//	public Page<ResumoProfissionalExecutante> Resumindo(ProfissionalExecutanteFilter filtro, Pageable page){
+//		try {
+//			return this.dao.resumir(filtro, page);
+//		} catch (Exception e) {
+//			LOG.error("Erro ao executar o metodo Resumindo------------------ de ProfissionaisExecutantesService");
+//			e.printStackTrace();
+//			return null;
+//		}	
+//	}
 
 }

@@ -49,19 +49,19 @@ public class EspecialidadeMedicaResource {
 	
 	@DeleteMapping("/{codigo}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void Remover(@PathVariable Long id) {
-		this.service.Deletar(id);
+	public void Remover(@PathVariable Long codigo) {
+		this.service.Deletar(codigo);
 	}
 	
 	@GetMapping("/{codigo}")
-	public ResponseEntity<EspecialidadeMedica> PorId(@PathVariable Long id){
-		EspecialidadeMedica salvo = this.service.BuscarPorId(id);
+	public ResponseEntity<EspecialidadeMedica> PorId(@PathVariable Long codigo){
+		EspecialidadeMedica salvo = this.service.BuscarPorId(codigo);
 		return ResponseEntity.ok(salvo);
 	}
 	
 	@PutMapping("/{codigo}")
-	public ResponseEntity<EspecialidadeMedica> Atualizar(@PathVariable Long id, @Valid @RequestBody EspecialidadeMedica especialidade){
-		EspecialidadeMedica salvo = this.service.Atualizar(id, especialidade);
+	public ResponseEntity<EspecialidadeMedica> Atualizar(@PathVariable Long codigo, @Valid @RequestBody EspecialidadeMedica especialidade){
+		EspecialidadeMedica salvo = this.service.Atualizar(codigo, especialidade);
 		return ResponseEntity.ok(salvo);
 	}
 }

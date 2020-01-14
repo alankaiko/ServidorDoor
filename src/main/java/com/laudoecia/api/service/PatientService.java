@@ -21,7 +21,7 @@ import com.laudoecia.api.domain.Instance;
 import com.laudoecia.api.domain.Patient;
 import com.laudoecia.api.repository.PatientRepository;
 import com.laudoecia.api.repository.filtro.PatientFilter;
-import com.laudoecia.api.repository.filtro.ResumoPatient;
+import com.laudoecia.api.repository.resumo.ResumoPatient;
 
 @Service
 public class PatientService {

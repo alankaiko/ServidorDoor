@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -49,6 +50,7 @@ public class Instance implements Serializable {
 	private Date datecreate;
 	private Date datemodify;
 	private Series series;
+	private Tagimagem tagimagem;
 
 	public Instance() {
 		super();
@@ -255,6 +257,16 @@ public class Instance implements Serializable {
 
 	public void setSeries(Series param) {
 		this.series = param;
+	}
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "tbl_tagimagem_id", referencedColumnName = "codigo")
+	public Tagimagem getTagimagem() {
+		return tagimagem;
+	}
+	
+	public void setTagimagem(Tagimagem tagimagem) {
+		this.tagimagem = tagimagem;
 	}
 
 	@PreUpdate

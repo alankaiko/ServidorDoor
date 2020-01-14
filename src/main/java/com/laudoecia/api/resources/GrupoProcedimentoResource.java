@@ -7,6 +7,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.laudoecia.api.domain.GrupoProcedimento;
 import com.laudoecia.api.event.RecursoCriadoEvent;
+import com.laudoecia.api.repository.filtro.GrupoProcedimentoFilter;
+import com.laudoecia.api.repository.resumo.ResumoGrupoProcedimento;
 import com.laudoecia.api.service.GrupoProcedimentoService;
 
 @RestController
@@ -39,6 +43,10 @@ public class GrupoProcedimentoResource {
 		return this.service.Listar();
 	}
 	
+	@GetMapping(params = "resumo")
+	public Page<ResumoGrupoProcedimento> Resumir(GrupoProcedimentoFilter filtro, Pageable page) {
+		return this.service.Resumindo(filtro, page);
+	}
 	
 	@PostMapping
 	public ResponseEntity<GrupoProcedimento> Salvar(@Valid @RequestBody GrupoProcedimento procedimento, HttpServletResponse resposta){
@@ -49,19 +57,19 @@ public class GrupoProcedimentoResource {
 	
 	@DeleteMapping("/{codigo}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void Remover(@PathVariable Long id) {
-		this.service.Deletar(id);
+	public void Remover(@PathVariable Long codigo) {
+		this.service.Deletar(codigo);
 	}
 	
 	@GetMapping("/{codigo}")
-	public ResponseEntity<GrupoProcedimento> PorId(@PathVariable Long id){
-		GrupoProcedimento salvo = this.service.BuscarPorId(id);
+	public ResponseEntity<GrupoProcedimento> PorId(@PathVariable Long codigo){
+		GrupoProcedimento salvo = this.service.BuscarPorId(codigo);
 		return ResponseEntity.ok(salvo);
 	}
 	
 	@PutMapping("/{codigo}")
-	public ResponseEntity<GrupoProcedimento> Atualizar(@PathVariable Long id, @Valid @RequestBody GrupoProcedimento procedimento){
-		GrupoProcedimento salvo = this.service.Atualizar(id, procedimento);
+	public ResponseEntity<GrupoProcedimento> Atualizar(@PathVariable Long codigo, @Valid @RequestBody GrupoProcedimento procedimento){
+		GrupoProcedimento salvo = this.service.Atualizar(codigo, procedimento);
 		return ResponseEntity.ok(salvo);
 	}
 }

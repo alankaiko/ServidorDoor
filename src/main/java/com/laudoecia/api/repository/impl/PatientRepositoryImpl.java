@@ -19,7 +19,7 @@ import org.springframework.util.StringUtils;
 import com.laudoecia.api.domain.Patient;
 import com.laudoecia.api.domain.Patient_;
 import com.laudoecia.api.repository.filtro.PatientFilter;
-import com.laudoecia.api.repository.filtro.ResumoPatient;
+import com.laudoecia.api.repository.resumo.ResumoPatient;
 
 
 public class PatientRepositoryImpl implements PatientRepositoryQuery{
@@ -115,8 +115,6 @@ public class PatientRepositoryImpl implements PatientRepositoryQuery{
 		query.select(builder.count(root));
 		return em.createQuery(query).getSingleResult();
 	}
-
-	
 	
 }
 

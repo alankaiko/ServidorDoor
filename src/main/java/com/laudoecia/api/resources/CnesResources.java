@@ -49,19 +49,19 @@ public class CnesResources {
 	
 	@DeleteMapping("/{codigo}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void Remover(@PathVariable Long id) {
-		this.service.Deletar(id);
+	public void Remover(@PathVariable Long codigo) {
+		this.service.Deletar(codigo);
 	}
 	
 	@GetMapping("/{codigo}")
-	public ResponseEntity<CNES> PorId(@PathVariable Long id){
-		CNES salvo = this.service.BuscarPorId(id);
+	public ResponseEntity<CNES> PorId(@PathVariable Long codigo){
+		CNES salvo = this.service.BuscarPorId(codigo);
 		return ResponseEntity.ok(salvo);
 	}
 	
 	@PutMapping("/{codigo}")
-	public ResponseEntity<CNES> Atualizar(@PathVariable Long id, @Valid @RequestBody CNES cnes){
-		CNES salvo = this.service.Atualizar(id, cnes);
+	public ResponseEntity<CNES> Atualizar(@PathVariable Long codigo, @Valid @RequestBody CNES cnes){
+		CNES salvo = this.service.Atualizar(codigo, cnes);
 		return ResponseEntity.ok(salvo);
 	}
 }

@@ -7,6 +7,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.laudoecia.api.domain.Convenio;
 import com.laudoecia.api.event.RecursoCriadoEvent;
+import com.laudoecia.api.repository.filtro.ConvenioFilter;
+import com.laudoecia.api.repository.resumo.ResumoConvenio;
 import com.laudoecia.api.service.ConvenioService;
 
 @RestController
@@ -39,6 +43,11 @@ public class ConvenioResource {
 		return this.service.Listar();
 	}
 	
+	@GetMapping(params = "resumo")
+	public Page<ResumoConvenio> Resumir(ConvenioFilter filtro, Pageable page) {
+		return this.service.Resumindo(filtro, page);
+	}
+	
 	
 	@PostMapping
 	public ResponseEntity<Convenio> Salvar(@Valid @RequestBody Convenio convenio, HttpServletResponse resposta){
@@ -49,19 +58,19 @@ public class ConvenioResource {
 	
 	@DeleteMapping("/{codigo}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void Remover(@PathVariable Long id) {
-		this.service.Deletar(id);
+	public void Remover(@PathVariable Long codigo) {
+		this.service.Deletar(codigo);
 	}
 	
 	@GetMapping("/{codigo}")
-	public ResponseEntity<Convenio> PorId(@PathVariable Long id){
-		Convenio salvo = this.service.BuscarPorId(id);
+	public ResponseEntity<Convenio> PorId(@PathVariable Long codigo){
+		Convenio salvo = this.service.BuscarPorId(codigo);
 		return ResponseEntity.ok(salvo);
 	}
 	
 	@PutMapping("/{codigo}")
-	public ResponseEntity<Convenio> Atualizar(@PathVariable Long id, @Valid @RequestBody Convenio convenio){
-		Convenio salvo = this.service.Atualizar(id, convenio);
+	public ResponseEntity<Convenio> Atualizar(@PathVariable Long codigo, @Valid @RequestBody Convenio convenio){
+		Convenio salvo = this.service.Atualizar(codigo, convenio);
 		return ResponseEntity.ok(salvo);
 	}
 }

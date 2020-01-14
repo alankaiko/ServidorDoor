@@ -49,19 +49,19 @@ public class CbhpmResource {
 	
 	@DeleteMapping("/{codigo}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void Remover(@PathVariable Long id) {
-		this.service.Deletar(id);
+	public void Remover(@PathVariable Long codigo) {
+		this.service.Deletar(codigo);
 	}
 	
 	@GetMapping("/{codigo}")
-	public ResponseEntity<CBHPM> PorId(@PathVariable Long id){
-		CBHPM salvo = this.service.BuscarPorId(id);
+	public ResponseEntity<CBHPM> PorId(@PathVariable Long codigo){
+		CBHPM salvo = this.service.BuscarPorId(codigo);
 		return ResponseEntity.ok(salvo);
 	}
 	
 	@PutMapping("/{codigo}")
-	public ResponseEntity<CBHPM> Atualizar(@PathVariable Long id, @Valid @RequestBody CBHPM cbhpm){
-		CBHPM salvo = this.service.Atualizar(id, cbhpm);
+	public ResponseEntity<CBHPM> Atualizar(@PathVariable Long codigo, @Valid @RequestBody CBHPM cbhpm){
+		CBHPM salvo = this.service.Atualizar(codigo, cbhpm);
 		return ResponseEntity.ok(salvo);
 	}
 }

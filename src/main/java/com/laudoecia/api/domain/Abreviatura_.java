@@ -10,11 +10,11 @@ public abstract class Abreviatura_ {
 
 	public static volatile SingularAttribute<Abreviatura, String> texto;
 	public static volatile SingularAttribute<Abreviatura, Long> codigo;
-	public static volatile SingularAttribute<Abreviatura, String> abreviatura;
+	public static volatile SingularAttribute<Abreviatura, String> titulo;
 
 	public static final String TEXTO = "texto";
 	public static final String CODIGO = "codigo";
-	public static final String ABREVIATURA = "abreviatura";
+	public static final String TITULO = "titulo";
 
 }
 

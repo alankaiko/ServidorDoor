@@ -7,6 +7,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.laudoecia.api.domain.ProfissionalExecutante;
 import com.laudoecia.api.event.RecursoCriadoEvent;
+import com.laudoecia.api.repository.filtro.ProfissionalExecutanteFilter;
+import com.laudoecia.api.repository.resumo.ResumoProfissionalExecutante;
 import com.laudoecia.api.service.ProfissionaisExecutantesService;
 
 @RestController
@@ -39,6 +43,10 @@ public class ProfissionaisExecutantesResource {
 		return this.service.Listar();
 	}
 	
+//	@GetMapping(params = "resumo")
+//	public Page<ResumoProfissionalExecutante> Resumir(ProfissionalExecutanteFilter filtro, Pageable page) {
+//		return this.service.Resumindo(filtro, page);
+//	}
 	
 	@PostMapping
 	public ResponseEntity<ProfissionalExecutante> Salvar(@Valid @RequestBody ProfissionalExecutante profissional, HttpServletResponse resposta){
@@ -49,19 +57,19 @@ public class ProfissionaisExecutantesResource {
 	
 	@DeleteMapping("/{codigo}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void Remover(@PathVariable Long id) {
-		this.service.Deletar(id);
+	public void Remover(@PathVariable Long codigo) {
+		this.service.Deletar(codigo);
 	}
 	
 	@GetMapping("/{codigo}")
-	public ResponseEntity<ProfissionalExecutante> PorId(@PathVariable Long id){
-		ProfissionalExecutante salvo = this.service.BuscarPorId(id);
+	public ResponseEntity<ProfissionalExecutante> PorId(@PathVariable Long codigo){
+		ProfissionalExecutante salvo = this.service.BuscarPorId(codigo);
 		return ResponseEntity.ok(salvo);
 	}
 	
 	@PutMapping("/{codigo}")
-	public ResponseEntity<ProfissionalExecutante> Atualizar(@PathVariable Long id, @Valid @RequestBody ProfissionalExecutante profissional){
-		ProfissionalExecutante salvo = this.service.Atualizar(id, profissional);
+	public ResponseEntity<ProfissionalExecutante> Atualizar(@PathVariable Long codigo, @Valid @RequestBody ProfissionalExecutante profissional){
+		ProfissionalExecutante salvo = this.service.Atualizar(codigo, profissional);
 		return ResponseEntity.ok(salvo);
 	}
 }

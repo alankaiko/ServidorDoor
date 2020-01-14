@@ -15,6 +15,7 @@ import com.laudoecia.api.domain.Instance;
 import com.laudoecia.api.domain.Patient;
 import com.laudoecia.api.domain.Series;
 import com.laudoecia.api.domain.Study;
+import com.laudoecia.api.domain.Tagimagem;
 import com.laudoecia.api.server.DicomReader;
 import com.laudoecia.api.service.interf.DBService;
 import com.laudoecia.api.utils.DicomEntityBuilder;
@@ -37,6 +38,9 @@ public class DBServiceImpl implements DBService {
 	private PatientService PatientService;
 
 	@Autowired
+	private TagImagemService TagImagemService;
+
+	@Autowired
 	private DispositiveService DispositiveService;
 
 	@PersistenceContext
@@ -52,17 +56,16 @@ public class DBServiceImpl implements DBService {
 		LOG.info("In process; Patient Name: {}, Patient ID: {}", reader.getPatientName(), reader.getPatientID());
 
 		Patient patient = this.PatientService.BuscarPorPacienteId(reader.getPatientID());
-		
+
 		if (patient == null) {// let's create new patient
-			patient = DicomEntityBuilder.newPatient(
-					reader.getPatientAge(), reader.getPatientBirthDay(),
+			patient = DicomEntityBuilder.newPatient(reader.getPatientAge(), reader.getPatientBirthDay(),
 					reader.getPatientID(), reader.getPatientName(), reader.getPatientSex());
-			
+
 			this.PatientService.Criar(patient);
 			patient = this.PatientService.BuscarPorPacienteId(reader.getPatientID());
 		} else {
-			 LOG.info("Patient already exists; Patient Name: {}, Patient ID: {} ",
-			 reader.getPatientName(), reader.getPatientID());
+			LOG.info("Patient already exists; Patient Name: {}, Patient ID: {} ", reader.getPatientName(),
+					reader.getPatientID());
 		}
 
 		return patient;
@@ -74,16 +77,14 @@ public class DBServiceImpl implements DBService {
 
 		// check if study exists
 		Study study = this.StudyService.BuscarPorStudyInstanceuid(reader.getStudyInstanceUID());
-		
+
 		if (study == null) {// let's create new study
-			study = DicomEntityBuilder.newStudy(
-				reader.getAccessionNumber(), reader.getAdditionalPatientHistory(),
-				reader.getAdmittingDiagnosesDescription(), reader.getReferringPhysicianName(),
-				reader.getSeriesDateTime(), reader.getStudyID(),
-				reader.getStudyDescription(), reader.getStudyInstanceUID(),
-				reader.getStudyPriorityID(), reader.getStudyStatusID());
+			study = DicomEntityBuilder.newStudy(reader.getAccessionNumber(), reader.getAdditionalPatientHistory(),
+					reader.getAdmittingDiagnosesDescription(), reader.getReferringPhysicianName(),
+					reader.getSeriesDateTime(), reader.getStudyID(), reader.getStudyDescription(),
+					reader.getStudyInstanceUID(), reader.getStudyPriorityID(), reader.getStudyStatusID());
 			study.setPatient(patient);
-			
+
 			this.StudyService.Criar(study);
 			study = this.StudyService.BuscarPorStudyInstanceuid(reader.getStudyInstanceUID());
 		} else {
@@ -99,19 +100,19 @@ public class DBServiceImpl implements DBService {
 	public Series buildSeries(DicomReader reader, Study study) {
 
 		// check if series exists
-		Series series = this.SeriesService.BuscarPorSeriesInstanceENumber(reader.getSeriesInstanceUID(), reader.getSeriesNumber());
-		
+		Series series = this.SeriesService.BuscarPorSeriesInstanceENumber(reader.getSeriesInstanceUID(),
+				reader.getSeriesNumber());
+
 		if (series == null) {// let's create new series
-			series = DicomEntityBuilder.newSeries(
-					reader.getBodyPartExamined(), reader.getLaterality(),
-					reader.getOperatorsName(), reader.getPatientPosition(),
-					reader.getProtocolName(), reader.getSeriesDateTime(),
-					reader.getSeriesDescription(), reader.getSeriesInstanceUID(),
+			series = DicomEntityBuilder.newSeries(reader.getBodyPartExamined(), reader.getLaterality(),
+					reader.getOperatorsName(), reader.getPatientPosition(), reader.getProtocolName(),
+					reader.getSeriesDateTime(), reader.getSeriesDescription(), reader.getSeriesInstanceUID(),
 					reader.getSeriesNumber());
-			
+
 			series.setStudy(study);
 			this.SeriesService.Criar(series);
-			series = this.SeriesService.BuscarPorSeriesInstanceENumber(reader.getSeriesInstanceUID(), reader.getSeriesNumber());
+			series = this.SeriesService.BuscarPorSeriesInstanceENumber(reader.getSeriesInstanceUID(),
+					reader.getSeriesNumber());
 		} else {
 			// LOG.info("Series already exists; Series Instance UID: {}",
 			// series.getSeriesInstanceUID());
@@ -124,15 +125,14 @@ public class DBServiceImpl implements DBService {
 	@Override
 	public Dispositive buildEquipment(DicomReader reader, Series series) {
 		Dispositive equipment = this.DispositiveService.BuscarPorSerieEquipamento(series.getIdseries());
-		
+
 		if (equipment == null) {
-			equipment = DicomEntityBuilder.newEquipment(
-				reader.getConversionType(), reader.getDeviceSerialNumber(),
-				reader.getInstitutionAddress(), reader.getInstitutionName(),
-				reader.getInstitutionalDepartmentName(), reader.getManufacturer(),
-				reader.getManufacturerModelName(), reader.getModality(),
-				reader.getSoftwareVersion(), reader.getStationName());
-			
+			equipment = DicomEntityBuilder.newEquipment(reader.getConversionType(), reader.getDeviceSerialNumber(),
+					reader.getInstitutionAddress(), reader.getInstitutionName(),
+					reader.getInstitutionalDepartmentName(), reader.getManufacturer(),
+					reader.getManufacturerModelName(), reader.getModality(), reader.getSoftwareVersion(),
+					reader.getStationName());
+
 			equipment.setSeries(series);// set the Series to Equipment because we now have the pkTBLSeriesID
 			this.DispositiveService.Criar(equipment);
 			equipment = this.DispositiveService.BuscarPorSerieEquipamento(series.getIdseries());
@@ -148,20 +148,18 @@ public class DBServiceImpl implements DBService {
 	@Override
 	public Instance buildInstance(DicomReader reader, Series series) {
 		Instance instance = this.InstanceService.BuscarPorInstanciaUid(reader.getSOPInstanceUID());
-		
+
 		if (instance == null) {
-			instance = DicomEntityBuilder.newInstance(
-					reader.getAcquisitionDateTime(), reader.getContentDateTime(),
-					reader.getExposureTime(), reader.getImageOrientation(),
-					reader.getImagePosition(), reader.getImageType(),
-					reader.getInstanceNumber(), reader.getKvp(),
-					reader.getMediaStorageSopInstanceUID(), reader.getPatientOrientation(),
-					reader.getPixelSpacing(), reader.getSliceLocation(),
-					reader.getSliceThickness(), reader.getSopClassUID(),
-					reader.getSOPInstanceUID(), reader.getTransferSyntaxUID(),
-					reader.getWindowCenter(), reader.getWindowWidth(), reader.getXrayTubeCurrent());
-			
+			instance = DicomEntityBuilder.newInstance(reader.getAcquisitionDateTime(), reader.getContentDateTime(),
+					reader.getExposureTime(), reader.getImageOrientation(), reader.getImagePosition(),
+					reader.getImageType(), reader.getInstanceNumber(), reader.getKvp(),
+					reader.getMediaStorageSopInstanceUID(), reader.getPatientOrientation(), reader.getPixelSpacing(),
+					reader.getSliceLocation(), reader.getSliceThickness(), reader.getSopClassUID(),
+					reader.getSOPInstanceUID(), reader.getTransferSyntaxUID(), reader.getWindowCenter(),
+					reader.getWindowWidth(), reader.getXrayTubeCurrent());
+
 			instance.setSeries(series);
+			instance.setTagimagem(this.buildTagImagem(reader));
 			this.InstanceService.Criar(instance);
 			instance = this.InstanceService.BuscarPorInstanciaUid(reader.getSOPInstanceUID());
 
@@ -216,7 +214,8 @@ public class DBServiceImpl implements DBService {
 
 			printStats(reader.getPatientName() + " " + reader.getPatientID() + " " + reader.getPatientAge() + " "
 					+ reader.getPatientSex() + " Ended");
-			LOG.info("=================================================================================================================================");
+			LOG.info(
+					"=================================================================================================================================");
 			LOG.info("");
 
 		} catch (Exception e) {
@@ -229,6 +228,32 @@ public class DBServiceImpl implements DBService {
 		LOG.info("{} {} {} [Active Threads: {}] ", Thread.currentThread().getId(), Thread.currentThread().getName(),
 				status, Thread.activeCount());
 
+	}
+
+	@Override
+	public Tagimagem buildTagImagem(DicomReader reader) {
+		
+		try {
+			Tagimagem tagimagem = DicomEntityBuilder.newTagimagem(reader.getimagetype(),reader.getsopclassuid(), 
+					reader.getsopinstanceuid(), reader.getstudydate(), reader.getseriesdate(), reader.getacquisitiontime(),
+					reader.getcontentdate(), reader.getstudytime(), reader.getseriestime(), reader.getacquisitiontime(),
+					reader.getcontenttime(), reader.getaccessionnumber(), reader.getmodality(), reader.getpresentationintenttype(),
+					reader.getmanufacturer(), reader.getinstitutionname(), reader.getinstitutionaddress(), 
+					reader.getReferringPhysicianName(), reader.getstationname(), reader.getstudydescription(),
+					reader.getseriesdescription(), reader.getinstitutionaldepartmentname(), reader.getperformingphysiciansname(),
+					reader.getoperatorsname(), reader.getManufacturerModelName(), reader.getreferencedpatientsequence(),
+					reader.getanatomicregionsequence(), reader.getprimaryAnatomicstructuresequence(), reader.getpatientsname(),
+					reader.getpatientid(), reader.getSoftwareVersion(), reader.getimagerpixelspacing(),
+					reader.getpositionertype(), reader.getdetectortype(), reader.getdetectordescription(), reader.getdetectormode(),
+					reader.gettimeoflastdetectorcalibration(), reader.getsamplesperpixel(), reader.getphotometricinterpretation(),
+					reader.getrows(), reader.getcolumns());
+			
+			return this.TagImagemService.Criar(tagimagem);
+		} catch (Exception e) {
+			LOG.info("Tagimagem erro no DBServiceImpl;");
+		}
+
+		return null;
 	}
 
 }

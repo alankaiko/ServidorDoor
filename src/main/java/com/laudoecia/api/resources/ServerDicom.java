@@ -24,7 +24,7 @@ import com.laudoecia.api.domain.Patient;
 import com.laudoecia.api.domain.Series;
 import com.laudoecia.api.event.RecursoCriadoEvent;
 import com.laudoecia.api.repository.filtro.PatientFilter;
-import com.laudoecia.api.repository.filtro.ResumoPatient;
+import com.laudoecia.api.repository.resumo.ResumoPatient;
 import com.laudoecia.api.service.PatientService;
 
 @RestController
