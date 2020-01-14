@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.laudoecia.api.domain.Instance;
 import com.laudoecia.api.repository.InstanceRepository;
+import com.laudoecia.api.repository.resumo.ResumoInstance;
 
 @Service
 public class InstanceService {
@@ -106,6 +107,16 @@ public class InstanceService {
 	public List<Instance> BuscarPacientesPeloEstudoSerie(Long idpatient) {
 		try {
 			return this.dao.findAllByseriesStudyPatientIdpatient(idpatient);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo BuscarPacientesPeloEstudoSerie------------------ de StudyService");
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public ResumoInstance ResumirProDicom(Long codigo) {
+		try {
+			return this.dao.ResumirPraDicom(codigo);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo BuscarPacientesPeloEstudoSerie------------------ de StudyService");
 			e.printStackTrace();

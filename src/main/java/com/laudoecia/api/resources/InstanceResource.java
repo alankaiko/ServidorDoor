@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.laudoecia.api.domain.Instance;
 import com.laudoecia.api.event.RecursoCriadoEvent;
+import com.laudoecia.api.repository.resumo.ResumoInstance;
 import com.laudoecia.api.service.InstanceService;
 
 @RestController
@@ -39,10 +40,11 @@ public class InstanceResource {
 		return this.service.Listar();
 	}
 	
-//	@GetMapping(params = "resumo")
-//	public Page<ResumoConvenio> Resumir(ConvenioFilter filtro, Pageable page) {
-//		return this.service.Resumindo(filtro, page);
-//	}
+	@GetMapping(value = "/{codigo}" , params = "resumo")
+	public ResponseEntity<ResumoInstance> ResumirProDicom(@PathVariable Long codigo) {
+		ResumoInstance resum = this.service.ResumirProDicom(codigo);
+		return ResponseEntity.ok(resum);
+	}
 	
 	
 	@PostMapping
