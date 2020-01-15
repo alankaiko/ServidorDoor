@@ -8,15 +8,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.laudoecia.api.domain.ProfissionalSolicitante;
-import com.laudoecia.api.repository.ProfissionaisSolicitantesRepository;
+import com.laudoecia.api.repository.ProfissionalSolicitanteRepository;
+import com.laudoecia.api.repository.filtro.ProfissionalSolicitanteFilter;
 
 @Service
-public class ProfissionaisSolicitanteService {
+public class ProfissionalSolicitanteService {
 	@Autowired
-	private ProfissionaisSolicitantesRepository dao;
+	private ProfissionalSolicitanteRepository dao;
 	private final Logger LOG = LoggerFactory.getLogger(StudyService.class);
 
 	
@@ -84,4 +87,13 @@ public class ProfissionaisSolicitanteService {
 	}
 
 
+	public Page<ProfissionalSolicitante> Filtrando(ProfissionalSolicitanteFilter filtro, Pageable page) {
+		try {
+			return this.dao.Filtrando(filtro, page);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo Filtrando------------------ de ProfissionaisSolicitanteService");
+			e.printStackTrace();
+			return null;
+		}		
+	}
 }

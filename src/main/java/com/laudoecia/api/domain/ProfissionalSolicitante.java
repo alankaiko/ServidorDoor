@@ -48,7 +48,7 @@ public class ProfissionalSolicitante implements Serializable {
 		this.numnoconselho = numnoconselho;
 	}
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "tabela_conselho_id", referencedColumnName = "codigo")
 	public TISS_Conselho getConselho() {
 		return conselho;

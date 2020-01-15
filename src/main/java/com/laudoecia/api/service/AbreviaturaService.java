@@ -13,14 +13,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.laudoecia.api.domain.Abreviatura;
-import com.laudoecia.api.repository.AbreviaturasRepository;
+import com.laudoecia.api.repository.AbreviaturaRepository;
 import com.laudoecia.api.repository.filtro.AbreviaturaFilter;
-import com.laudoecia.api.repository.resumo.ResumoAbreviatura;
 
 @Service
 public class AbreviaturaService {
 	@Autowired
-	private AbreviaturasRepository dao;
+	private AbreviaturaRepository dao;
+	
+	
 	private final Logger LOG = LoggerFactory.getLogger(StudyService.class);
 
 	
@@ -87,15 +88,15 @@ public class AbreviaturaService {
 		}		
 	}
 
-//	public Page<ResumoAbreviatura> Resumindo(AbreviaturaFilter filtro, Pageable page){
-//		try {
-//			return this.dao.resumir(filtro, page);
-//		} catch (Exception e) {
-//			LOG.error("Erro ao executar o metodo Resumindo------------------ de AbreviaturaService");
-//			e.printStackTrace();
-//			return null;
-//		}	
-//	}
+	public Page<Abreviatura> Filtrando(AbreviaturaFilter filtro, Pageable page){
+		try {
+			return this.dao.Filtrando(filtro, page);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo Filtrando------------------ de AbreviaturaService");
+			e.printStackTrace();
+			return null;
+		}	
+	}
 
 
 }

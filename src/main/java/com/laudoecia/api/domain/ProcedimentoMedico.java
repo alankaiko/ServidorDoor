@@ -21,12 +21,9 @@ public class ProcedimentoMedico implements Serializable {
 
 	private Long codigo;
 	private String nome;
-	private int diasparaentregadolaudo;
-	private int margemtop = 10;
-	private int margembottom = 10;
 	private RESTRICAO_SEXO restricaosexo = RESTRICAO_SEXO.NENHUMA_RESTRICAO;
-	private String imagem1;
-	private String imagem2;
+	private String caminhoimagem1;
+	private String caminhoimagem2;
 	private boolean laudomodelo;
 	private GrupoProcedimento grupo;
 
@@ -49,61 +46,35 @@ public class ProcedimentoMedico implements Serializable {
 		this.nome = nome;
 	}
 
-	public int getDiasparaentregadolaudo() {
-		return diasparaentregadolaudo;
-	}
-
-	public void setDiasparaentregadolaudo(int diasparaentregadolaudo) {
-		this.diasparaentregadolaudo = diasparaentregadolaudo;
-	}
-
-	@Column(name = "margemtop", nullable = false)
-	public int getMargemtop() {
-		return margemtop;
-	}
-
-	public void setMargembottom(int margembottom) {
-		this.margembottom = margembottom;
-	}
-
-	@Column(name = "margembottom", nullable = false)
-	public int getMargembottom() {
-		return margembottom;
-	}
-
-	public void setMargemtop(int margemtop) {
-		this.margemtop = margemtop;
-	}
-
 	@Enumerated(EnumType.STRING)
 	public RESTRICAO_SEXO getRestricaosexo() {
 		return restricaosexo;
 	}
-	
+
 	public void setRestricaosexo(RESTRICAO_SEXO restricaosexo) {
 		this.restricaosexo = restricaosexo;
 	}
 
-	public String getImagem1() {
-		return imagem1;
+	public String getCaminhoimagem1() {
+		return caminhoimagem1;
 	}
 
-	public void setImagem1(String imagem1) {
-		this.imagem1 = imagem1;
+	public void setCaminhoimagem1(String caminhoimagem1) {
+		this.caminhoimagem1 = caminhoimagem1;
 	}
 
-	public String getImagem2() {
-		return imagem2;
+	public String getCaminhoimagem2() {
+		return caminhoimagem2;
 	}
 
-	public void setImagem2(String imagem2) {
-		this.imagem2 = imagem2;
+	public void setCaminhoimagem2(String caminhoimagem2) {
+		this.caminhoimagem2 = caminhoimagem2;
 	}
 
 	public boolean isLaudomodelo() {
 		return laudomodelo;
 	}
-	
+
 	public void setLaudomodelo(boolean laudomodelo) {
 		this.laudomodelo = laudomodelo;
 	}

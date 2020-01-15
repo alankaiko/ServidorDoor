@@ -13,14 +13,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.laudoecia.api.domain.ProfissionalExecutante;
-import com.laudoecia.api.repository.ProfissionaisExecutantesRepository;
+import com.laudoecia.api.repository.ProfissionalExecutanteRepository;
 import com.laudoecia.api.repository.filtro.ProfissionalExecutanteFilter;
 import com.laudoecia.api.repository.resumo.ResumoProfissionalExecutante;
 
 @Service
-public class ProfissionaisExecutantesService {
+public class ProfissionalExecutanteService {
 	@Autowired
-	private ProfissionaisExecutantesRepository dao;
+	private ProfissionalExecutanteRepository dao;
 	private final Logger LOG = LoggerFactory.getLogger(StudyService.class);
 
 	
@@ -87,14 +87,24 @@ public class ProfissionaisExecutantesService {
 		}		
 	}
 
-//	public Page<ResumoProfissionalExecutante> Resumindo(ProfissionalExecutanteFilter filtro, Pageable page){
-//		try {
-//			return this.dao.resumir(filtro, page);
-//		} catch (Exception e) {
-//			LOG.error("Erro ao executar o metodo Resumindo------------------ de ProfissionaisExecutantesService");
-//			e.printStackTrace();
-//			return null;
-//		}	
-//	}
+	public Page<ResumoProfissionalExecutante> Resumindo(ProfissionalExecutanteFilter filtro, Pageable page){
+		try {
+			return this.dao.resumir(filtro, page);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo Resumindo------------------ de ProfissionaisExecutantesService");
+			e.printStackTrace();
+			return null;
+		}	
+	}
+	
+	public Page<ProfissionalExecutante> Filtrando(ProfissionalExecutanteFilter filtro, Pageable page){
+		try {
+			return this.dao.filtrando(filtro, page);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo Filtrando------------------ de ProfissionaisExecutantesService");
+			e.printStackTrace();
+			return null;
+		}	
+	}
 
 }

@@ -26,14 +26,14 @@ import com.laudoecia.api.domain.ProfissionalExecutante;
 import com.laudoecia.api.event.RecursoCriadoEvent;
 import com.laudoecia.api.repository.filtro.ProfissionalExecutanteFilter;
 import com.laudoecia.api.repository.resumo.ResumoProfissionalExecutante;
-import com.laudoecia.api.service.ProfissionaisExecutantesService;
+import com.laudoecia.api.service.ProfissionalExecutanteService;
 
 @RestController
 @RequestMapping("/profissionaisexecutantes")
 @CrossOrigin("*")
-public class ProfissionaisExecutantesResource {
+public class ProfissionalExecutanteResource {
 	@Autowired
-	private ProfissionaisExecutantesService service;
+	private ProfissionalExecutanteService service;
 	
 	@Autowired
 	private ApplicationEventPublisher publisher;
@@ -43,10 +43,10 @@ public class ProfissionaisExecutantesResource {
 		return this.service.Listar();
 	}
 	
-//	@GetMapping(params = "resumo")
-//	public Page<ResumoProfissionalExecutante> Resumir(ProfissionalExecutanteFilter filtro, Pageable page) {
-//		return this.service.Resumindo(filtro, page);
-//	}
+	@GetMapping(params = "resumo")
+	public Page<ResumoProfissionalExecutante> Resumir(ProfissionalExecutanteFilter filtro, Pageable page) {
+		return this.service.Resumindo(filtro, page);
+	}
 	
 	@PostMapping
 	public ResponseEntity<ProfissionalExecutante> Salvar(@Valid @RequestBody ProfissionalExecutante profissional, HttpServletResponse resposta){

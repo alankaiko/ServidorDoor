@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import com.laudoecia.api.domain.GrupoProcedimento;
 import com.laudoecia.api.repository.GrupoProcedimentoRepository;
 import com.laudoecia.api.repository.filtro.GrupoProcedimentoFilter;
-import com.laudoecia.api.repository.resumo.ResumoGrupoProcedimento;
 
 @Service
 public class GrupoProcedimentoService {
@@ -87,7 +86,7 @@ public class GrupoProcedimentoService {
 		}		
 	}
 	
-	public Page<ResumoGrupoProcedimento> Resumindo(GrupoProcedimentoFilter filtro, Pageable page){
+	public Page<GrupoProcedimento> Filtrando(GrupoProcedimentoFilter filtro, Pageable page){
 		try {
 			return this.dao.resumir(filtro, page);
 		} catch (Exception e) {

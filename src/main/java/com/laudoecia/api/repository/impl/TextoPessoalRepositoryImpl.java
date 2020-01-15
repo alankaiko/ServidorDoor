@@ -16,37 +16,37 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
-import com.laudoecia.api.domain.Abreviatura;
-import com.laudoecia.api.domain.Abreviatura_;
-import com.laudoecia.api.repository.filtro.AbreviaturaFilter;
+import com.laudoecia.api.domain.TextoPessoal;
+import com.laudoecia.api.domain.TextoPessoal_;
+import com.laudoecia.api.repository.filtro.TextoPessoalFilter;
 
-public class AbreviaturaRepositoryImpl implements AbreviaturaRepositoryQuery{
+public class TextoPessoalRepositoryImpl implements TextoPessoalRepositoryQuery{
 	@PersistenceContext
 	private EntityManager em;
 
 	@Override
-	public Page<Abreviatura> Filtrando(AbreviaturaFilter filtro, Pageable pageable) {
+	public Page<TextoPessoal> Filtrando(TextoPessoalFilter filtro, Pageable pageable) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
-		CriteriaQuery<Abreviatura> query = builder.createQuery(Abreviatura.class);
-		Root<Abreviatura> root = query.from(Abreviatura.class);
+		CriteriaQuery<TextoPessoal> query = builder.createQuery(TextoPessoal.class);
+		Root<TextoPessoal> root = query.from(TextoPessoal.class);
 
 		Predicate[] predicato = AdicionarRestricoes(builder, filtro, root);
 		query.where(predicato);
 		
-		TypedQuery<Abreviatura> tiped = em.createQuery(query);
+		TypedQuery<TextoPessoal> tiped = em.createQuery(query);
 		AdicionarPaginacao(tiped, pageable);
 		
 		return new PageImpl<>(tiped.getResultList(), pageable, Total(filtro));
 	}
 	
-	private Predicate[] AdicionarRestricoes(CriteriaBuilder builder, AbreviaturaFilter filtro, Root<Abreviatura> root) {
+	private Predicate[] AdicionarRestricoes(CriteriaBuilder builder, TextoPessoalFilter filtro, Root<TextoPessoal> root) {
 		List<Predicate> lista= new ArrayList<Predicate>();
 		
-		if(!StringUtils.isEmpty(filtro.getTitulo()))
-			lista.add(builder.like(builder.lower(root.get(Abreviatura_.titulo)), "%"+ filtro.getTitulo().toLowerCase()+"%"));
+		if(!StringUtils.isEmpty(filtro.getAbreviatura()))
+			lista.add(builder.like(builder.lower(root.get(TextoPessoal_.abreviatura)), "%"+ filtro.getAbreviatura().toLowerCase()+"%"));
 		
 		if(!StringUtils.isEmpty(filtro.getTexto()))
-			lista.add(builder.like(builder.lower(root.get(Abreviatura_.texto)), "%"+ filtro.getTexto().toLowerCase()+"%"));
+			lista.add(builder.like(builder.lower(root.get(TextoPessoal_.texto)), "%"+ filtro.getTexto().toLowerCase()+"%"));
 		
 		return lista.toArray(new Predicate[lista.size()]);
 	}
@@ -60,15 +60,15 @@ public class AbreviaturaRepositoryImpl implements AbreviaturaRepositoryQuery{
 		tiped.setMaxResults(totalporpagina);
 	}
 	
-	private Long Total(AbreviaturaFilter filtro) {
+	private Long Total(TextoPessoalFilter filtro) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Long> query = builder.createQuery(Long.class);
-		Root<Abreviatura> root = query.from(Abreviatura.class);
+		Root<TextoPessoal> root = query.from(TextoPessoal.class);
 		
 		Predicate[] predicato = AdicionarRestricoes(builder, filtro, root);
 		query.where(predicato);
 		query.select(builder.count(root));
 		return em.createQuery(query).getSingleResult();
 	}
-
+	
 }

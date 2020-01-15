@@ -7,6 +7,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,14 +24,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.laudoecia.api.domain.ProfissionalSolicitante;
 import com.laudoecia.api.event.RecursoCriadoEvent;
-import com.laudoecia.api.service.ProfissionaisSolicitanteService;
+import com.laudoecia.api.repository.filtro.ProfissionalSolicitanteFilter;
+import com.laudoecia.api.service.ProfissionalSolicitanteService;
 
 @RestController
 @RequestMapping("/profissionaissolicitantes")
 @CrossOrigin("*")
-public class ProfissionaisSolicitanteResource {
+public class ProfissionalSolicitanteResource {
 	@Autowired
-	private ProfissionaisSolicitanteService service;
+	private ProfissionalSolicitanteService service;
 	
 	@Autowired
 	private ApplicationEventPublisher publisher;
@@ -39,6 +42,10 @@ public class ProfissionaisSolicitanteResource {
 		return this.service.Listar();
 	}
 	
+	@GetMapping(params = "resumo")
+	public Page<ProfissionalSolicitante> Resumir(ProfissionalSolicitanteFilter filtro, Pageable page) {
+		return this.service.Filtrando(filtro, page);
+	}
 	
 	@PostMapping
 	public ResponseEntity<ProfissionalSolicitante> Salvar(@Valid @RequestBody ProfissionalSolicitante profissional, HttpServletResponse resposta){

@@ -19,30 +19,26 @@ import org.springframework.util.StringUtils;
 import com.laudoecia.api.domain.GrupoProcedimento;
 import com.laudoecia.api.domain.GrupoProcedimento_;
 import com.laudoecia.api.repository.filtro.GrupoProcedimentoFilter;
-import com.laudoecia.api.repository.resumo.ResumoGrupoProcedimento;
 
 public class GrupoProcedimentoRepositoryImpl implements GrupoProcedimentoRepositoryQuery{
 	@PersistenceContext
 	private EntityManager em;
 
 	@Override
-	public Page<ResumoGrupoProcedimento> resumir(GrupoProcedimentoFilter filtro, Pageable pageable) {
+	public Page<GrupoProcedimento> resumir(GrupoProcedimentoFilter filtro, Pageable pageable) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
-		CriteriaQuery<ResumoGrupoProcedimento> criteria = builder.createQuery(ResumoGrupoProcedimento.class);
-		Root<GrupoProcedimento> root = criteria.from(GrupoProcedimento.class);
+		CriteriaQuery<GrupoProcedimento> query = builder.createQuery(GrupoProcedimento.class);
+		Root<GrupoProcedimento> root = query.from(GrupoProcedimento.class);
 		
-		criteria.orderBy(builder.asc(root.get("codigo")));		
-		criteria.select(builder.construct(
-			ResumoGrupoProcedimento.class, root.get(GrupoProcedimento_.codigo), root.get(GrupoProcedimento_.nome)));
+		Predicate[] predicato = AdicionarRestricoes(builder, filtro, root);
+		query.where(predicato);
 		
-		Predicate[] predicates = AdicionarRestricoes(builder, filtro, root);
-		criteria.where(predicates);
+		TypedQuery<GrupoProcedimento> tiped = em.createQuery(query);
+		AdicionarPaginacao(tiped, pageable);
 		
-		TypedQuery<ResumoGrupoProcedimento> query = em.createQuery(criteria);
-		AdicionarPaginacao(query, pageable);
-		
-		return new PageImpl<>(query.getResultList(), pageable, Total(filtro));
+		return new PageImpl<>(tiped.getResultList(), pageable, Total(filtro));
 	}
+	
 	
 	private Predicate[] AdicionarRestricoes(CriteriaBuilder builder, GrupoProcedimentoFilter filtro, Root<GrupoProcedimento> root) {
 		List<Predicate> lista= new ArrayList<Predicate>();
@@ -72,5 +68,4 @@ public class GrupoProcedimentoRepositoryImpl implements GrupoProcedimentoReposit
 		query.select(builder.count(root));
 		return em.createQuery(query).getSingleResult();
 	}
-
 }

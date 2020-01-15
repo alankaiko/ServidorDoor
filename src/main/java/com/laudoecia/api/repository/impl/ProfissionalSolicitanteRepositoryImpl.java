@@ -16,41 +16,41 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
-import com.laudoecia.api.domain.Abreviatura;
-import com.laudoecia.api.domain.Abreviatura_;
-import com.laudoecia.api.repository.filtro.AbreviaturaFilter;
+import com.laudoecia.api.domain.ProfissionalSolicitante;
+import com.laudoecia.api.domain.ProfissionalSolicitante_;
+import com.laudoecia.api.repository.filtro.ProfissionalSolicitanteFilter;
 
-public class AbreviaturaRepositoryImpl implements AbreviaturaRepositoryQuery{
+public class ProfissionalSolicitanteRepositoryImpl implements ProfissionalSolicitanteRepositoryQuery{
 	@PersistenceContext
 	private EntityManager em;
 
 	@Override
-	public Page<Abreviatura> Filtrando(AbreviaturaFilter filtro, Pageable pageable) {
+	public Page<ProfissionalSolicitante> Filtrando(ProfissionalSolicitanteFilter filtro, Pageable page) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
-		CriteriaQuery<Abreviatura> query = builder.createQuery(Abreviatura.class);
-		Root<Abreviatura> root = query.from(Abreviatura.class);
+		CriteriaQuery<ProfissionalSolicitante> query = builder.createQuery(ProfissionalSolicitante.class);
+		Root<ProfissionalSolicitante> root = query.from(ProfissionalSolicitante.class);
 
 		Predicate[] predicato = AdicionarRestricoes(builder, filtro, root);
 		query.where(predicato);
 		
-		TypedQuery<Abreviatura> tiped = em.createQuery(query);
-		AdicionarPaginacao(tiped, pageable);
+		TypedQuery<ProfissionalSolicitante> tiped = em.createQuery(query);
+		AdicionarPaginacao(tiped, page);
 		
-		return new PageImpl<>(tiped.getResultList(), pageable, Total(filtro));
+		return new PageImpl<>(tiped.getResultList(), page, Total(filtro));
 	}
 	
-	private Predicate[] AdicionarRestricoes(CriteriaBuilder builder, AbreviaturaFilter filtro, Root<Abreviatura> root) {
+	private Predicate[] AdicionarRestricoes(CriteriaBuilder builder, ProfissionalSolicitanteFilter filtro, Root<ProfissionalSolicitante> root) {
 		List<Predicate> lista= new ArrayList<Predicate>();
 		
-		if(!StringUtils.isEmpty(filtro.getTitulo()))
-			lista.add(builder.like(builder.lower(root.get(Abreviatura_.titulo)), "%"+ filtro.getTitulo().toLowerCase()+"%"));
+		if(!StringUtils.isEmpty(filtro.getNome()))
+			lista.add(builder.like(builder.lower(root.get(ProfissionalSolicitante_.nome)), "%"+ filtro.getNome().toLowerCase()+"%"));
 		
-		if(!StringUtils.isEmpty(filtro.getTexto()))
-			lista.add(builder.like(builder.lower(root.get(Abreviatura_.texto)), "%"+ filtro.getTexto().toLowerCase()+"%"));
+		if(!StringUtils.isEmpty(filtro.getNumnoconselho()))
+			lista.add(builder.like(builder.lower(root.get(ProfissionalSolicitante_.numnoconselho)), "%"+ filtro.getNumnoconselho().toLowerCase()+"%"));
 		
 		return lista.toArray(new Predicate[lista.size()]);
 	}
-	
+
 	private void AdicionarPaginacao(TypedQuery<?> tiped, Pageable page) {
 		int paginaatual = page.getPageNumber();
 		int totalporpagina = page.getPageSize();
@@ -60,15 +60,14 @@ public class AbreviaturaRepositoryImpl implements AbreviaturaRepositoryQuery{
 		tiped.setMaxResults(totalporpagina);
 	}
 	
-	private Long Total(AbreviaturaFilter filtro) {
+	private Long Total(ProfissionalSolicitanteFilter filtro) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Long> query = builder.createQuery(Long.class);
-		Root<Abreviatura> root = query.from(Abreviatura.class);
+		Root<ProfissionalSolicitante> root = query.from(ProfissionalSolicitante.class);
 		
 		Predicate[] predicato = AdicionarRestricoes(builder, filtro, root);
 		query.where(predicato);
 		query.select(builder.count(root));
 		return em.createQuery(query).getSingleResult();
 	}
-
 }

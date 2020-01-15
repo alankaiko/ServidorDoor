@@ -7,6 +7,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.laudoecia.api.domain.TextoPessoal;
 import com.laudoecia.api.event.RecursoCriadoEvent;
+import com.laudoecia.api.repository.filtro.TextoPessoalFilter;
 import com.laudoecia.api.service.TextoPessoalService;
 
 @RestController
@@ -37,6 +40,11 @@ public class TextoPessoalResource {
 	@GetMapping
 	public List<TextoPessoal> ListarTodos(){
 		return this.service.Listar();
+	}
+	
+	@GetMapping(params = "resumo")
+	public Page<TextoPessoal> Resumir(TextoPessoalFilter filtro, Pageable page) {
+		return this.service.Filtrando(filtro, page);
 	}
 	
 	

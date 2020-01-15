@@ -1,7 +1,5 @@
 package com.laudoecia.api.domain;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,8 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tiss_conselho")
-public class TISS_Conselho implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class TISS_Conselho {
 
 	private Long codigo;
 	private String sigla;

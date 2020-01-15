@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.laudoecia.api.domain.Abreviatura;
 import com.laudoecia.api.event.RecursoCriadoEvent;
 import com.laudoecia.api.repository.filtro.AbreviaturaFilter;
-import com.laudoecia.api.repository.resumo.ResumoAbreviatura;
 import com.laudoecia.api.service.AbreviaturaService;
 
 @RestController
@@ -42,11 +41,12 @@ public class AbreviaturaResource {
 	public List<Abreviatura> ListarTodos(){
 		return this.service.Listar();
 	}	
-//	@GetMapping(params = "resumo")
-//	public Page<ResumoAbreviatura> Resumir(AbreviaturaFilter filtro, Pageable page) {
-//		return this.service.Resumindo(filtro, page);
-//	}
-//	
+	
+	@GetMapping(params = "resumo")
+	public Page<Abreviatura> Resumir(AbreviaturaFilter filtro, Pageable page) {
+		return this.service.Filtrando(filtro, page);
+	}
+	
 	
 	@PostMapping
 	public ResponseEntity<Abreviatura> Salvar(@Valid @RequestBody Abreviatura abreviatura, HttpServletResponse resposta){

@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.laudoecia.api.domain.GrupoProcedimento;
 import com.laudoecia.api.event.RecursoCriadoEvent;
 import com.laudoecia.api.repository.filtro.GrupoProcedimentoFilter;
-import com.laudoecia.api.repository.resumo.ResumoGrupoProcedimento;
 import com.laudoecia.api.service.GrupoProcedimentoService;
 
 @RestController
@@ -44,8 +43,8 @@ public class GrupoProcedimentoResource {
 	}
 	
 	@GetMapping(params = "resumo")
-	public Page<ResumoGrupoProcedimento> Resumir(GrupoProcedimentoFilter filtro, Pageable page) {
-		return this.service.Resumindo(filtro, page);
+	public Page<GrupoProcedimento> Filtrando(GrupoProcedimentoFilter filtro, Pageable page) {
+		return this.service.Filtrando(filtro, page);
 	}
 	
 	@PostMapping

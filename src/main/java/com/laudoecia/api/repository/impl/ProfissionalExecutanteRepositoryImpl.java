@@ -24,6 +24,21 @@ import com.laudoecia.api.repository.resumo.ResumoProfissionalExecutante;
 public class ProfissionalExecutanteRepositoryImpl implements ProfissionalExecutanteRepositoryQuery{
 	@PersistenceContext
 	private EntityManager em;
+	
+	@Override
+	public Page<ProfissionalExecutante> filtrando(ProfissionalExecutanteFilter filtro, Pageable page) {
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<ProfissionalExecutante> query = builder.createQuery(ProfissionalExecutante.class);
+		Root<ProfissionalExecutante> root = query.from(ProfissionalExecutante.class);
+
+		Predicate[] predicato = AdicionarRestricoes(builder, filtro, root);
+		query.where(predicato);
+		
+		TypedQuery<ProfissionalExecutante> tiped = em.createQuery(query);
+		AdicionarPaginacao(tiped, page);
+		
+		return new PageImpl<>(tiped.getResultList(), page, Total(filtro));
+	}
 
 	@Override
 	public Page<ResumoProfissionalExecutante> resumir(ProfissionalExecutanteFilter filtro, Pageable page) {
@@ -76,5 +91,6 @@ public class ProfissionalExecutanteRepositoryImpl implements ProfissionalExecuta
 		query.select(builder.count(root));
 		return em.createQuery(query).getSingleResult();
 	}
+
 
 }

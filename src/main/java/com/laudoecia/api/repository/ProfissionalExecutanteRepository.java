@@ -7,6 +7,6 @@ import com.laudoecia.api.domain.ProfissionalExecutante;
 import com.laudoecia.api.repository.impl.ProfissionalExecutanteRepositoryQuery;
 
 @Repository
-public interface ProfissionaisExecutantesRepository extends JpaRepository<ProfissionalExecutante, Long>{
+public interface ProfissionalExecutanteRepository extends JpaRepository<ProfissionalExecutante, Long>, ProfissionalExecutanteRepositoryQuery{
 
 }
