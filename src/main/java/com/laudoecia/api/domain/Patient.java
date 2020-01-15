@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,11 +17,12 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
-@Table(name="patient")
+@Table(name = "patient")
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@idpatient")
 public class Patient implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -34,6 +36,8 @@ public class Patient implements Serializable {
 	private Date datecreate;
 	private Date datemodify;
 	private List<Study> studyes;
+	private Endereco endereco;
+	private Contato contato;
 
 	public Patient() {
 		super();
@@ -119,6 +123,24 @@ public class Patient implements Serializable {
 
 	public void setStudyes(List<Study> studyes) {
 		this.studyes = studyes;
+	}
+
+	@Embedded
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
+
+	@Embedded
+	public Contato getContato() {
+		return contato;
+	}
+
+	public void setContato(Contato contato) {
+		this.contato = contato;
 	}
 
 	@PreUpdate
