@@ -79,7 +79,7 @@ public class ProcedimentoMedico implements Serializable {
 		this.laudomodelo = laudomodelo;
 	}
 
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "grupo_codigo", referencedColumnName = "codigo", nullable = false)
 	public GrupoProcedimento getGrupo() {
 		return grupo;
