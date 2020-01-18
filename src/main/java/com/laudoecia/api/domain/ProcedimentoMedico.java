@@ -15,13 +15,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "procedimentomedico")
+@Table
 public class ProcedimentoMedico implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long codigo;
 	private String nome;
-	private RESTRICAO_SEXO restricaosexo = RESTRICAO_SEXO.NENHUMA_RESTRICAO;
+	private EnumRestricaoSexo restricaosexo = EnumRestricaoSexo.NENHUMA_RESTRICAO;
 	private String caminhoimagem1;
 	private String caminhoimagem2;
 	private boolean laudomodelo;
@@ -47,11 +47,11 @@ public class ProcedimentoMedico implements Serializable {
 	}
 
 	@Enumerated(EnumType.STRING)
-	public RESTRICAO_SEXO getRestricaosexo() {
+	public EnumRestricaoSexo getRestricaosexo() {
 		return restricaosexo;
 	}
 
-	public void setRestricaosexo(RESTRICAO_SEXO restricaosexo) {
+	public void setRestricaosexo(EnumRestricaoSexo restricaosexo) {
 		this.restricaosexo = restricaosexo;
 	}
 

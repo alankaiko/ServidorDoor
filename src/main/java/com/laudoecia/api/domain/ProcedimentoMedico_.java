@@ -9,7 +9,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 public abstract class ProcedimentoMedico_ {
 
 	public static volatile SingularAttribute<ProcedimentoMedico, Long> codigo;
-	public static volatile SingularAttribute<ProcedimentoMedico, RESTRICAO_SEXO> restricaosexo;
+	public static volatile SingularAttribute<ProcedimentoMedico, EnumRestricaoSexo> restricaosexo;
 	public static volatile SingularAttribute<ProcedimentoMedico, GrupoProcedimento> grupo;
 	public static volatile SingularAttribute<ProcedimentoMedico, String> nome;
 	public static volatile SingularAttribute<ProcedimentoMedico, String> caminhoimagem2;
