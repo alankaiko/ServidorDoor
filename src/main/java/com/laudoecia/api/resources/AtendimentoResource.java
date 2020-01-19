@@ -7,6 +7,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -39,14 +41,13 @@ public class AtendimentoResource {
 		return this.service.Listar();
 	}
 
-//	@GetMapping(params = "resumo")
-//	public Page<Atendimento> Resumir(AbreviaturaFilter filtro, Pageable page) {
-//		return this.service.Filtrando(filtro, page);
-//	}
+	@GetMapping(params = "resumo")
+	public Page<Atendimento> Resumir(Atendimento filtro, Pageable page) {
+		return this.service.Filtrando(filtro, page);
+	}
 
 	@PostMapping
-	public ResponseEntity<Atendimento> Salvar(@Valid @RequestBody Atendimento atendimento,
-			HttpServletResponse resposta) {
+	public ResponseEntity<Atendimento> Salvar(@Valid @RequestBody Atendimento atendimento, HttpServletResponse resposta) {
 		Atendimento salvo = this.service.Criar(atendimento);
 		this.publisher.publishEvent(new RecursoCriadoEvent(this, resposta, salvo.getCodigo()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(salvo);

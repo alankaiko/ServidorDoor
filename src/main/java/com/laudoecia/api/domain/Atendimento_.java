@@ -1,6 +1,6 @@
 package com.laudoecia.api.domain;
 
-import java.util.Date;
+import java.time.LocalDate;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
@@ -16,7 +16,7 @@ public abstract class Atendimento_ {
 	public static volatile SingularAttribute<Atendimento, Patient> paciente;
 	public static volatile SingularAttribute<Atendimento, ProfissionalSolicitante> solicitante;
 	public static volatile SingularAttribute<Atendimento, Convenio> convenio;
-	public static volatile SingularAttribute<Atendimento, Date> dataatendimento;
+	public static volatile SingularAttribute<Atendimento, LocalDate> dataatendimento;
 
 	public static final String OBSERVACOES = "observacoes";
 	public static final String CODIGO = "codigo";

@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.laudoecia.api.domain.Atendimento;
@@ -83,14 +85,14 @@ public class AtendimentoService {
 		}
 	}
 
-//	public Page<Atendimento> Filtrando(AbreviaturaFilter filtro, Pageable page) {
-//		try {
-//			return this.dao.Filtrando(filtro, page);
-//		} catch (Exception e) {
-//			LOG.error("Erro ao executar o metodo Filtrando------------------ de AbreviaturaService");
-//			e.printStackTrace();
-//			return null;
-//		}
-//	}
+	public Page<Atendimento> Filtrando(Atendimento filtro, Pageable page) {
+		try {
+			return this.dao.FiltroPaginado(filtro, page);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo Filtrando------------------ de AbreviaturaService");
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 }

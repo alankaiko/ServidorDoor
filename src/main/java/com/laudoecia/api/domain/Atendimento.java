@@ -6,7 +6,7 @@
 package com.laudoecia.api.domain;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -20,8 +20,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @Table
@@ -33,7 +31,7 @@ public class Atendimento implements Serializable {
 	private Convenio convenio;
 	private ProfissionalSolicitante solicitante;
 	private List<ProcedimentoAtendimento> procedimentos;
-	private Date dataatendimento;
+	private LocalDate dataatendimento;
 	private String observacoes;
 
 	@Id
@@ -46,7 +44,7 @@ public class Atendimento implements Serializable {
 		this.codigo = codigo;
 	}
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "tbl_paciente_id", referencedColumnName = "idpatient")
 	public Patient getPaciente() {
 		return paciente;
@@ -56,7 +54,7 @@ public class Atendimento implements Serializable {
 		this.paciente = paciente;
 	}
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "tbl_convenio_id", referencedColumnName = "codigo")
 	public Convenio getConvenio() {
 		return convenio;
@@ -66,7 +64,7 @@ public class Atendimento implements Serializable {
 		this.convenio = convenio;
 	}
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "tbl_profsolicitante_id", referencedColumnName = "codigo")
 	public ProfissionalSolicitante getSolicitante() {
 		return solicitante;
@@ -85,12 +83,11 @@ public class Atendimento implements Serializable {
 		this.procedimentos = procedimentos;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	public Date getDataatendimento() {
+	public LocalDate getDataatendimento() {
 		return dataatendimento;
 	}
 
-	public void setDataatendimento(Date dataatendimento) {
+	public void setDataatendimento(LocalDate dataatendimento) {
 		this.dataatendimento = dataatendimento;
 	}
 

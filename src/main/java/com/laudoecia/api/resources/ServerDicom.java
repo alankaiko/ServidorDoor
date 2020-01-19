@@ -1,5 +1,7 @@
 package com.laudoecia.api.resources;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -37,6 +39,11 @@ public class ServerDicom {
 
 	@Autowired
 	private ApplicationEventPublisher publisher;
+
+	@GetMapping
+	public List<Patient> ListarPacientes() {
+		return this.service.Listar();
+	}
 
 	@GetMapping(params = "resumo")
 	public Page<ResumoPatient> Listar(PatientFilter filtro, Pageable page) {
@@ -80,15 +87,8 @@ public class ServerDicom {
 	}
 
 	@GetMapping("/series/{idpatient}")
-	public Series BuscarInstancias(@PathVariable Long idpatient){
+	public Series BuscarInstancias(@PathVariable Long idpatient) {
 		Patient paciente = this.service.BuscarPorId(idpatient);
 		return paciente.getStudyes().get(0).getSeries().get(0);
 	}
 }
-
-
-
-
-
-
-
