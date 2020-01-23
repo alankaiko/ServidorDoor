@@ -59,7 +59,7 @@ public class ProcedimentoAtendimento implements Serializable {
 	public ProcedimentoTabela getProcedimentotabela() {
 		return procedimentotabela;
 	}
-
+	
 	public void setProcedimentotabela(ProcedimentoTabela procedimentotabela) {
 		this.procedimentotabela = procedimentotabela;
 	}

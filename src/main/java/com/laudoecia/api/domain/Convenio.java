@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 
 @Entity
-@Table(name = "convenio")
+@Table
 public class Convenio implements Serializable{
 	private static final long serialVersionUID = 1L;
 	

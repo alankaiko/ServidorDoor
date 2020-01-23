@@ -55,7 +55,7 @@ public class Dispositive implements Serializable {
 		this.iddispositive = iddispositive;
 	}
 
-	@Column(length = 120)
+	@Column(length = 220)
 	public String getInstitutionname() {
 		return institutionname;
 	}
@@ -64,7 +64,7 @@ public class Dispositive implements Serializable {
 		this.institutionname = institutionname;
 	}
 
-	@Column(length = 165)
+	@Column(length = 265)
 	public String getInstitutionaddress() {
 		return institutionaddress;
 	}
@@ -73,7 +73,7 @@ public class Dispositive implements Serializable {
 		this.institutionaddress = institutionaddress;
 	}
 
-	@Column(length = 80)
+	@Column(length = 180)
 	public String getInstitutionaldepartmentname() {
 		return institutionaldepartmentname;
 	}
@@ -82,7 +82,7 @@ public class Dispositive implements Serializable {
 		this.institutionaldepartmentname = institutionaldepartmentname;
 	}
 
-	@Column(length = 65)
+	@Column(length = 165)
 	public String getModality() {
 		return modality;
 	}
@@ -91,7 +91,7 @@ public class Dispositive implements Serializable {
 		this.modality = modality;
 	}
 
-	@Column(length = 45)
+	@Column(length = 145)
 	public String getConversiontype() {
 		return conversiontype;
 	}
@@ -100,7 +100,7 @@ public class Dispositive implements Serializable {
 		this.conversiontype = conversiontype;
 	}
 
-	@Column(length = 130)
+	@Column(length = 230)
 	public String getManufacturer() {
 		return manufacturer;
 	}
@@ -109,7 +109,7 @@ public class Dispositive implements Serializable {
 		this.manufacturer = manufacturer;
 	}
 
-	@Column(length = 130)
+	@Column(length = 230)
 	public String getManufacturermodelname() {
 		return manufacturermodelname;
 	}
@@ -118,7 +118,7 @@ public class Dispositive implements Serializable {
 		this.manufacturermodelname = manufacturermodelname;
 	}
 
-	@Column(length = 70)
+	@Column(length = 170)
 	public String getStationname() {
 		return stationname;
 	}
@@ -127,7 +127,7 @@ public class Dispositive implements Serializable {
 		this.stationname = stationname;
 	}
 
-	@Column(length = 100)
+	@Column(length = 200)
 	public String getDeviceserialnumber() {
 		return deviceserialnumber;
 	}
@@ -136,7 +136,7 @@ public class Dispositive implements Serializable {
 		this.deviceserialnumber = deviceserialnumber;
 	}
 
-	@Column(length = 100)
+	@Column(length = 200)
 	public String getSoftwareversion() {
 		return softwareversion;
 	}

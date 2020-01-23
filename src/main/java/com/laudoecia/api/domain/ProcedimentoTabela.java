@@ -18,10 +18,10 @@ public class ProcedimentoTabela implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long codigo;
-	private BigDecimal valorpaciente;
+	private BigDecimal valorpacientez;
 	private TabelaDeProcedimentos tabeladeprocedimentos;
 	private ProcedimentoMedico procedimentomedico;
-	private BigDecimal valornoconvenio;
+	private BigDecimal valornoconvenioz;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,12 +33,12 @@ public class ProcedimentoTabela implements Serializable {
 		this.codigo = codigo;
 	}
 
-	public BigDecimal getValorpaciente() {
-		return valorpaciente;
+	public BigDecimal getValorpacientez() {
+		return valorpacientez;
 	}
-
-	public void setValorpaciente(BigDecimal valorpaciente) {
-		this.valorpaciente = valorpaciente;
+	
+	public void setValorpacientez(BigDecimal valorpacientez) {
+		this.valorpacientez = valorpacientez;
 	}
 
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -61,12 +61,12 @@ public class ProcedimentoTabela implements Serializable {
 		this.procedimentomedico = procedimentomedico;
 	}
 
-	public BigDecimal getValornoconvenio() {
-		return valornoconvenio;
+	public BigDecimal getValornoconvenioz() {
+		return valornoconvenioz;
 	}
-
-	public void setValornoconvenio(BigDecimal valornoconvenio) {
-		this.valornoconvenio = valornoconvenio;
+	
+	public void setValornoconvenioz(BigDecimal valornoconvenioz) {
+		this.valornoconvenioz = valornoconvenioz;
 	}
 
 	@Override

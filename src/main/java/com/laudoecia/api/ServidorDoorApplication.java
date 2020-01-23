@@ -1,5 +1,6 @@
 package com.laudoecia.api;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,8 @@ public class ServidorDoorApplication {
 		System.out.println("rodando aqui");
 	}
 
+	@Value("${pacs.storage.image}")
+    private String armazenamentoimagem;
 	 
 	 /************************** Handler for incoming files works with asynchronous event bus initiated by the DicomServer ****************************/    
     @Bean // only one incoming file handler. Even we have multiple DicomServer instances, they all forward files to the same handler...
@@ -46,6 +49,7 @@ public class ServidorDoorApplication {
     @Bean //Guava asynch event bus that initiates 100 fixed thread pool
     public EventBus asyncEventBus(){     
     	this.CriarEntidade();
+    	this.Criar(armazenamentoimagem);
     	EventBus eventBus =  new AsyncEventBus(java.util.concurrent.Executors.newFixedThreadPool(100));
         return eventBus;
     }
@@ -102,4 +106,15 @@ public class ServidorDoorApplication {
     
     /************************************************* End of Database JPA and Hibernate Settings ********************************************************/
       
+  //verifica se arquivos existem, e criam quando necessario e atribui permissao somente para leitura
+  	private void Criar(String  caminho) {
+  		File file = new File(caminho);
+  		
+  		if(!file.exists()) {
+  			file.mkdirs();
+  			//file.setReadable(Boolean.TRUE, Boolean.TRUE);
+  			//file.setWritable(Boolean.FALSE, Boolean.TRUE);
+  			//file.setExecutable(Boolean.FALSE, Boolean.TRUE);
+  		}
+  	}
 }

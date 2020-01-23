@@ -11,15 +11,15 @@ public abstract class ProcedimentoTabela_ {
 
 	public static volatile SingularAttribute<ProcedimentoTabela, Long> codigo;
 	public static volatile SingularAttribute<ProcedimentoTabela, TabelaDeProcedimentos> tabeladeprocedimentos;
-	public static volatile SingularAttribute<ProcedimentoTabela, BigDecimal> valorpaciente;
+	public static volatile SingularAttribute<ProcedimentoTabela, BigDecimal> valornoconvenioz;
+	public static volatile SingularAttribute<ProcedimentoTabela, BigDecimal> valorpacientez;
 	public static volatile SingularAttribute<ProcedimentoTabela, ProcedimentoMedico> procedimentomedico;
-	public static volatile SingularAttribute<ProcedimentoTabela, BigDecimal> valornoconvenio;
 
 	public static final String CODIGO = "codigo";
 	public static final String TABELADEPROCEDIMENTOS = "tabeladeprocedimentos";
-	public static final String VALORPACIENTE = "valorpaciente";
+	public static final String VALORNOCONVENIOZ = "valornoconvenioz";
+	public static final String VALORPACIENTEZ = "valorpacientez";
 	public static final String PROCEDIMENTOMEDICO = "procedimentomedico";
-	public static final String VALORNOCONVENIO = "valornoconvenio";
 
 }
 

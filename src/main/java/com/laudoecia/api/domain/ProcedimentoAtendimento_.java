@@ -10,8 +10,8 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(ProcedimentoAtendimento.class)
 public abstract class ProcedimentoAtendimento_ {
 
-	public static volatile SingularAttribute<ProcedimentoAtendimento, Date> preventregalaudo;
 	public static volatile SingularAttribute<ProcedimentoAtendimento, Date> dataexecucao;
+	public static volatile SingularAttribute<ProcedimentoAtendimento, Date> preventregalaudo;
 	public static volatile SingularAttribute<ProcedimentoAtendimento, Long> codigo;
 	public static volatile SingularAttribute<ProcedimentoAtendimento, ProcedimentoTabela> procedimentotabela;
 	public static volatile SingularAttribute<ProcedimentoAtendimento, BigDecimal> valorconvenio;
@@ -19,8 +19,8 @@ public abstract class ProcedimentoAtendimento_ {
 	public static volatile SingularAttribute<ProcedimentoAtendimento, ProfissionalExecutante> profexecutante;
 	public static volatile SingularAttribute<ProcedimentoAtendimento, BigDecimal> valorpaciente;
 
-	public static final String PREVENTREGALAUDO = "preventregalaudo";
 	public static final String DATAEXECUCAO = "dataexecucao";
+	public static final String PREVENTREGALAUDO = "preventregalaudo";
 	public static final String CODIGO = "codigo";
 	public static final String PROCEDIMENTOTABELA = "procedimentotabela";
 	public static final String VALORCONVENIO = "valorconvenio";

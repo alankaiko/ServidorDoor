@@ -59,7 +59,7 @@ public class Series implements Serializable {
 		this.idseries = idseries;
 	}
 
-	@Column(length = 100)
+	@Column(length = 200)
 	public String getSeriesinstanceuid() {
 		return seriesinstanceuid;
 	}
@@ -68,7 +68,7 @@ public class Series implements Serializable {
 		this.seriesinstanceuid = seriesinstanceuid;
 	}
 
-	@Column(length = 100)
+	@Column(length = 200)
 	public String getSeriesdescription() {
 		return seriesdescription;
 	}
@@ -85,7 +85,7 @@ public class Series implements Serializable {
 		this.seriesnumber = seriesnumber;
 	}
 
-	@Column(length = 30)
+	@Column(length = 130)
 	public String getPatientposition() {
 		return patientposition;
 	}
@@ -94,7 +94,7 @@ public class Series implements Serializable {
 		this.patientposition = patientposition;
 	}
 
-	@Column(length = 100)
+	@Column(length = 200)
 	public String getBodypartexamined() {
 		return bodypartexamined;
 	}
@@ -103,7 +103,7 @@ public class Series implements Serializable {
 		this.bodypartexamined = bodypartexamined;
 	}
 
-	@Column(length = 40)
+	@Column(length = 140)
 	public String getLaterality() {
 		return laterality;
 	}
@@ -112,7 +112,7 @@ public class Series implements Serializable {
 		this.laterality = laterality;
 	}
 
-	@Column(length = 50)
+	@Column(length = 150)
 	public String getOperatorsname() {
 		return operatorsname;
 	}
@@ -121,7 +121,7 @@ public class Series implements Serializable {
 		this.operatorsname = operatorsname;
 	}
 
-	@Column(length = 100)
+	@Column(length = 200)
 	public String getProtocolname() {
 		return protocolname;
 	}

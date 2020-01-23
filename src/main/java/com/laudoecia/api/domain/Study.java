@@ -58,7 +58,7 @@ public class Study implements Serializable {
 		this.idstudy = idstudy;
 	}
 
-	@Column(length = 60)
+	@Column(length = 160)
 	public String getStudyid() {
 		return studyid;
 	}
@@ -76,7 +76,7 @@ public class Study implements Serializable {
 		this.studydescription = studydescription;
 	}
 
-	@Column(length = 120)
+	@Column(length = 220)
 	public String getStudyinstanceuid() {
 		return studyinstanceuid;
 	}
@@ -85,7 +85,7 @@ public class Study implements Serializable {
 		this.studyinstanceuid = studyinstanceuid;
 	}
 
-	@Column(length = 50)
+	@Column(length = 150)
 	public String getAccessionnumber() {
 		return accessionnumber;
 	}
@@ -103,7 +103,7 @@ public class Study implements Serializable {
 		this.studydatetime = studydatetime;
 	}
 
-	@Column(length = 120)
+	@Column(length = 220)
 	public String getReferringphysicianname() {
 		return referringphysicianname;
 	}
@@ -130,7 +130,7 @@ public class Study implements Serializable {
 		this.admittingdiagnosesdescription = admittingdiagnosesdescription;
 	}
 
-	@Column(length = 80)
+	@Column(length = 180)
 	public String getStudystatusid() {
 		return studystatusid;
 	}
@@ -139,7 +139,7 @@ public class Study implements Serializable {
 		this.studystatusid = studystatusid;
 	}
 
-	@Column(length = 80)
+	@Column(length = 180)
 	public String getStudypriorityid() {
 		return studypriorityid;
 	}

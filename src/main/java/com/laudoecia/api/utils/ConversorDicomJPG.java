@@ -30,9 +30,9 @@ public class ConversorDicomJPG {
 			convert(inputFile, destFinal, 0);
 		} else {
 			for (int i = 0; i <= n - 1; i++) {
-				File outputFile2 = new File(outputFile + "\\" + inputFile.getName() + "aff");
+				File outputFile2 = new File(outputFile + "\\" + this.RetiraExtensao(inputFile.getName()));
 				outputFile2.mkdirs();
-				File destFinal2 = new File(outputFile2 + "\\" + "(" + "frame" + i + ")" + ".jpg");
+				File destFinal2 = new File(outputFile2 + "\\" + "frame" + i +".jpg");
 				convert(inputFile, destFinal2, i);
 			}
 			setFinish(true);
@@ -49,7 +49,7 @@ public class ConversorDicomJPG {
 	public void Dcm2jpg2(File inputFile, File outputFile) {
 		n = numberFile(inputFile);
 		for (int i = 0; i <= n - 2; i++) {
-			System.out.println(i);
+
 			File fileInput2;
 			try {
 				fileInput2 = listFolder(inputFile, i);

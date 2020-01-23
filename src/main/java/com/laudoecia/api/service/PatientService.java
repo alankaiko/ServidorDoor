@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.validator.constraints.SafeHtml.Tag;
+import org.hibernate.validator.internal.util.privilegedactions.GetInstancesFromServiceLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -22,6 +24,7 @@ import com.laudoecia.api.domain.Patient;
 import com.laudoecia.api.repository.PatientRepository;
 import com.laudoecia.api.repository.filtro.PatientFilter;
 import com.laudoecia.api.repository.resumo.ResumoPatient;
+import com.laudoecia.api.repository.resumo.TagImagemGamb;
 
 @Service
 public class PatientService {
@@ -29,11 +32,12 @@ public class PatientService {
 	private PatientRepository dao;
 	private final Logger LOG = LoggerFactory.getLogger(PatientService.class);
 	
-	@Autowired
-	private InstanceService servInstance;
 
 	@Value("${pacs.storage.dcm}")
 	private String storageDir;
+	
+	@Autowired
+	private TagImagemService serviceTag;
 	
 	public List<Patient> Listar() {
 		return this.dao.findAll(Sort.by(Sort.Direction.ASC, "datemodify"));
@@ -135,7 +139,7 @@ public class PatientService {
 	
 	public byte[] BuscarImagem(String instanceuid){
 		String caminho = this.storageDir + "/" + instanceuid + ".dcm";
-
+	
     	byte[] bytes = null;
     	try {
     		InputStream imagem = new FileInputStream(caminho);
@@ -151,4 +155,14 @@ public class PatientService {
 		return paciente.getStudyes().get(0).getSeries().get(0).getInstance();
 	}
 
+//	public List<TagImagemGamb> BuscarTags(Long idinstance){
+//		Patient paciente = this.BuscarPorId(idpatient);
+//		return paciente.getStudyes().get(0).getSeries().get(0).getInstance().get(0).getTagimagem();
+//	}
 }
+
+
+
+
+
+

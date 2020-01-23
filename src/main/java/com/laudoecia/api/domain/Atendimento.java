@@ -34,6 +34,7 @@ public class Atendimento implements Serializable {
 	private LocalDate dataatendimento;
 	private String observacoes;
 
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getCodigo() {
@@ -44,7 +45,7 @@ public class Atendimento implements Serializable {
 		this.codigo = codigo;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
 	@JoinColumn(name = "tbl_paciente_id", referencedColumnName = "idpatient")
 	public Patient getPaciente() {
 		return paciente;
@@ -54,7 +55,7 @@ public class Atendimento implements Serializable {
 		this.paciente = paciente;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
 	@JoinColumn(name = "tbl_convenio_id", referencedColumnName = "codigo")
 	public Convenio getConvenio() {
 		return convenio;
@@ -64,7 +65,7 @@ public class Atendimento implements Serializable {
 		this.convenio = convenio;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
 	@JoinColumn(name = "tbl_profsolicitante_id", referencedColumnName = "codigo")
 	public ProfissionalSolicitante getSolicitante() {
 		return solicitante;

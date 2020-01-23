@@ -74,7 +74,7 @@ public class Instance implements Serializable {
 		this.instancenumber = instancenumber;
 	}
 
-	@Column(length = 50)
+	@Column(length = 150)
 	public String getPatientorientation() {
 		return patientorientation;
 	}
@@ -83,7 +83,7 @@ public class Instance implements Serializable {
 		this.patientorientation = patientorientation;
 	}
 
-	@Column(length = 110)
+	@Column(length = 210)
 	public String getMediastoragesopinstanceuid() {
 		return mediastoragesopinstanceuid;
 	}
@@ -92,7 +92,7 @@ public class Instance implements Serializable {
 		this.mediastoragesopinstanceuid = mediastoragesopinstanceuid;
 	}
 
-	@Column(length = 110)
+	@Column(length = 210)
 	public String getSopinstanceuid() {
 		return sopinstanceuid;
 	}
@@ -101,7 +101,7 @@ public class Instance implements Serializable {
 		this.sopinstanceuid = sopinstanceuid;
 	}
 
-	@Column(length = 110)
+	@Column(length = 210)
 	public String getSopclassuid() {
 		return sopclassuid;
 	}
@@ -110,7 +110,7 @@ public class Instance implements Serializable {
 		this.sopclassuid = sopclassuid;
 	}
 
-	@Column(length = 110)
+	@Column(length = 210)
 	public String getTransfersyntaxuid() {
 		return transfersyntaxuid;
 	}
@@ -128,7 +128,7 @@ public class Instance implements Serializable {
 		this.acquisitiondatetime = acquisitiondatetime;
 	}
 
-	@Column(length = 60)
+	@Column(length = 160)
 	public String getImagetype() {
 		return imagetype;
 	}
@@ -145,7 +145,7 @@ public class Instance implements Serializable {
 		this.pixelspacing = pixelspacing;
 	}
 
-	@Column(length = 60)
+	@Column(length = 160)
 	public String getImageorientation() {
 		return imageorientation;
 	}
@@ -170,7 +170,7 @@ public class Instance implements Serializable {
 		this.exposuretime = exposuretime;
 	}
 
-	@Column(length = 60)
+	@Column(length = 160)
 	public String getKvp() {
 		return kvp;
 	}
@@ -195,7 +195,7 @@ public class Instance implements Serializable {
 		this.slicethickness = slicethickness;
 	}
 
-	@Column(length = 100)
+	@Column(length = 200)
 	public String getImageposition() {
 		return imageposition;
 	}
@@ -204,7 +204,7 @@ public class Instance implements Serializable {
 		this.imageposition = imageposition;
 	}
 
-	@Column(length = 70)
+	@Column(length = 170)
 	public String getWindowcenter() {
 		return windowcenter;
 	}
@@ -213,7 +213,7 @@ public class Instance implements Serializable {
 		this.windowcenter = windowcenter;
 	}
 
-	@Column(length = 70)
+	@Column(length = 170)
 	public String getWindowwidth() {
 		return windowwidth;
 	}

@@ -27,6 +27,7 @@ import com.laudoecia.api.domain.Series;
 import com.laudoecia.api.event.RecursoCriadoEvent;
 import com.laudoecia.api.repository.filtro.PatientFilter;
 import com.laudoecia.api.repository.resumo.ResumoPatient;
+import com.laudoecia.api.repository.resumo.TagImagemGamb;
 import com.laudoecia.api.service.PatientService;
 
 @RestController
@@ -91,4 +92,10 @@ public class ServerDicom {
 		Patient paciente = this.service.BuscarPorId(idpatient);
 		return paciente.getStudyes().get(0).getSeries().get(0);
 	}
+//	
+//	@GetMapping("/tabelatag/{}")
+//	public List<TagImagemGamb> BuscarTags(@PathVariable Long codigo){
+//		
+//	}
+	
 }

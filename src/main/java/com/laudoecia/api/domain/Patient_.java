@@ -10,9 +10,9 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(Patient.class)
 public abstract class Patient_ {
 
-	public static volatile SingularAttribute<Patient, Date> birthday;
 	public static volatile SingularAttribute<Patient, Long> idpatient;
 	public static volatile SingularAttribute<Patient, String> patientname;
+	public static volatile SingularAttribute<Patient, Date> birthday;
 	public static volatile SingularAttribute<Patient, Endereco> endereco;
 	public static volatile SingularAttribute<Patient, String> patientid;
 	public static volatile SingularAttribute<Patient, String> patientsex;
@@ -22,9 +22,9 @@ public abstract class Patient_ {
 	public static volatile SingularAttribute<Patient, Contato> contato;
 	public static volatile SingularAttribute<Patient, Date> datemodify;
 
-	public static final String BIRTHDAY = "birthday";
 	public static final String IDPATIENT = "idpatient";
 	public static final String PATIENTNAME = "patientname";
+	public static final String BIRTHDAY = "birthday";
 	public static final String ENDERECO = "endereco";
 	public static final String PATIENTID = "patientid";
 	public static final String PATIENTSEX = "patientsex";

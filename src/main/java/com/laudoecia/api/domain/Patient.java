@@ -52,7 +52,7 @@ public class Patient implements Serializable {
 		this.idpatient = idpatient;
 	}
 
-	@Column(length = 100)
+	@Column(length = 200)
 	public String getPatientid() {
 		return patientid;
 	}
@@ -61,7 +61,7 @@ public class Patient implements Serializable {
 		this.patientid = patientid;
 	}
 
-	@Column(length = 100)
+	@Column(length = 200)
 	public String getPatientname() {
 		return patientname;
 	}
@@ -70,7 +70,7 @@ public class Patient implements Serializable {
 		this.patientname = patientname;
 	}
 
-	@Column(length = 10)
+	@Column(length = 20)
 	public String getPatientsex() {
 		return patientsex;
 	}
