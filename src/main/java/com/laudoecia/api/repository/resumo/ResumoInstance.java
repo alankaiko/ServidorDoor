@@ -1,13 +1,11 @@
 package com.laudoecia.api.repository.resumo;
 
-import com.laudoecia.api.domain.Tagimagem;
-
 public class ResumoInstance {
 	private Long idinstance;
 	private String mediastoragesopinstanceuid;
-	private Tagimagem tagimagem;
+	private Long tagimagem;
 
-	public ResumoInstance(Long idinstance, String mediastoragesopinstanceuid, Tagimagem tagimagem) {
+	public ResumoInstance(Long idinstance, String mediastoragesopinstanceuid, Long tagimagem) {
 		this.idinstance = idinstance;
 		this.mediastoragesopinstanceuid = mediastoragesopinstanceuid;
 		this.tagimagem = tagimagem;
@@ -29,13 +27,12 @@ public class ResumoInstance {
 		this.mediastoragesopinstanceuid = mediastoragesopinstanceuid;
 	}
 
-	public Tagimagem getTagimagem() {
+	public Long getTagimagem() {
 		return tagimagem;
 	}
-
-	public void setTagimagem(Tagimagem tagimagem) {
+	
+	public void setTagimagem(Long tagimagem) {
 		this.tagimagem = tagimagem;
 	}
-
 
 }

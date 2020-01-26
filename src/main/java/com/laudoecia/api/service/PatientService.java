@@ -5,8 +5,6 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
-import org.hibernate.validator.constraints.SafeHtml.Tag;
-import org.hibernate.validator.internal.util.privilegedactions.GetInstancesFromServiceLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -21,10 +19,10 @@ import org.springframework.util.StreamUtils;
 
 import com.laudoecia.api.domain.Instance;
 import com.laudoecia.api.domain.Patient;
+import com.laudoecia.api.domain.Study;
 import com.laudoecia.api.repository.PatientRepository;
 import com.laudoecia.api.repository.filtro.PatientFilter;
 import com.laudoecia.api.repository.resumo.ResumoPatient;
-import com.laudoecia.api.repository.resumo.TagImagemGamb;
 
 @Service
 public class PatientService {
@@ -32,7 +30,7 @@ public class PatientService {
 	private PatientRepository dao;
 	private final Logger LOG = LoggerFactory.getLogger(PatientService.class);
 	
-
+	
 	@Value("${pacs.storage.dcm}")
 	private String storageDir;
 	
@@ -153,6 +151,11 @@ public class PatientService {
 	public List<Instance> BuscarPorInstanciasDoPaciente(Long idpatient){
 		Patient paciente = this.BuscarPorId(idpatient);
 		return paciente.getStudyes().get(0).getSeries().get(0).getInstance();
+	}
+	
+	public List<Study> BuscaEstudo(Long codigo) {
+		Patient paciente = this.BuscarPorId(codigo);
+		return paciente.getStudyes();
 	}
 
 //	public List<TagImagemGamb> BuscarTags(Long idinstance){

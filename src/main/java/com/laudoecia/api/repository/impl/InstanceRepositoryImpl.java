@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.laudoecia.api.domain.Instance;
 import com.laudoecia.api.domain.Instance_;
+import com.laudoecia.api.domain.Tagimagem;
+import com.laudoecia.api.domain.Tagimagem_;
 import com.laudoecia.api.repository.resumo.ResumoInstance;
 
 public class InstanceRepositoryImpl implements InstanceRepositoryQuery{
@@ -26,10 +28,11 @@ public class InstanceRepositoryImpl implements InstanceRepositoryQuery{
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<ResumoInstance> criteria = builder.createQuery(ResumoInstance.class);
 		Root<Instance> root = criteria.from(Instance.class);
+		Root<Tagimagem> rootteste = criteria.from(Tagimagem.class);
 		
 		criteria.where(builder.equal(root.get(Instance_.idinstance), codigo));
 		criteria.select(builder.construct(ResumoInstance.class, root.get(Instance_.idinstance), 
-			root.get(Instance_.mediastoragesopinstanceuid), root.get(Instance_.tagimagem)));
+			root.get(Instance_.mediastoragesopinstanceuid), rootteste.get(Tagimagem_.codigo)));
 		
 		
 		TypedQuery<ResumoInstance> query = em.createQuery(criteria);

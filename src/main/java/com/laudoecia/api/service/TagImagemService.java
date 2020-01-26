@@ -335,7 +335,6 @@ public class TagImagemService {
 		gamb.setCampo(tagimagem.getColumns());
 		lista.add(gamb);
 		
-		System.out.println("vindo aqui");
 		return lista;
 	}
 

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.laudoecia.api.domain.Patient;
 import com.laudoecia.api.domain.Series;
+import com.laudoecia.api.domain.Study;
 import com.laudoecia.api.event.RecursoCriadoEvent;
 import com.laudoecia.api.repository.filtro.PatientFilter;
 import com.laudoecia.api.repository.resumo.ResumoPatient;
@@ -92,10 +93,11 @@ public class ServerDicom {
 		Patient paciente = this.service.BuscarPorId(idpatient);
 		return paciente.getStudyes().get(0).getSeries().get(0);
 	}
-//	
-//	@GetMapping("/tabelatag/{}")
-//	public List<TagImagemGamb> BuscarTags(@PathVariable Long codigo){
-//		
-//	}
+	
+	@GetMapping("/study/{idpatient}")
+	public List<Study> Teste(@PathVariable Long idpatient){
+		return this.service.BuscaEstudo(idpatient);
+	}
+
 	
 }
