@@ -7,6 +7,7 @@ package com.laudoecia.api.domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -21,18 +22,24 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table
 public class Atendimento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long codigo;
-	private Patient paciente;
+	private Patient patient;
 	private Convenio convenio;
 	private ProfissionalSolicitante solicitante;
 	private List<ProcedimentoAtendimento> procedimentos;
 	private LocalDate dataatendimento;
 	private String observacoes;
+	
+	public Atendimento() {
+		this.procedimentos = new ArrayList<ProcedimentoAtendimento>();
+	}
 
 
 	@Id
@@ -46,13 +53,13 @@ public class Atendimento implements Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
-	@JoinColumn(name = "tbl_paciente_id", referencedColumnName = "idpatient")
-	public Patient getPaciente() {
-		return paciente;
+	@JoinColumn(name = "tbl_patient_id", referencedColumnName = "idpatient")
+	public Patient getPatient() {
+		return patient;
 	}
-
-	public void setPaciente(Patient paciente) {
-		this.paciente = paciente;
+	
+	public void setPatient(Patient patient) {
+		this.patient = patient;
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
@@ -75,7 +82,8 @@ public class Atendimento implements Serializable {
 		this.solicitante = solicitante;
 	}
 
-	@OneToMany(mappedBy = "atendimento", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@JsonIgnoreProperties("pessoa")
+	@OneToMany(mappedBy = "atendimento", cascade = CascadeType.ALL, orphanRemoval = true)
 	public List<ProcedimentoAtendimento> getProcedimentos() {
 		return procedimentos;
 	}

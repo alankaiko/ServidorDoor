@@ -28,7 +28,6 @@ import com.laudoecia.api.domain.Study;
 import com.laudoecia.api.event.RecursoCriadoEvent;
 import com.laudoecia.api.repository.filtro.PatientFilter;
 import com.laudoecia.api.repository.resumo.ResumoPatient;
-import com.laudoecia.api.repository.resumo.TagImagemGamb;
 import com.laudoecia.api.service.PatientService;
 
 @RestController
@@ -77,8 +76,8 @@ public class ServerDicom {
 	}
 
 	@PutMapping("/{idpatient}")
-	public ResponseEntity<Patient> Atualizar(@PathVariable Long idpatient, @Valid @RequestBody Patient paciente) {
-		Patient salvo = this.service.Atualizar(idpatient, paciente);
+	public ResponseEntity<Patient> Atualizar(@PathVariable Long idpatient, @Valid @RequestBody Patient patient) {
+		Patient salvo = this.service.Atualizar(idpatient, patient);
 		return ResponseEntity.ok(salvo);
 	}
 

@@ -65,9 +65,9 @@ public class PatientService {
 		}
 	}
 
-	public Patient Criar(Patient paciente) {
+	public Patient Criar(Patient patient) {
 		try {
-			return this.dao.save(paciente);
+			return this.dao.save(patient);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Criar------------------ de PatientService");
 			e.printStackTrace();
@@ -76,12 +76,12 @@ public class PatientService {
 	}
 
 	public Patient BuscarPorId(Long id) {
-		Optional<Patient> paciente = this.dao.findById(id);
+		Optional<Patient> patient = this.dao.findById(id);
 
-		if (paciente.get() == null)
+		if (patient.get() == null)
 			throw new EmptyResultDataAccessException(1);
 
-		return paciente.get();
+		return patient.get();
 	}
 
 	public void Deletar(Long id) {

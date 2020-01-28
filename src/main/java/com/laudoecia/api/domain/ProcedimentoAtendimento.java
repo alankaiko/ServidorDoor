@@ -1,13 +1,8 @@
-/*
- * ProcDoAtd.java
- *
- * Created on 19/01/2012, 09:51:43
- */
 package com.laudoecia.api.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -17,21 +12,19 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
-@Table
+@Table(name ="procedimentoatendimento")
 public class ProcedimentoAtendimento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long codigo;
 	private ProfissionalExecutante profexecutante;
-	private ProcedimentoTabela procedimentotabela;
+	private ProcedimentoMedico procedimentomedico;
 	private BigDecimal valorpaciente;
 	private BigDecimal valorconvenio;
-	private Date preventregalaudo;
-	private Date dataexecucao;
+	private LocalDate preventregalaudo;
+	private LocalDate dataexecucao;
 	private Atendimento atendimento;
 
 	@Id
@@ -49,19 +42,19 @@ public class ProcedimentoAtendimento implements Serializable {
 	public ProfissionalExecutante getProfexecutante() {
 		return profexecutante;
 	}
-	
+
 	public void setProfexecutante(ProfissionalExecutante profexecutante) {
 		this.profexecutante = profexecutante;
 	}
 
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "tbl_procedimentotabela_id", referencedColumnName = "codigo")
-	public ProcedimentoTabela getProcedimentotabela() {
-		return procedimentotabela;
+	@JoinColumn(name = "tbl_procedimentomedico_id", referencedColumnName = "codigo")
+	public ProcedimentoMedico getProcedimentomedico() {
+		return procedimentomedico;
 	}
-	
-	public void setProcedimentotabela(ProcedimentoTabela procedimentotabela) {
-		this.procedimentotabela = procedimentotabela;
+
+	public void setProcedimentomedico(ProcedimentoMedico procedimentomedico) {
+		this.procedimentomedico = procedimentomedico;
 	}
 
 	public BigDecimal getValorpaciente() {
@@ -80,22 +73,20 @@ public class ProcedimentoAtendimento implements Serializable {
 		this.valorconvenio = valorconvenio;
 	}
 
-	@Temporal(TemporalType.DATE)
-	public Date getPreventregalaudo() {
-		return preventregalaudo;
-	}
-
-	public void setPreventregalaudo(Date preventregalaudo) {
-		this.preventregalaudo = preventregalaudo;
-	}
-
-	@Temporal(TemporalType.DATE)
-	public Date getDataexecucao() {
+	public LocalDate getDataexecucao() {
 		return dataexecucao;
 	}
 
-	public void setDataexecucao(Date dataexecucao) {
+	public void setDataexecucao(LocalDate dataexecucao) {
 		this.dataexecucao = dataexecucao;
+	}
+
+	public LocalDate getPreventregalaudo() {
+		return preventregalaudo;
+	}
+
+	public void setPreventregalaudo(LocalDate preventregalaudo) {
+		this.preventregalaudo = preventregalaudo;
 	}
 
 	@ManyToOne
