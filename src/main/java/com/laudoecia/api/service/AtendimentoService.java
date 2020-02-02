@@ -28,6 +28,7 @@ public class AtendimentoService {
 
 	public Atendimento Criar(Atendimento atendimento) {
 		try {
+			atendimento.getProcedimentos().forEach(pro -> pro.setAtendimento(atendimento));
 			return this.dao.save(atendimento);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Criar------------------ de AtendimentoService");
@@ -66,6 +67,10 @@ public class AtendimentoService {
 	public Atendimento Atualizar(Long id, Atendimento atendimento) {
 		try {
 			Atendimento salvo = this.BuscarPorId(id);
+			salvo.getProcedimentos().clear();
+			salvo.getProcedimentos().addAll(atendimento.getProcedimentos());
+			salvo.getProcedimentos().forEach(pro -> pro.setAtendimento(salvo));
+			
 			BeanUtils.copyProperties(atendimento, salvo, "id");
 			return this.Criar(salvo);
 		} catch (Exception e) {

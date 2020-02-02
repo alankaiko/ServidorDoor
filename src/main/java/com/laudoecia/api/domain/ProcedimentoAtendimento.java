@@ -18,17 +18,27 @@ import javax.persistence.Table;
 public class ProcedimentoAtendimento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "tbl_profexecutante_id", referencedColumnName = "codigo")
 	private ProfissionalExecutante profexecutante;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "tbl_procedimentomedico_id", referencedColumnName = "codigo")
 	private ProcedimentoMedico procedimentomedico;
 	private BigDecimal valorpaciente;
 	private BigDecimal valorconvenio;
 	private LocalDate preventregalaudo;
 	private LocalDate dataexecucao;
+	
+	@ManyToOne
+	@JoinColumn(name = "codigo_atendimento")
 	private Atendimento atendimento;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -37,8 +47,6 @@ public class ProcedimentoAtendimento implements Serializable {
 		this.codigo = codigo;
 	}
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "tbl_profexecutante_id", referencedColumnName = "codigo")
 	public ProfissionalExecutante getProfexecutante() {
 		return profexecutante;
 	}
@@ -47,8 +55,6 @@ public class ProcedimentoAtendimento implements Serializable {
 		this.profexecutante = profexecutante;
 	}
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "tbl_procedimentomedico_id", referencedColumnName = "codigo")
 	public ProcedimentoMedico getProcedimentomedico() {
 		return procedimentomedico;
 	}
@@ -89,7 +95,6 @@ public class ProcedimentoAtendimento implements Serializable {
 		this.preventregalaudo = preventregalaudo;
 	}
 
-	@ManyToOne
 	public Atendimento getAtendimento() {
 		return atendimento;
 	}
@@ -122,5 +127,15 @@ public class ProcedimentoAtendimento implements Serializable {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "ProcedimentoAtendimento [codigo=" + codigo + ", profexecutante=" + profexecutante
+				+ ", procedimentomedico=" + procedimentomedico + ", valorpaciente=" + valorpaciente + ", valorconvenio="
+				+ valorconvenio + ", preventregalaudo=" + preventregalaudo + ", dataexecucao=" + dataexecucao
+				+ ", atendimento=" + atendimento + "]";
+	}
+	
+	
 
 }

@@ -49,6 +49,7 @@ public class AtendimentoResource {
 	@PostMapping
 	public ResponseEntity<Atendimento> Salvar(@Valid @RequestBody Atendimento atendimento, HttpServletResponse resposta) {
 		Atendimento salvo = this.service.Criar(atendimento);
+		System.out.println(salvo.toString());
 		this.publisher.publishEvent(new RecursoCriadoEvent(this, resposta, salvo.getCodigo()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
 	}
