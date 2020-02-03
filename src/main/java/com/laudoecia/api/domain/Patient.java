@@ -1,6 +1,7 @@
 package com.laudoecia.api.domain;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -11,8 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -32,8 +31,8 @@ public class Patient implements Serializable {
 	private Date birthday;
 	private String patientage;
 	private String patientsex;
-	private Date datecreate;
-	private Date datemodify;
+	private LocalDate datecreate;
+	private LocalDate datemodify;
 	private List<Study> studyes;
 	private Endereco endereco;
 	private Contato contato;
@@ -97,21 +96,19 @@ public class Patient implements Serializable {
 		this.patientage = patientage;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	public Date getDatecreate() {
+	public LocalDate getDatecreate() {
 		return datecreate;
 	}
-
-	public void setDatecreate(Date datecreate) {
+	
+	public void setDatecreate(LocalDate datecreate) {
 		this.datecreate = datecreate;
 	}
 
-	@Temporal(TemporalType.TIMESTAMP)
-	public Date getDatemodify() {
+	public LocalDate getDatemodify() {
 		return datemodify;
 	}
-
-	public void setDatemodify(Date datemodify) {
+	
+	public void setDatemodify(LocalDate datemodify) {
 		this.datemodify = datemodify;
 	}
 
@@ -126,6 +123,8 @@ public class Patient implements Serializable {
 
 	@Embedded
 	public Endereco getEndereco() {
+		if(this.endereco == null)
+			this.endereco = new Endereco();
 		return endereco;
 	}
 
@@ -135,20 +134,13 @@ public class Patient implements Serializable {
 
 	@Embedded
 	public Contato getContato() {
+		if(this.contato == null)
+			this.contato = new Contato();
 		return contato;
 	}
 
 	public void setContato(Contato contato) {
 		this.contato = contato;
-	}
-
-	@PreUpdate
-	@PrePersist
-	public void updateTimeStamps() {
-		datemodify = new Date();
-
-		if (datecreate == null)
-			datecreate = new Date();
 	}
 
 }

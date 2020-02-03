@@ -55,6 +55,8 @@ public class ProfissionalExecutante implements Serializable {
 
 	@Embedded
 	public Contato getContato() {
+		if(this.contato == null)
+			this.contato = new Contato();
 		return contato;
 	}
 
@@ -64,6 +66,8 @@ public class ProfissionalExecutante implements Serializable {
 
 	@Embedded
 	public Endereco getEndereco() {
+		if(this.endereco == null)
+			this.endereco = new Endereco();
 		return endereco;
 	}
 

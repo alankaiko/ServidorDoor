@@ -19,6 +19,7 @@ import com.laudoecia.api.domain.Tagimagem;
 import com.laudoecia.api.server.DicomReader;
 import com.laudoecia.api.service.interf.DBService;
 import com.laudoecia.api.utils.DicomEntityBuilder;
+import com.laudoecia.api.utils.Utils;
 
 @Service
 public class DBServiceImpl implements DBService {
@@ -202,7 +203,7 @@ public class DBServiceImpl implements DBService {
 						study.setDatemodify(instance.getDatecreate());
 						this.StudyService.Criar(study);
 
-						patient.setDatemodify(instance.getDatecreate());
+						patient.setDatemodify(Utils.ConverterToLocalDate(instance.getDatecreate()));
 						this.PatientService.Criar(patient);
 
 						LOG.info("Dicom Instance saved successfully! {}", instance.toString());

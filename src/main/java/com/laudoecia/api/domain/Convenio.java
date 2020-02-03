@@ -80,6 +80,8 @@ public class Convenio implements Serializable{
 
 	@Embedded
 	public Endereco getEndereco() {
+		if(this.endereco == null)
+			this.endereco = new Endereco();
 		return endereco;
 	}
 

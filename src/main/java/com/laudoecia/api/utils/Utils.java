@@ -1,6 +1,9 @@
 package com.laudoecia.api.utils;
 
 import java.awt.Dimension;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 public class Utils {
 
@@ -30,5 +33,10 @@ public class Utils {
 	    }
 
 	    return new Dimension(new_width, new_height);
+	}
+	
+	public static LocalDate ConverterToLocalDate(Date date) {
+		LocalDate localdata = date.toInstant().atZone( ZoneId.systemDefault() ).toLocalDate();
+		return localdata;
 	}
 }

@@ -13,14 +13,6 @@ public class Endereco{
 	private String estado;
 	private String cep;
 
-	public Endereco() {
-		logradouro = new String();
-		complemento = new String();
-		bairro = new String();
-		cidade = new String();
-		estado = new String();
-		cep = new String();
-	}
 	
 	@Column(length = 100)
 	public String getLogradouro() {

@@ -1,11 +1,11 @@
 package com.laudoecia.api.repository.filtro;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class PatientFilter {
 	private String patientid;
 	private String patientname;
-	private Date birthday;
+	private LocalDate birthday;
 	private String patientage;
 	private String patientsex;
 
@@ -25,11 +25,11 @@ public class PatientFilter {
 		this.patientname = patientname;
 	}
 
-	public Date getBirthday() {
+	public LocalDate getBirthday() {
 		return birthday;
 	}
-
-	public void setBirthday(Date birthday) {
+	
+	public void setBirthday(LocalDate birthday) {
 		this.birthday = birthday;
 	}
 

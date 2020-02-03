@@ -1,7 +1,7 @@
 package com.laudoecia.api.repository.resumo;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 public class ResumoPatient implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -9,12 +9,12 @@ public class ResumoPatient implements Serializable {
 	private Long idpatient;
 	private String patientid;
 	private String patientname;
-	private Date birthday;
+	private LocalDate birthday;
 	private String patientage;
 	private String patientsex;
-	private Date datecreate;
+	private LocalDate datecreate;
 
-	public ResumoPatient(Long idpatient, String patientid, String patientname, Date birthday, String patientage, String patientsex, Date datecreate) {
+	public ResumoPatient(Long idpatient, String patientid, String patientname, LocalDate birthday, String patientage, String patientsex, LocalDate datecreate) {
 		this.idpatient = idpatient;
 		this.patientid = patientid;
 		this.patientname = patientname;
@@ -48,11 +48,12 @@ public class ResumoPatient implements Serializable {
 		this.patientname = patientname;
 	}
 
-	public Date getBirthday() {
+	public LocalDate getBirthday() {
 		return birthday;
 	}
-
-	public void setBirthday(Date birthday) {
+	
+	
+	public void setBirthday(LocalDate birthday) {
 		this.birthday = birthday;
 	}
 
@@ -72,11 +73,11 @@ public class ResumoPatient implements Serializable {
 		this.patientsex = patientsex;
 	}
 
-	public Date getDatecreate() {
+	public LocalDate getDatecreate() {
 		return datecreate;
 	}
-
-	public void setDatecreate(Date datecreate) {
+	
+	public void setDatecreate(LocalDate datecreate) {
 		this.datecreate = datecreate;
 	}
 
