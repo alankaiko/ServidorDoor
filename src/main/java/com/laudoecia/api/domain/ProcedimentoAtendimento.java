@@ -22,11 +22,11 @@ public class ProcedimentoAtendimento implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.DETACH)
 	@JoinColumn(name = "tbl_profexecutante_id", referencedColumnName = "codigo")
 	private ProfissionalExecutante profexecutante;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.DETACH)
 	@JoinColumn(name = "tbl_procedimentomedico_id", referencedColumnName = "codigo")
 	private ProcedimentoMedico procedimentomedico;
 	private BigDecimal valorpaciente;

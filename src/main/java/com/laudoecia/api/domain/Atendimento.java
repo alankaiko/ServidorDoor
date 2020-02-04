@@ -40,7 +40,7 @@ public class Atendimento implements Serializable {
 	private ProfissionalSolicitante solicitante;
 	
 	@JsonIgnoreProperties("atendimento")
-	@OneToMany(mappedBy = "atendimento", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "atendimento", cascade = CascadeType.ALL)
 	private List<ProcedimentoAtendimento> procedimentos;
 	
 	private LocalDate dataatendimento;

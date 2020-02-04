@@ -1,7 +1,6 @@
 package com.laudoecia.api.domain;
 
 import java.time.LocalDate;
-import java.util.Date;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
@@ -13,7 +12,7 @@ public abstract class Patient_ {
 
 	public static volatile SingularAttribute<Patient, Long> idpatient;
 	public static volatile SingularAttribute<Patient, String> patientname;
-	public static volatile SingularAttribute<Patient, Date> birthday;
+	public static volatile SingularAttribute<Patient, LocalDate> birthday;
 	public static volatile SingularAttribute<Patient, Endereco> endereco;
 	public static volatile SingularAttribute<Patient, String> patientid;
 	public static volatile SingularAttribute<Patient, String> patientsex;

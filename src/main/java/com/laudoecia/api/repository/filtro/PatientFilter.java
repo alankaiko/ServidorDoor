@@ -32,7 +32,7 @@ public class PatientFilter {
 	public void setBirthday(LocalDate birthday) {
 		this.birthday = birthday;
 	}
-
+	
 	public String getPatientage() {
 		return patientage;
 	}

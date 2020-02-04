@@ -2,7 +2,6 @@ package com.laudoecia.api.domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -13,8 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -28,7 +25,7 @@ public class Patient implements Serializable {
 	private Long idpatient;
 	private String patientid;
 	private String patientname;
-	private Date birthday;
+	private LocalDate birthday;
 	private String patientage;
 	private String patientsex;
 	private LocalDate datecreate;
@@ -78,12 +75,11 @@ public class Patient implements Serializable {
 		this.patientsex = patientsex;
 	}
 
-	@Temporal(TemporalType.DATE)
-	public Date getBirthday() {
+	public LocalDate getBirthday() {
 		return birthday;
 	}
-
-	public void setBirthday(Date birthday) {
+	
+	public void setBirthday(LocalDate birthday) {
 		this.birthday = birthday;
 	}
 
