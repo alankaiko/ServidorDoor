@@ -18,27 +18,18 @@ import javax.persistence.Table;
 public class ProcedimentoAtendimento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
-	
-	@ManyToOne(cascade = CascadeType.DETACH)
-	@JoinColumn(name = "tbl_profexecutante_id", referencedColumnName = "codigo")
 	private ProfissionalExecutante profexecutante;
-	
-	@ManyToOne(cascade = CascadeType.DETACH)
-	@JoinColumn(name = "tbl_procedimentomedico_id", referencedColumnName = "codigo")
 	private ProcedimentoMedico procedimentomedico;
 	private BigDecimal valorpaciente;
 	private BigDecimal valorconvenio;
 	private LocalDate preventregalaudo;
 	private LocalDate dataexecucao;
-	
-	@ManyToOne
-	@JoinColumn(name = "codigo_atendimento")
 	private Atendimento atendimento;
 
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -47,6 +38,8 @@ public class ProcedimentoAtendimento implements Serializable {
 		this.codigo = codigo;
 	}
 
+	@ManyToOne(cascade = CascadeType.DETACH)
+	@JoinColumn(name = "tbl_profexecutante_id", referencedColumnName = "codigo")
 	public ProfissionalExecutante getProfexecutante() {
 		return profexecutante;
 	}
@@ -55,6 +48,8 @@ public class ProcedimentoAtendimento implements Serializable {
 		this.profexecutante = profexecutante;
 	}
 
+	@ManyToOne(cascade = CascadeType.DETACH)
+	@JoinColumn(name = "tbl_procedimentomedico_id", referencedColumnName = "codigo")
 	public ProcedimentoMedico getProcedimentomedico() {
 		return procedimentomedico;
 	}
@@ -95,6 +90,8 @@ public class ProcedimentoAtendimento implements Serializable {
 		this.preventregalaudo = preventregalaudo;
 	}
 
+	@ManyToOne
+	@JoinColumn(name = "codigo_atendimento")
 	public Atendimento getAtendimento() {
 		return atendimento;
 	}

@@ -2,6 +2,7 @@ package com.laudoecia.api.domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -23,31 +24,20 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Atendimento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
-	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
-	@JoinColumn(name = "tbl_patient_id", referencedColumnName = "idpatient")
 	private Patient patient;
-	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
-	@JoinColumn(name = "tbl_convenio_id", referencedColumnName = "codigo")
 	private Convenio convenio;
-	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
-	@JoinColumn(name = "tbl_profsolicitante_id", referencedColumnName = "codigo")
 	private ProfissionalSolicitante solicitante;
-	
-	@JsonIgnoreProperties("atendimento")
-	@OneToMany(mappedBy = "atendimento", cascade = CascadeType.ALL)
 	private List<ProcedimentoAtendimento> procedimentos;
-	
 	private LocalDate dataatendimento;
-	
-	@Column(length = 500)
 	private String observacoes;
 	
+	public Atendimento() {
+		this.procedimentos = new ArrayList<ProcedimentoAtendimento>();
+	}
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -56,6 +46,8 @@ public class Atendimento implements Serializable {
 		this.codigo = codigo;
 	}
 
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+	@JoinColumn(name = "tbl_patient_id", referencedColumnName = "idpatient")
 	public Patient getPatient() {
 		return patient;
 	}
@@ -64,6 +56,8 @@ public class Atendimento implements Serializable {
 		this.patient = patient;
 	}
 
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+	@JoinColumn(name = "tbl_convenio_id", referencedColumnName = "codigo")
 	public Convenio getConvenio() {
 		return convenio;
 	}
@@ -72,6 +66,8 @@ public class Atendimento implements Serializable {
 		this.convenio = convenio;
 	}
 
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+	@JoinColumn(name = "tbl_profsolicitante_id", referencedColumnName = "codigo")
 	public ProfissionalSolicitante getSolicitante() {
 		return solicitante;
 	}
@@ -80,6 +76,8 @@ public class Atendimento implements Serializable {
 		this.solicitante = solicitante;
 	}
 
+	@JsonIgnoreProperties("atendimento")
+	@OneToMany(mappedBy = "atendimento", cascade = CascadeType.ALL,orphanRemoval = true)
 	public List<ProcedimentoAtendimento> getProcedimentos() {
 		return procedimentos;
 	}
@@ -96,6 +94,7 @@ public class Atendimento implements Serializable {
 		this.dataatendimento = dataatendimento;
 	}
 
+	@Column(length = 500)
 	public String getObservacoes() {
 		return observacoes;
 	}
