@@ -35,7 +35,7 @@ public class PatientService {
 	private String storageDir;
 	
 	@Autowired
-	private TagImagemService serviceTag;
+	StudyService servStudy;
 	
 	public List<Patient> Listar() {
 		return this.dao.findAll(Sort.by(Sort.Direction.ASC, "datemodify"));
@@ -153,9 +153,8 @@ public class PatientService {
 		return paciente.getStudyes().get(0).getSeries().get(0).getInstance();
 	}
 	
-	public List<Study> BuscaEstudo(Long codigo) {
-		Patient paciente = this.BuscarPorId(codigo);
-		return paciente.getStudyes();
+	public List<Study> BuscaEstudo(Long idpatient) {
+		return this.servStudy.BuscarPorIdPaciente(idpatient);
 	}
 
 //	public List<TagImagemGamb> BuscarTags(Long idinstance){

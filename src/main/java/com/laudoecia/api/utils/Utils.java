@@ -36,7 +36,11 @@ public class Utils {
 	}
 	
 	public static LocalDate ConverterToLocalDate(Date date) {
-		LocalDate localdata = date.toInstant().atZone( ZoneId.systemDefault() ).toLocalDate();
-		return localdata;
+		try {
+			LocalDate localdata = date.toInstant().atZone( ZoneId.systemDefault() ).toLocalDate();
+			return localdata;
+		} catch (Exception e) {
+			return null;
+		}
 	}
 }
