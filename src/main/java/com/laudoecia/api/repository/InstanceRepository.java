@@ -13,4 +13,5 @@ public interface InstanceRepository extends JpaRepository<Instance, Long>, Insta
 	public List<Instance> findBySeriesIdseries(Long idseries);
 	public Instance findBySopinstanceuid(String sopinstanceuid);
 	public List<Instance> findAllByseriesStudyPatientIdpatient(Long idpatient);
+	public Instance findByIdinstance(Long idpatient);
 }

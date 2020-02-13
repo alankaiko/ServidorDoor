@@ -1,5 +1,4 @@
 package com.laudoecia.api.resources;
-
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -86,11 +85,16 @@ public class ServerDicom {
 		byte[] dados = this.service.BuscarImagem(instanceuid);
 		return ResponseEntity.ok().body(dados);
 	}
-	
 
+	@GetMapping("/series/{idpatient}")
+	public Series BuscarInstancias(@PathVariable Long idpatient) {
+		Patient paciente = this.service.BuscarPorId(idpatient);
+		return paciente.getStudyes().get(0).getSeries().get(0);
+	}
+	
 	@GetMapping("/study/{idpatient}")
-	public List<Study> BuscarInstancias(@PathVariable Long idpatient) {
-		return  this.service.BuscaEstudo(idpatient);
+	public List<Study> Teste(@PathVariable Long idpatient){
+		return this.service.BuscaEstudo(idpatient);
 	}
 
 	

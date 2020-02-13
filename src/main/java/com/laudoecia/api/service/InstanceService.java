@@ -29,7 +29,7 @@ public class InstanceService {
 		try {
 			return this.dao.save(instancia);
 		} catch (Exception e) {
-			LOG.error("Erro ao executar o metodo Criar------------------ de StudyService");
+			LOG.error("Erro ao executar o metodo Criar------------------ de InstanceRepository");
 			e.printStackTrace();
 			return null;
 		}
@@ -48,7 +48,7 @@ public class InstanceService {
 		try {
 			this.dao.deleteById(id);
 		} catch (Exception e) {
-			LOG.error("Erro ao executar o metodo Deletar------------------ de StudyService");
+			LOG.error("Erro ao executar o metodo Deletar------------------ de InstanceRepository");
 			e.printStackTrace();
 		}
 	}
@@ -57,7 +57,7 @@ public class InstanceService {
 		try {
 			this.dao.delete(instancia);
 		} catch (Exception e) {
-			LOG.error("Erro ao executar o metodo Deletar------------------ de StudyService");
+			LOG.error("Erro ao executar o metodo Deletar------------------ de InstanceRepository");
 			e.printStackTrace();
 		}
 	}
@@ -68,7 +68,7 @@ public class InstanceService {
 			BeanUtils.copyProperties(instancia, salvo, "id");
 			return this.Criar(salvo);
 		} catch (Exception e) {
-			LOG.error("Erro ao executar o metodo Atualizar------------------ de StudyService");
+			LOG.error("Erro ao executar o metodo Atualizar------------------ de InstanceRepository");
 			e.printStackTrace();
 			return null;
 		}
@@ -78,7 +78,7 @@ public class InstanceService {
 		try {
 			return this.dao.count();
 		} catch (Exception e) {
-			LOG.error("Erro ao executar o metodo ------------------ de StudyService");
+			LOG.error("Erro ao executar o metodo ------------------ de InstanceRepository");
 			e.printStackTrace();
 			return null;
 		}
@@ -88,7 +88,7 @@ public class InstanceService {
 		try {
 			return this.dao.findBySeriesIdseries(idseries);
 		} catch (Exception e) {
-			LOG.error("Erro ao executar o metodo BuscarPorIdSerieDaInstancia------------------ de StudyService");
+			LOG.error("Erro ao executar o metodo BuscarPorIdSerieDaInstancia------------------ de InstanceRepository");
 			e.printStackTrace();
 			return null;
 		}
@@ -98,7 +98,7 @@ public class InstanceService {
 		try {
 			return this.dao.findBySopinstanceuid(sopinstanceuid);
 		} catch (Exception e) {
-			LOG.error("Erro ao executar o metodo BuscarPorInstanciaUid------------------ de StudyService");
+			LOG.error("Erro ao executar o metodo BuscarPorInstanciaUid------------------ de InstanceRepository");
 			e.printStackTrace();
 			return null;
 		}
@@ -108,7 +108,7 @@ public class InstanceService {
 		try {
 			return this.dao.findAllByseriesStudyPatientIdpatient(idpatient);
 		} catch (Exception e) {
-			LOG.error("Erro ao executar o metodo BuscarPacientesPeloEstudoSerie------------------ de StudyService");
+			LOG.error("Erro ao executar o metodo BuscarPacientesPeloEstudoSerie------------------ de InstanceRepository");
 			e.printStackTrace();
 			return null;
 		}
@@ -116,9 +116,14 @@ public class InstanceService {
 	
 	public ResumoInstance ResumirProDicom(Long codigo) {
 		try {
-			return this.dao.ResumirPraDicom(codigo);
+			Instance insta = this.BuscarPorId(codigo);
+			ResumoInstance resumo = new ResumoInstance();
+			resumo.setIdinstance(insta.getIdinstance());
+			resumo.setMediastoragesopinstanceuid(insta.getMediastoragesopinstanceuid());
+			resumo.setTagimagem(insta.getTagimagem().getCodigo());
+			return resumo;
 		} catch (Exception e) {
-			LOG.error("Erro ao executar o metodo BuscarPacientesPeloEstudoSerie------------------ de StudyService");
+			LOG.error("Erro ao executar o metodo BuscarPacientesPeloEstudoSerie------------------ de InstanceRepository");
 			e.printStackTrace();
 			return null;
 		}

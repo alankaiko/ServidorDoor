@@ -5,6 +5,9 @@ public class ResumoInstance {
 	private String mediastoragesopinstanceuid;
 	private Long tagimagem;
 
+	public ResumoInstance() {
+	}
+
 	public ResumoInstance(Long idinstance, String mediastoragesopinstanceuid, Long tagimagem) {
 		this.idinstance = idinstance;
 		this.mediastoragesopinstanceuid = mediastoragesopinstanceuid;

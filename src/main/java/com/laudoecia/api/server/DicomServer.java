@@ -112,7 +112,7 @@ public class DicomServer {
 		try {
 			out.writeFileMetaInformation(fmi);
 			data.copyTo(out);
-			 this.ConverterParaJPEG(file, this.armazenamentoimagem);
+			// this.ConverterParaJPEG(file, this.armazenamentoimagem);
 		} finally {
 			SafeClose.close(out);
 		}

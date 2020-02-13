@@ -24,13 +24,18 @@ public class InstanceRepositoryImpl implements InstanceRepositoryQuery{
 //	query.select(root.get(Orders_.id));
 	
 	@Override
-	public ResumoInstance ResumirPraDicom(Long codigo) {
+	public ResumoInstance ResumirPraDicom(Long idinstance) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<ResumoInstance> criteria = builder.createQuery(ResumoInstance.class);
 		Root<Instance> root = criteria.from(Instance.class);
 		Root<Tagimagem> rootteste = criteria.from(Tagimagem.class);
 		
-		criteria.where(builder.equal(root.get(Instance_.idinstance), codigo));
+		criteria.where(builder.equal(root.get(Instance_.idinstance), idinstance));
+		//cq.where(cb.equal(model.get("id"), modelId));
+		
+		
+		criteria.where(builder.equal(root.get("idinstance"), idinstance));
+		
 		criteria.select(builder.construct(ResumoInstance.class, root.get(Instance_.idinstance), 
 			root.get(Instance_.mediastoragesopinstanceuid), rootteste.get(Tagimagem_.codigo)));
 		
@@ -39,5 +44,6 @@ public class InstanceRepositoryImpl implements InstanceRepositoryQuery{
 		
 		return query.getSingleResult();
 	}
+	
 
 }

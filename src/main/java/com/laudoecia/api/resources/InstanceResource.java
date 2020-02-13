@@ -60,9 +60,9 @@ public class InstanceResource {
 		this.service.Deletar(codigo);
 	}
 	
-	@GetMapping("/{codigo}")
-	public ResponseEntity<Instance> PorId(@PathVariable Long codigo){
-		Instance salvo = this.service.BuscarPorId(codigo);
+	@GetMapping("/{idinstance}")
+	public ResponseEntity<Instance> PorId(@PathVariable Long idinstance){
+		Instance salvo = this.service.BuscarPorId(idinstance);
 		return ResponseEntity.ok(salvo);
 	}
 	
