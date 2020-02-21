@@ -67,6 +67,7 @@ public class ServerDicom {
 		Patient patient = this.service.BuscarPorId(idpatient);
 		return ResponseEntity.ok(patient);
 	}
+	
 
 	@DeleteMapping("/{idpatient}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)

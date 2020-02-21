@@ -57,6 +57,7 @@ public class DicomReader {
     public String getPatientSex() { return this.attr.getString(Tag.PatientSex); }
     public String getPatientAge() { return this.attr.getString(Tag.PatientAge); }
     public Date getPatientBirthDay() { return this.attr.getDate(Tag.PatientBirthDate); }
+    public Attributes getAtributos() {return this.attr;};
     /************************** End of Patient Info ***************************************/
     
     

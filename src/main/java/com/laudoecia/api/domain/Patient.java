@@ -4,14 +4,19 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.dcm4che3.data.Attributes;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -33,6 +38,7 @@ public class Patient implements Serializable {
 	private List<Study> studyes;
 	private Endereco endereco;
 	private Contato contato;
+	private Attributes atributo;
 
 	public Patient() {
 		super();
@@ -115,6 +121,14 @@ public class Patient implements Serializable {
 
 	public void setStudyes(List<Study> studyes) {
 		this.studyes = studyes;
+	}
+	
+	public Attributes getAtributo() {
+		return atributo;
+	}
+	
+	public void setAtributo(Attributes atributo) {
+		this.atributo = atributo;
 	}
 
 	@Embedded

@@ -5,7 +5,11 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
+import org.dcm4che3.data.Attributes;
+
 public class Utils {
+	public static Attributes atributos;
+	public static int contador;
 
 	public static Dimension getScaledDimension(Dimension imgSize, Dimension boundary) {
 
@@ -43,4 +47,6 @@ public class Utils {
 			return null;
 		}
 	}
+
+	
 }

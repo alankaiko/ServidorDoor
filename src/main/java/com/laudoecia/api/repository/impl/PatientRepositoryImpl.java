@@ -36,7 +36,6 @@ public class PatientRepositoryImpl implements PatientRepositoryQuery{
 			e.printStackTrace();
 			return null;
 		}
-		
 	}
 	
 	@Override

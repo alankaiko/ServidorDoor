@@ -18,8 +18,6 @@ import org.dcm4che3.data.Sequence;
 import org.dcm4che3.data.Tag;
 import org.dcm4che3.data.UID;
 import org.dcm4che3.data.VR;
-import org.dcm4che3.io.DicomInputStream;
-import org.dcm4che3.io.DicomInputStream.IncludeBulkData;
 import org.dcm4che3.io.DicomOutputStream;
 import org.dcm4che3.media.DicomDirReader;
 import org.dcm4che3.media.DicomDirWriter;
@@ -55,7 +53,6 @@ import org.dcm4che3.net.service.InstanceLocator;
 import org.dcm4che3.net.service.QueryRetrieveLevel2;
 import org.dcm4che3.net.service.QueryTask;
 import org.dcm4che3.net.service.RetrieveTask;
-import org.dcm4che3.tool.common.FilesetInfo;
 import org.dcm4che3.util.AttributesFormat;
 import org.dcm4che3.util.SafeClose;
 import org.slf4j.Logger;
@@ -63,7 +60,6 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.eventbus.EventBus;
 import com.laudoecia.api.event.NewFileEvent;
-import com.laudoecia.api.utils.ConversorDicomJPG;
 
 public class DicomServer {
 	private static final Logger LOG = LoggerFactory.getLogger(DicomServer.class);
@@ -72,7 +68,6 @@ public class DicomServer {
 	private final ApplicationEntity ae = new ApplicationEntity("*");
 	private final Connection conn = new Connection();
 	private File storageDir;
-	private String armazenamentoimagem = "./arquivo/imagemjpeg";
 	private int status;
 	public EventBus eventBus;
 	private File dicomDir;
@@ -90,7 +85,6 @@ public class DicomServer {
 	private int errorCGet;
 	private boolean ignoreCaseOfPN;
 	private boolean matchNoValue;
-	private final FilesetInfo fsInfo = new FilesetInfo();
 	private DicomDirReader ddReader;
 	private DicomDirWriter ddWriter;
 	private HashMap<String, Connection> remoteConnections = new HashMap<String, Connection>();
@@ -109,6 +103,8 @@ public class DicomServer {
 		QueryRetrieveLevel2.PATIENT,
 		QueryRetrieveLevel2.STUDY);
 
+	
+	
 	private final class CStoreSCPImpl extends BasicCStoreSCP {
 
 		CStoreSCPImpl() {
@@ -116,20 +112,18 @@ public class DicomServer {
 		}
 
 		@Override
-		protected void store(Association as, PresentationContext pc, Attributes rq, PDVInputStream data, Attributes rsp)
-				throws IOException {
-			System.out.println("cstore 1");
+		protected void store(Association as, PresentationContext pc, Attributes rq, PDVInputStream data, Attributes rsp) throws IOException {
+			
 			rsp.setInt(Tag.Status, VR.US, status);
 			if (storageDir == null)
 				return;
-
+		
 			String ipAddress = as.getSocket().getInetAddress().getHostAddress(); // ip address
 			String associationName = as.toString();
 			String cuid = rq.getString(Tag.AffectedSOPClassUID);
 			String iuid = rq.getString(Tag.AffectedSOPInstanceUID);
 			String tsuid = pc.getTransferSyntax();
 
-			// File file = new File(storageDir, ipAddress + "_" + iuid + DCM_EXT);
 			File file = new File(storageDir, iuid + DCM_EXT);
 			try {
 				LOG.info("as: {}", as);
@@ -141,29 +135,23 @@ public class DicomServer {
 							file.getAbsolutePath(), ipAddress, associationName, cuid, iuid, tsuid);
 					return;
 				}
-
 				eventBus.post(new NewFileEvent(file));
-
 			} catch (EOFException e) {
 				LOG.error("Dicom Store EOFException: " + e.getMessage());
 			} catch (Exception e) {
 				deleteFile(as, file); // broken file, just remove...
 				LOG.error("Dicom Store Exception: " + e.getMessage());
 			}
-
 		}
 	};
 
 	private final class StgCmtSCPImpl extends AbstractDicomService {
-
 		public StgCmtSCPImpl() {
 			super(UID.StorageCommitmentPushModelSOPClass);
 		}
 
 		@Override
-		public void onDimseRQ(Association as, PresentationContext pc, Dimse dimse, Attributes rq, Attributes actionInfo)
-				throws IOException {
-			System.out.println("stgcmt 2");
+		public void onDimseRQ(Association as, PresentationContext pc, Dimse dimse, Attributes rq, Attributes actionInfo) throws IOException {
 			if (dimse != Dimse.N_ACTION_RQ)
 				throw new DicomServiceException(Status.UnrecognizedOperation);
 
@@ -202,35 +190,27 @@ public class DicomServer {
 
 		@Override
 		protected QueryTask calculateMatches(Association as, PresentationContext pc, Attributes rq, Attributes keys) throws DicomServiceException {
-			System.out.println("cfindscp 3");
 			QueryRetrieveLevel2 level = QueryRetrieveLevel2.validateQueryIdentifier(keys, qrLevels, relational(as, rq));
 			if (errorCFind != 0) {
-				System.out.println("12");
 				throw new DicomServiceException(errorCFind);
 			}
 
 			switch (level) {
 			case PATIENT:
-				System.out.println("13");
 				return new PatientQueryTask(as, pc, rq, keys, DicomServer.this);
 			case STUDY:
-				System.out.println("14");
 				return new StudyQueryTask(as, pc, rq, keys, DicomServer.this);
 			case SERIES:
-				System.out.println("15");
 				return new SeriesQueryTask(as, pc, rq, keys, DicomServer.this);
 			case IMAGE:
-				System.out.println("16");
 				return new InstanceQueryTask(as, pc, rq, keys, DicomServer.this);
 			default:
-				System.out.println("17");
 				assert true;
 			}
 			throw new AssertionError();
 		}
 	
 		private boolean relational(Association as, Attributes rq) {
-			System.out.println("18");
 			String cuid = rq.getString(Tag.AffectedSOPClassUID);
 			ExtendedNegotiation extNeg = as.getAAssociateAC().getExtNegotiationFor(cuid);
 			return QueryOption.toOptions(extNeg).contains(QueryOption.RELATIONAL);
@@ -249,7 +229,6 @@ public class DicomServer {
 
 		@Override
 		protected RetrieveTask calculateMatches(Association as, PresentationContext pc, Attributes rq, Attributes keys) throws DicomServiceException {
-			System.out.println("cgetscp 4");
 			QueryRetrieveLevel2.validateRetrieveIdentifier(keys, qrLevels, relational(as, rq));
 			if (errorCGet != 0)
 				throw new DicomServiceException(errorCGet);
@@ -329,7 +308,6 @@ public class DicomServer {
 
 		@Override
 		protected RetrieveTask calculateMatches(Association as, PresentationContext pc, final Attributes rq,Attributes keys) throws DicomServiceException {
-			System.out.println("cmovescp 5");
 			QueryRetrieveLevel2.validateRetrieveIdentifier(keys, qrLevels, relational(as, rq));
 			if (errorCMove != 0)
 				throw new DicomServiceException(errorCMove);
@@ -475,6 +453,7 @@ public class DicomServer {
 		DicomServiceRegistry serviceRegistry = new DicomServiceRegistry();
 		serviceRegistry.addDicomService(new BasicCEchoSCP());
 		serviceRegistry.addDicomService(new CStoreSCPImpl());
+		serviceRegistry.addDicomService(new StgCmtSCPImpl());
 		serviceRegistry.addDicomService(new CFindSCPImpl(UID.PatientRootQueryRetrieveInformationModelFIND, PATIENT_ROOT_LEVELS));
 		serviceRegistry.addDicomService(new CFindSCPImpl(UID.StudyRootQueryRetrieveInformationModelFIND, STUDY_ROOT_LEVELS));
 		serviceRegistry.addDicomService(new CFindSCPImpl(UID.PatientStudyOnlyQueryRetrieveInformationModelFINDRetired, PATIENT_STUDY_ONLY_LEVELS));

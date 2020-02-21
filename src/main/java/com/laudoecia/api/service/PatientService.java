@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -25,10 +26,15 @@ import com.laudoecia.api.repository.filtro.PatientFilter;
 import com.laudoecia.api.repository.resumo.ResumoPatient;
 
 @Service
+@Qualifier
 public class PatientService {
 	@Autowired
 	private PatientRepository dao;
 	private final Logger LOG = LoggerFactory.getLogger(PatientService.class);
+	
+	public PatientService() {
+		super();
+	}
 	
 	
 	@Value("${pacs.storage.dcm}")
