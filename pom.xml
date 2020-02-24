@@ -142,6 +142,13 @@
 			<version>2.2</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.dcm4che/dcm4che-cdi-rest -->
+		<dependency>
+			<groupId>org.dcm4che</groupId>
+			<artifactId>dcm4che-cdi-rest</artifactId>
+			<version>dcm4chee-arc-light-5.1.0</version>
+		</dependency>
+
 
 		<!-- https://mvnrepository.com/artifact/ca.uhn.hapi/hapi-structures-v25 -->
 		<dependency>
@@ -171,6 +178,14 @@
 			<version>1.4</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.dcm4che/dcm4che-hl7 -->
+		<dependency>
+			<groupId>org.dcm4che</groupId>
+			<artifactId>dcm4che-hl7</artifactId>
+			<version>5.18.1</version>
+		</dependency>
+
+		
 	</dependencies>
 
 	<build>

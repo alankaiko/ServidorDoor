@@ -69,7 +69,7 @@ public class DBServiceImpl implements DBService {
 					reader.getPatientID());
 		}
 		patient.setAtributo(reader.getAtributos());
-		Utils.atributos = patient.getAtributo();
+	
 		return patient;
 	}
 
