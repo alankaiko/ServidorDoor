@@ -2,21 +2,25 @@ package com.laudoecia.api.domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import org.dcm4che3.data.Attributes;
+import javax.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -25,7 +29,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @Table
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@idpatient")
 public class Patient implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 6430339764844147679L;
+    public static final String FIND_BY_PATIENT_FAMILY_NAME = "Patient.findByPatientFamilyName";
 
 	private Long idpatient;
 	private String patientid;
@@ -38,7 +43,20 @@ public class Patient implements Serializable {
 	private List<Study> studyes;
 	private Endereco endereco;
 	private Contato contato;
-	private Attributes atributo;
+    private PatientExtension extension;
+    private long version;
+    private boolean nopatientid;
+    private String patientcustomattribute1;
+    private String patientcustomattribute2;
+    private String patientcustomattribute3;
+    private AttributesBlob attributesblob;
+    private PersonName patientpersonname;
+    private List<Patient> previous;
+    private List<PatientID> patientids;
+    private List<MPPS> modalityperformedproceduresteps;
+    private List<MWLItem> modalityworklistitems;
+    private Patient mergedwith;
+    private Collection<PatientID> linkedpatientids;
 
 	public Patient() {
 		super();
@@ -123,13 +141,6 @@ public class Patient implements Serializable {
 		this.studyes = studyes;
 	}
 	
-	public Attributes getAtributo() {
-		return atributo;
-	}
-	
-	public void setAtributo(Attributes atributo) {
-		this.atributo = atributo;
-	}
 
 	@Embedded
 	public Endereco getEndereco() {
@@ -151,6 +162,136 @@ public class Patient implements Serializable {
 
 	public void setContato(Contato contato) {
 		this.contato = contato;
+	}
+
+	@Embedded
+	public PatientExtension getExtension() {
+		return extension;
+	}
+
+	public void setExtension(PatientExtension extension) {
+		this.extension = extension;
+	}
+
+	@Version
+	public long getVersion() {
+		return version;
+	}
+
+	public void setVersion(long version) {
+		this.version = version;
+	}
+
+	@Column(name = "no_pat_id")
+	public boolean isNopatientid() {
+		return nopatientid;
+	}
+
+	public void setNopatientid(boolean nopatientid) {
+		this.nopatientid = nopatientid;
+	}
+
+	@Column(name = "pat_custom1")
+	public String getPatientcustomattribute1() {
+		return patientcustomattribute1;
+	}
+
+	public void setPatientcustomattribute1(String patientcustomattribute1) {
+		this.patientcustomattribute1 = patientcustomattribute1;
+	}
+
+	@Column(name = "pat_custom2")
+	public String getPatientcustomattribute2() {
+		return patientcustomattribute2;
+	}
+
+	public void setPatientcustomattribute2(String patientcustomattribute2) {
+		this.patientcustomattribute2 = patientcustomattribute2;
+	}
+
+	@Column(name = "pat_custom3")
+	public String getPatientcustomattribute3() {
+		return patientcustomattribute3;
+	}
+
+	public void setPatientcustomattribute3(String patientcustomattribute3) {
+		this.patientcustomattribute3 = patientcustomattribute3;
+	}
+
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, optional = false)
+    @JoinColumn(name = "dicomattrs_fk")
+	public AttributesBlob getAttributesblob() {
+		return attributesblob;
+	}
+
+	public void setAttributesblob(AttributesBlob attributesblob) {
+		this.attributesblob = attributesblob;
+	}
+
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "pat_name_fk")
+	public PersonName getPatientpersonname() {
+		return patientpersonname;
+	}
+
+	public void setPatientpersonname(PersonName patientpersonname) {
+		this.patientpersonname = patientpersonname;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "merge_fk", referencedColumnName = "idpatient")
+	public Patient getMergedwith() {
+		return mergedwith;
+	}
+
+	public void setMergedwith(Patient mergedwith) {
+		this.mergedwith = mergedwith;
+	}
+
+	@OneToMany(mappedBy = "mergedwith", orphanRemoval = true)
+	public List<Patient> getPrevious() {
+		return previous;
+	}
+
+	public void setPrevious(List<Patient> previous) {
+		this.previous = previous;
+	}
+
+	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+	public List<PatientID> getPatientids() {
+		return patientids;
+	}
+
+	public void setPatientids(List<PatientID> patientids) {
+		this.patientids = patientids;
+	}
+
+	@ManyToMany
+    @JoinTable(name = "rel_linked_patient_id", joinColumns = @JoinColumn(name = "patient_fk", referencedColumnName = "idpatient"), inverseJoinColumns = @JoinColumn(name = "patient_id_fk", referencedColumnName = "codigo"))
+	public Collection<PatientID> getLinkedpatientids() {
+		return linkedpatientids;
+	}
+
+	public void setLinkedpatientids(Collection<PatientID> linkedpatientids) {
+		this.linkedpatientids = linkedpatientids;
+	}
+
+	@OneToMany(mappedBy = "patient", orphanRemoval = true)
+	public List<MPPS> getModalityperformedproceduresteps() {
+		return modalityperformedproceduresteps;
+	}
+	
+	public void setModalityperformedproceduresteps(List<MPPS> modalityperformedproceduresteps) {
+		this.modalityperformedproceduresteps = modalityperformedproceduresteps;
+	}
+
+	@OneToMany(mappedBy = "patient", orphanRemoval = true)
+	public List<MWLItem> getModalityworklistitems() {
+		return modalityworklistitems;
+	}
+
+	public void setModalityworklistitems(List<MWLItem> modalityworklistitems) {
+		this.modalityworklistitems = modalityworklistitems;
 	}
 
 }

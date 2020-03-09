@@ -68,7 +68,6 @@ public class DBServiceImpl implements DBService {
 			LOG.info("Patient already exists; Patient Name: {}, Patient ID: {} ", reader.getPatientName(),
 					reader.getPatientID());
 		}
-		patient.setAtributo(reader.getAtributos());
 	
 		return patient;
 	}

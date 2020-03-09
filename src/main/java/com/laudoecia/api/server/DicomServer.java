@@ -13,13 +13,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 import org.dcm4che3.data.Attributes;
-import org.dcm4che3.data.IOD;
 import org.dcm4che3.data.Sequence;
 import org.dcm4che3.data.Tag;
 import org.dcm4che3.data.UID;
 import org.dcm4che3.data.VR;
-import org.dcm4che3.data.ValidationResult;
-import org.dcm4che3.io.DicomInputStream;
 import org.dcm4che3.io.DicomOutputStream;
 import org.dcm4che3.media.DicomDirReader;
 import org.dcm4che3.media.DicomDirWriter;
@@ -48,7 +45,6 @@ import org.dcm4che3.net.service.BasicCFindSCP;
 import org.dcm4che3.net.service.BasicCGetSCP;
 import org.dcm4che3.net.service.BasicCMoveSCP;
 import org.dcm4che3.net.service.BasicCStoreSCP;
-import org.dcm4che3.net.service.BasicMPPSSCP;
 import org.dcm4che3.net.service.BasicRetrieveTask;
 import org.dcm4che3.net.service.DicomServiceException;
 import org.dcm4che3.net.service.DicomServiceRegistry;
@@ -56,6 +52,7 @@ import org.dcm4che3.net.service.InstanceLocator;
 import org.dcm4che3.net.service.QueryRetrieveLevel2;
 import org.dcm4che3.net.service.QueryTask;
 import org.dcm4che3.net.service.RetrieveTask;
+import org.dcm4che3.tool.dcm2jpg.Dcm2Jpg;
 import org.dcm4che3.util.AttributesFormat;
 import org.dcm4che3.util.SafeClose;
 import org.slf4j.Logger;
@@ -67,13 +64,11 @@ import com.laudoecia.api.utils.Utils;
 
 public class DicomServer {
 	private static final Logger LOG = LoggerFactory.getLogger(DicomServer.class);
-	private DicomServiceRegistry serviceRegistry;
 	private static final String DCM_EXT = ".dcm";
 	private final Device device = new Device("storescp");
 	private final ApplicationEntity ae = new ApplicationEntity("*");
 	private final Connection conn = new Connection();
 	private File storageDir;
-	private DicomDirReader aff;
 	private int status;
 	public EventBus eventBus;
 	private File dicomDir;
@@ -115,26 +110,22 @@ public class DicomServer {
 
 		CStoreSCPImpl() {
 			super("*");
-			System.out.println("1");
 		}
 
 		@Override
 		protected void store(Association as, PresentationContext pc, Attributes rq, PDVInputStream data, Attributes rsp) throws IOException {
-			System.out.println("2");
+			
 			rsp.setInt(Tag.Status, VR.US, status);
 			if (storageDir == null)
 				return;
-		
+			
 			String ipAddress = as.getSocket().getInetAddress().getHostAddress(); // ip address
 			String associationName = as.toString();
 			String cuid = rq.getString(Tag.AffectedSOPClassUID);
 			String iuid = rq.getString(Tag.AffectedSOPInstanceUID);
 			String tsuid = pc.getTransferSyntax();
-			Utils.atributos = rsp;
-			if(Utils.atributos != null)
-				System.out.println("eitan canseira");
+
 			File file = new File(storageDir, iuid + DCM_EXT);
-		
 			try {
 				LOG.info("as: {}", as);
 				storeTo(as, as.createFileMetaInformation(iuid, cuid, tsuid), data, file);
@@ -154,15 +145,123 @@ public class DicomServer {
 			}
 		}
 	};
+	
+	private final class CFindSCPImpl extends BasicCFindSCP {
+		private final EnumSet<QueryRetrieveLevel2> qrLevels;
+		public CFindSCPImpl(String sopClass, EnumSet<QueryRetrieveLevel2> qrLevels) {
+			super(sopClass);
+			this.qrLevels = qrLevels;
+		}
 
 
-	Connection getRemoteConnection(String dest) {
-		System.out.println("5");
-		return conn;
+		@Override
+		protected QueryTask calculateMatches(Association as, PresentationContext pc, Attributes rq, Attributes keys) throws DicomServiceException {
+			try {
+				QueryRetrieveLevel2 level = QueryRetrieveLevel2.validateQueryIdentifier(keys, qrLevels, relational(as, rq));
+				if (errorCFind != 0) {
+					throw new DicomServiceException(errorCFind);
+				}
+				
+				String ipAddress = as.getSocket().getInetAddress().getHostAddress(); // ip address
+				String associationName = as.toString();
+				System.out.println("ipaddres : "+ ipAddress);
+				System.out.println("associationName : "+ associationName);
+				switch (level) {
+				case PATIENT:
+					return new PatientQueryTask(as, pc, rq, keys, DicomServer.this);
+				case STUDY:
+					return new StudyQueryTask(as, pc, rq, keys, DicomServer.this);
+				case SERIES:
+//					return new SeriesQueryTask(as, pc, rq, keys, DicomServer.this);
+//				case IMAGE:
+//					return new InstanceQueryTask(as, pc, rq, keys, DicomServer.this);
+				default:
+					assert true;
+				}
+				throw new AssertionError();
+			} catch (Exception e) {
+				System.out.println("deu merda aqui");
+				e.printStackTrace();
+				return null;
+			}
+		}
+	
+		private boolean relational(Association as, Attributes rq) {
+			String cuid = rq.getString(Tag.AffectedSOPClassUID);
+			ExtendedNegotiation extNeg = as.getAAssociateAC().getExtNegotiationFor(cuid);
+			return QueryOption.toOptions(extNeg).contains(QueryOption.RELATIONAL);
+		}
+	}
+
+
+	private final class StgCmtSCPImpl extends AbstractDicomService {
+		public StgCmtSCPImpl() {
+			super(UID.StorageCommitmentPushModelSOPClass);
+		}
+
+		@Override
+		public void onDimseRQ(Association as, PresentationContext pc, Dimse dimse, Attributes rq, Attributes actionInfo) throws IOException {
+			if (dimse != Dimse.N_ACTION_RQ)
+				throw new DicomServiceException(Status.UnrecognizedOperation);
+			
+			int actionTypeID = rq.getInt(Tag.ActionTypeID, 0);
+			if (actionTypeID != 1)
+				throw new DicomServiceException(Status.NoSuchActionType).setActionTypeID(actionTypeID);
+
+			Attributes rsp = Commands.mkNActionRSP(rq, Status.Success);
+			String callingAET = as.getCallingAET();
+			String calledAET = as.getCalledAET();
+			Connection remoteConnection = getRemoteConnection(callingAET);
+			remoteConnection = conn;
+			if (conn == null)
+				throw new DicomServiceException(Status.ProcessingFailure, "Unknown Calling AET: " + callingAET);
+			Attributes eventInfo = calculateStorageCommitmentResult(calledAET, actionInfo);
+			try {
+				as.writeDimseRSP(pc, rsp, null);
+				device.execute(new SendStgCmtResult(as, eventInfo, stgCmtOnSameAssoc, remoteConnection));
+			} catch (AssociationStateException e) {
+				LOG.warn("{} << N-ACTION-RSP failed: {}", as, e.getMessage());
+			}
+		}
+
 	}
 	
+	
+	private final class CGetSCPImpl extends BasicCGetSCP {
+		private final EnumSet<QueryRetrieveLevel2> qrLevels;
+		private final boolean withoutBulkData;
+
+		public CGetSCPImpl(String sopClass, EnumSet<QueryRetrieveLevel2> qrLevels) {
+			super(sopClass);
+			this.qrLevels = qrLevels;
+			this.withoutBulkData = qrLevels.size() == 1;
+		}
+
+		@Override
+		protected RetrieveTask calculateMatches(Association as, PresentationContext pc, Attributes rq, Attributes keys) throws DicomServiceException {
+			QueryRetrieveLevel2.validateRetrieveIdentifier(keys, qrLevels, relational(as, rq));
+			if (errorCGet != 0)
+				throw new DicomServiceException(errorCGet);
+
+			List<InstanceLocator> matches = DicomServer.this.calculateMatches(keys);
+			if (matches.isEmpty())
+				return null;
+
+			RetrieveTaskImpl retrieveTask = new RetrieveTaskImpl(Dimse.C_GET_RQ, as, pc, rq, matches, as, withoutBulkData, delayCStore);
+			retrieveTask.setSendPendingRSP(isSendPendingCGet());
+			return retrieveTask;
+		}
+
+		private boolean relational(Association as, Attributes rq) {
+			String cuid = rq.getString(Tag.AffectedSOPClassUID);
+			ExtendedNegotiation extNeg = as.getAAssociateAC().getExtNegotiationFor(cuid);
+			return QueryOption.toOptions(extNeg).contains(QueryOption.RELATIONAL);
+		}
+
+	}
+
 	public List<InstanceLocator> calculateMatches(Attributes keys) throws DicomServiceException {
-		System.out.println("12");
+		System.out.println("calculando ");
 		try {
 			List<InstanceLocator> list = new ArrayList<InstanceLocator>();
 			String[] patIDs = keys.getStrings(Tag.PatientID);
@@ -210,9 +309,67 @@ public class DicomServer {
 		}
 	}
 
+	private final class CMoveSCPImpl extends BasicCMoveSCP {
+		private final EnumSet<QueryRetrieveLevel2> qrLevels;
+
+		public CMoveSCPImpl(String sopClass, EnumSet<QueryRetrieveLevel2> qrLevels) {
+			super(sopClass);
+			this.qrLevels = qrLevels;
+		}
+
+		@Override
+		protected RetrieveTask calculateMatches(Association as, PresentationContext pc, final Attributes rq,Attributes keys) throws DicomServiceException {
+			QueryRetrieveLevel2.validateRetrieveIdentifier(keys, qrLevels, relational(as, rq));
+			if (errorCMove != 0)
+				throw new DicomServiceException(errorCMove);
+
+			String moveDest = rq.getString(Tag.MoveDestination);
+			final Connection remote = getRemoteConnection(moveDest);
+			if (remote == null)
+				throw new DicomServiceException(Status.MoveDestinationUnknown, "Move Destination: " + moveDest + " unknown");
+			List<InstanceLocator> matches = DicomServer.this.calculateMatches(keys);
+			if (matches.isEmpty())
+				return null;
+
+			AAssociateRQ aarq = makeAAssociateRQ(as.getLocalAET(), moveDest, matches);
+			Association storeas = openStoreAssociation(as, remote, aarq);
+			BasicRetrieveTask retrieveTask = new RetrieveTaskImpl(Dimse.C_MOVE_RQ, as, pc, rq, matches, storeas, false, delayCStore);
+			retrieveTask.setSendPendingRSPInterval(getSendPendingCMoveInterval());
+			return retrieveTask;
+		}
+
+		private Association openStoreAssociation(Association as, Connection remote, AAssociateRQ aarq)
+				throws DicomServiceException {
+			try {
+				return as.getApplicationEntity().connect(as.getConnection(), remote, aarq);
+			} catch (Exception e) {
+				throw new DicomServiceException(Status.UnableToPerformSubOperations, e);
+			}
+		}
+
+		private AAssociateRQ makeAAssociateRQ(String callingAET, String calledAET, List<InstanceLocator> matches) {
+			AAssociateRQ aarq = new AAssociateRQ();
+			aarq.setCalledAET(calledAET);
+			aarq.setCallingAET(callingAET);
+			for (InstanceLocator match : matches) {
+				if (aarq.addPresentationContextFor(match.cuid, match.tsuid)) {
+					if (!UID.ExplicitVRLittleEndian.equals(match.tsuid))
+						aarq.addPresentationContextFor(match.cuid, UID.ExplicitVRLittleEndian);
+					if (!UID.ImplicitVRLittleEndian.equals(match.tsuid))
+						aarq.addPresentationContextFor(match.cuid, UID.ImplicitVRLittleEndian);
+				}
+			}
+			return aarq;
+		}
+
+		private boolean relational(Association as, Attributes rq) {
+			String cuid = rq.getString(Tag.AffectedSOPClassUID);
+			ExtendedNegotiation extNeg = as.getAAssociateAC().getExtNegotiationFor(cuid);
+			return QueryOption.toOptions(extNeg).contains(QueryOption.RELATIONAL);
+		}
+	}
 
 	public DicomServer() throws IOException {
-		System.out.println("18");
 		device.setDimseRQHandler(createServiceRegistry());
 		device.addConnection(conn);
 		device.addApplicationEntity(ae);
@@ -222,7 +379,6 @@ public class DicomServer {
 	}
 
 	private void storeTo(Association as, Attributes fmi, PDVInputStream data, File file) throws IOException {
-		System.out.println("19");
 		LOG.info("{}: M-WRITE {}", as, file);
 		file.getParentFile().mkdirs();
 		DicomOutputStream out = new DicomOutputStream(file);
@@ -234,23 +390,24 @@ public class DicomServer {
 		}
 	}
 
-	public Attributes calculateStorageCommitmentResult(String calledAET, Attributes actionInfo) throws DicomServiceException {
-		System.out.println("20");
-		Sequence requestSeq = actionInfo.getSequence(Tag.ReferencedSOPSequence);
-		
-		int size = 10;
-		String[] sopIUIDs = new String[size];
+	public Attributes calculateStorageCommitmentResult(String calledAET, Attributes actionInfos) throws DicomServiceException {
+		Attributes at = null;
+		Sequence requestSeq = at.getSequence(Tag.ReferencedSOPSequence);
+
+		int size = 300;
+		String[] sopIUIDs = new String[1];
 		Attributes eventInfo = new Attributes(6);
 		eventInfo.setString(Tag.RetrieveAETitle, VR.AE, calledAET);
 		eventInfo.setString(Tag.StorageMediaFileSetID, VR.SH, ddReader.getFileSetID());
 		eventInfo.setString(Tag.StorageMediaFileSetUID, VR.SH, ddReader.getFileSetUID());
-		eventInfo.setString(Tag.TransactionUID, VR.UI, actionInfo.getString(Tag.TransactionUID));
+		eventInfo.setString(Tag.TransactionUID, VR.UI, at.getString(Tag.TransactionUID));
 		Sequence successSeq = eventInfo.newSequence(Tag.ReferencedSOPSequence, size);
 		Sequence failedSeq = eventInfo.newSequence(Tag.FailedSOPSequence, size);
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>(size * 4 / 3);
 		for (int i = 0; i < sopIUIDs.length; i++) {
 			Attributes item = requestSeq.get(i);
-			map.put(sopIUIDs[i] = item.getString(Tag.ReferencedSOPInstanceUID), item.getString(Tag.ReferencedSOPClassUID));
+			map.put(sopIUIDs[i] = item.getString(Tag.ReferencedSOPInstanceUID),
+					item.getString(Tag.ReferencedSOPClassUID));
 		}
 		DicomDirReader ddr = ddReader;
 		try {
@@ -289,7 +446,6 @@ public class DicomServer {
 	}
 
 	private static Attributes refSOP(String iuid, String cuid, int failureReason) {
-		System.out.println("21");
 		Attributes attrs = new Attributes(3);
 		attrs.setString(Tag.ReferencedSOPClassUID, VR.UI, cuid);
 		attrs.setString(Tag.ReferencedSOPInstanceUID, VR.UI, iuid);
@@ -299,7 +455,6 @@ public class DicomServer {
 	}
 
 	private static void deleteFile(Association as, File file) {
-		System.out.println("22");
 		if (file.delete())
 			LOG.info("{}: M-DELETE {}", as, file);
 		else
@@ -307,18 +462,24 @@ public class DicomServer {
 	}
 
 	private DicomServiceRegistry createServiceRegistry() {
-		System.out.println("23");
-		this.serviceRegistry = new DicomServiceRegistry();
-		this.serviceRegistry.addDicomService(new BasicCEchoSCP());
-		this.serviceRegistry.addDicomService(new CStoreSCPImpl());
-		this.serviceRegistry.addDicomService(new BasicCFindSCP(UID.StudyRootQueryRetrieveInformationModelFIND));
-		this.serviceRegistry.addDicomService(new BasicCFindSCP(UID.PatientRootQueryRetrieveInformationModelFIND));
-		this.serviceRegistry.addDicomService(new BasicCFindSCP(UID.PatientStudyOnlyQueryRetrieveInformationModelFINDRetired));
-		return this.serviceRegistry;
+		DicomServiceRegistry serviceRegistry = new DicomServiceRegistry();
+		serviceRegistry.addDicomService(new BasicCEchoSCP());
+		serviceRegistry.addDicomService(new CStoreSCPImpl());
+		serviceRegistry.addDicomService(new StgCmtSCPImpl());
+		//serviceRegistry.addDicomService(new CFindSCPImpl(UID.PatientRootQueryRetrieveInformationModelFIND, PATIENT_ROOT_LEVELS));
+		//serviceRegistry.addDicomService(new CFindSCPImpl(UID.StudyRootQueryRetrieveInformationModelFIND, STUDY_ROOT_LEVELS));
+		//serviceRegistry.addDicomService(new CFindSCPImpl(UID.PatientStudyOnlyQueryRetrieveInformationModelFINDRetired, PATIENT_STUDY_ONLY_LEVELS));
+		serviceRegistry.addDicomService(new CGetSCPImpl(UID.PatientRootQueryRetrieveInformationModelGET, PATIENT_ROOT_LEVELS));
+		serviceRegistry.addDicomService(new CGetSCPImpl(UID.StudyRootQueryRetrieveInformationModelGET, STUDY_ROOT_LEVELS));
+		serviceRegistry.addDicomService(new CGetSCPImpl(UID.PatientStudyOnlyQueryRetrieveInformationModelGETRetired, PATIENT_STUDY_ONLY_LEVELS));
+		serviceRegistry.addDicomService(new CGetSCPImpl(UID.CompositeInstanceRetrieveWithoutBulkDataGET, EnumSet.of(QueryRetrieveLevel2.IMAGE)));
+		serviceRegistry.addDicomService(new CMoveSCPImpl(UID.PatientRootQueryRetrieveInformationModelMOVE, PATIENT_ROOT_LEVELS));
+		serviceRegistry.addDicomService(new CMoveSCPImpl(UID.StudyRootQueryRetrieveInformationModelMOVE, STUDY_ROOT_LEVELS));
+		serviceRegistry.addDicomService(new CMoveSCPImpl(UID.PatientStudyOnlyQueryRetrieveInformationModelMOVERetired, PATIENT_STUDY_ONLY_LEVELS));
+		return serviceRegistry;
 	}
 
 	public static void configureConn(Connection conn) {
-		System.out.println("24");
 		conn.setReceivePDULength(Connection.DEF_MAX_PDU_LENGTH);
 		conn.setSendPDULength(Connection.DEF_MAX_PDU_LENGTH);
 
@@ -336,7 +497,7 @@ public class DicomServer {
 
 	public static DicomServer init(String aeHost, int aePort, String aeTitle, String storageDirectory, EventBus eventBus) {
 		LOG.info("Bind to: " + aeTitle + "@" + aeHost + ":" + aePort + "; storage: " + storageDirectory);
-		System.out.println("25");
+
 		DicomServer ds = null;
 		try {
 			ds = new DicomServer();
@@ -370,10 +531,12 @@ public class DicomServer {
 	}
 
 	private AssociationHandler associationHandler = new AssociationHandler() {
+
 		@Override
-		protected AAssociateAC makeAAssociateAC(Association as, AAssociateRQ rq, UserIdentityAC arg2)throws IOException {
+		protected AAssociateAC makeAAssociateAC(Association as, AAssociateRQ rq, UserIdentityAC arg2)
+				throws IOException {
 			State st = as.getState();
-			System.out.println("26");
+
 			if (as != null) {
 				LOG.info("makeAAssociateAC: {}  Associate State: {}  Associate State Name: {}", as.toString(), st,
 						st.name());
@@ -399,7 +562,7 @@ public class DicomServer {
 
 		@Override
 		protected AAssociateAC negotiate(Association as, AAssociateRQ rq) throws IOException {
-			System.out.println("27");
+
 			if (as != null)
 				LOG.info("AAssociateAC negotiate:{}", as.toString());
 
@@ -408,7 +571,7 @@ public class DicomServer {
 
 		@Override
 		protected void onClose(Association as) {
-			System.out.println("28");
+
 			State st = as.getState();
 
 			if (as != null && st == State.Sta13) {
@@ -428,6 +591,10 @@ public class DicomServer {
 			super.onClose(as);
 		}
 	};
+	
+	Connection getRemoteConnection(String dest) {
+		return this.conn;
+	}
 
 	public void setStorageDirectory(File storageDir) {
 		if (storageDir != null)

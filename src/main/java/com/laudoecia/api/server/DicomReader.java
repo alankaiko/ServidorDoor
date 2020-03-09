@@ -62,7 +62,19 @@ public class DicomReader {
     
     
     /********************************************** Study Info *********************************************************************/
-    public String getAccessionNumber() { return this.attr.getString(Tag.AccessionNumber); }
+    public String getAccessionNumber() { 
+    	System.out.println("AccessionNumber" + this.attr.getVR(Tag.AccessionNumber));
+    	System.out.println("AdditionalPatientHistory" + this.attr.getVR(Tag.AdditionalPatientHistory));
+    	System.out.println("AdmittingDiagnosesDescription" + this.attr.getVR(Tag.AdmittingDiagnosesDescription));
+    	System.out.println("ReferringPhysicianName" + this.attr.getVR(Tag.ReferringPhysicianName));
+    	//System.out.println("StudyDateAndTime" + this.attr.getVR(Tag.StudyDateAndTime));
+    	System.out.println("StudyID" + this.attr.getVR(Tag.StudyID));
+    	System.out.println("StudyDescription" + this.attr.getVR(Tag.StudyDescription));
+    	System.out.println("StudyInstanceUID" + this.attr.getVR(Tag.StudyInstanceUID));
+    	System.out.println("StudyPriorityID" + this.attr.getVR(Tag.StudyPriorityID));
+    	System.out.println("StudyStatusID" + this.attr.getVR(Tag.StudyStatusID));
+    	return this.attr.getString(Tag.AccessionNumber);
+    }
     public String getAdditionalPatientHistory() { return this.attr.getString(Tag.AdditionalPatientHistory); }
     public String getAdmittingDiagnosesDescription() { return this.attr.getString(Tag.AdmittingDiagnosesDescription); }
     public String getReferringPhysicianName() { return this.attr.getString(Tag.ReferringPhysicianName); }    
