@@ -1,0 +1,334 @@
+package com.laudoecia.api.worklistes;
+
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Version;
+
+import org.apache.commons.csv.CSVPrinter;
+import org.dcm4che3.util.StringUtils;
+
+
+@Entity
+@Table(name = "export_task",
+    indexes = {
+        @Index(columnList = "device_name"),
+        @Index(columnList = "created_time"),
+        @Index(columnList = "updated_time"),
+        @Index(columnList = "scheduled_time"),
+        @Index(columnList = "exporter_id"),
+        @Index(columnList = "batch_id"),
+        @Index(columnList = "study_iuid, series_iuid, sop_iuid") }
+)
+@NamedQueries({
+        @NamedQuery(name = ExportTask.FIND_SCHEDULED_BY_DEVICE_NAME,
+                query = "select o.pk from ExportTask o where o.deviceName=?1 and o.scheduledTime < current_timestamp " +
+                        "and o.queueMessage is null"),
+        @NamedQuery(name = ExportTask.FIND_BY_EXPORTER_ID_AND_STUDY_IUID,
+                query = "select o from ExportTask o where o.exporterID=?1 and o.studyInstanceUID=?2 " +
+                        "and o.queueMessage is null"),
+        @NamedQuery(name = ExportTask.FIND_BY_EXPORTER_ID_AND_STUDY_IUID_AND_SERIES_IUID,
+                query = "select o from ExportTask o where o.exporterID=?1 and o.studyInstanceUID=?2 " +
+                        "and o.seriesInstanceUID in ('*',?3) " +
+                        "and o.queueMessage is null"),
+        @NamedQuery(name = ExportTask.FIND_BY_EXPORTER_ID_AND_STUDY_IUID_AND_SERIES_IUID_AND_SOP_IUID,
+                query = "select o from ExportTask o where o.exporterID=?1 and o.studyInstanceUID=?2 " +
+                        "and o.seriesInstanceUID in ('*',?3) and o.sopInstanceUID in ('*',?4) " +
+                        "and o.queueMessage is null"),
+        @NamedQuery(name = ExportTask.FIND_DEVICE_BY_PK,
+                query = "select o.deviceName from ExportTask o where o.pk=?1"),
+        @NamedQuery(name = ExportTask.FIND_STUDY_EXPORT_AFTER,
+                query = "select o from ExportTask o where o.updatedTime > ?1 and o.exporterID=?2 " +
+                        "and o.studyInstanceUID=?3 and o.seriesInstanceUID='*'")
+})
+public class ExportTask {
+
+    public static final String FIND_SCHEDULED_BY_DEVICE_NAME =
+            "ExportTask.FindScheduledByDeviceName";
+    public static final String FIND_BY_EXPORTER_ID_AND_STUDY_IUID =
+            "ExportTask.FindByExporterIDAndStudyIUID";
+    public static final String FIND_BY_EXPORTER_ID_AND_STUDY_IUID_AND_SERIES_IUID =
+            "ExportTask.FindByExporterIDAndStudyIUIDAndSeriesIUID";
+    public static final String FIND_BY_EXPORTER_ID_AND_STUDY_IUID_AND_SERIES_IUID_AND_SOP_IUID =
+            "ExportTask.FindByExporterIDAndStudyIUIDAndSeriesIUIDAndSopInstanceUID";
+    public static final String FIND_DEVICE_BY_PK = "ExportTask.FindDeviceByPk";
+    public static final String FIND_STUDY_EXPORT_AFTER = "ExportTask.FindStudyExportAfter";
+
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "pk")
+    private long pk;
+
+    @Version
+    @Column(name = "version")
+    private long version;
+
+    @Basic(optional = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_time", updatable = false)
+    private Date createdTime;
+
+    @Basic(optional = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updated_time")
+    private Date updatedTime;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "scheduled_time")
+    private Date scheduledTime;
+
+    @Basic(optional = false)
+    @Column(name = "device_name")
+    private String deviceName;
+
+    @Basic(optional = false)
+    @Column(name = "exporter_id")
+    private String exporterID;
+
+    @Column(name = "batch_id", updatable = false)
+    private String batchID;
+
+    @Basic(optional = false)
+    @Column(name = "study_iuid", updatable = false)
+    private String studyInstanceUID;
+
+    @Basic(optional = false)
+    @Column(name = "series_iuid")
+    private String seriesInstanceUID;
+
+    @Basic(optional = false)
+    @Column(name = "sop_iuid")
+    private String sopInstanceUID;
+
+    @Column(name = "num_instances")
+    private Integer numberOfInstances;
+
+    @Column(name = "modalities")
+    private String modalities;
+
+    @OneToOne(cascade=CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "queue_msg_fk")
+    private QueueMessage queueMessage;
+
+
+    @PrePersist
+    public void onPrePersist() {
+        Date now = new Date();
+        createdTime = now;
+        updatedTime = now;
+    }
+
+    @PreUpdate
+    public void onPreUpdate() {
+        setUpdatedTime();
+    }
+
+    public void setUpdatedTime() {
+        updatedTime = new Date();
+    }
+
+    public long getPk() {
+        return pk;
+    }
+
+    public Date getCreatedTime() {
+        return createdTime;
+    }
+
+    public Date getUpdatedTime() {
+        return updatedTime;
+    }
+
+    public Date getScheduledTime() {
+        return scheduledTime;
+    }
+
+    public void setScheduledTime(Date scheduledTime) {
+        this.scheduledTime = scheduledTime;
+    }
+
+    public String getDeviceName() {
+        return deviceName;
+    }
+
+    public void setDeviceName(String deviceName) {
+        this.deviceName = deviceName;
+    }
+
+    public String getExporterID() {
+        return exporterID;
+    }
+
+    public void setExporterID(String exporterID) {
+        this.exporterID = exporterID;
+    }
+
+    public String getBatchID() {
+        return batchID;
+    }
+
+    public void setBatchID(String batchID) {
+        this.batchID = batchID;
+    }
+
+    public String getStudyInstanceUID() {
+        return studyInstanceUID;
+    }
+
+    public void setStudyInstanceUID(String studyInstanceUID) {
+        this.studyInstanceUID = studyInstanceUID;
+    }
+
+    public String getSeriesInstanceUID() {
+        return seriesInstanceUID;
+    }
+
+    public void setSeriesInstanceUID(String seriesInstanceUID) {
+        this.seriesInstanceUID = seriesInstanceUID;
+    }
+
+    public String getSopInstanceUID() {
+        return sopInstanceUID;
+    }
+
+    public void setSopInstanceUID(String sopInstanceUID) {
+        this.sopInstanceUID = sopInstanceUID;
+    }
+
+    public Integer getNumberOfInstances() {
+        return numberOfInstances;
+    }
+
+    public void setNumberOfInstances(Integer numberOfInstances) {
+        this.numberOfInstances = numberOfInstances;
+    }
+
+    public String[] getModalities() {
+        return StringUtils.split(modalities, '\\');
+    }
+
+    public void setModalities(String[] modalities) {
+        this.modalities = StringUtils.concat(modalities, '\\');
+    }
+
+    public QueueMessage getQueueMessage() {
+        return queueMessage;
+    }
+
+    public void setQueueMessage(QueueMessage queueMessage) {
+        this.queueMessage = queueMessage;
+    }
+
+
+    public static final String[] header = {
+            "pk",
+            "createdTime",
+            "updatedTime",
+            "ExporterID",
+            "LocalAET",
+            "StudyInstanceUID",
+            "SeriesInstanceUID",
+            "SOPInstanceUID",
+            "NumberOfInstances",
+            "Modality",
+            "batchID",
+            "dicomDeviceName",
+            "scheduledTime",
+            "status",
+            "JMSMessageID",
+            "queue",
+            "failures",
+            "processingStartTime",
+            "processingEndTime",
+            "errorMessage",
+            "outcomeMessage"
+    };
+
+    public void printRecord(CSVPrinter printer, String localAET) throws IOException {
+        if (queueMessage == null)
+            printExportTask(printer, localAET);
+        else
+            printExportTaskWithQueueMsg(printer, localAET);
+    }
+
+    private void printExportTask(CSVPrinter printer, String localAET) throws IOException {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        printer.printRecord(
+                String.valueOf(pk),
+                df.format(createdTime),
+                df.format(updatedTime),
+                exporterID,
+                localAET,
+                studyInstanceUID,
+                !seriesInstanceUID.equals("*") ? seriesInstanceUID : null,
+                !sopInstanceUID.equals("*") ? sopInstanceUID : null,
+                numberOfInstances != null ? numberOfInstances.toString() : null,
+                modalities,
+                batchID,
+                deviceName,
+                scheduledTime,
+                "TO_SCHEDULE",
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
+    }
+
+    private void printExportTaskWithQueueMsg(CSVPrinter printer, String localAET) throws IOException {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        printer.printRecord(
+                String.valueOf(pk),
+                df.format(createdTime),
+                df.format(updatedTime),
+                exporterID,
+                localAET,
+                studyInstanceUID,
+                !seriesInstanceUID.equals("*") ? seriesInstanceUID : null,
+                !sopInstanceUID.equals("*") ? sopInstanceUID : null,
+                numberOfInstances != null ? numberOfInstances.toString() : null,
+                modalities,
+                batchID,
+                deviceName,
+                scheduledTime,
+                queueMessage.getStatus().toString(),
+                queueMessage.getMessageID(),
+                queueMessage.getQueueName(),
+                queueMessage.getNumberOfFailures() > 0 ? String.valueOf(queueMessage.getNumberOfFailures()) : null,
+                queueMessage.getProcessingStartTime() != null ? df.format(queueMessage.getProcessingStartTime()) : null,
+                queueMessage.getProcessingEndTime() != null ? df.format(queueMessage.getProcessingEndTime()) : null,
+                queueMessage.getErrorMessage(),
+                queueMessage.getOutcomeMessage());
+    }
+
+    @Override
+    public String toString() {
+        return "ExportTask[pk=" + pk
+                + ", exporterID=" + exporterID
+                + ", studyUID=" + studyInstanceUID
+                + ", seriesUID=" + seriesInstanceUID
+                + ", objectUID=" + sopInstanceUID
+                + "]";
+    }
+}
