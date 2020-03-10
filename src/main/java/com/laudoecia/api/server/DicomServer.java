@@ -52,7 +52,6 @@ import org.dcm4che3.net.service.InstanceLocator;
 import org.dcm4che3.net.service.QueryRetrieveLevel2;
 import org.dcm4che3.net.service.QueryTask;
 import org.dcm4che3.net.service.RetrieveTask;
-import org.dcm4che3.tool.dcm2jpg.Dcm2Jpg;
 import org.dcm4che3.util.AttributesFormat;
 import org.dcm4che3.util.SafeClose;
 import org.slf4j.Logger;
@@ -60,7 +59,6 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.eventbus.EventBus;
 import com.laudoecia.api.event.NewFileEvent;
-import com.laudoecia.api.utils.Utils;
 
 public class DicomServer {
 	private static final Logger LOG = LoggerFactory.getLogger(DicomServer.class);
@@ -466,9 +464,10 @@ public class DicomServer {
 		serviceRegistry.addDicomService(new BasicCEchoSCP());
 		serviceRegistry.addDicomService(new CStoreSCPImpl());
 		serviceRegistry.addDicomService(new StgCmtSCPImpl());
-		//serviceRegistry.addDicomService(new CFindSCPImpl(UID.PatientRootQueryRetrieveInformationModelFIND, PATIENT_ROOT_LEVELS));
-		//serviceRegistry.addDicomService(new CFindSCPImpl(UID.StudyRootQueryRetrieveInformationModelFIND, STUDY_ROOT_LEVELS));
-		//serviceRegistry.addDicomService(new CFindSCPImpl(UID.PatientStudyOnlyQueryRetrieveInformationModelFINDRetired, PATIENT_STUDY_ONLY_LEVELS));
+		//serviceRegistry.addDicomService(new MWLCFindSCP());
+		serviceRegistry.addDicomService(new CFindSCPImpl(UID.PatientRootQueryRetrieveInformationModelFIND, PATIENT_ROOT_LEVELS));
+		serviceRegistry.addDicomService(new CFindSCPImpl(UID.StudyRootQueryRetrieveInformationModelFIND, STUDY_ROOT_LEVELS));
+		serviceRegistry.addDicomService(new CFindSCPImpl(UID.PatientStudyOnlyQueryRetrieveInformationModelFINDRetired, PATIENT_STUDY_ONLY_LEVELS));
 		serviceRegistry.addDicomService(new CGetSCPImpl(UID.PatientRootQueryRetrieveInformationModelGET, PATIENT_ROOT_LEVELS));
 		serviceRegistry.addDicomService(new CGetSCPImpl(UID.StudyRootQueryRetrieveInformationModelGET, STUDY_ROOT_LEVELS));
 		serviceRegistry.addDicomService(new CGetSCPImpl(UID.PatientStudyOnlyQueryRetrieveInformationModelGETRetired, PATIENT_STUDY_ONLY_LEVELS));

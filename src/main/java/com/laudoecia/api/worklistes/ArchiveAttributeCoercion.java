@@ -1,15 +1,16 @@
 package com.laudoecia.api.worklistes;
 
-import org.dcm4che3.data.*;
-import org.dcm4che3.deident.DeIdentifier;
+import java.util.Arrays;
+
+import org.dcm4che3.data.Attributes;
+import org.dcm4che3.data.AttributesCoercion;
+import org.dcm4che3.data.Issuer;
+import org.dcm4che3.data.Tag;
+import org.dcm4che3.data.VR;
 import org.dcm4che3.net.Device;
 import org.dcm4che3.net.Dimse;
 import org.dcm4che3.net.TransferCapability;
 import org.dcm4che3.util.AttributesFormat;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ArchiveAttributeCoercion {
 
