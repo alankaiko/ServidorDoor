@@ -2,30 +2,7 @@ package com.laudoecia.api.worklistes;
 
 import java.util.Date;
 
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Version;
-
-import org.dcm4che3.data.Attributes;
 import org.dcm4che3.data.IDWithIssuer;
-import org.dcm4che3.data.Tag;
-
-import com.laudoecia.api.domain.AttributesBlob;
-import com.laudoecia.api.utilities.BlobCorruptedException;
-import com.laudoecia.api.utilities.FuzzyStr;
 
 public class Patient {
 
@@ -79,7 +56,6 @@ public class Patient {
 	private String patientCustomAttribute2;
 	private String patientCustomAttribute3;
 	private int numberOfStudies;
-	private AttributesBlob attributesBlob;
 	private PersonName patientName;
 	private PersonName responsiblePerson;
 	private Patient mergedWith;
@@ -220,27 +196,7 @@ public class Patient {
 		return responsiblePerson;
 	}
 
-	public Attributes getAttributes() throws BlobCorruptedException {
-		return attributesBlob.getAttributes();
-	}
+	
 
-	public void setAttributes(Attributes attrs, AttributeFilter filter, FuzzyStr fuzzyStr) {
-		patientName = PersonName.valueOf(attrs.getString(Tag.PatientName), fuzzyStr, patientName);
-		patientBirthDate = attrs.getString(Tag.PatientBirthDate, "*");
-		patientSex = attrs.getString(Tag.PatientSex, "*").toUpperCase();
 
-		patientCustomAttribute1 = AttributeFilter.selectStringValue(attrs, filter.getCustomAttribute1(), "*");
-		patientCustomAttribute2 = AttributeFilter.selectStringValue(attrs, filter.getCustomAttribute2(), "*");
-		patientCustomAttribute3 = AttributeFilter.selectStringValue(attrs, filter.getCustomAttribute3(), "*");
-
-		Attributes blobAttrs = new Attributes(attrs, filter.getSelection(true));
-		if (attributesBlob == null)
-			attributesBlob = new AttributesBlob(blobAttrs);
-		else
-			attributesBlob.setAttributes(blobAttrs);
-
-		responsiblePerson = PersonName.valueOf(attrs.getString(Tag.ResponsiblePerson), fuzzyStr, responsiblePerson);
-
-		updatedTime = new Date();
-	}
 }

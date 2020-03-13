@@ -59,6 +59,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.eventbus.EventBus;
 import com.laudoecia.api.event.NewFileEvent;
+import com.laudoecia.api.worklistes.MWLCFindSCP;
 
 public class DicomServer {
 	private static final Logger LOG = LoggerFactory.getLogger(DicomServer.class);
@@ -108,17 +109,19 @@ public class DicomServer {
 
 		CStoreSCPImpl() {
 			super("*");
+			System.out.println("1");
 		}
 
 		@Override
 		protected void store(Association as, PresentationContext pc, Attributes rq, PDVInputStream data, Attributes rsp) throws IOException {
-			
+			System.out.println("2");
 			rsp.setInt(Tag.Status, VR.US, status);
 			if (storageDir == null)
 				return;
 			
 			String ipAddress = as.getSocket().getInetAddress().getHostAddress(); // ip address
 			String associationName = as.toString();
+			
 			String cuid = rq.getString(Tag.AffectedSOPClassUID);
 			String iuid = rq.getString(Tag.AffectedSOPInstanceUID);
 			String tsuid = pc.getTransferSyntax();
@@ -146,9 +149,11 @@ public class DicomServer {
 	
 	private final class CFindSCPImpl extends BasicCFindSCP {
 		private final EnumSet<QueryRetrieveLevel2> qrLevels;
+
 		public CFindSCPImpl(String sopClass, EnumSet<QueryRetrieveLevel2> qrLevels) {
 			super(sopClass);
 			this.qrLevels = qrLevels;
+			System.out.println("3");
 		}
 
 
@@ -158,8 +163,7 @@ public class DicomServer {
 				QueryRetrieveLevel2 level = QueryRetrieveLevel2.validateQueryIdentifier(keys, qrLevels, relational(as, rq));
 				if (errorCFind != 0) {
 					throw new DicomServiceException(errorCFind);
-				}
-				
+				}			
 				String ipAddress = as.getSocket().getInetAddress().getHostAddress(); // ip address
 				String associationName = as.toString();
 				System.out.println("ipaddres : "+ ipAddress);
@@ -184,7 +188,10 @@ public class DicomServer {
 			}
 		}
 	
+		
+	
 		private boolean relational(Association as, Attributes rq) {
+			System.out.println("4");
 			String cuid = rq.getString(Tag.AffectedSOPClassUID);
 			ExtendedNegotiation extNeg = as.getAAssociateAC().getExtNegotiationFor(cuid);
 			return QueryOption.toOptions(extNeg).contains(QueryOption.RELATIONAL);
@@ -193,8 +200,10 @@ public class DicomServer {
 
 
 	private final class StgCmtSCPImpl extends AbstractDicomService {
+		
 		public StgCmtSCPImpl() {
 			super(UID.StorageCommitmentPushModelSOPClass);
+			System.out.println("5");
 		}
 
 		@Override
@@ -232,6 +241,7 @@ public class DicomServer {
 		public CGetSCPImpl(String sopClass, EnumSet<QueryRetrieveLevel2> qrLevels) {
 			super(sopClass);
 			this.qrLevels = qrLevels;
+			System.out.println("6");
 			this.withoutBulkData = qrLevels.size() == 1;
 		}
 
@@ -240,7 +250,7 @@ public class DicomServer {
 			QueryRetrieveLevel2.validateRetrieveIdentifier(keys, qrLevels, relational(as, rq));
 			if (errorCGet != 0)
 				throw new DicomServiceException(errorCGet);
-
+			System.out.println("7");
 			List<InstanceLocator> matches = DicomServer.this.calculateMatches(keys);
 			if (matches.isEmpty())
 				return null;
@@ -259,7 +269,7 @@ public class DicomServer {
 	}
 
 	public List<InstanceLocator> calculateMatches(Attributes keys) throws DicomServiceException {
-		System.out.println("calculando ");
+		System.out.println("8 ");
 		try {
 			List<InstanceLocator> list = new ArrayList<InstanceLocator>();
 			String[] patIDs = keys.getStrings(Tag.PatientID);
@@ -313,6 +323,7 @@ public class DicomServer {
 		public CMoveSCPImpl(String sopClass, EnumSet<QueryRetrieveLevel2> qrLevels) {
 			super(sopClass);
 			this.qrLevels = qrLevels;
+			System.out.println("9");
 		}
 
 		@Override
@@ -320,7 +331,7 @@ public class DicomServer {
 			QueryRetrieveLevel2.validateRetrieveIdentifier(keys, qrLevels, relational(as, rq));
 			if (errorCMove != 0)
 				throw new DicomServiceException(errorCMove);
-
+			System.out.println("10");
 			String moveDest = rq.getString(Tag.MoveDestination);
 			final Connection remote = getRemoteConnection(moveDest);
 			if (remote == null)
@@ -338,6 +349,7 @@ public class DicomServer {
 
 		private Association openStoreAssociation(Association as, Connection remote, AAssociateRQ aarq)
 				throws DicomServiceException {
+			System.out.println("11");
 			try {
 				return as.getApplicationEntity().connect(as.getConnection(), remote, aarq);
 			} catch (Exception e) {
@@ -348,6 +360,7 @@ public class DicomServer {
 		private AAssociateRQ makeAAssociateRQ(String callingAET, String calledAET, List<InstanceLocator> matches) {
 			AAssociateRQ aarq = new AAssociateRQ();
 			aarq.setCalledAET(calledAET);
+			System.out.println("12");
 			aarq.setCallingAET(callingAET);
 			for (InstanceLocator match : matches) {
 				if (aarq.addPresentationContextFor(match.cuid, match.tsuid)) {
@@ -361,6 +374,7 @@ public class DicomServer {
 		}
 
 		private boolean relational(Association as, Attributes rq) {
+			System.out.println("13");
 			String cuid = rq.getString(Tag.AffectedSOPClassUID);
 			ExtendedNegotiation extNeg = as.getAAssociateAC().getExtNegotiationFor(cuid);
 			return QueryOption.toOptions(extNeg).contains(QueryOption.RELATIONAL);
@@ -370,6 +384,7 @@ public class DicomServer {
 	public DicomServer() throws IOException {
 		device.setDimseRQHandler(createServiceRegistry());
 		device.addConnection(conn);
+		System.out.println("14");
 		device.addApplicationEntity(ae);
 		device.setAssociationHandler(associationHandler);
 		ae.setAssociationAcceptor(true);
@@ -379,6 +394,7 @@ public class DicomServer {
 	private void storeTo(Association as, Attributes fmi, PDVInputStream data, File file) throws IOException {
 		LOG.info("{}: M-WRITE {}", as, file);
 		file.getParentFile().mkdirs();
+		System.out.println("15");
 		DicomOutputStream out = new DicomOutputStream(file);
 		try {
 			out.writeFileMetaInformation(fmi);
@@ -391,7 +407,7 @@ public class DicomServer {
 	public Attributes calculateStorageCommitmentResult(String calledAET, Attributes actionInfos) throws DicomServiceException {
 		Attributes at = null;
 		Sequence requestSeq = at.getSequence(Tag.ReferencedSOPSequence);
-
+		System.out.println("16");
 		int size = 300;
 		String[] sopIUIDs = new String[1];
 		Attributes eventInfo = new Attributes(6);
@@ -445,6 +461,7 @@ public class DicomServer {
 
 	private static Attributes refSOP(String iuid, String cuid, int failureReason) {
 		Attributes attrs = new Attributes(3);
+		System.out.println("17");
 		attrs.setString(Tag.ReferencedSOPClassUID, VR.UI, cuid);
 		attrs.setString(Tag.ReferencedSOPInstanceUID, VR.UI, iuid);
 		if (failureReason != Status.Success)
@@ -460,11 +477,12 @@ public class DicomServer {
 	}
 
 	private DicomServiceRegistry createServiceRegistry() {
+		System.out.println("18");
 		DicomServiceRegistry serviceRegistry = new DicomServiceRegistry();
 		serviceRegistry.addDicomService(new BasicCEchoSCP());
 		serviceRegistry.addDicomService(new CStoreSCPImpl());
 		serviceRegistry.addDicomService(new StgCmtSCPImpl());
-		//serviceRegistry.addDicomService(new MWLCFindSCP());
+		serviceRegistry.addDicomService(new MWLCFindSCP());
 		serviceRegistry.addDicomService(new CFindSCPImpl(UID.PatientRootQueryRetrieveInformationModelFIND, PATIENT_ROOT_LEVELS));
 		serviceRegistry.addDicomService(new CFindSCPImpl(UID.StudyRootQueryRetrieveInformationModelFIND, STUDY_ROOT_LEVELS));
 		serviceRegistry.addDicomService(new CFindSCPImpl(UID.PatientStudyOnlyQueryRetrieveInformationModelFINDRetired, PATIENT_STUDY_ONLY_LEVELS));
@@ -479,6 +497,7 @@ public class DicomServer {
 	}
 
 	public static void configureConn(Connection conn) {
+		System.out.println("19");
 		conn.setReceivePDULength(Connection.DEF_MAX_PDU_LENGTH);
 		conn.setSendPDULength(Connection.DEF_MAX_PDU_LENGTH);
 
@@ -496,7 +515,7 @@ public class DicomServer {
 
 	public static DicomServer init(String aeHost, int aePort, String aeTitle, String storageDirectory, EventBus eventBus) {
 		LOG.info("Bind to: " + aeTitle + "@" + aeHost + ":" + aePort + "; storage: " + storageDirectory);
-
+		System.out.println("20");
 		DicomServer ds = null;
 		try {
 			ds = new DicomServer();
@@ -532,26 +551,17 @@ public class DicomServer {
 	private AssociationHandler associationHandler = new AssociationHandler() {
 
 		@Override
-		protected AAssociateAC makeAAssociateAC(Association as, AAssociateRQ rq, UserIdentityAC arg2)
-				throws IOException {
+		protected AAssociateAC makeAAssociateAC(Association as, AAssociateRQ rq, UserIdentityAC arg2) throws IOException {
 			State st = as.getState();
-
+			System.out.println("21");
 			if (as != null) {
-				LOG.info("makeAAssociateAC: {}  Associate State: {}  Associate State Name: {}", as.toString(), st,
-						st.name());
-				try {
-					// eventBus.post(new
-					// NewLogEvent(as.toString(),st.name(),as.getSocket().getInetAddress().getHostAddress(),
-					// null, null,null,null,null,null,null,null));
-				} catch (Exception e) {
-					LOG.error(e.getMessage());
-				}
+				LOG.info("makeAAssociateAC: {}  Associate State: {}  Associate State Name: {}", as.toString(), st, st.name());
 			}
 
 			if (rq != null)
 				LOG.info("Max OpsInvoked: {}  Max OpsPerformed: {}  Max PDU Length: {}  Number of Pres. Contexts: {}",
-						rq.getMaxOpsInvoked(), rq.getMaxOpsPerformed(), rq.getMaxPDULength(),
-						rq.getNumberOfPresentationContexts());
+					rq.getMaxOpsInvoked(), rq.getMaxOpsPerformed(), rq.getMaxPDULength(),
+					rq.getNumberOfPresentationContexts());
 
 			if (arg2 != null)
 				LOG.info("UserIdentityAC Length:{}", arg2.length());
@@ -561,16 +571,15 @@ public class DicomServer {
 
 		@Override
 		protected AAssociateAC negotiate(Association as, AAssociateRQ rq) throws IOException {
-
+			System.out.println("22");
 			if (as != null)
 				LOG.info("AAssociateAC negotiate:{}", as.toString());
-
 			return super.negotiate(as, rq);
 		}
 
 		@Override
 		protected void onClose(Association as) {
-
+			System.out.println("23");
 			State st = as.getState();
 
 			if (as != null && st == State.Sta13) {
@@ -596,6 +605,7 @@ public class DicomServer {
 	}
 
 	public void setStorageDirectory(File storageDir) {
+		System.out.println("24");
 		if (storageDir != null)
 			storageDir.mkdirs();
 		this.storageDir = storageDir;

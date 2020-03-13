@@ -3,14 +3,12 @@ package com.laudoecia.api.worklistes;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.PrePersist;
 
 import org.apache.commons.csv.CSVPrinter;
 
-import com.laudoecia.api.domain.AttributesBlob;
 
 public class DiffTask {
 
@@ -41,8 +39,6 @@ public class DiffTask {
 	private int different;
 
 	private QueueMessage queueMessage;
-
-	private Collection<AttributesBlob> diffTaskAttributes;
 
 	@PrePersist
 	public void onPrePersist() {
@@ -161,9 +157,7 @@ public class DiffTask {
 		this.queueMessage = queueMessage;
 	}
 
-	public Collection<AttributesBlob> getDiffTaskAttributes() {
-		return diffTaskAttributes;
-	}
+
 
 	public static final String[] header = { "pk", "LocalAET", "PrimaryAET", "SecondaryAET", "QueryString",
 			"checkMissing", "checkDifferent", "matches", "missing", "different", "comparefield", "createdTime",

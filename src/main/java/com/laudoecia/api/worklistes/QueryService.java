@@ -46,6 +46,8 @@ import org.dcm4che3.data.Code;
 import org.dcm4che3.net.ApplicationEntity;
 import org.dcm4che3.net.Association;
 import org.dcm4che3.net.QueryOption;
+import org.springframework.stereotype.Service;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Collection;
@@ -53,6 +55,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.zip.ZipInputStream;
 
+@Service
 public interface QueryService {
 
     QueryContext newQueryContextFIND(Association as, String sopClassUID, EnumSet<QueryOption> queryOpts);

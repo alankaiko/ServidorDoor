@@ -33,7 +33,12 @@ public class QueryParam {
     private long maxStudySize;
 
     public QueryParam(ApplicationEntity ae) {
-        this.arcAE = ae.getAEExtensionNotNull(ArchiveAEExtension.class);
+    	if(ae.getAEExtensionNotNull(ArchiveAEExtension.class) == null)
+    		System.out.println("anulado");
+    	if(ae.getAEExtensionNotNull(ArchiveAEExtension.class).equals(null))
+    		System.out.println("fudeu");
+    	System.out.println("que sera "+ae.getAEExtensionNotNull(ArchiveAEExtension.class));
+        this.arcAE = ae.getAEExtensionNotNull(null);
         this.arcDev = arcAE.getArchiveDeviceExtension();
         this.qrView = arcAE.getQueryRetrieveView();
     }

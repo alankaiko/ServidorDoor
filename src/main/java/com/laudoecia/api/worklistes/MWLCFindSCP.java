@@ -26,31 +26,42 @@ import org.dcm4che3.net.service.QueryTask;
 import org.dcm4che3.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 public class MWLCFindSCP extends BasicCFindSCP {
 
 	private static final Logger LOG = LoggerFactory.getLogger(MWLCFindSCP.class);
-	private QueryService queryService;
+	@Autowired
+	private QueryService queryService = new QueryServiceImpl();
 	private RunInTransaction runInTx;
 
 	public MWLCFindSCP() {
 		super(UID.ModalityWorklistInformationModelFIND);
+		
 		System.out.println("mwl item");
 	}
 
 	@Override
 	protected QueryTask calculateMatches(Association as, PresentationContext pc, Attributes rq, Attributes keys) {
-		LOG.info("{}: Process MWL C-FIND RQ:\n{}", as, keys);
-		System.out.println("mwl item 1");
-		String sopClassUID = rq.getString(Tag.AffectedSOPClassUID);
-		EnumSet<QueryOption> queryOpts = as.getQueryOptionsFor(sopClassUID);
-		QueryContext ctx = queryService.newQueryContextFIND(as, sopClassUID, queryOpts);
-		IDWithIssuer idWithIssuer = IDWithIssuer.pidOf(keys);
-		if (idWithIssuer != null && !idWithIssuer.getID().equals("*"))ctx.setPatientIDs(idWithIssuer);
-		ctx.setQueryKeys(keys);
-		ctx.setReturnKeys(createReturnKeys(keys));
-		coerceAttributes(ctx);
-		return new MWLQueryTask(as, pc, rq, keys, queryService.createMWLQuery(ctx), queryService.getAttributesCoercion(ctx), runInTx);
+		//LOG.info("{}: Process MWL C-FIND RQ:\n{}", as, keys);
+		
+		try {
+			System.out.println("mwl item 1");
+			String sopClassUID = rq.getString(Tag.AffectedSOPClassUID);
+			EnumSet<QueryOption> queryOpts = as.getQueryOptionsFor(sopClassUID);
+			QueryContext ctx = queryService.newQueryContextFIND(as, sopClassUID, queryOpts);
+			IDWithIssuer idWithIssuer = IDWithIssuer.pidOf(keys);
+			if (idWithIssuer != null && !idWithIssuer.getID().equals("*"))ctx.setPatientIDs(idWithIssuer);
+			ctx.setQueryKeys(keys);
+			ctx.setReturnKeys(createReturnKeys(keys));
+			coerceAttributes(ctx);
+			return new MWLQueryTask(as, pc, rq, keys, queryService.createMWLQuery(ctx), queryService.getAttributesCoercion(ctx), runInTx);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
 	}
 
 	private Attributes createReturnKeys(Attributes keys) {
