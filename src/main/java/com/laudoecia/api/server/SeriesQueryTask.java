@@ -19,8 +19,7 @@ class SeriesQueryTask extends StudyQueryTask {
 
     public SeriesQueryTask(Association as, PresentationContext pc, Attributes rq, Attributes keys, DicomServer qrscp) throws DicomServiceException {
         super(as, pc, rq, keys, qrscp);
-        seriesIUIDs = StringUtils.maskNull(
-                keys.getStrings(Tag.SeriesInstanceUID));
+        seriesIUIDs = StringUtils.maskNull(keys.getStrings(Tag.SeriesInstanceUID));
         wrappedFindNextSeries();
    }
 
@@ -31,9 +30,7 @@ class SeriesQueryTask extends StudyQueryTask {
 
     @Override
     public Attributes nextMatch() throws DicomServiceException {
-        Attributes ret = new Attributes(patRec.size()
-                + studyRec.size()
-                + seriesRec.size());
+        Attributes ret = new Attributes(patRec.size() + studyRec.size() + seriesRec.size());
         ret.addAll(patRec);
         ret.addAll(studyRec, true);
         ret.addAll(seriesRec, true);

@@ -54,78 +54,38 @@ import org.dcm4che3.net.Association;
 import org.dcm4che3.net.QueryOption;
 
 public interface QueryService {
-
     QueryContext newQueryContextFIND(Association as, String sopClassUID, EnumSet<QueryOption> queryOpts);
-
-    QueryContext newQueryContextQIDO(
-            HttpServletRequestInfo httpRequest, String searchMethod, ApplicationEntity ae, QueryParam queryParam);
-
+    QueryContext newQueryContextQIDO(HttpServletRequestInfo httpRequest, String searchMethod, ApplicationEntity ae, QueryParam queryParam);
     QueryContext newQueryContext(ApplicationEntity ae, QueryParam queryParam);
-
     Query createQuery(QueryContext ctx);
-
     Query createPatientQuery(QueryContext ctx);
-
     Query createStudyQuery(QueryContext ctx);
-
     Query createSeriesQuery(QueryContext ctx);
-
     Query createInstanceQuery(QueryContext ctx);
-
     Query createMWLQuery(QueryContext ctx);
-
     Query createUPSQuery(QueryContext ctx);
-
     Query createUPSWithoutQueryEvent(QueryContext ctx);
-
     Attributes getSeriesAttributes(QueryContext context, Long seriesPk);
-
     void addLocationAttributes(Attributes attrs, Long instancePk);
-
     long calculateStudySize(Long studyPk);
-
     StudyQueryAttributes calculateStudyQueryAttributes(Long studyPk, QueryRetrieveView qrView);
-
     SeriesQueryAttributes calculateSeriesQueryAttributesIfNotExists(Long seriesPk, QueryRetrieveView qrView);
-
     SeriesQueryAttributes calculateSeriesQueryAttributes(Long seriesPk, QueryRetrieveView qrView);
-
-    Attributes getStudyAttributesWithSOPInstanceRefs(
-            String studyUID, ApplicationEntity ae, Collection<Attributes> seriesAttrs);
-
-    Attributes createIAN(ApplicationEntity ae, String studyUID, String seriesUID,
-                         String[] retrieveAETs, String retrieveLocationUID, Availability availability);
-
+    Attributes getStudyAttributesWithSOPInstanceRefs(String studyUID, ApplicationEntity ae, Collection<Attributes> seriesAttrs);
+    Attributes createIAN(ApplicationEntity ae, String studyUID, String seriesUID, String[] retrieveAETs, String retrieveLocationUID, Availability availability);
     Attributes createIAN(ApplicationEntity ae, String studyUID, String seriesUID, String sopUID);
-
-    Attributes createXDSiManifest(ApplicationEntity ae, String studyUID,
-                                  String[] retrieveAETs, String retrieveLocationUID,
-                                  Code conceptNameCode, int seriesNumber, int instanceNumber, Collection<Attributes> seriesAttrs);
-
-    Attributes createRejectionNote(
-            ApplicationEntity ae, String studyUID, String seriesUID, String objectUID, RejectionNote rjNote);
-
+    Attributes createXDSiManifest(ApplicationEntity ae, String studyUID, String[] retrieveAETs, String retrieveLocationUID, Code conceptNameCode, int seriesNumber, int instanceNumber, Collection<Attributes> seriesAttrs);
+    Attributes createRejectionNote( ApplicationEntity ae, String studyUID, String seriesUID, String objectUID, RejectionNote rjNote);
     Attributes createRejectionNote(Attributes sopInstanceRefs, RejectionNote rjNote);
-
     Attributes createActionInfo(String studyIUID, String seriesIUID, String sopIUID, ApplicationEntity ae);
-
     Attributes queryExportTaskInfo(ExportTask exportTask, ApplicationEntity ae);
-
     Attributes getStudyAttributes(String studyUID);
-
     List<Object[]> getSeriesInstanceUIDs(String studyUID);
-
     List<Object[]> getSOPInstanceUIDs(String studyUID);
-
     List<Object[]> getSOPInstanceUIDs(String studyUID, String seriesUID);
-
     Integer getNumberOfFrames(String studyInstanceUID, String seriesInstanceUID, String sopInstanceUID);
-
     ZipInputStream openZipInputStream(QueryContext ctx, String storageID, String storagePath) throws IOException;
-
     AttributesCoercion getAttributesCoercion(QueryContext ctx);
-
     CFindSCU cfindSCU();
-
     List<String> getDistinctModalities();
 }

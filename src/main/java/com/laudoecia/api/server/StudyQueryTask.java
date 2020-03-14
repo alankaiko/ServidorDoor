@@ -10,10 +10,6 @@ import org.dcm4che3.net.pdu.PresentationContext;
 import org.dcm4che3.net.service.DicomServiceException;
 import org.dcm4che3.util.StringUtils;
 
-import com.laudoecia.api.domain.Patient;
-import com.laudoecia.api.service.PatientService;
-import com.laudoecia.api.utils.Utils;
-
 class StudyQueryTask extends PatientQueryTask {
 
     protected final String[] studyIUIDs;

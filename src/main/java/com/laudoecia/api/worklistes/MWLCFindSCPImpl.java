@@ -1,13 +1,10 @@
 package com.laudoecia.api.worklistes;
 
-import java.util.EnumSet;
-
 import javax.xml.transform.Templates;
 import javax.xml.transform.TransformerConfigurationException;
 
 import org.dcm4che3.data.Attributes;
 import org.dcm4che3.data.AttributesCoercion;
-import org.dcm4che3.data.IDWithIssuer;
 import org.dcm4che3.data.NullifyAttributesCoercion;
 import org.dcm4che3.data.Tag;
 import org.dcm4che3.data.TrimISO2020CharacterSetAttributesCoercion;
@@ -17,10 +14,6 @@ import org.dcm4che3.io.SAXTransformer;
 import org.dcm4che3.io.TemplatesCache;
 import org.dcm4che3.io.XSLTAttributesCoercion;
 import org.dcm4che3.net.Association;
-import org.dcm4che3.net.Dimse;
-import org.dcm4che3.net.QueryOption;
-import org.dcm4che3.net.Status;
-import org.dcm4che3.net.TransferCapability;
 import org.dcm4che3.net.pdu.PresentationContext;
 import org.dcm4che3.net.service.BasicCFindSCP;
 import org.dcm4che3.net.service.BasicQueryTask;
@@ -36,29 +29,26 @@ public class MWLCFindSCPImpl extends BasicCFindSCP {
 	
 	public MWLCFindSCPImpl() {
 		super(UID.ModalityWorklistInformationModelFIND);
-		System.out.println("ago vendo");
 	}
 
 	@Override
 	protected QueryTask calculateMatches(Association as, PresentationContext pc, Attributes rq, Attributes keys)throws DicomServiceException {
 		try {
-			LOG.info("{}: Process MWL C-FIND RQ:\n{}", as, keys);
-			String sopClassUID = rq.getString(Tag.AffectedSOPClassUID);
-			EnumSet<QueryOption> queryOpts = as.getQueryOptionsFor(sopClassUID);
-			
-			this.servico = new MinhaQueryImpl();
-			QueryContext ctx = this.servico.newQueryContextFIND(as, sopClassUID, queryOpts);
-			IDWithIssuer idWithIssuer = IDWithIssuer.pidOf(keys);
-			
-	        if (idWithIssuer != null && !idWithIssuer.getID().equals("*"))
-	            ctx.setPatientIDs(idWithIssuer);
-	        
-	        ctx.setQueryKeys(keys);
-	        ctx.setReturnKeys(createReturnKeys(keys));
-
-	        //coerceAttributes(ctx);
-	        
-			System.out.println("normal");
+//			LOG.info("{}: Process MWL C-FIND RQ:\n{}", as, keys);
+//			String sopClassUID = rq.getString(Tag.AffectedSOPClassUID);
+//			EnumSet<QueryOption> queryOpts = as.getQueryOptionsFor(sopClassUID);
+//
+//			this.servico = new MinhaQueryImpl();
+//			QueryContext ctx = this.servico.newQueryContextFIND(as, sopClassUID, queryOpts);
+//			IDWithIssuer idWithIssuer = IDWithIssuer.pidOf(keys);
+//			
+//	        if (idWithIssuer != null && !idWithIssuer.getID().equals("*"))
+//	            ctx.setPatientIDs(idWithIssuer);
+//	        
+//	        ctx.setQueryKeys(keys);
+//	        ctx.setReturnKeys(createReturnKeys(keys));
+//	        coerceAttributes(ctx);
+//	        
 			return new BasicQueryTask(as, pc, rq, keys);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -74,15 +64,16 @@ public class MWLCFindSCPImpl extends BasicCFindSCP {
     }
 
 	private void coerceAttributes(QueryContext ctx) {
-        ArchiveAttributeCoercion rule = ctx.getArchiveAEExtension().findAttributeCoercion(
-            Dimse.C_FIND_RQ,
-            TransferCapability.Role.SCU,
-            ctx.getSOPClassUID(),
-            ctx.getRemoteHostName(),
-            ctx.getCallingAET(),
-            ctx.getLocalHostName(),
-            ctx.getCalledAET(),
-            ctx.getQueryKeys());
+		ArchiveAttributeCoercion rule = new ArchiveAttributeCoercion();
+//        ArchiveAttributeCoercion rule = ctx.getArchiveAEExtension().findAttributeCoercion(
+//            Dimse.C_FIND_RQ,
+//            TransferCapability.Role.SCU,
+//            ctx.getSOPClassUID(),
+//            ctx.getRemoteHostName(),
+//            ctx.getCallingAET(),
+//            ctx.getLocalHostName(),
+//            ctx.getCalledAET(),
+//            ctx.getQueryKeys());
         
         if (rule == null)
             return;

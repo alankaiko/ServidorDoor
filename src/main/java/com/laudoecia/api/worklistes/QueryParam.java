@@ -9,9 +9,9 @@ import com.laudoecia.api.utilities.FuzzyStr;
 
 
 public class QueryParam {
-    private final ArchiveAEExtension arcAE;
-    private final ArchiveDeviceExtension arcDev;
-    private final QueryRetrieveView qrView;
+    private ArchiveAEExtension arcAE;
+    private ArchiveDeviceExtension arcDev;
+    private QueryRetrieveView qrView;
     private boolean combinedDatetimeMatching;
     private boolean fuzzySemanticMatching;
     private boolean allOfModalitiesInStudy;
@@ -33,13 +33,15 @@ public class QueryParam {
     private long maxStudySize;
 
     public QueryParam(ApplicationEntity ae) {
-        this.qrView = new QueryRetrieveView();
-		this.arcDev = new ArchiveDeviceExtension();
-		this.arcAE = new ArchiveAEExtension();
-		
-//		this.arcAE = ae.getAEExtensionNotNull(ArchiveAEExtension.class);
-//        this.arcDev = arcAE.getArchiveDeviceExtension();
-//        this.qrView = arcAE.getQueryRetrieveView();
+    	if(ae.getAEExtension(ArchiveAEExtension.class) == null) {
+    		this.arcAE = new ArchiveAEExtension();
+    		this.arcDev = new ArchiveDeviceExtension();
+    		this.qrView = new QueryRetrieveView();
+    	}else {
+    		this.arcAE = ae.getAEExtensionNotNull(ArchiveAEExtension.class);
+    		this.arcDev = arcAE.getArchiveDeviceExtension();
+    		this.qrView = arcAE.getQueryRetrieveView();
+    	}    		
     }
 
     public String getAETitle() {
