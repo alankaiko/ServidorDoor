@@ -83,18 +83,18 @@ public class StoreParam {
 	}
 
 	public RejectionNote getRejectionNote(Code code) {
-		if (code != null)
-			for (RejectionNote rn : rejectionNotes)
-				if (rn.matches(code))
-					return rn;
+//		if (code != null)
+//			for (RejectionNote rn : rejectionNotes)
+//				if (rn.matches(code))
+//					return rn;
 		return null;
 	}
 
 	public RejectionNote getRejectionNote(Attributes codeItem) {
-		if (codeItem != null)
-			for (RejectionNote rn : rejectionNotes)
-				if (rn.matches(codeItem))
-					return rn;
+//		if (codeItem != null)
+//			for (RejectionNote rn : rejectionNotes)
+//				if (rn.matches(codeItem))
+//					return rn;
 		return null;
 	}
 
