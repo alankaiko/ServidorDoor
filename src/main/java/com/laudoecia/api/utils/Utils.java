@@ -1,6 +1,9 @@
 package com.laudoecia.api.utils;
 
 import java.awt.Dimension;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -48,6 +51,22 @@ public class Utils {
 
 	public static Date ConverterToDate(LocalDate dateToConvert) {
 	    return java.sql.Date.valueOf(dateToConvert);
+	}
+	
+	public static Date TransformandoEmDate(String data){
+		Date dat = null;
+		
+		if(data.replaceAll("[_/]", "").isEmpty()){
+			//return null;
+		}else{
+			try {
+				DateFormat formata = new SimpleDateFormat("dd/MM/yyyy");
+				dat = (Date)formata.parse(data);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		return dat;
 	}
 	
 }

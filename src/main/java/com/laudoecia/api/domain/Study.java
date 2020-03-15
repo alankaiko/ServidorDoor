@@ -27,6 +27,21 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@idstudy")
 public class Study implements Serializable {
 	private static final long serialVersionUID = 1L;
+	public static final String FIND_BY_PATIENT = "Study.findByPatient";
+    public static final String FIND_BY_STUDY_IUID = "Study.findByStudyIUID";
+    public static final String FIND_BY_STUDY_IUID_EAGER = "Study.findByStudyIUIDEager";
+    public static final String UPDATE_ACCESS_TIME = "Study.UpdateAccessTime";
+    public static final String SET_STUDY_SIZE = "Study.setStudySize";
+    public static final String SET_COMPLETENESS = "Study.setCompleteness";
+    public static final String INCREMENT_FAILED_RETRIEVES = "Study.incrementFailedRetrieves";
+    public static final String COUNT_STUDIES_OF_PATIENT = "Study.countStudiesOfPatient";
+    public static final String GET_EXPIRED_STUDIES = "Study.getExpiredStudies";
+    public static final String CLAIM_EXPIRED_STUDY = "Study.claimExpiredStudy";
+    public static final String STUDY_IUIDS_BY_ACCESSION_NUMBER = "Study.studyIUIDsByAccessionNumber";
+    public static final String FIND_PK_BY_STUDY_UID = "Study.findPkByStudyUID";
+    public static final String STORAGE_IDS_BY_STUDY_UID = "Study.storageIDsByStudyUID";
+    public static final String SET_STORAGE_IDS = "Study.setStorageIDs";
+    public static final String UPDATE_ACCESS_CONTROL_ID = "Study.updateAccessControlID";
 
 	private Long idstudy;
 	private String accessionnumber;

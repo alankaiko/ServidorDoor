@@ -28,6 +28,45 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@idseries")
 public class Series implements Serializable {
 	private static final long serialVersionUID = 1L;
+	
+	public static final String FIND_BY_SERIES_IUID = "Series.findBySeriesIUID";
+    public static final String FIND_SERIES_OF_STUDY_BY_STUDY_IUID_EAGER = "Series.findSeriesOfStudyByStudyIUIDEager";
+    public static final String FIND_BY_SERIES_IUID_EAGER = "Series.findBySeriesIUIDEager";
+    public static final String COUNT_SERIES_OF_STUDY = "Series.countSeriesOfStudy";
+    public static final String SERIES_PKS_OF_STUDY_WITH_UNKNOWN_SIZE = "Series.seriesPKsOfStudyWithUnknownSize";
+    public static final String SIZE_OF_STUDY="Series.sizeOfStudy";
+    public static final String SET_SERIES_SIZE = "Series.SetSeriesSize";
+    public static final String SET_COMPLETENESS = "Series.SetCompleteness";
+    public static final String SET_COMPLETENESS_OF_STUDY = "Series.SetCompletenessOfStudy";
+    public static final String INCREMENT_FAILED_RETRIEVES = "Series.IncrementFailedRetrieves";
+    public static final String GET_EXPIRED_SERIES = "Series.GetExpiredSeries";
+    public static final String CLAIM_EXPIRED_SERIES = "Series.ClaimExpiredSeries";
+    public static final String EXPIRE_SERIES = "Series.ExpireSeries";
+    public static final String FIND_SERIES_OF_STUDY = "Series.FindSeriesOfStudy";
+    public static final String FIND_SERIES_OF_STUDY_BY_INSTANCE_PURGE_STATE = "Series.FindSeriesOfStudyByInstancePurgeState";
+    public static final String FIND_BY_SERIES_IUID_AND_INSTANCE_PURGE_STATE = "Series.FindBySeriesIUIDAndInstancePurgeState";
+    public static final String COUNT_SERIES_OF_STUDY_WITH_OTHER_REJECTION_STATE = "Series.countSeriesOfStudyWithOtherRejectionState";
+    public static final String SERIES_IUIDS_OF_STUDY = "Series.seriesIUIDsOfStudy";
+    public static final String SCHEDULED_METADATA_UPDATE = "Series.scheduledMetadataUpdate";
+    public static final String SCHEDULED_PURGE_INSTANCES = "Series.scheduledPurgeInstances";
+    public static final String SCHEDULE_METADATA_UPDATE_FOR_PATIENT = "Series.scheduleMetadataUpdateForPatient";
+    public static final String SCHEDULE_METADATA_UPDATE_FOR_STUDY = "Series.scheduleMetadataUpdateForStudy";
+    public static final String SCHEDULE_METADATA_UPDATE_FOR_SERIES = "Series.scheduleMetadataUpdateForSeries";
+    public static final String SCHEDULE_METADATA_UPDATE_FOR_SERIES_UID = "Series.scheduleMetadataUpdateForSeriesUID";
+    public static final String UPDATE_INSTANCE_PURGE_STATE = "Series.updateInstancePurgeState";
+    public static final String FIND_DISTINCT_MODALITIES = "Series.findDistinctModalities";
+    public static final String FIND_BY_STUDY_PK_AND_INSTANCE_PURGE_STATE = "Series.findByStudyPkAndInstancePurgeState";
+    public static final String UPDATE_STGVER_FAILURES = "Series.updateStgVerFailures";
+    public static final String SCHEDULED_STORAGE_VERIFICATION = "Series.scheduledStorageVerification";
+    public static final String SCHEDULED_COMPRESSION = "Series.scheduledCompression";
+    public static final String INCREMENT_METADATA_UPDATE_FAILURES = "Series.setMetadataScheduledUpdateTime";
+    public static final String CLAIM_STORAGE_VERIFICATION = "Series.claimStorageVerification";
+    public static final String CLAIM_COMPRESSION = "Series.claimCompression";
+    public static final String CLAIM_UPDATE_METADATA = "Series.claimUpdateMetadata";
+    public static final String CLAIM_PURGE_INSTANCE_RECORDS = "Series.claimPurgeInstanceRecords";
+    public static final String UPDATE_COMPRESSION_FAILURES = "Series.updateCompressionFailures";
+    public static final String UPDATE_COMPRESSION_FAILURES_AND_TSUID = "Series.updateCompressionFailuresAndTSUID";
+    public static final String UPDATE_COMPRESSION_COMPLETED = "Series.updateCompressionCompleted";
 
 	private Long idseries;
 	private String seriesinstanceuid;

@@ -70,5 +70,11 @@ public class AbreviaturaRepositoryImpl implements AbreviaturaRepositoryQuery{
 		query.select(builder.count(root));
 		return em.createQuery(query).getSingleResult();
 	}
+	
+	public EntityManager getEm() {
+		return em;
+	}
+	
+	
 
 }
