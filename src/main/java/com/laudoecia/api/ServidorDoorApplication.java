@@ -28,6 +28,7 @@ import com.google.common.eventbus.EventBus;
 import com.laudoecia.api.component.DicomRepost;
 import com.laudoecia.api.handler.IncomingFileHandler;
 import com.laudoecia.api.server.DicomServer;
+import com.laudoecia.api.utils.Utils;
 
 @SpringBootApplication
 public class ServidorDoorApplication {
@@ -96,6 +97,7 @@ public class ServidorDoorApplication {
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();        
         transactionManager.setEntityManagerFactory(emf);
+        Utils.entidade = transactionManager.getEntityManagerFactory();
         return transactionManager;
     }
 

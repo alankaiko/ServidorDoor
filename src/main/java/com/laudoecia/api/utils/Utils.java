@@ -8,9 +8,10 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 
-import org.dcm4che3.data.Attributes;
+import javax.persistence.EntityManagerFactory;
 
 public class Utils {
+	public static EntityManagerFactory entidade;
 
 	public static Dimension getScaledDimension(Dimension imgSize, Dimension boundary) {
 

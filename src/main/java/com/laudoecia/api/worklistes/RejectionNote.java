@@ -1,99 +1,124 @@
 package com.laudoecia.api.worklistes;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
+import org.dcm4che3.data.Code;
 
-import org.dcm4che3.data.Attributes;
-import org.dcm4che3.data.Tag;
 
-public class RejectionNote implements Serializable {
+public class RejectionNote {
 
-	private static final long serialVersionUID = -1299501804796953248L;
+    public enum AcceptPreviousRejectedInstance { REJECT, RESTORE, IGNORE }
 
-	public enum Action {
-		HIDE_REJECTED_INSTANCES, HIDE_REJECTION_NOTE, NOT_ACCEPT_SUBSEQUENT_OCCURRENCE, NOT_REJECT_SUBSEQUENT_OCCURRENCE
-	}
+    public enum Type {
+        REJECTED_FOR_QUALITY_REASONS,
+        REJECTED_FOR_PATIENT_SAFETY_REASONS,
+        INCORRECT_MODALITY_WORKLIST_ENTRY,
+        DATA_RETENTION_POLICY_EXPIRED,
+        REVOKE_REJECTION
+    }
 
-	private final String codeValue;
-	private final String codingSchemeDesignator;
-	private final String codingSchemeVersion;
-	private final String codeMeaning;
-	private final EnumSet<Action> actions = EnumSet.noneOf(Action.class);
-	private Code code;
+    private String rejectionNoteLabel;
+    private Type rejectionNoteType;
+    private Code rejectionNoteCode;
+    private int seriesNumber;
+    private int instanceNumber;
+    private AcceptPreviousRejectedInstance acceptPreviousRejectedInstance =
+            AcceptPreviousRejectedInstance.REJECT;
+    private Code[] overwritePreviousRejection = {};
+    private Duration acceptRejectionBeforeStorage;
+    private Duration deleteRejectedInstanceDelay;
+    private Duration deleteRejectionNoteDelay;
 
-	public RejectionNote(String codeValue, String codingSchemeDesignator, String codingSchemeVersion,
-			String codeMeaning) {
-		this.codeValue = codeValue;
-		this.codingSchemeDesignator = codingSchemeDesignator;
-		this.codingSchemeVersion = codingSchemeVersion;
-		this.codeMeaning = codeMeaning;
-	}
+    public String getRejectionNoteLabel() {
+        return rejectionNoteLabel;
+    }
 
-	public final String getCodeValue() {
-		return codeValue;
-	}
+    public void setRejectionNoteLabel(String rejectionNoteLabel) {
+        this.rejectionNoteLabel = rejectionNoteLabel;
+    }
 
-	public final String getCodingSchemeDesignator() {
-		return codingSchemeDesignator;
-	}
+    public Type getRejectionNoteType() {
+        return rejectionNoteType;
+    }
 
-	public final String getCodingSchemeVersion() {
-		return codingSchemeVersion;
-	}
+    public void setRejectionNoteType(Type rejectionNoteType) {
+        this.rejectionNoteType = rejectionNoteType;
+    }
 
-	public final String getCodeMeaning() {
-		return codeMeaning;
-	}
+    public boolean isRevokeRejection() {
+        return rejectionNoteType == Type.REVOKE_REJECTION;
+    }
 
-	public final Code getCode() {
-		return code;
-	}
+    public boolean isDataRetentionPolicyExpired() {
+        return rejectionNoteType == Type.DATA_RETENTION_POLICY_EXPIRED;
+    }
 
-	public final void setCode(Code code) {
-		this.code = code;
-	}
+    public Code getRejectionNoteCode() {
+        return rejectionNoteCode;
+    }
 
-	public final EnumSet<Action> getActions() {
-		return actions;
-	}
+    public void setRejectionNoteCode(Code rejectionNoteCode) {
+        this.rejectionNoteCode = rejectionNoteCode;
+    }
 
-	public RejectionNote addAction(Action action) {
-		actions.add(action);
-		return this;
-	}
+    public int getSeriesNumber() {
+        return seriesNumber;
+    }
 
-	public boolean matches(Code code) {
-		return matches(code.getCodeValue(), code.getCodingSchemeDesignator(), code.getCodingSchemeVersion());
-	}
+    public void setSeriesNumber(int seriesNumber) {
+        this.seriesNumber = seriesNumber;
+    }
 
-	public boolean matches(Attributes codeItem) {
-		return matches(codeItem.getString(Tag.CodeValue), codeItem.getString(Tag.CodingSchemeDesignator),
-				codeItem.getString(Tag.CodingSchemeVersion));
-	}
+    public int getInstanceNumber() {
+        return instanceNumber;
+    }
 
-	public boolean matches(RejectionNote other) {
-		return matches(other.codeValue, other.codingSchemeDesignator, other.codingSchemeVersion);
-	}
+    public void setInstanceNumber(int instanceNumber) {
+        this.instanceNumber = instanceNumber;
+    }
 
-	public boolean matches(String codeValue, String codingSchemeDesignator, String codingSchemeVersion) {
-		if (!this.codeValue.equals(codeValue))
-			return false;
-		if (!this.codingSchemeDesignator.equals(codingSchemeDesignator))
-			return false;
-		if (this.codingSchemeVersion != null ? !this.codingSchemeVersion.equals(codingSchemeVersion)
-				: codingSchemeVersion != null)
-			return false;
-		return true;
-	}
+    public AcceptPreviousRejectedInstance getAcceptPreviousRejectedInstance() {
+        return acceptPreviousRejectedInstance;
+    }
 
-	public static List<RejectionNote> selectByAction(List<RejectionNote> rns, Action action) {
-		List<RejectionNote> list = new ArrayList<RejectionNote>(rns.size());
-		for (RejectionNote rn : rns)
-			if (rn.getActions().contains(action))
-				list.add(rn);
-		return list;
-	}
+    public void setAcceptPreviousRejectedInstance(AcceptPreviousRejectedInstance acceptPreviousRejectedInstance) {
+        this.acceptPreviousRejectedInstance = acceptPreviousRejectedInstance;
+    }
 
+    public Code[] getOverwritePreviousRejection() {
+        return overwritePreviousRejection;
+    }
+
+    public boolean canOverwritePreviousRejection(Code code) {
+        for (Code code1 : overwritePreviousRejection)
+            if (code1.equalsIgnoreMeaning(code))
+                return true;
+        return false;
+    }
+
+    public void setOverwritePreviousRejection(Code[] overwritePreviousRejection) {
+        this.overwritePreviousRejection = overwritePreviousRejection;
+    }
+
+    public Duration getAcceptRejectionBeforeStorage() {
+        return acceptRejectionBeforeStorage;
+    }
+
+    public void setAcceptRejectionBeforeStorage(Duration acceptRejectionBeforeStorage) {
+        this.acceptRejectionBeforeStorage = acceptRejectionBeforeStorage;
+    }
+
+    public Duration getDeleteRejectedInstanceDelay() {
+        return deleteRejectedInstanceDelay;
+    }
+
+    public void setDeleteRejectedInstanceDelay(Duration deleteRejectedInstanceDelay) {
+        this.deleteRejectedInstanceDelay = deleteRejectedInstanceDelay;
+    }
+
+    public Duration getDeleteRejectionNoteDelay() {
+        return deleteRejectionNoteDelay;
+    }
+
+    public void setDeleteRejectionNoteDelay(Duration deleteRejectionNoteDelay) {
+        this.deleteRejectionNoteDelay = deleteRejectionNoteDelay;
+    }
 }
