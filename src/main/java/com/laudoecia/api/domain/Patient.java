@@ -306,6 +306,15 @@ public class Patient implements Serializable {
 
         responsibleperson = PersonName.valueOf(attrs.getString(Tag.ResponsiblePerson), fuzzyStr, responsibleperson);
     }
+
+	@Override
+	public String toString() {
+		return "Patient [idpatient=" + idpatient + ", patientid=" + patientid + ", patientname=" + patientname
+				+ ", birthday=" + birthday + ", patientage=" + patientage + ", patientsex=" + patientsex
+				+ ", datecreate=" + datecreate + ", datemodify=" + datemodify + "]";
+	}
+
 	
 
+    
 }

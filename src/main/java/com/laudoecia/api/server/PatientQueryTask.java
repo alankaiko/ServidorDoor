@@ -87,15 +87,12 @@ class PatientQueryTask extends BasicQueryTask {
 
 	
 	protected boolean findNextPatient() throws IOException {
-//		PatientService ser = new PatientService();
-//		Patient patient = ser.BuscarPorId(1L);
-//		this.patRec = Utils.atributos;
-//        if (patRec == null)
-//            patRec = ddr.findPatientRecord(keys, recFact, ignoreCaseOfPN, matchNoValue);
-//        else if (patIDs.length == 1)
-//            patRec = null;
-//        else
-//            patRec = ddr.findNextPatientRecord(patRec, keys, recFact, ignoreCaseOfPN, matchNoValue);
+        if (patRec == null)
+            patRec = ddr.findPatientRecord(keys, recFact, ignoreCaseOfPN, matchNoValue);
+        else if (patIDs.length == 1)
+            patRec = null;
+        else
+            patRec = ddr.findNextPatientRecord(patRec, keys, recFact, ignoreCaseOfPN, matchNoValue);
 
 		return patRec != null;
 	}
