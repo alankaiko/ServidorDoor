@@ -30,6 +30,7 @@ public class TextoPessoalRepositoryImpl implements TextoPessoalRepositoryQuery{
 		CriteriaQuery<TextoPessoal> query = builder.createQuery(TextoPessoal.class);
 		Root<TextoPessoal> root = query.from(TextoPessoal.class);
 
+		query.orderBy(builder.asc(root.get("codigo")));
 		Predicate[] predicato = AdicionarRestricoes(builder, filtro, root);
 		query.where(predicato);
 		

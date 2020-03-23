@@ -30,6 +30,7 @@ public class InstanceRepositoryImpl implements InstanceRepositoryQuery{
 		Root<Instance> root = criteria.from(Instance.class);
 		Root<Tagimagem> rootteste = criteria.from(Tagimagem.class);
 		
+		criteria.orderBy(builder.asc(root.get("codigo")));
 		criteria.where(builder.equal(root.get(Instance_.idinstance), idinstance));
 		//cq.where(cb.equal(model.get("id"), modelId));
 		

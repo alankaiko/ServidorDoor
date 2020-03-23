@@ -43,6 +43,7 @@ public class PatientRepositoryImpl implements PatientRepositoryQuery{
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<ResumoPatient> criteria = builder.createQuery(ResumoPatient.class);
 		Root<Patient> root = criteria.from(Patient.class);
+		
 		criteria.orderBy(builder.asc(root.get("idpatient")));
 		criteria.select(builder.construct(ResumoPatient.class, root.get(Patient_.idpatient), 
 			root.get(Patient_.patientid), root.get(Patient_.patientname), root.get(Patient_.birthday),
@@ -91,6 +92,8 @@ public class PatientRepositoryImpl implements PatientRepositoryQuery{
 		if(!StringUtils.isEmpty(filtro.getPatientsex()))
 			lista.add(builder.like(builder.lower(root.get(Patient_.patientsex)), "%" + filtro.getPatientsex().toLowerCase() + "%"));
 	
+		if(filtro.isServidor())
+			lista.add(builder.isNotNull(root.get(Patient_.patientid)));
 		
 		return lista.toArray(new Predicate[lista.size()]);
 	}

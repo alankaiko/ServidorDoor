@@ -27,6 +27,7 @@ public class AtendimentoRepositoryImpl implements AtendimentoRepositoryQuery{
 		CriteriaQuery<Atendimento> query = builder.createQuery(Atendimento.class);
 		Root<Atendimento> root = query.from(Atendimento.class);
 		
+		query.orderBy(builder.asc(root.get("codigo")));
 		Predicate[] predicato = AdicionarRestricoes(builder, atendimento, root);
 		query.where(predicato);
 		

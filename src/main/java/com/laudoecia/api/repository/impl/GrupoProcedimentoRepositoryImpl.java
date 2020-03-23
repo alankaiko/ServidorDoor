@@ -30,6 +30,7 @@ public class GrupoProcedimentoRepositoryImpl implements GrupoProcedimentoReposit
 		CriteriaQuery<GrupoProcedimento> query = builder.createQuery(GrupoProcedimento.class);
 		Root<GrupoProcedimento> root = query.from(GrupoProcedimento.class);
 		
+		query.orderBy(builder.asc(root.get("codigo")));
 		Predicate[] predicato = AdicionarRestricoes(builder, filtro, root);
 		query.where(predicato);
 		

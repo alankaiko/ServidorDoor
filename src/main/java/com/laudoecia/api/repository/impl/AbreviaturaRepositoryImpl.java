@@ -30,6 +30,7 @@ public class AbreviaturaRepositoryImpl implements AbreviaturaRepositoryQuery{
 		CriteriaQuery<Abreviatura> query = builder.createQuery(Abreviatura.class);
 		Root<Abreviatura> root = query.from(Abreviatura.class);
 
+		query.orderBy(builder.asc(root.get("codigo")));
 		Predicate[] predicato = AdicionarRestricoes(builder, filtro, root);
 		query.where(predicato);
 		

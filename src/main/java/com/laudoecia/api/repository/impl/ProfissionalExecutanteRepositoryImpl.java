@@ -31,6 +31,7 @@ public class ProfissionalExecutanteRepositoryImpl implements ProfissionalExecuta
 		CriteriaQuery<ProfissionalExecutante> query = builder.createQuery(ProfissionalExecutante.class);
 		Root<ProfissionalExecutante> root = query.from(ProfissionalExecutante.class);
 
+		query.orderBy(builder.asc(root.get("codigo")));
 		Predicate[] predicato = AdicionarRestricoes(builder, filtro, root);
 		query.where(predicato);
 		

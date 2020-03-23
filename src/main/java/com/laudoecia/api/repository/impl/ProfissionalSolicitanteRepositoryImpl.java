@@ -30,6 +30,7 @@ public class ProfissionalSolicitanteRepositoryImpl implements ProfissionalSolici
 		CriteriaQuery<ProfissionalSolicitante> query = builder.createQuery(ProfissionalSolicitante.class);
 		Root<ProfissionalSolicitante> root = query.from(ProfissionalSolicitante.class);
 
+		query.orderBy(builder.asc(root.get("codigo")));
 		Predicate[] predicato = AdicionarRestricoes(builder, filtro, root);
 		query.where(predicato);
 		
