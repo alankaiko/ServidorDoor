@@ -7,8 +7,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,61 +20,49 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.laudoecia.api.domain.Atendimento;
-import com.laudoecia.api.domain.Imagem;
+import com.laudoecia.api.domain.ProcedimentoAtendimento;
 import com.laudoecia.api.event.RecursoCriadoEvent;
-import com.laudoecia.api.service.AtendimentoService;
+import com.laudoecia.api.service.ProcedimentoAtendimentoService;
 
 @RestController
-@RequestMapping("/atendimentos")
+@RequestMapping("/procedimentos")
 @CrossOrigin("*")
-public class AtendimentoResource {
+public class ProcedimentoAtendimentoResource {
 	@Autowired
-	private AtendimentoService service;
-
+	private ProcedimentoAtendimentoService service;
+	
 	@Autowired
 	private ApplicationEventPublisher publisher;
-
+	
 	@GetMapping
-	public List<Atendimento> ListarTodos() {
+	public List<ProcedimentoAtendimento> ListarTodos(){
 		return this.service.Listar();
-	}
-
-	@GetMapping(params = "resumo")
-	public Page<Atendimento> Resumir(Atendimento filtro, Pageable page) {
-		return this.service.Filtrando(filtro, page);
-	}
-
+	}	
+	
+	
 	@PostMapping
-	public ResponseEntity<Atendimento> Salvar(@Valid @RequestBody Atendimento atendimento, HttpServletResponse resposta) {
-		Atendimento salvo = this.service.Criar(atendimento);
+	public ResponseEntity<ProcedimentoAtendimento> Salvar(@Valid @RequestBody ProcedimentoAtendimento procedimento, HttpServletResponse resposta){
+		ProcedimentoAtendimento salvo = this.service.Criar(procedimento);
 		this.publisher.publishEvent(new RecursoCriadoEvent(this, resposta, salvo.getCodigo()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
 	}
-
+	
 	@DeleteMapping("/{codigo}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void Remover(@PathVariable Long codigo) {
 		this.service.Deletar(codigo);
 	}
-
+	
 	@GetMapping("/{codigo}")
-	public ResponseEntity<Atendimento> PorId(@PathVariable Long codigo) {
-		Atendimento salvo = this.service.BuscarPorId(codigo);
+	public ResponseEntity<ProcedimentoAtendimento> PorId(@PathVariable Long codigo){
+		ProcedimentoAtendimento salvo = this.service.BuscarPorId(codigo);
 		return ResponseEntity.ok(salvo);
 	}
-
-	@PutMapping("/{codigo}")
-	public ResponseEntity<Atendimento> Atualizar(@PathVariable Long codigo, @Valid @RequestBody Atendimento atendimento) {
-		for(Imagem im : atendimento.getProcedimentos().get(0).getListaimagem())
-			System.out.println(im.getNomeimagem());
-		try {
-			Atendimento salvo = this.service.Atualizar(codigo, atendimento);
-			return ResponseEntity.ok(salvo);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 	
+	@PutMapping("/{codigo}")
+	public ResponseEntity<ProcedimentoAtendimento> Atualizar(@PathVariable Long codigo, @Valid @RequestBody ProcedimentoAtendimento procedimento){
+		System.out.println(procedimento.toString());
+		ProcedimentoAtendimento salvo = this.service.Atualizar(codigo, procedimento);
+		return ResponseEntity.ok(salvo);
+	}
 }

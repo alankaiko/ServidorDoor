@@ -3,14 +3,17 @@ package com.laudoecia.api.domain;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -26,6 +29,7 @@ public class ProcedimentoAtendimento implements Serializable {
 	private LocalDate preventregalaudo;
 	private LocalDate dataexecucao;
 	private Atendimento atendimento;
+	private List<Imagem> listaimagem;
 
 	
 	@Id
@@ -98,6 +102,15 @@ public class ProcedimentoAtendimento implements Serializable {
 
 	public void setAtendimento(Atendimento atendimento) {
 		this.atendimento = atendimento;
+	}
+	
+	@OneToMany(mappedBy = "procedimentoatendimento", cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+	public List<Imagem> getListaimagem() {
+		return listaimagem;
+	}
+
+	public void setListaimagem(List<Imagem> listaimagem) {
+		this.listaimagem = listaimagem;
 	}
 
 	@Override

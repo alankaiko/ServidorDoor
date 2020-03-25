@@ -15,7 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table
+@Table(name="procedimentomedico")
 public class ProcedimentoMedico implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -26,6 +26,7 @@ public class ProcedimentoMedico implements Serializable {
 	private String caminhoimagem2;
 	private boolean laudomodelo;
 	private GrupoProcedimento grupo;
+	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -88,6 +89,7 @@ public class ProcedimentoMedico implements Serializable {
 	public void setGrupo(GrupoProcedimento grupo) {
 		this.grupo = grupo;
 	}
+
 
 	@Override
 	public int hashCode() {

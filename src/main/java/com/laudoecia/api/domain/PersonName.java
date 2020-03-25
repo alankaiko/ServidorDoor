@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,7 +20,7 @@ import org.dcm4che3.data.PersonName.Group;
 import com.laudoecia.api.utilities.FuzzyStr;
 
 @Entity
-@Table//(name = "personname")
+@Table(name = "personname")
 public class PersonName {
     private Long codigo;
     private String familyname;
