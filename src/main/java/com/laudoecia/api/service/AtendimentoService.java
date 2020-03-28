@@ -66,6 +66,8 @@ public class AtendimentoService {
 
 	public Atendimento Atualizar(Long id, Atendimento atendimento) {
 		try {
+			
+			
 			Atendimento salvo = this.BuscarPorId(id);
 			
 			salvo.getProcedimentos().clear();

@@ -1,5 +1,6 @@
 package com.laudoecia.api.resources;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -8,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -61,8 +63,14 @@ public class ProcedimentoAtendimentoResource {
 	
 	@PutMapping("/{codigo}")
 	public ResponseEntity<ProcedimentoAtendimento> Atualizar(@PathVariable Long codigo, @Valid @RequestBody ProcedimentoAtendimento procedimento){
-		System.out.println(procedimento.toString());
 		ProcedimentoAtendimento salvo = this.service.Atualizar(codigo, procedimento);
 		return ResponseEntity.ok(salvo);
 	}
+	
+	@GetMapping(value = "/imagem/{codigo}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> BuscarImagem(@PathVariable Long codigo) throws IOException {
+    	byte[] bytes = this.service.BuscarImagem(codigo);
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(bytes);
+    }
+	
 }

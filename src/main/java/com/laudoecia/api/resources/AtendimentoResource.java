@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.laudoecia.api.domain.Atendimento;
-import com.laudoecia.api.domain.Imagem;
 import com.laudoecia.api.event.RecursoCriadoEvent;
 import com.laudoecia.api.service.AtendimentoService;
 
@@ -68,8 +67,6 @@ public class AtendimentoResource {
 
 	@PutMapping("/{codigo}")
 	public ResponseEntity<Atendimento> Atualizar(@PathVariable Long codigo, @Valid @RequestBody Atendimento atendimento) {
-		for(Imagem im : atendimento.getProcedimentos().get(0).getListaimagem())
-			System.out.println(im.getNomeimagem());
 		try {
 			Atendimento salvo = this.service.Atualizar(codigo, atendimento);
 			return ResponseEntity.ok(salvo);

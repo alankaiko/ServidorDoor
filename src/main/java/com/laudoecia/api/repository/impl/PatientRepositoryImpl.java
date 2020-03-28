@@ -91,7 +91,7 @@ public class PatientRepositoryImpl implements PatientRepositoryQuery{
 		
 		if(!StringUtils.isEmpty(filtro.getPatientsex()))
 			lista.add(builder.like(builder.lower(root.get(Patient_.patientsex)), "%" + filtro.getPatientsex().toLowerCase() + "%"));
-	
+
 		if(filtro.isServidor())
 			lista.add(builder.isNotNull(root.get(Patient_.patientid)));
 		

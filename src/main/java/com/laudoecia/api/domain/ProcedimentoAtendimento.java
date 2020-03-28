@@ -15,6 +15,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name ="procedimentoatendimento")
@@ -30,6 +33,7 @@ public class ProcedimentoAtendimento implements Serializable {
 	private LocalDate dataexecucao;
 	private Atendimento atendimento;
 	private List<Imagem> listaimagem;
+	private Long codigoatdteste;
 
 	
 	@Id
@@ -104,13 +108,23 @@ public class ProcedimentoAtendimento implements Serializable {
 		this.atendimento = atendimento;
 	}
 	
-	@OneToMany(mappedBy = "procedimentoatendimento", cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+	@JsonIgnoreProperties("procedimentoatendimento")
+	@OneToMany(mappedBy = "procedimentoatendimento", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	public List<Imagem> getListaimagem() {
 		return listaimagem;
 	}
 
 	public void setListaimagem(List<Imagem> listaimagem) {
 		this.listaimagem = listaimagem;
+	}
+	
+	@Transient
+	public Long getCodigoatdteste() {
+		return codigoatdteste;
+	}
+	
+	public void setCodigoatdteste(Long codigoatdteste) {
+		this.codigoatdteste = codigoatdteste;
 	}
 
 	@Override

@@ -1,5 +1,8 @@
 package com.laudoecia.api.service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,15 +12,21 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StreamUtils;
 
+import com.laudoecia.api.domain.Imagem;
 import com.laudoecia.api.domain.ProcedimentoAtendimento;
 import com.laudoecia.api.repository.ProcedimentoAtendimentoRepository;
+import com.laudoecia.api.utils.ConverterParaJpeg;
 
 @Service
 public class ProcedimentoAtendimentoService {
 	
 	@Autowired
 	ProcedimentoAtendimentoRepository dao;
+	
+	@Autowired
+	private ImagemService serviceimagem;
 	
 	private final Logger LOG = LoggerFactory.getLogger(StudyService.class);
 	
@@ -40,6 +49,9 @@ public class ProcedimentoAtendimentoService {
 
 		if (procedimento.get() == null)
 			throw new EmptyResultDataAccessException(1);
+		
+		List<Imagem> lista = this.RecuperarListasImagem(procedimento.get().getListaimagem());
+		procedimento.get().setListaimagem(lista);
 
 		return procedimento.get();
 	}
@@ -65,7 +77,12 @@ public class ProcedimentoAtendimentoService {
 	public ProcedimentoAtendimento Atualizar(Long id, ProcedimentoAtendimento procedimento) {
 		try {
 			ProcedimentoAtendimento salvo = this.BuscarPorId(id);
-			BeanUtils.copyProperties(procedimento, salvo, "id");
+			salvo.getListaimagem().clear();
+			List<Imagem> listaatualizada = this.GravarListaImagens(procedimento.getListaimagem(),procedimento.getCodigoatdteste());
+			salvo.getListaimagem().addAll(listaatualizada);
+			salvo.getListaimagem().forEach(lista -> lista.setProcedimentoatendimento(salvo));			
+			
+			BeanUtils.copyProperties(procedimento, salvo, "id","listaimagem","atendimento");				
 			return this.Criar(salvo);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Atualizar------------------ de ProcedimentoAtendimentoService");
@@ -75,5 +92,57 @@ public class ProcedimentoAtendimentoService {
 	}
 
 	
+	public List<Imagem> GravarListaImagens(List<Imagem> lista, Long codigoatendimento) {
+		ConverterParaJpeg converter = new ConverterParaJpeg();
+		String caminho = "./arquivo/procedimentos";
+		this.VerificaSePastaExiste(caminho + "/" + codigoatendimento);
+
+		for(Imagem im : lista) {
+			String montarnome = caminho + "/" + codigoatendimento + "/" + im.getNomeimagem() + im.getExtensao();
+			im.setCaminho(montarnome);
+			converter.CriaImagemNaPasta(montarnome, im.getImagem());
+		}
+		
+		return lista;
+	}
 	
+	public List<Imagem> RecuperarListasImagem(List<Imagem> lista) {
+    	try {
+    		for(Imagem im : lista) {
+    			byte[] bytes = null;
+    			InputStream imagem = new FileInputStream(im.getCaminho());
+    			bytes = StreamUtils.copyToByteArray(imagem);
+    			im.setImagem(bytes);
+    		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}   
+    	
+        return lista;
+	}
+	
+	private void VerificaSePastaExiste(String  caminho) {
+  		File file = new File(caminho);
+  		
+  		if(!file.exists()) {
+  			file.mkdirs();
+  			//file.setReadable(Boolean.TRUE, Boolean.TRUE);
+  			//file.setWritable(Boolean.FALSE, Boolean.TRUE);
+  			//file.setExecutable(Boolean.FALSE, Boolean.TRUE);
+  		}
+  	}
+
+	public byte[] BuscarImagem(Long codigo){
+    	Imagem img = this.serviceimagem.BuscarPorId(codigo);
+    	
+    	System.out.println("vindo aqui");
+    	byte[] bytes = null;
+    	try {
+    		InputStream imagem = new FileInputStream(img.getCaminho());
+    		bytes = StreamUtils.copyToByteArray(imagem);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}                
+        return bytes;
+    }
 }
