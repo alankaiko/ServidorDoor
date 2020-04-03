@@ -1,4 +1,4 @@
-package com.laudoecia.api.domain;
+package com.laudoecia.api.domain.enuns;
 
 public enum EnumRestricaoSexo {
 	NENHUMA_RESTRICAO("NENHUMA RESTRICÃO"), APENAS_MASCULINO("APENAS MASCULINO"), APENAS_FEMININO("APENAS FEMININO");

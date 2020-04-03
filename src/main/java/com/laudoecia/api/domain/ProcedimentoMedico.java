@@ -14,6 +14,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.laudoecia.api.domain.enuns.EnumRestricaoSexo;
+
 @Entity
 @Table(name="procedimentomedico")
 public class ProcedimentoMedico implements Serializable {

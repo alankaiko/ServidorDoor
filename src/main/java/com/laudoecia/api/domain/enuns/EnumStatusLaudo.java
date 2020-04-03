@@ -1,4 +1,4 @@
-package com.laudoecia.api.domain;
+package com.laudoecia.api.domain.enuns;
 
 public enum EnumStatusLaudo {
 	PENDENTE("pendente"), PRONTO("pronto");

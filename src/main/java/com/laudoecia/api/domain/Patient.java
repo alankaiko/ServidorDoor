@@ -27,6 +27,7 @@ import org.dcm4che3.data.Tag;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.laudoecia.api.domain.enuns.VerificationStatus;
 import com.laudoecia.api.utilities.AttributeFilter;
 import com.laudoecia.api.utilities.BlobCorruptedException;
 import com.laudoecia.api.utilities.FuzzyStr;

@@ -1,4 +1,4 @@
-package com.laudoecia.api.domain;
+package com.laudoecia.api.domain.enuns;
 
 public enum EnumSexo {
 	NADA(" "),MASCULINO("Masculino"),FEMININO("Feminino");
