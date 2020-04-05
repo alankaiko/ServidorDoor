@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9a823898-1a06-4303-966d-f04e001bec9b">
+	<property name="ireport.zoom" value="1.210000000000001"/>
+	<property name="ireport.x" value="297"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Zebra">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT} % 2 == 0]]></conditionExpression>
+			<style forecolor="#F0F0F0" backcolor="#F0F0F0"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="NOME_EMPRESA" class="java.lang.String"/>
+	<parameter name="LICENCIADO" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+     profissionalexecutante."codigo" AS codigo,
+     profissionalexecutante."email" AS email,
+     profissionalexecutante."telefone" AS telefone,
+     profissionalexecutante."nome" AS nome,
+     estado."uf" AS estado_uf,
+     sigla."descricao" AS sigla_descricao,
+     tiss_conselho."descricao" AS tiss_conselho_descricao
+FROM
+     "public"."tiss_conselho" tiss_conselho INNER JOIN "public"."profissionalexecutante" profissionalexecutante ON tiss_conselho."codigo" = profissionalexecutante."tabela_conselho_id"
+     INNER JOIN "public"."estado" estado ON tiss_conselho."tbl_estado_id" = estado."codigo"
+     INNER JOIN "public"."sigla" sigla ON tiss_conselho."tbl_sigla_id" = sigla."codigo"]]>
+	</queryString>
+	<field name="codigo" class="java.lang.Long"/>
+	<field name="email" class="java.lang.String"/>
+	<field name="telefone" class="java.lang.String"/>
+	<field name="nome" class="java.lang.String"/>
+	<field name="estado_uf" class="java.lang.String"/>
+	<field name="sigla_descricao" class="java.lang.String"/>
+	<field name="tiss_conselho_descricao" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="62" splitType="Stretch">
+			<rectangle>
+				<reportElement key="barra1" x="1" y="1" width="800" height="16" forecolor="#CCCCCC" backcolor="#CCCCCC" uuid="c009192f-ac60-4dfe-b2b6-80ae2a1ac0ec"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="3" y="27" width="795" height="22" uuid="2a21f51e-df92-4fcc-a7d8-0d8d20570ef8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Relatório de Profissionais Executantes]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="3" y="0" width="434" height="16" uuid="5e6b7afc-87f1-4bcf-8e38-b24c1f7f1ffc"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{NOME_EMPRESA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="17">
+			<printWhenExpression><![CDATA[$V{PAGE_NUMBER} > 1]]></printWhenExpression>
+			<rectangle>
+				<reportElement x="1" y="1" width="800" height="16" forecolor="#CCCCCC" backcolor="#CCCCCC" uuid="af5ca1a2-53a8-4fdc-b9ff-737cc1f16a4c"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="3" y="1" width="279" height="16" uuid="6b56f329-e0d1-4675-a031-1f496fa12845"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Relatório de Profissionais Executantes]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="282" y="1" width="516" height="16" uuid="a5618d14-cc40-4ca5-afd2-61d176ae095c"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{NOME_EMPRESA}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="2" y="4" width="51" height="15" uuid="1eb0ac45-9f7c-4928-b06f-b3b5482c04bc"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="3" width="802" height="1" forecolor="#999999" uuid="e0806b3a-bcac-425b-86b2-51bf0dac8132"/>
+			</line>
+			<line>
+				<reportElement x="0" y="19" width="802" height="1" forecolor="#999999" uuid="481b8e90-1804-426d-b31f-8b4246e28e10"/>
+			</line>
+			<staticText>
+				<reportElement x="55" y="4" width="303" height="15" uuid="fcea93f9-4b27-4bdd-9173-dddc62df94f6"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="569" y="4" width="232" height="15" uuid="0d571e43-f0f0-4519-96d2-d4115fde906a"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[e-mail]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="361" y="4" width="113" height="15" uuid="6c6b1172-7149-4486-aa53-b03d9b3c5c04"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nº Conselho]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="479" y="5" width="86" height="15" uuid="39d9921d-a780-446b-a891-b5b43428a3aa"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Telefone]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="17" splitType="Stretch">
+			<rectangle>
+				<reportElement style="Zebra" x="1" y="1" width="800" height="15" forecolor="#FFFFFF" uuid="65b84fb6-5697-4144-b4df-539c6752b9cd"/>
+			</rectangle>
+			<textField>
+				<reportElement x="2" y="2" width="51" height="13" uuid="48e4b623-d2c9-45c5-8d82-3bf4327b5f3d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="55" y="2" width="303" height="13" uuid="25652d60-9320-42dc-a517-dcac1fae4d86"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="569" y="2" width="232" height="13" uuid="9a2b90f0-d279-4906-873e-f23ca61ffa37"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="361" y="2" width="113" height="13" uuid="9b9faf23-b900-474f-a8df-64bd6cff904e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sigla_descricao} + "-" + $F{tiss_conselho_descricao} + " " + $F{estado_uf}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="479" y="3" width="86" height="13" uuid="c8ac89a4-6352-4013-8fae-b7334f79f3da"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefone}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="11">
+			<line>
+				<reportElement x="0" y="7" width="802" height="1" forecolor="#999999" uuid="d554eba5-0ac5-4c53-a42a-3e7982b2d869"/>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="17" splitType="Stretch">
+			<rectangle>
+				<reportElement x="1" y="1" width="800" height="16" forecolor="#CCCCCC" backcolor="#CCCCCC" uuid="e0528015-b782-4c55-b3e2-a5798d295512"/>
+			</rectangle>
+			<textField pattern="dd/MM/yyyy HH:mm:ss">
+				<reportElement x="80" y="0" width="100" height="16" uuid="4b0ee22e-d294-47d1-bc48-c1e81ba2c095"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="0" width="77" height="16" uuid="e5afb848-0bb6-4fe7-b931-86c5fc9df456"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Data de emissão:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="677" y="0" width="92" height="16" uuid="f45c59fa-449e-4c84-8293-53ba4ffddc87"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="769" y="0" width="28" height="16" uuid="e3d4f1de-dae6-4ca1-9f3e-93636a25b7b3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="210" y="0" width="450" height="16" uuid="7753b703-a56d-4e16-b913-467bbe383d63"/>
+				<textElement verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Licenciado para "+$P{LICENCIADO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

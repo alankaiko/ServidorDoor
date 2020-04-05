@@ -1,6 +1,9 @@
 package com.laudoecia.api.service;
 
+import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -13,14 +16,25 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.laudoecia.api.domain.Convenio;
+import com.laudoecia.api.domain.Licenciado;
 import com.laudoecia.api.repository.ConvenioRepository;
 import com.laudoecia.api.repository.filtro.ConvenioFilter;
 import com.laudoecia.api.repository.resumo.ResumoConvenio;
+
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 @Service
 public class ConvenioService {
 	@Autowired
 	private ConvenioRepository dao;
+	
+	@Autowired
+	private LicenciadoService licencaservice;
+	
 	private final Logger LOG = LoggerFactory.getLogger(StudyService.class);
 
 	
@@ -97,4 +111,18 @@ public class ConvenioService {
 		}	
 	}
 
+	
+	public byte[] RelatorioPorPessoa() throws Exception {
+		List<Convenio> lista = this.Listar();	
+		Licenciado licenca = this.licencaservice.BuscarPorId(1L);
+		
+		Map<String, Object> parametros = new HashMap<>();	
+		parametros.put("NOME_EMPRESA", licenca.getRazaosocial());
+		parametros.put("LICENCIADO", licenca.getLicenciadopara());
+		
+		InputStream inputStream = this.getClass().getResourceAsStream("/jasper/RelConvenios.jasper");	
+		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parametros, new JRBeanCollectionDataSource(lista));
+
+		return JasperExportManager.exportReportToPdf(jasperPrint);
+	}
 }

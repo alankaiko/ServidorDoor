@@ -69,7 +69,7 @@ public class AbreviaturaService {
 	public Abreviatura Atualizar(Long id, Abreviatura abreviatura) {
 		try {
 			Abreviatura salvo = this.BuscarPorId(id);
-			BeanUtils.copyProperties(abreviatura, salvo, "id");
+			BeanUtils.copyProperties(abreviatura, salvo, "codigo");
 			return this.Criar(salvo);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Atualizar------------------ de AbreviaturaService");

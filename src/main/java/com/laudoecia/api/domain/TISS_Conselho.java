@@ -1,9 +1,13 @@
 package com.laudoecia.api.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -11,8 +15,9 @@ import javax.persistence.Table;
 public class TISS_Conselho {
 
 	private Long codigo;
-	private String sigla;
+	private Sigla sigla;
 	private String descricao;
+	private Estado estado;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,11 +29,13 @@ public class TISS_Conselho {
 		this.codigo = codigo;
 	}
 
-	public String getSigla() {
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+	@JoinColumn(name = "tbl_sigla_id", referencedColumnName = "codigo")
+	public Sigla getSigla() {
 		return sigla;
 	}
-
-	public void setSigla(String sigla) {
+	
+	public void setSigla(Sigla sigla) {
 		this.sigla = sigla;
 	}
 
@@ -38,6 +45,17 @@ public class TISS_Conselho {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+	
+	
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+	@JoinColumn(name = "tbl_estado_id", referencedColumnName = "codigo")
+	public Estado getEstado() {
+		return estado;
+	}
+	
+	public void setEstado(Estado estado) {
+		this.estado = estado;
 	}
 
 	@Override
