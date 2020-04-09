@@ -1,6 +1,11 @@
 package com.laudoecia.api.service;
 
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -13,14 +18,23 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.laudoecia.api.domain.Atendimento;
+import com.laudoecia.api.domain.Patient;
 import com.laudoecia.api.repository.AtendimentoRepository;
+
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @Service
 public class AtendimentoService {
 	@Autowired
 	private AtendimentoRepository dao;
+	
+	@Autowired
+	private PatientService servicepat;
 
-	private final Logger LOG = LoggerFactory.getLogger(StudyService.class);
+	private final Logger LOG = LoggerFactory.getLogger(AtendimentoService.class);
 
 	public List<Atendimento> Listar() {
 		return this.dao.findAll();
@@ -103,4 +117,17 @@ public class AtendimentoService {
 		}
 	}
 
+	public byte[] AtestadoMontar(Long codigo) throws Exception {
+		Patient pat = this.servicepat.BuscarPorId(codigo);
+		List<Patient> lista = new ArrayList<Patient>();
+		lista.add(pat);
+		
+		Map<String, Object> parametros = new HashMap<>();	
+		parametros.put("data", new Date());
+		
+		InputStream inputStream = this.getClass().getResourceAsStream("/jasper/Atestado.jasper");	
+		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parametros, new JRBeanCollectionDataSource(lista));
+
+		return JasperExportManager.exportReportToPdf(jasperPrint);
+	}
 }

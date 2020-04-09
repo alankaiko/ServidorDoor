@@ -20,7 +20,7 @@ import com.laudoecia.api.repository.filtro.TextoPessoalFilter;
 public class TextoPessoalService {
 	@Autowired
 	private TextoPessoalRepository dao;
-	private final Logger LOG = LoggerFactory.getLogger(StudyService.class);
+	private final Logger LOG = LoggerFactory.getLogger(TextoPessoalService.class);
 
 	
 	public List<TextoPessoal> Listar() {

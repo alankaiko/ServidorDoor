@@ -20,7 +20,7 @@ import com.laudoecia.api.repository.filtro.GrupoProcedimentoFilter;
 public class GrupoProcedimentoService {
 	@Autowired
 	private GrupoProcedimentoRepository dao;
-	private final Logger LOG = LoggerFactory.getLogger(StudyService.class);
+	private final Logger LOG = LoggerFactory.getLogger(GrupoProcedimentoService.class);
 
 	
 	public List<GrupoProcedimento> Listar() {

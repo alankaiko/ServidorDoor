@@ -21,7 +21,7 @@ import com.laudoecia.api.repository.resumo.ResumoProcedimentoMedico;
 public class ProcedimentoMedicoService {
 	@Autowired
 	private ProcedimentoMedicoRepository dao;
-	private final Logger LOG = LoggerFactory.getLogger(StudyService.class);
+	private final Logger LOG = LoggerFactory.getLogger(ProcedimentoMedicoService.class);
 
 	
 	public List<ProcedimentoMedico> Listar() {

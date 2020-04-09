@@ -20,7 +20,7 @@ import com.laudoecia.api.repository.filtro.LicenciadoFilter;
 public class LicenciadoService {
 	@Autowired
 	private LicenciadoRepository dao;
-	private final Logger LOG = LoggerFactory.getLogger(StudyService.class);
+	private final Logger LOG = LoggerFactory.getLogger(LicenciadoService.class);
 
 	public List<Licenciado> Listar() {
 		return this.dao.findAll();

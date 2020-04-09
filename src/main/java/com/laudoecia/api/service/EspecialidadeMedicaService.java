@@ -17,7 +17,7 @@ import com.laudoecia.api.repository.EspecialidadesMedicasRepository;
 public class EspecialidadeMedicaService {
 	@Autowired
 	private EspecialidadesMedicasRepository dao;
-	private final Logger LOG = LoggerFactory.getLogger(StudyService.class);
+	private final Logger LOG = LoggerFactory.getLogger(EspecialidadeMedicaService.class);
 
 	
 	public List<EspecialidadeMedica> Listar() {

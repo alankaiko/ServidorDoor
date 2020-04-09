@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -74,6 +76,17 @@ public class AtendimentoResource {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	@GetMapping("/relatorios/atestado/{idpatient}")
+	public ResponseEntity<byte[]> PegarAtestado(@PathVariable Long idpatient) throws Exception {
+		try {
+			byte[] relatorio = this.service.AtestadoMontar(idpatient);
+			return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PDF_VALUE).body(relatorio);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}		
 	}
 	
 }

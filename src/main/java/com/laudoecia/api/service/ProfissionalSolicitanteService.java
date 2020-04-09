@@ -20,7 +20,7 @@ import com.laudoecia.api.repository.filtro.ProfissionalSolicitanteFilter;
 public class ProfissionalSolicitanteService {
 	@Autowired
 	private ProfissionalSolicitanteRepository dao;
-	private final Logger LOG = LoggerFactory.getLogger(StudyService.class);
+	private final Logger LOG = LoggerFactory.getLogger(ProfissionalSolicitanteService.class);
 
 	
 	public List<ProfissionalSolicitante> Listar() {

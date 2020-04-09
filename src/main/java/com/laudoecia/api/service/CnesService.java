@@ -17,7 +17,7 @@ import com.laudoecia.api.repository.CnesRepository;
 public class CnesService {
 	@Autowired
 	private CnesRepository dao;
-	private final Logger LOG = LoggerFactory.getLogger(StudyService.class);
+	private final Logger LOG = LoggerFactory.getLogger(CnesService.class);
 
 	
 	public List<CNES> Listar() {

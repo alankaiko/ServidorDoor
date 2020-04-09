@@ -20,7 +20,7 @@ import com.laudoecia.api.repository.filtro.SiglaFilter;
 public class SiglaService {
 	@Autowired
 	private SiglaRepository dao;	
-	private final Logger LOG = LoggerFactory.getLogger(StudyService.class);
+	private final Logger LOG = LoggerFactory.getLogger(SiglaService.class);
 
 	
 	public List<Sigla> Listar() {

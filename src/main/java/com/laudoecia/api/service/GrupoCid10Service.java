@@ -17,7 +17,7 @@ import com.laudoecia.api.repository.GrupoCid10Repository;
 public class GrupoCid10Service {
 	@Autowired
 	private GrupoCid10Repository dao;
-	private final Logger LOG = LoggerFactory.getLogger(StudyService.class);
+	private final Logger LOG = LoggerFactory.getLogger(GrupoCid10Service.class);
 
 	
 	public List<GrupoCID10> Listar() {

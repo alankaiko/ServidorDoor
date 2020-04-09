@@ -17,7 +17,7 @@ import com.laudoecia.api.repository.CrmRepository;
 public class CrmService {
 	@Autowired
 	private CrmRepository dao;
-	private final Logger LOG = LoggerFactory.getLogger(StudyService.class);
+	private final Logger LOG = LoggerFactory.getLogger(CrmService.class);
 
 	
 	public List<Crm> Listar() {

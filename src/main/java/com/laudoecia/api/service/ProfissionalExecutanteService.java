@@ -30,7 +30,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 public class ProfissionalExecutanteService {
 	@Autowired
 	private ProfissionalExecutanteRepository dao;
-	private final Logger LOG = LoggerFactory.getLogger(StudyService.class);
+	private final Logger LOG = LoggerFactory.getLogger(ProfissionalExecutanteService.class);
 	
 	@Autowired
 	private LicenciadoService licencaservice;

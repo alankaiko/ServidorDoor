@@ -22,7 +22,7 @@ public class ModeloDeLaudoDoProcService {
 	private ModeloDeLaudoDoProcRepository dao;
 	
 	
-	private final Logger LOG = LoggerFactory.getLogger(StudyService.class);
+	private final Logger LOG = LoggerFactory.getLogger(ModeloDeLaudoDoProcService.class);
 
 	
 	public List<ModeloDeLaudoDoProc> Listar() {

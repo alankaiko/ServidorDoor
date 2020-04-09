@@ -22,7 +22,7 @@ public class AbreviaturaService {
 	private AbreviaturaRepository dao;
 	
 	
-	private final Logger LOG = LoggerFactory.getLogger(StudyService.class);
+	private final Logger LOG = LoggerFactory.getLogger(AbreviaturaService.class);
 
 	
 	public List<Abreviatura> Listar() {

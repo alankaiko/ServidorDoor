@@ -17,7 +17,7 @@ import com.laudoecia.api.repository.CbhpmRepository;
 public class CbhpmService {
 	@Autowired
 	private CbhpmRepository dao;
-	private final Logger LOG = LoggerFactory.getLogger(StudyService.class);
+	private final Logger LOG = LoggerFactory.getLogger(CbhpmService.class);
 
 	
 	public List<CBHPM> Listar() {

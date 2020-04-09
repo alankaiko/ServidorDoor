@@ -19,7 +19,7 @@ import com.laudoecia.api.repository.resumo.TagImagemGamb;
 public class TagImagemService {
 	@Autowired
 	private TagImagemRepository dao;
-	private final Logger LOG = LoggerFactory.getLogger(StudyService.class);
+	private final Logger LOG = LoggerFactory.getLogger(TagImagemService.class);
 
 	
 	public List<Tagimagem> Listar() {

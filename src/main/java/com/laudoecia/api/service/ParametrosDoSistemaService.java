@@ -17,7 +17,7 @@ import com.laudoecia.api.repository.ParametrosDoSistemaRepository;
 public class ParametrosDoSistemaService {
 	@Autowired
 	private ParametrosDoSistemaRepository dao;
-	private final Logger LOG = LoggerFactory.getLogger(StudyService.class);
+	private final Logger LOG = LoggerFactory.getLogger(ParametrosDoSistemaService.class);
 
 	public List<ParametrosDoSistema> Listar() {
 		return this.dao.findAll();

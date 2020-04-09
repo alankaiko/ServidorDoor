@@ -28,7 +28,7 @@ public class ProcedimentoAtendimentoService {
 	@Autowired
 	private ImagemService serviceimagem;
 	
-	private final Logger LOG = LoggerFactory.getLogger(StudyService.class);
+	private final Logger LOG = LoggerFactory.getLogger(ProcedimentoAtendimentoService.class);
 	
 	public List<ProcedimentoAtendimento> Listar() {
 		return this.dao.findAll();

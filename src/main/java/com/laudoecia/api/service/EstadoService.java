@@ -20,7 +20,7 @@ import com.laudoecia.api.repository.filtro.EstadoFilter;
 public class EstadoService {
 	@Autowired
 	private EstadoRepository dao;	
-	private final Logger LOG = LoggerFactory.getLogger(StudyService.class);
+	private final Logger LOG = LoggerFactory.getLogger(EstadoService.class);
 
 	
 	public List<Estado> Listar() {

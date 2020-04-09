@@ -25,7 +25,6 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.view.JasperViewer;
 
 @Service
 public class ConvenioService {
@@ -35,7 +34,7 @@ public class ConvenioService {
 	@Autowired
 	private LicenciadoService licencaservice;
 	
-	private final Logger LOG = LoggerFactory.getLogger(StudyService.class);
+	private final Logger LOG = LoggerFactory.getLogger(ConvenioService.class);
 
 	
 	public List<Convenio> Listar() {
