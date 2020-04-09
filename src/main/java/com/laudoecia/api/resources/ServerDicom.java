@@ -98,5 +98,4 @@ public class ServerDicom {
 		return this.service.BuscaEstudo(idpatient);
 	}
 
-	
 }

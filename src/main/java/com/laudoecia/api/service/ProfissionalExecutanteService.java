@@ -126,7 +126,7 @@ public class ProfissionalExecutanteService {
 		Map<String, Object> parametros = new HashMap<>();	
 		parametros.put("NOME_EMPRESA", licenca.getRazaosocial());
 		parametros.put("LICENCIADO", licenca.getLicenciadopara());
-		
+
 		InputStream inputStream = this.getClass().getResourceAsStream("/jasper/RelProfExecutante.jasper");	
 		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parametros, new JRBeanCollectionDataSource(lista));
 

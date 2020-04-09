@@ -82,7 +82,7 @@ public class ProcedimentoAtendimentoService {
 			salvo.getListaimagem().addAll(listaatualizada);
 			salvo.getListaimagem().forEach(lista -> lista.setProcedimentoatendimento(salvo));			
 			
-			BeanUtils.copyProperties(procedimento, salvo, "id","listaimagem","atendimento");				
+			BeanUtils.copyProperties(procedimento, salvo, "codigo","listaimagem","atendimento");				
 			return this.Criar(salvo);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Atualizar------------------ de ProcedimentoAtendimentoService");

@@ -22,41 +22,42 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.laudoecia.api.domain.Licenciado;
+import com.laudoecia.api.domain.ModeloDeLaudoDoProc;
 import com.laudoecia.api.event.RecursoCriadoEvent;
-import com.laudoecia.api.repository.filtro.LicenciadoFilter;
-import com.laudoecia.api.service.LicenciadoService;
+import com.laudoecia.api.repository.filtro.ModeloDeLaudoDoProcFilter;
+import com.laudoecia.api.service.ModeloDeLaudoDoProcService;
 
 @RestController
-@RequestMapping("/licenciados")
+@RequestMapping("/modelosprocedimento")
 @CrossOrigin("*")
-public class LicenciadoResource {
+public class ModeloDeLaudoDoProcResource {
 	@Autowired
-	private LicenciadoService service;
+	private ModeloDeLaudoDoProcService service;
 	
 	@Autowired
 	private ApplicationEventPublisher publisher;
 	
 	@GetMapping
-	public List<Licenciado> ListarTodos(){
+	public List<ModeloDeLaudoDoProc> ListarTodos(){
 		return this.service.Listar();
 	}	
 	
+	@GetMapping("/proc/{codigo}")
+	public List<ModeloDeLaudoDoProc> ListarPorProcedimentoMedico(@PathVariable Long codigo) {
+		return this.service.ListarPeloCodigoProcedimento(codigo);
+	}
+	
 	@GetMapping(params = "resumo")
-	public Page<Licenciado> Resumir(LicenciadoFilter filtro, Pageable page) {
+	public Page<ModeloDeLaudoDoProc> Resumir(ModeloDeLaudoDoProcFilter filtro, Pageable page) {
 		return this.service.Filtrando(filtro, page);
 	}
 	
+	
 	@PostMapping
-	public ResponseEntity<Licenciado> Salvar(@Valid @RequestBody Licenciado licenciado, HttpServletResponse resposta){
-		try {
-			Licenciado salvo = this.service.Criar(licenciado);
-			this.publisher.publishEvent(new RecursoCriadoEvent(this, resposta, salvo.getCodigo()));
-			return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}		
+	public ResponseEntity<ModeloDeLaudoDoProc> Salvar(@Valid @RequestBody ModeloDeLaudoDoProc modelo, HttpServletResponse resposta){
+		ModeloDeLaudoDoProc salvo = this.service.Criar(modelo);
+		this.publisher.publishEvent(new RecursoCriadoEvent(this, resposta, salvo.getCodigo()));
+		return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
 	}
 	
 	@DeleteMapping("/{codigo}")
@@ -66,14 +67,14 @@ public class LicenciadoResource {
 	}
 	
 	@GetMapping("/{codigo}")
-	public ResponseEntity<Licenciado> PorId(@PathVariable Long codigo){
-		Licenciado salvo = this.service.BuscarPorId(codigo);
+	public ResponseEntity<ModeloDeLaudoDoProc> PorId(@PathVariable Long codigo){
+		ModeloDeLaudoDoProc salvo = this.service.BuscarPorId(codigo);
 		return ResponseEntity.ok(salvo);
 	}
 	
 	@PutMapping("/{codigo}")
-	public ResponseEntity<Licenciado> Atualizar(@PathVariable Long codigo, @Valid @RequestBody Licenciado licenciado){
-		Licenciado salvo = this.service.Atualizar(codigo, licenciado);
+	public ResponseEntity<ModeloDeLaudoDoProc> Atualizar(@PathVariable Long codigo, @Valid @RequestBody ModeloDeLaudoDoProc modelo){
+		ModeloDeLaudoDoProc salvo = this.service.Atualizar(codigo, modelo);
 		return ResponseEntity.ok(salvo);
 	}
 }

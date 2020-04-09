@@ -43,6 +43,9 @@ public class ServidorDoorApplication {
 	
 	@Value("${pacs.storage.dicomimg}")
     private String dicomjpeg;
+	
+	@Value("${pacs.storage.backup}")
+    private String pastabackup;
 	 
 	 /************************** Handler for incoming files works with asynchronous event bus initiated by the DicomServer ****************************/    
     @Bean // only one incoming file handler. Even we have multiple DicomServer instances, they all forward files to the same handler...
@@ -55,6 +58,7 @@ public class ServidorDoorApplication {
     	this.CriarEntidade();
     	this.Criar(procedimentosimg);
     	this.Criar(dicomjpeg);
+    	this.Criar(pastabackup);
     	EventBus eventBus =  new AsyncEventBus(java.util.concurrent.Executors.newFixedThreadPool(100));
         return eventBus;
     }

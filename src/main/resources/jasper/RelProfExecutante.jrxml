@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9a823898-1a06-4303-966d-f04e001bec9b">
 	<property name="ireport.zoom" value="1.210000000000001"/>
-	<property name="ireport.x" value="297"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="Zebra">
 		<conditionalStyle>
@@ -14,24 +14,24 @@
 	<queryString>
 		<![CDATA[SELECT
      profissionalexecutante."codigo" AS codigo,
-     profissionalexecutante."email" AS email,
-     profissionalexecutante."telefone" AS telefone,
-     profissionalexecutante."nome" AS nome,
      estado."uf" AS estado_uf,
      sigla."descricao" AS sigla_descricao,
-     tiss_conselho."descricao" AS tiss_conselho_descricao
+     tiss_conselho."descricao" AS tiss_conselho_descricao,
+     profissionalexecutante."email" AS profissionalexecutante_email,
+     profissionalexecutante."telefone" AS profissionalexecutante_telefone,
+     profissionalexecutante."nome" AS profissionalexecutante_nome
 FROM
      "public"."tiss_conselho" tiss_conselho INNER JOIN "public"."profissionalexecutante" profissionalexecutante ON tiss_conselho."codigo" = profissionalexecutante."tabela_conselho_id"
      INNER JOIN "public"."estado" estado ON tiss_conselho."tbl_estado_id" = estado."codigo"
      INNER JOIN "public"."sigla" sigla ON tiss_conselho."tbl_sigla_id" = sigla."codigo"]]>
 	</queryString>
 	<field name="codigo" class="java.lang.Long"/>
-	<field name="email" class="java.lang.String"/>
-	<field name="telefone" class="java.lang.String"/>
-	<field name="nome" class="java.lang.String"/>
 	<field name="estado_uf" class="java.lang.String"/>
 	<field name="sigla_descricao" class="java.lang.String"/>
 	<field name="tiss_conselho_descricao" class="java.lang.String"/>
+	<field name="profissionalexecutante_email" class="java.lang.String"/>
+	<field name="profissionalexecutante_telefone" class="java.lang.String"/>
+	<field name="profissionalexecutante_nome" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -134,14 +134,14 @@ FROM
 				<textElement verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{profissionalexecutante_nome}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="569" y="2" width="232" height="13" uuid="9a2b90f0-d279-4906-873e-f23ca61ffa37"/>
 				<textElement verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{profissionalexecutante_email}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="361" y="2" width="113" height="13" uuid="9b9faf23-b900-474f-a8df-64bd6cff904e"/>
@@ -155,7 +155,7 @@ FROM
 				<textElement verticalAlignment="Middle">
 					<font size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{telefone}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{profissionalexecutante_telefone}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
