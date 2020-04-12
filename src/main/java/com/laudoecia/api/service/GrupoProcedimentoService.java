@@ -29,6 +29,7 @@ public class GrupoProcedimentoService {
 
 	public GrupoProcedimento Criar(GrupoProcedimento grupo) {
 		try {
+			grupo.setNome(grupo.getNome().toUpperCase());
 			return this.dao.save(grupo);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Criar------------------ de GrupoProcedimentoService");
@@ -66,8 +67,9 @@ public class GrupoProcedimentoService {
 
 	public GrupoProcedimento Atualizar(Long id, GrupoProcedimento grupo) {
 		try {
+			grupo.setNome(grupo.getNome().toUpperCase());
 			GrupoProcedimento salvo = this.BuscarPorId(id);
-			BeanUtils.copyProperties(grupo, salvo, "id");
+			BeanUtils.copyProperties(grupo, salvo, "codigo");
 			return this.Criar(salvo);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Atualizar------------------ de GrupoProcedimentoService");
@@ -95,6 +97,7 @@ public class GrupoProcedimentoService {
 			return null;
 		}	
 	}
+	
 
 
 }

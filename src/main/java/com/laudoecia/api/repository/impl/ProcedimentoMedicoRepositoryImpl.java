@@ -48,7 +48,7 @@ public class ProcedimentoMedicoRepositoryImpl implements ProcedimentoMedicoRepos
 		List<Predicate> lista= new ArrayList<Predicate>();
 		
 		if(!StringUtils.isEmpty(filtro.getNome()))
-			lista.add(builder.like(builder.lower(root.get(ProcedimentoMedico_.nome)), "%"+ filtro.getNome().toLowerCase()+"%"));
+			lista.add(builder.like(builder.upper(root.get(ProcedimentoMedico_.nome)), "%"+ filtro.getNome().toUpperCase()+"%"));
 		
 		return lista.toArray(new Predicate[lista.size()]);
 	}
