@@ -15,7 +15,7 @@ public class CapituloCID10 implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long codigo;
-	private String sku;
+	private String codigotexto;
 	private String nome;
 
 	@Id
@@ -28,12 +28,12 @@ public class CapituloCID10 implements Serializable {
 		this.codigo = codigo;
 	}
 
-	public String getSku() {
-		return sku;
+	public String getCodigotexto() {
+		return codigotexto;
 	}
 
-	public void setSku(String sku) {
-		this.sku = sku;
+	public void setCodigotexto(String codigotexto) {
+		this.codigotexto = codigotexto;
 	}
 
 	@Column(length = 150)

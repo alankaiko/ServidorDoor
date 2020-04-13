@@ -25,6 +25,12 @@ public class ProfissionalExecutante implements Serializable {
 	private Contato contato;
 	private Endereco endereco;
 	private TISS_Conselho conselho;
+	private String frasepessoal = "";
+	private byte[] assinatura;
+	private double asswidth = 0;
+	private double assheight = 0;
+	private int espacoass = 10;
+	private long version = 0;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,14 +54,14 @@ public class ProfissionalExecutante implements Serializable {
 	public String getNumnoconselho() {
 		return numnoconselho;
 	}
-	
+
 	public void setNumnoconselho(String numnoconselho) {
 		this.numnoconselho = numnoconselho;
 	}
 
 	@Embedded
 	public Contato getContato() {
-		if(this.contato == null)
+		if (this.contato == null)
 			this.contato = new Contato();
 		return contato;
 	}
@@ -66,7 +72,7 @@ public class ProfissionalExecutante implements Serializable {
 
 	@Embedded
 	public Endereco getEndereco() {
-		if(this.endereco == null)
+		if (this.endereco == null)
 			this.endereco = new Endereco();
 		return endereco;
 	}
@@ -83,6 +89,54 @@ public class ProfissionalExecutante implements Serializable {
 
 	public void setConselho(TISS_Conselho conselho) {
 		this.conselho = conselho;
+	}
+
+	public String getFrasepessoal() {
+		return frasepessoal;
+	}
+
+	public void setFrasepessoal(String frasepessoal) {
+		this.frasepessoal = frasepessoal;
+	}
+
+	public byte[] getAssinatura() {
+		return assinatura;
+	}
+
+	public void setAssinatura(byte[] assinatura) {
+		this.assinatura = assinatura;
+	}
+
+	public double getAsswidth() {
+		return asswidth;
+	}
+
+	public void setAsswidth(double asswidth) {
+		this.asswidth = asswidth;
+	}
+
+	public double getAssheight() {
+		return assheight;
+	}
+
+	public void setAssheight(double assheight) {
+		this.assheight = assheight;
+	}
+
+	public int getEspacoass() {
+		return espacoass;
+	}
+
+	public void setEspacoass(int espacoass) {
+		this.espacoass = espacoass;
+	}
+
+	public long getVersion() {
+		return version;
+	}
+
+	public void setVersion(long version) {
+		this.version = version;
 	}
 
 	@Override

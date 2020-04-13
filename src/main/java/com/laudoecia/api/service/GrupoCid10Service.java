@@ -83,5 +83,14 @@ public class GrupoCid10Service {
 		}		
 	}
 
+	public GrupoCID10 BuscarPorValor(String codigotexto) {
+		try {
+			return this.dao.findByCodigotexto(codigotexto);
+		} catch (Exception e) {
+			e.printStackTrace();
+			LOG.error("Erro ao executar o metodo Atualizar------------------ de CategoriaCID10Service");
+			return null;
+		}
+	}
 
 }

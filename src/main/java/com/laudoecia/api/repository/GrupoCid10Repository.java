@@ -7,5 +7,5 @@ import com.laudoecia.api.domain.GrupoCID10;
 
 @Repository
 public interface GrupoCid10Repository extends JpaRepository<GrupoCID10, Long>{
-
+	public GrupoCID10 findByCodigotexto(String codigotexto);
 }

@@ -20,29 +20,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.laudoecia.api.domain.GrupoCID10;
+import com.laudoecia.api.domain.CategoriaCID10;
 import com.laudoecia.api.event.RecursoCriadoEvent;
-import com.laudoecia.api.service.GrupoCid10Service;
+import com.laudoecia.api.service.CategoriaCID10Service;
 
 @RestController
-@RequestMapping("/grupocid10s")
+@RequestMapping("/categoriacid10")
 @CrossOrigin("*")
-public class GrupoCid10Resource {
+public class CategoriaCID10Resource {
 	@Autowired
-	private GrupoCid10Service service;
-
+	private CategoriaCID10Service service;
+	
 	@Autowired
 	private ApplicationEventPublisher publisher;
 	
 	@GetMapping
-	public List<GrupoCID10> ListarTodos(){
+	public List<CategoriaCID10> ListarTodos(){
 		return this.service.Listar();
-	}
-	
+	}	
+
 	
 	@PostMapping
-	public ResponseEntity<GrupoCID10> Salvar(@Valid @RequestBody GrupoCID10 cid, HttpServletResponse resposta){
-		GrupoCID10 salvo = this.service.Criar(cid);
+	public ResponseEntity<CategoriaCID10> Salvar(@Valid @RequestBody CategoriaCID10 categoria, HttpServletResponse resposta){
+		CategoriaCID10 salvo = this.service.Criar(categoria);
 		this.publisher.publishEvent(new RecursoCriadoEvent(this, resposta, salvo.getCodigo()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
 	}
@@ -54,14 +54,14 @@ public class GrupoCid10Resource {
 	}
 	
 	@GetMapping("/{codigo}")
-	public ResponseEntity<GrupoCID10> PorId(@PathVariable Long codigo){
-		GrupoCID10 salvo = this.service.BuscarPorId(codigo);
+	public ResponseEntity<CategoriaCID10> PorId(@PathVariable Long codigo){
+		CategoriaCID10 salvo = this.service.BuscarPorId(codigo);
 		return ResponseEntity.ok(salvo);
 	}
 	
 	@PutMapping("/{codigo}")
-	public ResponseEntity<GrupoCID10> Atualizar(@PathVariable Long codigo, @Valid @RequestBody GrupoCID10 cid){
-		GrupoCID10 salvo = this.service.Atualizar(codigo, cid);
+	public ResponseEntity<CategoriaCID10> Atualizar(@PathVariable Long codigo, @Valid @RequestBody CategoriaCID10 categoria){
+		CategoriaCID10 salvo = this.service.Atualizar(codigo, categoria);
 		return ResponseEntity.ok(salvo);
 	}
 }

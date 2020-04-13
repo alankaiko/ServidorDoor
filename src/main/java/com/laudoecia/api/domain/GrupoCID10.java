@@ -17,7 +17,7 @@ public class GrupoCID10 implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long codigo;
-	private String sku;
+	private String codigotexto;
 	private String nome;
 	private CapituloCID10 capitulocid10;
 
@@ -31,14 +31,14 @@ public class GrupoCID10 implements Serializable {
 		this.codigo = codigo;
 	}
 
-	public String getSku() {
-		return sku;
+	public String getCodigotexto() {
+		return codigotexto;
 	}
-
-	public void setSku(String sku) {
-		this.sku = sku;
+	
+	public void setCodigotexto(String codigotexto) {
+		this.codigotexto = codigotexto;
 	}
-
+	
 	public String getNome() {
 		return nome;
 	}
@@ -48,7 +48,7 @@ public class GrupoCID10 implements Serializable {
 	}
 
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
-	@JoinColumn(name = "capitulocid10_codigo", referencedColumnName = "codigo")
+	@JoinColumn(name = "capitulocid10_codigo", referencedColumnName = "codigo", nullable = true)
 	public CapituloCID10 getCapitulocid10() {
 		return capitulocid10;
 	}
