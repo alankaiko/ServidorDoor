@@ -3,6 +3,7 @@ package com.laudoecia.api.domain;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -16,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -30,12 +32,18 @@ public class Atendimento implements Serializable {
 	private ProfissionalSolicitante solicitante;
 	private List<ProcedimentoAtendimento> procedimentos;
 	private LocalDate dataatendimento;
+	private LocalDate datacadastro;
 	private String observacoes;
-	
+	private boolean gravarexame = false;
+	private long version = 0;
+	private Long codigoprofexecutante;
+	private Long codigodecid;
+	private Date dataatestado;
+
 	public Atendimento() {
 		this.procedimentos = new ArrayList<ProcedimentoAtendimento>();
 	}
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getCodigo() {
@@ -51,7 +59,7 @@ public class Atendimento implements Serializable {
 	public Patient getPatient() {
 		return patient;
 	}
-	
+
 	public void setPatient(Patient patient) {
 		this.patient = patient;
 	}
@@ -103,6 +111,55 @@ public class Atendimento implements Serializable {
 		this.observacoes = observacoes;
 	}
 
+	public boolean isGravarexame() {
+		return gravarexame;
+	}
+
+	public void setGravarexame(boolean gravarexame) {
+		this.gravarexame = gravarexame;
+	}
+	
+	public LocalDate getDatacadastro() {
+		return datacadastro;
+	}
+	
+	public void setDatacadastro(LocalDate datacadastro) {
+		this.datacadastro = datacadastro;
+	}
+
+	@Version
+	public long getVersion() {
+		return version;
+	}
+
+	public void setVersion(long version) {
+		this.version = version;
+	}
+	
+	public Long getCodigodecid() {
+		return codigodecid;
+	}
+	
+	public void setCodigodecid(Long codigodecid) {
+		this.codigodecid = codigodecid;
+	}
+	
+	public Long getCodigoprofexecutante() {
+		return codigoprofexecutante;
+	}
+	
+	public void setCodigoprofexecutante(Long codigoprofexecutante) {
+		this.codigoprofexecutante = codigoprofexecutante;
+	}
+	
+	public Date getDataatestado() {
+		return dataatestado;
+	}
+	
+	public void setDataatestado(Date dataatestado) {
+		this.dataatestado = dataatestado;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -128,7 +185,6 @@ public class Atendimento implements Serializable {
 		return true;
 	}
 
-
 	@Override
 	public String toString() {
 		return "Atendimento [codigo=" + codigo + ", patient=" + patient + ", convenio=" + convenio + ", solicitante="
@@ -136,5 +192,4 @@ public class Atendimento implements Serializable {
 				+ ", observacoes=" + observacoes + "]";
 	}
 
-	
 }

@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -63,6 +62,7 @@ public class Patient implements Serializable {
     private PersonName responsibleperson;
     private Patient mergedwith;
     private PatientID patientidclasse;
+    private String observacoes;
 
 	public Patient() {
 		super();
@@ -288,7 +288,16 @@ public class Patient implements Serializable {
 	public Attributes pegarAttributes() throws BlobCorruptedException {
         return attributesblob.getAttributes();
     }
+	
+	public String getObservacoes() {
+		return observacoes;
+	}
+	
+	public void setObservacoes(String observacoes) {
+		this.observacoes = observacoes;
+	}
 
+	
     public void insereAttributes(Attributes attrs, AttributeFilter filter, FuzzyStr fuzzyStr) {
         //patientname = PersonName.valueOf(attrs.getString(Tag.PatientName), fuzzyStr, patientname);
         String datanasc = attrs.getString(Tag.PatientBirthDate, "*");

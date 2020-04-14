@@ -35,7 +35,7 @@ public class ServidorDoorApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ServidorDoorApplication.class, args);
-		System.out.println("funfando aqui");
+		System.out.println("APLICACAO FUNCIONANDO");
 	}
 
 	@Value("${pacs.storage.image}")

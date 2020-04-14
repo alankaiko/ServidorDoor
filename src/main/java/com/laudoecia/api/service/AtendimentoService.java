@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 
 import com.laudoecia.api.domain.Atendimento;
 import com.laudoecia.api.domain.Patient;
+import com.laudoecia.api.domain.ProfissionalExecutante;
+import com.laudoecia.api.domain.SubcategoriaCid10;
 import com.laudoecia.api.repository.AtendimentoRepository;
 
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -33,6 +35,12 @@ public class AtendimentoService {
 	
 	@Autowired
 	private PatientService servicepat;
+	
+	@Autowired
+	private SubcategoriaCid10Service cidservice;
+	
+	@Autowired
+	private ProfissionalExecutanteService executaservice;
 
 	private final Logger LOG = LoggerFactory.getLogger(AtendimentoService.class);
 
@@ -118,12 +126,24 @@ public class AtendimentoService {
 	}
 
 	public byte[] AtestadoMontar(Long codigo) throws Exception {
-		Patient pat = this.servicepat.BuscarPorId(codigo);
+		Atendimento atendimento = this.BuscarPorId(codigo);
+		
+		System.out.println(atendimento.getCodigodecid());
+		SubcategoriaCid10 cid = this.cidservice.BuscarPorId(atendimento.getCodigodecid());
+		ProfissionalExecutante executa = this.executaservice.BuscarPorId(atendimento.getCodigoprofexecutante());
 		List<Patient> lista = new ArrayList<Patient>();
-		lista.add(pat);
+		lista.add(atendimento.getPatient());
+		
 		
 		Map<String, Object> parametros = new HashMap<>();	
-		parametros.put("data", new Date());
+		parametros.put("data", atendimento.getDataatestado());
+		parametros.put("cid", cid.getCodigotexto());
+		parametros.put("nomecid", cid.getNome());
+		parametros.put("executante", executa.getNome());
+		String concat = executa.getConselho().getSigla().getDescricao()+" "
+				+executa.getConselho().getDescricao()+"-"+executa.getConselho().getEstado().getUf();
+		
+		parametros.put("crm", concat);
 		
 		InputStream inputStream = this.getClass().getResourceAsStream("/jasper/Atestado.jasper");	
 		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parametros, new JRBeanCollectionDataSource(lista));

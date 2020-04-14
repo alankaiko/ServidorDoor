@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fcbb1e92-fcaf-4c4e-9c5e-181b605c8dff">
 	<property name="ireport.zoom" value="1.210000000000001"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="305"/>
 	<style name="Zebra">
 		<conditionalStyle>
 			<conditionExpression><![CDATA[$V{REPORT_COUNT} % 2 == 0]]></conditionExpression>
@@ -10,6 +10,18 @@
 		</conditionalStyle>
 	</style>
 	<parameter name="data" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="cid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nomecid" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="executante" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="crm" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -92,14 +104,14 @@ FROM
 				<text><![CDATA[submeteu-se à procedimento(s) médico(s).]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="29" y="185" width="74" height="20" uuid="0dc477f2-5e0c-4608-a271-6c52e5ef6d01"/>
+				<reportElement x="29" y="217" width="74" height="20" uuid="0dc477f2-5e0c-4608-a271-6c52e5ef6d01"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="false"/>
 				</textElement>
 				<text><![CDATA[GOIÂNIA - ]]></text>
 			</staticText>
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="103" y="185" width="231" height="20" uuid="1c319305-7a3f-424c-a55b-8c3a88333ebd"/>
+				<reportElement x="103" y="217" width="231" height="20" uuid="1c319305-7a3f-424c-a55b-8c3a88333ebd"/>
 				<textElement>
 					<font fontName="Arial" size="14"/>
 				</textElement>
@@ -109,12 +121,41 @@ FROM
 				<reportElement x="66" y="326" width="400" height="1" forecolor="#999999" uuid="8fc8932d-8471-429a-ad59-41a220155d2a"/>
 			</line>
 			<staticText>
-				<reportElement x="152" y="327" width="231" height="20" uuid="2ba29ec2-53d6-4263-9434-0d60fe83d3c6"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="12" isBold="false"/>
+				<reportElement x="29" y="153" width="163" height="20" uuid="0d319468-1fe1-40f5-b2d2-0d8482775bd5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="false"/>
 				</textElement>
-				<text><![CDATA[NOME DO MÉDICO EXECUTANTE]]></text>
+				<text><![CDATA[Enquadrando-se no CID]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="260" y="153" width="16" height="20" uuid="87d8f187-85ad-4599-b544-7f6b6f6ffa6e"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="false"/>
+				</textElement>
+				<text><![CDATA[ - ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="192" y="155" width="68" height="20" uuid="6c49e4e8-320b-4ee4-8193-df8cd59efb87"/>
+				<textElement>
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cid}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="276" y="155" width="100" height="20" uuid="24272e8b-de5b-4e09-b706-d114135064d9"/>
+				<textElement>
+					<font fontName="Arial" size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nomecid}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="149" y="326" width="272" height="20" uuid="85a882f3-df11-491b-8d1b-5ba75bec5937"/>
+				<textFieldExpression><![CDATA[$P{executante}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="192" y="346" width="100" height="20" uuid="2c922c0e-f360-460e-b439-cdd19d857629"/>
+				<textFieldExpression><![CDATA[$P{crm}]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnHeader>
 	<detail>

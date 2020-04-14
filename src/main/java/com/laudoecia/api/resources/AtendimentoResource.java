@@ -78,10 +78,12 @@ public class AtendimentoResource {
 		return null;
 	}
 	
-	@GetMapping("/relatorios/atestado/{idpatient}")
-	public ResponseEntity<byte[]> PegarAtestado(@PathVariable Long idpatient) throws Exception {
+	
+	@GetMapping("/relatorios/atestado/{codigo}")
+	public ResponseEntity<byte[]> PegarAtestado(@PathVariable Long codigo) throws Exception {
+	
 		try {
-			byte[] relatorio = this.service.AtestadoMontar(idpatient);
+			byte[] relatorio = this.service.AtestadoMontar(codigo);
 			return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PDF_VALUE).body(relatorio);
 		} catch (Exception e) {
 			e.printStackTrace();
