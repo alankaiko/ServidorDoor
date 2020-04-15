@@ -5,9 +5,8 @@ import org.springframework.data.domain.Pageable;
 
 import com.laudoecia.api.domain.ProfissionalExecutante;
 import com.laudoecia.api.repository.filtro.ProfissionalExecutanteFilter;
-import com.laudoecia.api.repository.resumo.ResumoProfissionalExecutante;
 
 public interface ProfissionalExecutanteRepositoryQuery {
-	public Page<ResumoProfissionalExecutante> resumir(ProfissionalExecutanteFilter filtro, Pageable page);
+	public Page<ProfissionalExecutante> resumir(ProfissionalExecutanteFilter filtro, Pageable page);
 	public Page<ProfissionalExecutante> filtrando(ProfissionalExecutanteFilter filtro, Pageable page);
 }

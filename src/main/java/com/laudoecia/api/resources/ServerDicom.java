@@ -54,6 +54,11 @@ public class ServerDicom {
 	public Page<Patient> ListarPacientes(PatientFilter filtro, Pageable pageable) {
 		return this.service.Listar(filtro, pageable);
 	}
+	
+	@GetMapping("/lista/{idpatient}")
+	public List<Patient> ListarTodos(@PathVariable Long idpatient){
+		return this.service.ListaPorId(idpatient);
+	}
 
 	@PostMapping
 	public ResponseEntity<Patient> Salvar(@Valid @RequestBody Patient patient, HttpServletResponse resposta) {

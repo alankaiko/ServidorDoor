@@ -45,7 +45,7 @@ public class GrupoProcedimentoRepositoryImpl implements GrupoProcedimentoReposit
 		List<Predicate> lista= new ArrayList<Predicate>();
 		
 		if(!StringUtils.isEmpty(filtro.getNome()))
-			lista.add(builder.like(builder.lower(root.get(GrupoProcedimento_.nome)), "%"+ filtro.getNome().toLowerCase()+"%"));
+			lista.add(builder.like(builder.lower(root.get(GrupoProcedimento_.nomegrupo)), "%"+ filtro.getNome().toLowerCase()+"%"));
 		
 		return lista.toArray(new Predicate[lista.size()]);
 	}

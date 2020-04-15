@@ -32,7 +32,7 @@ public class ResumoProcedimentoMedico {
 	public GrupoProcedimento getGrupo() {
 		return grupo;
 	}
-
+	
 	public void setGrupo(GrupoProcedimento grupo) {
 		this.grupo = grupo;
 	}

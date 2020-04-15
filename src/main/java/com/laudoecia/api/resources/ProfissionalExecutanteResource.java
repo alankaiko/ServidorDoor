@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.laudoecia.api.domain.ProfissionalExecutante;
 import com.laudoecia.api.event.RecursoCriadoEvent;
 import com.laudoecia.api.repository.filtro.ProfissionalExecutanteFilter;
-import com.laudoecia.api.repository.resumo.ResumoProfissionalExecutante;
 import com.laudoecia.api.service.ProfissionalExecutanteService;
 
 @RestController
@@ -46,8 +45,13 @@ public class ProfissionalExecutanteResource {
 	}
 	
 	@GetMapping(params = "resumo")
-	public Page<ResumoProfissionalExecutante> Resumir(ProfissionalExecutanteFilter filtro, Pageable page) {
+	public Page<ProfissionalExecutante> Resumir(ProfissionalExecutanteFilter filtro, Pageable page) {
 		return this.service.Resumindo(filtro, page);
+	}
+	
+	@GetMapping("/lista/{descricao}")
+	public List<ProfissionalExecutante> ListarTodos(@PathVariable String descricao){
+		return this.service.BuscarListaPorId(descricao);
 	}
 	
 	@PostMapping

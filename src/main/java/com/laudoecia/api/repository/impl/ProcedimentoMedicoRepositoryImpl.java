@@ -49,7 +49,7 @@ public class ProcedimentoMedicoRepositoryImpl implements ProcedimentoMedicoRepos
 		
 		if(!StringUtils.isEmpty(filtro.getNome()))
 			lista.add(builder.like(builder.upper(root.get(ProcedimentoMedico_.nome)), "%"+ filtro.getNome().toUpperCase()+"%"));
-		
+	
 		return lista.toArray(new Predicate[lista.size()]);
 	}
 	

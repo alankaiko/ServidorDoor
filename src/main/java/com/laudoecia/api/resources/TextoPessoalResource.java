@@ -47,6 +47,11 @@ public class TextoPessoalResource {
 		return this.service.Filtrando(filtro, page);
 	}
 	
+	@GetMapping("/lista/{codigo}")
+	public List<TextoPessoal> ListarTodos(@PathVariable Long codigo){
+		return this.service.BuscarListaPorId(codigo);
+	}
+	
 	
 	@PostMapping
 	public ResponseEntity<TextoPessoal> Salvar(@Valid @RequestBody TextoPessoal texto, HttpServletResponse resposta){

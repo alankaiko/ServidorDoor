@@ -36,6 +36,16 @@ public class TextoPessoalService {
 			return null;
 		}		
 	}
+	
+	public List<TextoPessoal> BuscarListaPorId(Long codigo) {
+		try {
+			return this.dao.findByCodigo(codigo);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo Deletar------------------ de TextoPessoalService");
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	public TextoPessoal BuscarPorId(Long id) {
 		Optional<TextoPessoal> texto = this.dao.findById(id);

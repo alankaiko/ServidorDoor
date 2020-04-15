@@ -25,7 +25,6 @@ import com.laudoecia.api.domain.GrupoCID10_;
 import com.laudoecia.api.domain.SubcategoriaCid10;
 import com.laudoecia.api.domain.SubcategoriaCid10_;
 import com.laudoecia.api.repository.filtro.SubcategoriaCid10Filter;
-import com.laudoecia.api.repository.resumo.ResumoProfissionalExecutante;
 
 public class SubcategoriaCid10RepositoryImpl implements SubcategoriaCid10RepositoryQuery{
 	@PersistenceContext
@@ -50,7 +49,7 @@ public class SubcategoriaCid10RepositoryImpl implements SubcategoriaCid10Reposit
 	private Predicate[] AdicionarRestricoes(CriteriaBuilder builder, SubcategoriaCid10Filter filtro, Root<SubcategoriaCid10> root) {
 		List<Predicate> lista= new ArrayList<Predicate>();
 		
-		CriteriaQuery<ResumoProfissionalExecutante> criteria = builder.createQuery(ResumoProfissionalExecutante.class);
+		CriteriaQuery<SubcategoriaCid10> criteria = builder.createQuery(SubcategoriaCid10.class);
 		Root<CategoriaCID10> rootcategoria = criteria.from(CategoriaCID10.class);
 		Root<GrupoCID10> rootgrupo = criteria.from(GrupoCID10.class);
 		Root<CapituloCID10> rootcapitulo = criteria.from(CapituloCID10.class);

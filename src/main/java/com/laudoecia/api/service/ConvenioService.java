@@ -40,6 +40,16 @@ public class ConvenioService {
 	public List<Convenio> Listar() {
 		return this.dao.findAll();
 	}
+	
+	public List<Convenio> BuscarListaPorId(Long codigo) {
+		try {
+			return this.dao.findByCodigo(codigo);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo Deletar------------------ de ConvenioService");
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	public Convenio Criar(Convenio convenio) {
 		try {

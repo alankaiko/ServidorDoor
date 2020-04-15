@@ -37,7 +37,28 @@ public class ProcedimentoMedicoService {
 			return null;
 		}		
 	}
+	
+	public List<ProcedimentoMedico> BuscarListaPorGrupo(String nomegrupo) {
+		try {
+			return this.dao.findByGrupoNomegrupoIsContaining(nomegrupo);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo Deletar------------------ de ProcedimentoMedicoService");
+			e.printStackTrace();
+			return null;
+		}
+	}
 
+	public List<ProcedimentoMedico> BuscarListaPorId(Long codigo) {
+		try {
+			return this.dao.findByCodigo(codigo);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo Deletar------------------ de ProcedimentoMedicoService");
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	
 	public ProcedimentoMedico BuscarPorId(Long id) {
 		Optional<ProcedimentoMedico> procedimento = this.dao.findById(id);
 

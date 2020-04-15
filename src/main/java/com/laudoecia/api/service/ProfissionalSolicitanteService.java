@@ -36,6 +36,16 @@ public class ProfissionalSolicitanteService {
 			return null;
 		}		
 	}
+	
+	public List<ProfissionalSolicitante> BuscarListaPorId(String descricao) {
+		try {
+			return this.dao.findByConselhoDescricao(descricao);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo Criar------------------ de ProfissionaisSolicitanteService");
+			e.printStackTrace();
+			return null;
+		}		
+	}
 
 	public ProfissionalSolicitante BuscarPorId(Long id) {
 		Optional<ProfissionalSolicitante> prof = this.dao.findById(id);

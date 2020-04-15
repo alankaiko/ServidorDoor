@@ -48,6 +48,16 @@ public class ProcedimentoMedicoResource {
 		return this.service.Resumindo(filtro, page);
 	}
 	
+	@GetMapping("/lista/{codigo}")
+	public List<ProcedimentoMedico> ListarProcPorId(@PathVariable Long codigo){
+		return this.service.BuscarListaPorId(codigo);
+	}
+	
+	@GetMapping("/lista/grupo/{nomegrupo}")
+	public List<ProcedimentoMedico> ListarProcPorGrupoNome(@PathVariable String nomegrupo){
+		return this.service.BuscarListaPorGrupo(nomegrupo);
+	}
+	
 	@PostMapping
 	public ResponseEntity<ProcedimentoMedico> Salvar(@Valid @RequestBody ProcedimentoMedico procedimento, HttpServletResponse resposta){
 		ProcedimentoMedico salvo = this.service.Criar(procedimento);

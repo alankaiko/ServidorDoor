@@ -10,4 +10,5 @@ public class ProcedimentoMedicoFilter {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+	
 }

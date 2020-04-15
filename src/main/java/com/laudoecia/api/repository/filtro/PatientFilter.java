@@ -2,13 +2,15 @@ package com.laudoecia.api.repository.filtro;
 
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class PatientFilter {
 	private String patientid;
 	private String patientname;
-	private LocalDate birthday;
 	private String patientage;
 	private String patientsex;
 	private boolean servidor;
+	private LocalDate birthday;
 
 	public String getPatientid() {
 		return patientid;
@@ -26,6 +28,7 @@ public class PatientFilter {
 		this.patientname = patientname;
 	}
 
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	public LocalDate getBirthday() {
 		return birthday;
 	}

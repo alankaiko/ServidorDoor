@@ -19,7 +19,6 @@ import com.laudoecia.api.domain.Licenciado;
 import com.laudoecia.api.domain.ProfissionalExecutante;
 import com.laudoecia.api.repository.ProfissionalExecutanteRepository;
 import com.laudoecia.api.repository.filtro.ProfissionalExecutanteFilter;
-import com.laudoecia.api.repository.resumo.ResumoProfissionalExecutante;
 
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -43,6 +42,16 @@ public class ProfissionalExecutanteService {
 	public ProfissionalExecutante Criar(ProfissionalExecutante prof) {
 		try {
 			return this.dao.save(prof);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo Criar------------------ de ProfissionaisExecutantesService");
+			e.printStackTrace();
+			return null;
+		}		
+	}
+	
+	public List<ProfissionalExecutante> BuscarListaPorId(String descricao) {
+		try {
+			return this.dao.findByConselhoDescricao(descricao);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Criar------------------ de ProfissionaisExecutantesService");
 			e.printStackTrace();
@@ -99,7 +108,7 @@ public class ProfissionalExecutanteService {
 		}		
 	}
 
-	public Page<ResumoProfissionalExecutante> Resumindo(ProfissionalExecutanteFilter filtro, Pageable page){
+	public Page<ProfissionalExecutante> Resumindo(ProfissionalExecutanteFilter filtro, Pageable page){
 		try {
 			return this.dao.resumir(filtro, page);
 		} catch (Exception e) {

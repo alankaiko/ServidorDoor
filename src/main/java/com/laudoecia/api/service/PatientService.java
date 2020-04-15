@@ -51,6 +51,16 @@ public class PatientService {
 		return this.dao.Resumir(filtro, page);		
 	}
 	
+	public List<Patient> ListaPorId(Long codigo) {
+		try {
+			return this.dao.findByIdpatient(codigo);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo ListaPorId------------------ de PatientService");
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	public Page<Patient> Listar(PatientFilter filtro, Pageable pageable){
 		try {
 			return this.dao.Filtrar(filtro, pageable);

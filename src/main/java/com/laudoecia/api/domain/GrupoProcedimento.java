@@ -15,7 +15,7 @@ public class GrupoProcedimento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long codigo;
-	private String nome;
+	private String nomegrupo;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,12 +28,12 @@ public class GrupoProcedimento implements Serializable {
 	}
 
 	@Column(nullable = false, unique = true)
-	public String getNome() {
-		return nome;
+	public String getNomegrupo() {
+		return nomegrupo;
 	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
+	
+	public void setNomegrupo(String nomegrupo) {
+		this.nomegrupo = nomegrupo;
 	}
 
 	@Override

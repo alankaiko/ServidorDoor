@@ -47,6 +47,11 @@ public class ProfissionalSolicitanteResource {
 		return this.service.Filtrando(filtro, page);
 	}
 	
+	@GetMapping("/lista/{descricao}")
+	public List<ProfissionalSolicitante> ListarTodos(@PathVariable String descricao){
+		return this.service.BuscarListaPorId(descricao);
+	}
+	
 	@PostMapping
 	public ResponseEntity<ProfissionalSolicitante> Salvar(@Valid @RequestBody ProfissionalSolicitante profissional, HttpServletResponse resposta){
 		ProfissionalSolicitante salvo = this.service.Criar(profissional);

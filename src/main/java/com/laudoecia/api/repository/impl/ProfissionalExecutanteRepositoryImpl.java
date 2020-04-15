@@ -18,8 +18,9 @@ import org.springframework.util.StringUtils;
 
 import com.laudoecia.api.domain.ProfissionalExecutante;
 import com.laudoecia.api.domain.ProfissionalExecutante_;
+import com.laudoecia.api.domain.TISS_Conselho;
+import com.laudoecia.api.domain.TISS_Conselho_;
 import com.laudoecia.api.repository.filtro.ProfissionalExecutanteFilter;
-import com.laudoecia.api.repository.resumo.ResumoProfissionalExecutante;
 
 public class ProfissionalExecutanteRepositoryImpl implements ProfissionalExecutanteRepositoryQuery{
 	@PersistenceContext
@@ -42,19 +43,16 @@ public class ProfissionalExecutanteRepositoryImpl implements ProfissionalExecuta
 	}
 
 	@Override
-	public Page<ResumoProfissionalExecutante> resumir(ProfissionalExecutanteFilter filtro, Pageable page) {
+	public Page<ProfissionalExecutante> resumir(ProfissionalExecutanteFilter filtro, Pageable page) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
-		CriteriaQuery<ResumoProfissionalExecutante> criteria = builder.createQuery(ResumoProfissionalExecutante.class);
+		CriteriaQuery<ProfissionalExecutante> criteria = builder.createQuery(ProfissionalExecutante.class);
 		Root<ProfissionalExecutante> root = criteria.from(ProfissionalExecutante.class);
 		
-		criteria.orderBy(builder.asc(root.get("codigo")));		
-		criteria.select(builder.construct(
-				ResumoProfissionalExecutante.class, root.get(ProfissionalExecutante_.codigo), root.get(ProfissionalExecutante_.nome), root.get(ProfissionalExecutante_.numnoconselho), root.get(ProfissionalExecutante_.contato)));
-		
+		criteria.orderBy(builder.asc(root.get("codigo")));				
 		Predicate[] predicates = AdicionarRestricoes(builder, filtro, root);
 		criteria.where(predicates);
 		
-		TypedQuery<ResumoProfissionalExecutante> query = em.createQuery(criteria);
+		TypedQuery<ProfissionalExecutante> query = em.createQuery(criteria);
 		AdicionarPaginacao(query, page);
 		
 		return new PageImpl<>(query.getResultList(), page, Total(filtro));
@@ -64,11 +62,14 @@ public class ProfissionalExecutanteRepositoryImpl implements ProfissionalExecuta
 	private Predicate[] AdicionarRestricoes(CriteriaBuilder builder, ProfissionalExecutanteFilter filtro, Root<ProfissionalExecutante> root) {
 		List<Predicate> lista= new ArrayList<Predicate>();
 		
+		CriteriaQuery<TISS_Conselho> criteria = builder.createQuery(TISS_Conselho.class);
+		Root<TISS_Conselho> rootgrupo = criteria.from(TISS_Conselho.class);
+		
 		if(!StringUtils.isEmpty(filtro.getNome()))
 			lista.add(builder.like(builder.lower(root.get(ProfissionalExecutante_.nome)), "%"+ filtro.getNome().toLowerCase()+"%"));
 		
 		if(!StringUtils.isEmpty(filtro.getNumnoconselho()))
-			lista.add(builder.like(builder.lower(root.get(ProfissionalExecutante_.numnoconselho)), "%"+ filtro.getNumnoconselho().toLowerCase()+"%"));
+			lista.add(builder.like(builder.lower(rootgrupo.get(TISS_Conselho_.descricao)), "%"+ filtro.getNumnoconselho().toLowerCase()+"%"));
 		
 		return lista.toArray(new Predicate[lista.size()]);
 	}
