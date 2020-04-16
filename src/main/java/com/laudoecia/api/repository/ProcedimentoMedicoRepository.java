@@ -11,5 +11,5 @@ import com.laudoecia.api.repository.impl.ProcedimentoMedicoRepositoryQuery;
 @Repository
 public interface ProcedimentoMedicoRepository extends JpaRepository<ProcedimentoMedico, Long>, ProcedimentoMedicoRepositoryQuery{
 	public List<ProcedimentoMedico> findByCodigo(Long codigo); 
-	public List<ProcedimentoMedico> findByGrupoNomegrupoIsContaining(String nomegrupo);
+	public List<ProcedimentoMedico> findByGrupoNomegrupoStartingWith(String nomegrupo);
 }

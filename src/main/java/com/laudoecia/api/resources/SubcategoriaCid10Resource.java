@@ -47,6 +47,16 @@ public class SubcategoriaCid10Resource {
 		return this.service.Filtrando(filtro, page);
 	}
 	
+	@GetMapping("/porcategoria/{nome}")
+	public List<SubcategoriaCid10> ListarTodos(@PathVariable String nome){
+		return this.service.ListarPorCategoria(nome);
+	}
+	
+	@GetMapping("/lista/{codigo}")
+	public List<SubcategoriaCid10> ListarTodos(@PathVariable Long codigo){
+		return this.service.BuscarListaPorId(codigo);
+	}
+	
 	
 	@PostMapping
 	public ResponseEntity<SubcategoriaCid10> Salvar(@Valid @RequestBody SubcategoriaCid10 subcategoria, HttpServletResponse resposta){

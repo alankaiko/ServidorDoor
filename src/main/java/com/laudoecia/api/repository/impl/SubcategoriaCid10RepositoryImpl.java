@@ -16,19 +16,33 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
-import com.laudoecia.api.domain.CapituloCID10;
-import com.laudoecia.api.domain.CapituloCID10_;
-import com.laudoecia.api.domain.CategoriaCID10;
-import com.laudoecia.api.domain.CategoriaCID10_;
-import com.laudoecia.api.domain.GrupoCID10;
-import com.laudoecia.api.domain.GrupoCID10_;
 import com.laudoecia.api.domain.SubcategoriaCid10;
 import com.laudoecia.api.domain.SubcategoriaCid10_;
 import com.laudoecia.api.repository.filtro.SubcategoriaCid10Filter;
+import com.laudoecia.api.repository.resumo.ResumoSubcategoriaCid10;
 
 public class SubcategoriaCid10RepositoryImpl implements SubcategoriaCid10RepositoryQuery{
 	@PersistenceContext
 	private EntityManager em;
+	
+	@Override
+	public Page<ResumoSubcategoriaCid10> Resumir(SubcategoriaCid10Filter filtro, Pageable pageable) {
+		CriteriaBuilder builder = em.getCriteriaBuilder();
+		CriteriaQuery<ResumoSubcategoriaCid10> criteria = builder.createQuery(ResumoSubcategoriaCid10.class);
+		Root<SubcategoriaCid10> root = criteria.from(SubcategoriaCid10.class);
+		
+		criteria.orderBy(builder.asc(root.get("codigo")));		
+		criteria.select(builder.construct(
+			ResumoSubcategoriaCid10.class, root.get(SubcategoriaCid10_.codigo), root.get(SubcategoriaCid10_.nome), root.get(SubcategoriaCid10_.categoriacid10)));
+		
+		Predicate[] predicates = AdicionarRestricoes(builder, filtro, root);
+		criteria.where(predicates);
+		
+		TypedQuery<ResumoSubcategoriaCid10> query = em.createQuery(criteria);
+		AdicionarPaginacao(query, pageable);
+		
+		return new PageImpl<>(query.getResultList(), pageable, Total(filtro));
+	}
 
 	@Override
 	public Page<SubcategoriaCid10> Filtrando(SubcategoriaCid10Filter filtro, Pageable pageable) {
@@ -49,25 +63,11 @@ public class SubcategoriaCid10RepositoryImpl implements SubcategoriaCid10Reposit
 	private Predicate[] AdicionarRestricoes(CriteriaBuilder builder, SubcategoriaCid10Filter filtro, Root<SubcategoriaCid10> root) {
 		List<Predicate> lista= new ArrayList<Predicate>();
 		
-		CriteriaQuery<SubcategoriaCid10> criteria = builder.createQuery(SubcategoriaCid10.class);
-		Root<CategoriaCID10> rootcategoria = criteria.from(CategoriaCID10.class);
-		Root<GrupoCID10> rootgrupo = criteria.from(GrupoCID10.class);
-		Root<CapituloCID10> rootcapitulo = criteria.from(CapituloCID10.class);
-		
 		if(!StringUtils.isEmpty(filtro.getCodigotexto()))
 			lista.add(builder.like(builder.lower(root.get(SubcategoriaCid10_.codigotexto)), "%"+ filtro.getCodigotexto().toLowerCase()+"%"));
 		
 		if(!StringUtils.isEmpty(filtro.getNome()))
 			lista.add(builder.like(builder.lower(root.get(SubcategoriaCid10_.nome)), "%"+ filtro.getNome().toLowerCase()+"%"));
-		
-		if(!StringUtils.isEmpty(filtro.getNomecategoria()))
-			lista.add(builder.like(builder.lower(rootcategoria.get(CategoriaCID10_.nome)), "%"+ filtro.getNomecategoria().toLowerCase()+"%"));
-		
-		if(!StringUtils.isEmpty(filtro.getNomegrupo()))
-			lista.add(builder.like(builder.lower(rootgrupo.get(GrupoCID10_.nome)), "%"+ filtro.getNomegrupo().toLowerCase()+"%"));
-		
-		if(!StringUtils.isEmpty(filtro.getNomecapitulo()))
-			lista.add(builder.like(builder.lower(rootcapitulo.get(CapituloCID10_.nome)), "%"+ filtro.getNomecapitulo().toLowerCase()+"%"));
 		
 		return lista.toArray(new Predicate[lista.size()]);
 	}

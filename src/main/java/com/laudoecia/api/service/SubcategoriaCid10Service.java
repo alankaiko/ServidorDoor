@@ -28,6 +28,16 @@ public class SubcategoriaCid10Service {
 
 		return this.dao.findAll();
 	}
+	
+	public List<SubcategoriaCid10> ListarPorCategoria(String nome) {
+		try {
+			return this.dao.findByCategoriacid10NomeStartingWith(nome.toUpperCase());
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo ListarPorCategoria------------------ de SubcategoriaCid10Service");
+			e.printStackTrace();
+			return null;
+		}	
+	}
 
 	public SubcategoriaCid10 Criar(SubcategoriaCid10 subcategoria) {
 		try {
@@ -87,6 +97,17 @@ public class SubcategoriaCid10Service {
 			return null;
 		}	
 	}
+
+	public List<SubcategoriaCid10> BuscarListaPorId(Long codigo) {
+		try {
+			return this.dao.findByCodigo(codigo);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo Deletar------------------ de ConvenioService");
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 
 }
 

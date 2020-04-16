@@ -40,7 +40,7 @@ public class ProcedimentoMedicoService {
 	
 	public List<ProcedimentoMedico> BuscarListaPorGrupo(String nomegrupo) {
 		try {
-			return this.dao.findByGrupoNomegrupoIsContaining(nomegrupo);
+			return this.dao.findByGrupoNomegrupoStartingWith(nomegrupo.toUpperCase());
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Deletar------------------ de ProcedimentoMedicoService");
 			e.printStackTrace();
