@@ -11,4 +11,5 @@ import com.laudoecia.api.repository.impl.ProfissionalExecutanteRepositoryQuery;
 @Repository
 public interface ProfissionalExecutanteRepository extends JpaRepository<ProfissionalExecutante, Long>, ProfissionalExecutanteRepositoryQuery{
 	public List<ProfissionalExecutante> findByConselhoDescricao(String descricao);
+	public List<ProfissionalExecutante> findByConselhoSiglaDescricaoAndConselhoEstadoUf(String descricao, String uf);
 }

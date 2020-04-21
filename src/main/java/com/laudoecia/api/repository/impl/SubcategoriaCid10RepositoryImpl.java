@@ -64,7 +64,7 @@ public class SubcategoriaCid10RepositoryImpl implements SubcategoriaCid10Reposit
 		List<Predicate> lista= new ArrayList<Predicate>();
 		
 		if(!StringUtils.isEmpty(filtro.getCodigotexto()))
-			lista.add(builder.like(builder.lower(root.get(SubcategoriaCid10_.codigotexto)), "%"+ filtro.getCodigotexto().toLowerCase()+"%"));
+			lista.add(builder.like(builder.upper(root.get(SubcategoriaCid10_.codigotexto)), "%"+ filtro.getCodigotexto().toUpperCase()+"%"));
 		
 		if(!StringUtils.isEmpty(filtro.getNome()))
 			lista.add(builder.like(builder.lower(root.get(SubcategoriaCid10_.nome)), "%"+ filtro.getNome().toLowerCase()+"%"));

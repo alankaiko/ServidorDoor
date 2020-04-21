@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.laudoecia.api.domain.Atendimento;
 import com.laudoecia.api.event.RecursoCriadoEvent;
+import com.laudoecia.api.repository.filtro.AtendimentoFilter;
 import com.laudoecia.api.service.AtendimentoService;
 
 @RestController
@@ -44,10 +45,20 @@ public class AtendimentoResource {
 	}
 
 	@GetMapping(params = "resumo")
-	public Page<Atendimento> Resumir(Atendimento filtro, Pageable page) {
+	public Page<Atendimento> Resumir(AtendimentoFilter filtro, Pageable page) {
 		return this.service.Filtrando(filtro, page);
 	}
 
+	@GetMapping("/lista/{codigo}")
+	public List<Atendimento> ListarTodos(@PathVariable Long codigo){
+		return this.service.BuscarListaPorId(codigo);
+	}
+	
+	@GetMapping("/listapac/{patientname}")
+	public List<Atendimento> ListarPorNomePacientes(@PathVariable String patientname){
+		return this.service.BuscarPorNomePaciente(patientname);
+	}
+	
 	@PostMapping
 	public ResponseEntity<Atendimento> Salvar(@Valid @RequestBody Atendimento atendimento, HttpServletResponse resposta) {
 		Atendimento salvo = this.service.Criar(atendimento);

@@ -11,5 +11,6 @@ import com.laudoecia.api.repository.impl.AtendimentoRepositoryQuery;
 @Repository
 public interface AtendimentoRepository extends JpaRepository<Atendimento, Long>, AtendimentoRepositoryQuery{
 	public List<Atendimento> findByPatientPatientnameStartingWith(String patientname);
+	public List<Atendimento> findByCodigo(Long codigo); 
 	
 }

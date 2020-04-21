@@ -5,6 +5,7 @@ public class ConvenioFilter {
 	private String nomedocontato;
 	private String telefone;
 	private String email;
+	private boolean ativo;
 
 	public String getNome() {
 		return nome;
@@ -38,4 +39,11 @@ public class ConvenioFilter {
 		this.email = email;
 	}
 
+	public boolean isAtivo() {
+		return ativo;
+	}
+	
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
 }

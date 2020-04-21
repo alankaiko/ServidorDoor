@@ -2,7 +2,6 @@ package com.laudoecia.api.service;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +21,7 @@ import com.laudoecia.api.domain.Patient;
 import com.laudoecia.api.domain.ProfissionalExecutante;
 import com.laudoecia.api.domain.SubcategoriaCid10;
 import com.laudoecia.api.repository.AtendimentoRepository;
+import com.laudoecia.api.repository.filtro.AtendimentoFilter;
 
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -33,8 +33,6 @@ public class AtendimentoService {
 	@Autowired
 	private AtendimentoRepository dao;
 	
-	@Autowired
-	private PatientService servicepat;
 	
 	@Autowired
 	private SubcategoriaCid10Service cidservice;
@@ -46,6 +44,26 @@ public class AtendimentoService {
 
 	public List<Atendimento> Listar() {
 		return this.dao.findAll();
+	}
+	
+	public List<Atendimento> BuscarListaPorId(Long codigo) {
+		try {
+			return this.dao.findByCodigo(codigo);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo Deletar------------------ de ConvenioService");
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public List<Atendimento> BuscarPorNomePaciente(String patientname){
+		try {
+			return this.dao.findByPatientPatientnameStartingWith(patientname);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo Deletar------------------ de ConvenioService");
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	public Atendimento Criar(Atendimento atendimento) {
@@ -115,9 +133,9 @@ public class AtendimentoService {
 		}
 	}
 
-	public Page<Atendimento> Filtrando(Atendimento filtro, Pageable page) {
+	public Page<Atendimento> Filtrando(AtendimentoFilter filtro, Pageable page) {
 		try {
-			return this.dao.FiltroPaginado(filtro, page);
+			return this.dao.Filtrando(filtro, page);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Filtrando------------------ de AbreviaturaService");
 			e.printStackTrace();

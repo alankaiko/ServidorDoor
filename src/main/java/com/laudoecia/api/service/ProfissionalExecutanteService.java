@@ -33,6 +33,9 @@ public class ProfissionalExecutanteService {
 	
 	@Autowired
 	private LicenciadoService licencaservice;
+	
+	@Autowired
+	private ParametrosDoSistemaService paramservice;
 
 	
 	public List<ProfissionalExecutante> Listar() {
@@ -127,18 +130,22 @@ public class ProfissionalExecutanteService {
 			return null;
 		}	
 	}
+	
+	public List<ProfissionalExecutante> BuscarPeloCrmEstado(String descricao, String uf){
+		return this.dao.findByConselhoSiglaDescricaoAndConselhoEstadoUf(descricao, uf);
+	}
 
-	public byte[] RelatorioPorExecutante() throws Exception{
-		List<ProfissionalExecutante> lista = this.Listar();	
-		Licenciado licenca = this.licencaservice.BuscarPorId(1L);
+	public byte[] RelatorioPorExecutante(String descricao, String uf) throws Exception{
+		List<ProfissionalExecutante> lista = this.BuscarPeloCrmEstado(descricao, uf);	
+		
+		Licenciado licenca = this.licencaservice.BuscarPorId(1L);		
 		
 		Map<String, Object> parametros = new HashMap<>();	
 		parametros.put("NOME_EMPRESA", licenca.getRazaosocial());
 		parametros.put("LICENCIADO", licenca.getLicenciadopara());
 
 		InputStream inputStream = this.getClass().getResourceAsStream("/jasper/RelProfExecutante.jasper");	
-		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parametros, new JRBeanCollectionDataSource(lista));
-
+		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parametros, new JRBeanCollectionDataSource(lista, false));
 		return JasperExportManager.exportReportToPdf(jasperPrint);
 	}
 

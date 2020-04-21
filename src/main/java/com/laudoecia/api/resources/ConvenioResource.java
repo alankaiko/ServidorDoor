@@ -53,8 +53,7 @@ public class ConvenioResource {
 	@GetMapping("/lista/{codigo}")
 	public List<Convenio> ListarTodos(@PathVariable Long codigo){
 		return this.service.BuscarListaPorId(codigo);
-	}
-	
+	}	
 	
 	@PostMapping
 	public ResponseEntity<Convenio> Salvar(@Valid @RequestBody Convenio convenio, HttpServletResponse resposta){

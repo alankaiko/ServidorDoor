@@ -59,6 +59,9 @@ public class ConvenioRepositoryImpl implements ConvenioRepositoryQuery{
 		if(!StringUtils.isEmpty(filtro.getEmail()))
 			lista.add(builder.like(builder.lower(root.get(Convenio_.email)), "%"+ filtro.getEmail().toLowerCase()+"%"));
 		
+		if(filtro.isAtivo())
+			lista.add(builder.isTrue(root.get(Convenio_.ativo)));	
+		
 		return lista.toArray(new Predicate[lista.size()]);
 	}
 	

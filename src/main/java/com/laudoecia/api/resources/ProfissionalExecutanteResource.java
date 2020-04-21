@@ -79,11 +79,12 @@ public class ProfissionalExecutanteResource {
 		return ResponseEntity.ok(salvo);
 	}
 	
-	@GetMapping("/relatorios/por-executante")
-	public ResponseEntity<byte[]> RelatorioDeExecutantes() throws Exception {
-
+	@GetMapping("/relatorios/por-executante/{descricao}/{uf}")
+	public ResponseEntity<byte[]> RelatorioDeExecutantes(@PathVariable String descricao,@PathVariable String uf) throws Exception {
+		System.out.println(descricao);
+		System.out.println(uf);
 		try {
-			byte[] relatorio = this.service.RelatorioPorExecutante();
+			byte[] relatorio = this.service.RelatorioPorExecutante(descricao, uf);
 			return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PDF_VALUE).body(relatorio);
 		} catch (Exception e) {
 			e.printStackTrace();

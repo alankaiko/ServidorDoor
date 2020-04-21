@@ -14,31 +14,43 @@ import javax.persistence.criteria.Root;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.util.StringUtils;
 
 import com.laudoecia.api.domain.Atendimento;
+import com.laudoecia.api.domain.Atendimento_;
+import com.laudoecia.api.repository.filtro.AtendimentoFilter;
 
 public class AtendimentoRepositoryImpl implements AtendimentoRepositoryQuery{
 	@PersistenceContext
 	private EntityManager em;
-
+	
 	@Override
-	public Page<Atendimento> FiltroPaginado(Atendimento atendimento, Pageable page) {
+	public Page<Atendimento> Filtrando(AtendimentoFilter filtro, Pageable pageable) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
-		CriteriaQuery<Atendimento> query = builder.createQuery(Atendimento.class);
-		Root<Atendimento> root = query.from(Atendimento.class);
+		CriteriaQuery<Atendimento> criteria = builder.createQuery(Atendimento.class);
+		Root<Atendimento> root = criteria.from(Atendimento.class);
+		criteria.orderBy(builder.asc(root.get("codigo")));		
 		
-		query.orderBy(builder.asc(root.get("codigo")));
-		Predicate[] predicato = AdicionarRestricoes(builder, atendimento, root);
-		query.where(predicato);
+		Predicate[] predicates = AdicionarRestricoes(builder, filtro, root);
+		criteria.where(predicates);
 		
-		TypedQuery<Atendimento> tiped = em.createQuery(query);
-		AdicionarPaginacao(tiped, page);
+		TypedQuery<Atendimento> query = em.createQuery(criteria);
+		AdicionarPaginacao(query, pageable);
 		
-		return new PageImpl<>(tiped.getResultList(), page, Total(atendimento));
+		return new PageImpl<>(query.getResultList(), pageable, Total(filtro));
 	}
 	
-	private Predicate[] AdicionarRestricoes(CriteriaBuilder builder, Atendimento filtro, Root<Atendimento> root) {
+	private Predicate[] AdicionarRestricoes(CriteriaBuilder builder, AtendimentoFilter filtro, Root<Atendimento> root) {
 		List<Predicate> lista= new ArrayList<Predicate>();
+		 
+//		if(!StringUtils.isEmpty(filtro.getPatientname()))
+//			lista.add(builder.equal(root.get(Atendimento_.patient), y))
+//		
+		if (filtro.getDatainicial() != null)
+			lista.add(builder.greaterThanOrEqualTo(root.get(Atendimento_.datacadastro), filtro.getDatainicial()));
+		
+		if (filtro.getDatafinal() != null)
+			lista.add(builder.lessThanOrEqualTo(root.get(Atendimento_.datacadastro), filtro.getDatafinal()));
 		
 		return lista.toArray(new Predicate[lista.size()]);
 	}
@@ -52,7 +64,7 @@ public class AtendimentoRepositoryImpl implements AtendimentoRepositoryQuery{
 		tiped.setMaxResults(totalporpagina);
 	}
 	
-	private Long Total(Atendimento filtro) {
+	private Long Total(AtendimentoFilter filtro) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Long> query = builder.createQuery(Long.class);
 		Root<Atendimento> root = query.from(Atendimento.class);

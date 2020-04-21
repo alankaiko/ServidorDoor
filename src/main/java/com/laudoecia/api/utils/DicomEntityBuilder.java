@@ -11,12 +11,12 @@ import com.laudoecia.api.domain.Tagimagem;
 
 public class DicomEntityBuilder {
 
-	public static Patient newPatient(String patientAge, Date patientBirthday, String patientID, String patientName,
-			String patientSex) {
+	public static Patient newPatient(String patientAge, Date patientBirthday, String patientID, String patientName, String patientSex) {
 
 		Patient patient = new Patient();
 		patient.setPatientage(patientAge);
 		patient.setBirthday(Utils.ConverterToLocalDate(patientBirthday));
+		patient.setDatecreate(Utils.ConverterToLocalDate(new Date()));
 		patient.setPatientid(patientID);
 		patient.setPatientname(patientName);
 		patient.setPatientsex(patientSex);
