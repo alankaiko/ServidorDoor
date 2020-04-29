@@ -63,7 +63,7 @@ public class Tagimagem {
 		this.codigo = codigo;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getImagetype() {
 		return imagetype;
 	}
@@ -72,7 +72,7 @@ public class Tagimagem {
 		this.imagetype = imagetype;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getSopclassuid() {
 		return sopclassuid;
 	}
@@ -81,7 +81,7 @@ public class Tagimagem {
 		this.sopclassuid = sopclassuid;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getSopinstanceuid() {
 		return sopinstanceuid;
 	}
@@ -90,7 +90,7 @@ public class Tagimagem {
 		this.sopinstanceuid = sopinstanceuid;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getStudydate() {
 		return studydate;
 	}
@@ -99,7 +99,7 @@ public class Tagimagem {
 		this.studydate = studydate;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getSeriesdate() {
 		return seriesdate;
 	}
@@ -108,7 +108,7 @@ public class Tagimagem {
 		this.seriesdate = seriesdate;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getAcquisitiondate() {
 		return acquisitiondate;
 	}
@@ -117,7 +117,7 @@ public class Tagimagem {
 		this.acquisitiondate = acquisitiondate;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getContentdate() {
 		return contentdate;
 	}
@@ -126,7 +126,7 @@ public class Tagimagem {
 		this.contentdate = contentdate;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getStudytime() {
 		return studytime;
 	}
@@ -135,7 +135,7 @@ public class Tagimagem {
 		this.studytime = studytime;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getSeriestime() {
 		return seriestime;
 	}
@@ -144,7 +144,7 @@ public class Tagimagem {
 		this.seriestime = seriestime;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getAcquisitiontime() {
 		return acquisitiontime;
 	}
@@ -153,7 +153,7 @@ public class Tagimagem {
 		this.acquisitiontime = acquisitiontime;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getContenttime() {
 		return contenttime;
 	}
@@ -162,7 +162,7 @@ public class Tagimagem {
 		this.contenttime = contenttime;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getAccessionnumber() {
 		return accessionnumber;
 	}
@@ -171,7 +171,7 @@ public class Tagimagem {
 		this.accessionnumber = accessionnumber;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getModality() {
 		return modality;
 	}
@@ -180,7 +180,7 @@ public class Tagimagem {
 		this.modality = modality;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getPresentationintenttype() {
 		return presentationintenttype;
 	}
@@ -189,7 +189,7 @@ public class Tagimagem {
 		this.presentationintenttype = presentationintenttype;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getManufacturer() {
 		return manufacturer;
 	}
@@ -198,7 +198,7 @@ public class Tagimagem {
 		this.manufacturer = manufacturer;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getInstitutionname() {
 		return institutionname;
 	}
@@ -207,7 +207,7 @@ public class Tagimagem {
 		this.institutionname = institutionname;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getInstitutionaddress() {
 		return institutionaddress;
 	}
@@ -216,7 +216,7 @@ public class Tagimagem {
 		this.institutionaddress = institutionaddress;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getReferringphysiciansname() {
 		return referringphysiciansname;
 	}
@@ -225,7 +225,7 @@ public class Tagimagem {
 		this.referringphysiciansname = referringphysiciansname;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getStationname() {
 		return stationname;
 	}
@@ -234,7 +234,7 @@ public class Tagimagem {
 		this.stationname = stationname;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getStudydescription() {
 		return studydescription;
 	}
@@ -243,7 +243,7 @@ public class Tagimagem {
 		this.studydescription = studydescription;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getSeriesdescription() {
 		return seriesdescription;
 	}
@@ -252,7 +252,7 @@ public class Tagimagem {
 		this.seriesdescription = seriesdescription;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getInstitutionaldepartmentname() {
 		return institutionaldepartmentname;
 	}
@@ -261,7 +261,7 @@ public class Tagimagem {
 		this.institutionaldepartmentname = institutionaldepartmentname;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getPerformingphysiciansname() {
 		return performingphysiciansname;
 	}
@@ -270,7 +270,7 @@ public class Tagimagem {
 		this.performingphysiciansname = performingphysiciansname;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getOperatorsname() {
 		return operatorsname;
 	}
@@ -279,7 +279,7 @@ public class Tagimagem {
 		this.operatorsname = operatorsname;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getManufacturersmodelname() {
 		return manufacturersmodelname;
 	}
@@ -288,7 +288,7 @@ public class Tagimagem {
 		this.manufacturersmodelname = manufacturersmodelname;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getReferencedpatientsequence() {
 		return referencedpatientsequence;
 	}
@@ -297,7 +297,7 @@ public class Tagimagem {
 		this.referencedpatientsequence = referencedpatientsequence;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getAnatomicregionsequence() {
 		return anatomicregionsequence;
 	}
@@ -306,7 +306,7 @@ public class Tagimagem {
 		this.anatomicregionsequence = anatomicregionsequence;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getPrimaryAnatomicstructuresequence() {
 		return primaryAnatomicstructuresequence;
 	}
@@ -315,7 +315,7 @@ public class Tagimagem {
 		this.primaryAnatomicstructuresequence = primaryAnatomicstructuresequence;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getPatientsname() {
 		return patientsname;
 	}
@@ -324,7 +324,7 @@ public class Tagimagem {
 		this.patientsname = patientsname;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getPatientid() {
 		return patientid;
 	}
@@ -333,7 +333,7 @@ public class Tagimagem {
 		this.patientid = patientid;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getSoftwareversions() {
 		return softwareversions;
 	}
@@ -342,7 +342,7 @@ public class Tagimagem {
 		this.softwareversions = softwareversions;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getImagerpixelspacing() {
 		return imagerpixelspacing;
 	}
@@ -351,7 +351,7 @@ public class Tagimagem {
 		this.imagerpixelspacing = imagerpixelspacing;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getPositionertype() {
 		return positionertype;
 	}
@@ -360,7 +360,7 @@ public class Tagimagem {
 		this.positionertype = positionertype;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getDetectortype() {
 		return detectortype;
 	}
@@ -369,7 +369,7 @@ public class Tagimagem {
 		this.detectortype = detectortype;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getDetectordescription() {
 		return detectordescription;
 	}
@@ -378,7 +378,7 @@ public class Tagimagem {
 		this.detectordescription = detectordescription;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getDetectormode() {
 		return detectormode;
 	}
@@ -387,7 +387,7 @@ public class Tagimagem {
 		this.detectormode = detectormode;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getTimeoflastdetectorcalibration() {
 		return timeoflastdetectorcalibration;
 	}
@@ -396,7 +396,7 @@ public class Tagimagem {
 		this.timeoflastdetectorcalibration = timeoflastdetectorcalibration;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getSamplesperpixel() {
 		return samplesperpixel;
 	}
@@ -405,7 +405,7 @@ public class Tagimagem {
 		this.samplesperpixel = samplesperpixel;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getPhotometricinterpretation() {
 		return photometricinterpretation;
 	}
@@ -414,7 +414,7 @@ public class Tagimagem {
 		this.photometricinterpretation = photometricinterpretation;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getRows() {
 		return rows;
 	}
@@ -423,7 +423,7 @@ public class Tagimagem {
 		this.rows = rows;
 	}
 
-	@Column(length = 50)
+	@Column(length = 300)
 	public String getColumns() {
 		return columns;
 	}

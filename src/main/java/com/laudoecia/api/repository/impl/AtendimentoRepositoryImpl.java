@@ -14,10 +14,10 @@ import javax.persistence.criteria.Root;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.util.StringUtils;
 
 import com.laudoecia.api.domain.Atendimento;
 import com.laudoecia.api.domain.Atendimento_;
+import com.laudoecia.api.domain.Patient_;
 import com.laudoecia.api.repository.filtro.AtendimentoFilter;
 
 public class AtendimentoRepositoryImpl implements AtendimentoRepositoryQuery{
@@ -42,10 +42,14 @@ public class AtendimentoRepositoryImpl implements AtendimentoRepositoryQuery{
 	
 	private Predicate[] AdicionarRestricoes(CriteriaBuilder builder, AtendimentoFilter filtro, Root<Atendimento> root) {
 		List<Predicate> lista= new ArrayList<Predicate>();
-		 
-//		if(!StringUtils.isEmpty(filtro.getPatientname()))
-//			lista.add(builder.equal(root.get(Atendimento_.patient), y))
-//		
+		
+		if(filtro.getPatient() != null)
+			lista.add(builder.equal(root.get(Atendimento_.patient), filtro.getPatient()));
+		
+		
+		if(filtro.getSolicitante() != null)
+			lista.add(builder.equal(root.get(Atendimento_.solicitante), filtro.getSolicitante()));
+		
 		if (filtro.getDatainicial() != null)
 			lista.add(builder.greaterThanOrEqualTo(root.get(Atendimento_.datacadastro), filtro.getDatainicial()));
 		
