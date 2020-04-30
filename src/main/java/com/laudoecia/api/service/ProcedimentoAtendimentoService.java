@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -95,6 +96,7 @@ public class ProcedimentoAtendimentoService {
 	public List<Imagem> GravarListaImagens(List<Imagem> lista, Long codigoatendimento) {
 		ConverterParaJpeg converter = new ConverterParaJpeg();
 		String caminho = "./arquivo/procedimentos";
+		
 		this.VerificaSePastaExiste(caminho + "/" + codigoatendimento);
 
 		for(Imagem im : lista) {
@@ -135,7 +137,6 @@ public class ProcedimentoAtendimentoService {
 	public byte[] BuscarImagem(Long codigo){
     	Imagem img = this.serviceimagem.BuscarPorId(codigo);
     	
-    	System.out.println("vindo aqui");
     	byte[] bytes = null;
     	try {
     		InputStream imagem = new FileInputStream(img.getCaminho());
@@ -144,5 +145,23 @@ public class ProcedimentoAtendimentoService {
 			e.printStackTrace();
 		}                
         return bytes;
+    }
+	
+	public String BuscarImagemString(Long codigo){
+    	Imagem img = this.serviceimagem.BuscarPorId(codigo);
+    	String encodedString = "";
+    	
+    	byte[] bytes = null;
+    	try {
+    		InputStream imagem = new FileInputStream(img.getCaminho());
+    		bytes = StreamUtils.copyToByteArray(imagem);
+
+            Base64 base64 = new Base64();
+            encodedString = new String(base64.encode(bytes));
+            encodedString = "data:image/jpeg;base64," + encodedString;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}                
+        return encodedString;
     }
 }

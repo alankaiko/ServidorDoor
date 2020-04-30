@@ -72,5 +72,13 @@ public class ProcedimentoAtendimentoResource {
     	byte[] bytes = this.service.BuscarImagem(codigo);
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(bytes);
     }
+    
+    @GetMapping("/imagemstring/{codigo}")
+	public ResponseEntity<String> BuscarImagemStrings(@PathVariable Long codigo){
+    	String valor = this.service.BuscarImagemString(codigo);
+    	return ResponseEntity.ok(valor);
+	}
+	
+    
 	
 }
