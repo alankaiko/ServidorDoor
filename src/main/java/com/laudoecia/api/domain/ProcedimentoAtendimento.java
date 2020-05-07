@@ -109,7 +109,7 @@ public class ProcedimentoAtendimento implements Serializable {
 	}
 	
 	@JsonIgnoreProperties("procedimentoatendimento")
-	@OneToMany(mappedBy = "procedimentoatendimento", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "procedimentoatendimento", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	public List<Imagem> getListaimagem() {
 		return listaimagem;
 	}

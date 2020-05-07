@@ -78,18 +78,35 @@ public class ProcedimentoAtendimentoService {
 	public ProcedimentoAtendimento Atualizar(Long id, ProcedimentoAtendimento procedimento) {
 		try {
 			ProcedimentoAtendimento salvo = this.BuscarPorId(id);
+			this.DeletarImagens(salvo.getListaimagem(), procedimento.getCodigoatdteste());
 			salvo.getListaimagem().clear();
+			
 			List<Imagem> listaatualizada = this.GravarListaImagens(procedimento.getListaimagem(),procedimento.getCodigoatdteste());
 			salvo.getListaimagem().addAll(listaatualizada);
 			salvo.getListaimagem().forEach(lista -> lista.setProcedimentoatendimento(salvo));			
 			
-			BeanUtils.copyProperties(procedimento, salvo, "codigo","listaimagem","atendimento");				
+			BeanUtils.copyProperties(procedimento, salvo, "codigo", "listaimagem", "atendimento");				
 			return this.Criar(salvo);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Atualizar------------------ de ProcedimentoAtendimentoService");
 			e.printStackTrace();
 			return null;
 		}		
+	}
+	
+	public void DeletarImagens(List<Imagem> lista, Long codigoatendimento) {
+		String caminho = "./arquivo/procedimentos";
+		
+		for(Imagem im : lista) {
+			String montarnome = caminho + "/" + codigoatendimento + "/" + im.getNomeimagem() + im.getExtensao();
+			File file = new File(montarnome);
+			if(file.exists()) {
+				file.delete();
+			}
+				
+		}
+		
+		
 	}
 
 	
