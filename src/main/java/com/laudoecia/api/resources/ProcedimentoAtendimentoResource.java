@@ -57,8 +57,14 @@ public class ProcedimentoAtendimentoResource {
 	
 	@GetMapping("/{codigo}")
 	public ResponseEntity<ProcedimentoAtendimento> PorId(@PathVariable Long codigo){
+		ProcedimentoAtendimento procedimento = this.service.BuscarPorId(codigo);
+		return ResponseEntity.ok(procedimento);
+	}
+	
+	@GetMapping("/codprocedimento/{codigo}")
+	public Long PegarCodProcedimento(@PathVariable Long codigo){
 		ProcedimentoAtendimento salvo = this.service.BuscarPorId(codigo);
-		return ResponseEntity.ok(salvo);
+		return salvo.getProcedimentomedico().getCodigo();
 	}
 	
 	@PutMapping("/{codigo}")

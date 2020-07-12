@@ -30,6 +30,9 @@ import com.laudoecia.api.repository.resumo.ResumoPatient;
 public class PatientService {
 	@Autowired
 	private PatientRepository dao;
+	
+	@Autowired
+	private ModeloDeLaudoDoProcService serviceproc;
 	private final Logger LOG = LoggerFactory.getLogger(PatientService.class);
 	
 	public PatientService() {

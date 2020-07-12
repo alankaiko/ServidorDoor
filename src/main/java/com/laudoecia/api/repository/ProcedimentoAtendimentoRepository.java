@@ -7,5 +7,4 @@ import com.laudoecia.api.domain.ProcedimentoAtendimento;
 
 @Repository
 public interface ProcedimentoAtendimentoRepository extends JpaRepository<ProcedimentoAtendimento, Long>{
-
 }
