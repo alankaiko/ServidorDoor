@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PdfLaudo" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e3eca0f4-4296-4db6-92af-cee9fc0650d1">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="92"/>
+	<property name="ireport.y" value="314"/>
 	<parameter name="NOME_PACIENTE" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -27,6 +27,9 @@
 	<parameter name="EXECUTANTE" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
+	<parameter name="TEXTO_HTML" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -42,7 +45,8 @@
 	<title>
 		<band height="108" splitType="Stretch">
 			<image>
-				<reportElement x="198" y="0" width="150" height="100" uuid="ee3bfbb5-230f-4f8b-97d0-778f82432787"/>
+				<reportElement x="202" y="0" width="140" height="100" uuid="ee3bfbb5-230f-4f8b-97d0-778f82432787"/>
+				<imageExpression><![CDATA[$F{logomarcaLaudo}]]></imageExpression>
 			</image>
 		</band>
 	</title>
@@ -111,11 +115,11 @@
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="34" splitType="Stretch">
+		<band height="42" splitType="Stretch">
 			<frame>
-				<reportElement x="1" y="0" width="554" height="34" forecolor="#000000" backcolor="#CCCCCC" uuid="be6e64d2-d62d-4bb0-96e1-4da1ea1e872e"/>
+				<reportElement mode="Opaque" x="1" y="12" width="555" height="23" forecolor="#B89F7D" backcolor="#CCCCCC" uuid="c6973cbd-c1e3-42a1-ac1d-df62ae971aac"/>
 				<textField>
-					<reportElement x="126" y="0" width="284" height="34" uuid="dcd905c7-bef7-4fa0-9967-5d9abd30dbdc"/>
+					<reportElement x="143" y="0" width="284" height="23" uuid="dcd905c7-bef7-4fa0-9967-5d9abd30dbdc"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$P{PROCEDIMENTO}]]></textFieldExpression>
 				</textField>
@@ -123,7 +127,15 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="158" splitType="Stretch"/>
+		<band height="406" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="39" width="555" height="347" uuid="9b9258af-4322-4136-aec9-4636a938913d"/>
+				<textFieldExpression><![CDATA[$P{TEXTO_HTML}]]></textFieldExpression>
+			</textField>
+			<break>
+				<reportElement x="0" y="402" width="555" height="1" uuid="1805c58b-5b26-4192-ae73-8fc10b7743e5"/>
+			</break>
+		</band>
 	</detail>
 	<pageFooter>
 		<band height="54" splitType="Stretch">
@@ -142,6 +154,10 @@
 			<line>
 				<reportElement x="1" y="31" width="543" height="3" uuid="90b24ef0-59bc-4f34-91c0-fc80546c3cb8"/>
 			</line>
+			<textField>
+				<reportElement x="456" y="34" width="100" height="20" uuid="262debc9-b373-41c1-a346-b89013c4b5c3"/>
+				<textFieldExpression><![CDATA[$V{PAGE_COUNT}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageFooter>
 </jasperReport>

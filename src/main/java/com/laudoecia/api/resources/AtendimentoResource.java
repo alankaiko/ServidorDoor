@@ -105,7 +105,6 @@ public class AtendimentoResource {
 	
 	@GetMapping(value = "/pdflaudo/{codigo}", params = "pdff")
 	public ResponseEntity<byte[]> PdfLaudo(@PathVariable Long codigo, PdfFiltroDados dados) throws Exception {
-		System.out.println(codigo);
 		try {
 			byte[] relatorio = this.service.PdfLaudo(codigo, dados);
 			return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PDF_VALUE).body(relatorio);
