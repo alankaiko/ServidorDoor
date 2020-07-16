@@ -17,11 +17,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.laudoecia.api.domain.Atendimento;
+import com.laudoecia.api.domain.Convenio;
+import com.laudoecia.api.domain.Licenciado;
+import com.laudoecia.api.domain.ParametrosDoSistema;
 import com.laudoecia.api.domain.Patient;
 import com.laudoecia.api.domain.ProfissionalExecutante;
 import com.laudoecia.api.domain.SubcategoriaCid10;
 import com.laudoecia.api.repository.AtendimentoRepository;
 import com.laudoecia.api.repository.filtro.AtendimentoFilter;
+import com.laudoecia.api.repository.filtro.PdfFiltroDados;
 
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -32,6 +36,9 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 public class AtendimentoService {
 	@Autowired
 	private AtendimentoRepository dao;
+	
+	@Autowired
+	private ParametrosDoSistemaService serviceparam;
 	
 	
 	@Autowired
@@ -167,5 +174,34 @@ public class AtendimentoService {
 		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parametros, new JRBeanCollectionDataSource(lista));
 
 		return JasperExportManager.exportReportToPdf(jasperPrint);
+	}
+	
+	public byte[] PdfLaudo(Long codigo, PdfFiltroDados dados) throws Exception {
+		try {
+			Atendimento atendimento = this.BuscarPorId(codigo);
+			
+			ParametrosDoSistema parame = this.serviceparam.BuscarPorId(1L);	
+			List<ParametrosDoSistema> lista = new ArrayList<ParametrosDoSistema>();
+			lista.add(parame);
+			
+			Map<String, Object> parametros = new HashMap<>();	
+			parametros.put("NOME_PACIENTE", atendimento.getPatient().getPatientname());
+			parametros.put("COD_ATENDIMENTO", String.format("%07d", atendimento.getCodigo()));
+			parametros.put("DATA_ATENDIMENTO", atendimento.getDataatendimento().toString());
+			parametros.put("DATA_NASCIMENTO", atendimento.getPatient().getBirthday().toString());
+			parametros.put("SOLICITANTE", atendimento.getCodigoprofexecutante());
+			parametros.put("CONVENIO", atendimento.getConvenio().getNome());
+			parametros.put("PROCEDIMENTO", dados.getProcedimento());
+			parametros.put("EXECUTANTE",  dados.getExecutante());
+			
+			InputStream inputStream = this.getClass().getResourceAsStream("/jasper/PdfLaudo.jasper");	
+			JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parametros, new JRBeanCollectionDataSource(lista));
+
+			return JasperExportManager.exportReportToPdf(jasperPrint);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
 	}
 }
