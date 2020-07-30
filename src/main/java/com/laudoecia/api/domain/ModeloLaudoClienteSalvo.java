@@ -1,5 +1,7 @@
 package com.laudoecia.api.domain;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -19,6 +22,7 @@ public class ModeloLaudoClienteSalvo {
 	private String descricao;
 	private String customstring;
 	private int prioridade;
+	private List<PaginaImagens> paginas;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,5 +70,21 @@ public class ModeloLaudoClienteSalvo {
 	public void setPrioridade(int prioridade) {
 		this.prioridade = prioridade;
 	}
+	
+	@OneToMany(mappedBy = "modelosalvo", cascade = CascadeType.ALL, orphanRemoval = true)
+	public List<PaginaImagens> getPaginas() {
+		return paginas;
+	}
+	
+	public void setPaginas(List<PaginaImagens> paginas) {
+		this.paginas = paginas;
+	}
 
+	@Override
+	public String toString() {
+		return "ModeloLaudoClienteSalvo [codigo=" + codigo + ", procedimentomedico=" + procedimentomedico
+				+ ", descricao=" + descricao + ", customstring=" + customstring + ", prioridade=" + prioridade + "]";
+	}
+
+	
 }

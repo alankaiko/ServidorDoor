@@ -16,15 +16,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
 
 import com.laudoecia.api.domain.Imagem;
+import com.laudoecia.api.domain.ModeloLaudoClienteSalvo;
 import com.laudoecia.api.domain.ProcedimentoAtendimento;
 import com.laudoecia.api.repository.ProcedimentoAtendimentoRepository;
 import com.laudoecia.api.utils.ConverterParaJpeg;
 
 @Service
 public class ProcedimentoAtendimentoService {
-	
 	@Autowired
 	ProcedimentoAtendimentoRepository dao;
+	
+	@Autowired
+	ModeloLaudoClienteSalvoService servicesalvomodelo;
 	
 	@Autowired
 	private ImagemService serviceimagem;
@@ -46,6 +49,15 @@ public class ProcedimentoAtendimentoService {
 	}
 
 	public ProcedimentoAtendimento BuscarPorId(Long id) {
+		Optional<ProcedimentoAtendimento> procedimento = this.dao.findById(id);
+
+		if (procedimento.get() == null)
+			throw new EmptyResultDataAccessException(1);
+
+		return procedimento.get();
+	}
+	
+	public ProcedimentoAtendimento BuscarPorIdComImg(Long id) {
 		Optional<ProcedimentoAtendimento> procedimento = this.dao.findById(id);
 
 		if (procedimento.get() == null)
@@ -78,6 +90,28 @@ public class ProcedimentoAtendimentoService {
 	public ProcedimentoAtendimento Atualizar(Long id, ProcedimentoAtendimento procedimento) {
 		try {
 			ProcedimentoAtendimento salvo = this.BuscarPorId(id);
+			ModeloLaudoClienteSalvo laudosalvo = null;
+			
+			if(procedimento.getModelosalvo().getCodigo() == null) 
+				laudosalvo = this.servicesalvomodelo.Criar(procedimento.getModelosalvo());
+			else 
+				laudosalvo = this.servicesalvomodelo.Atualizar(procedimento.getModelosalvo().getCodigo(), procedimento.getModelosalvo());
+			
+			
+			salvo.setModelosalvo(laudosalvo);			
+			BeanUtils.copyProperties(procedimento, salvo, "codigo", "listaimagem", "atendimento", "modelosalvo");				
+			return this.Criar(salvo);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo Atualizar------------------ de ProcedimentoAtendimentoService");
+			e.printStackTrace();
+			return null;
+		}		
+	}
+	
+	public ProcedimentoAtendimento AtualizarComImagens(Long id, ProcedimentoAtendimento procedimento) {
+		try {
+			ProcedimentoAtendimento salvo = this.BuscarPorId(id);
+			
 			this.DeletarImagens(salvo.getListaimagem(), procedimento.getCodigoatdteste());
 			salvo.getListaimagem().clear();
 			
@@ -85,10 +119,10 @@ public class ProcedimentoAtendimentoService {
 			salvo.getListaimagem().addAll(listaatualizada);
 			salvo.getListaimagem().forEach(lista -> lista.setProcedimentoatendimento(salvo));			
 			
-			BeanUtils.copyProperties(procedimento, salvo, "codigo", "listaimagem", "atendimento");				
+			BeanUtils.copyProperties(procedimento, salvo, "codigo", "listaimagem", "atendimento", "modelosalvo");				
 			return this.Criar(salvo);
 		} catch (Exception e) {
-			LOG.error("Erro ao executar o metodo Atualizar------------------ de ProcedimentoAtendimentoService");
+			LOG.error("Erro ao executar o metodo AtualizarComImagens------------------ de ProcedimentoAtendimentoService");
 			e.printStackTrace();
 			return null;
 		}		

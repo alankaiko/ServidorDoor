@@ -61,6 +61,12 @@ public class ProcedimentoAtendimentoResource {
 		return ResponseEntity.ok(procedimento);
 	}
 	
+	@GetMapping("/listaimg/{codigo}")
+	public ResponseEntity<ProcedimentoAtendimento> PorIdComImg(@PathVariable Long codigo){
+		ProcedimentoAtendimento procedimento = this.service.BuscarPorIdComImg(codigo);
+		return ResponseEntity.ok(procedimento);
+	}
+	
 	@GetMapping("/codprocedimento/{codigo}")
 	public Long PegarCodProcedimento(@PathVariable Long codigo){
 		ProcedimentoAtendimento salvo = this.service.BuscarPorId(codigo);
@@ -70,6 +76,12 @@ public class ProcedimentoAtendimentoResource {
 	@PutMapping("/{codigo}")
 	public ResponseEntity<ProcedimentoAtendimento> Atualizar(@PathVariable Long codigo, @Valid @RequestBody ProcedimentoAtendimento procedimento){
 		ProcedimentoAtendimento salvo = this.service.Atualizar(codigo, procedimento);
+		return ResponseEntity.ok(salvo);
+	}
+	
+	@PutMapping("/atualizarcomimagens/{codigo}")
+	public ResponseEntity<ProcedimentoAtendimento> AtualizarComImage(@PathVariable Long codigo, @Valid @RequestBody ProcedimentoAtendimento procedimento){
+		ProcedimentoAtendimento salvo = this.service.AtualizarComImagens(codigo, procedimento);
 		return ResponseEntity.ok(salvo);
 	}
 	

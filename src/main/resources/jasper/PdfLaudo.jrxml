@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PdfLaudo" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e3eca0f4-4296-4db6-92af-cee9fc0650d1">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="314"/>
+	<property name="ireport.y" value="230"/>
 	<parameter name="NOME_PACIENTE" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -27,7 +27,7 @@
 	<parameter name="EXECUTANTE" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="TEXTO_HTML" class="java.lang.String">
+	<parameter name="TEXTO_HTML" class="java.lang.Object">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
@@ -128,13 +128,15 @@
 	</columnHeader>
 	<detail>
 		<band height="406" splitType="Stretch">
-			<textField>
-				<reportElement x="0" y="39" width="555" height="347" uuid="9b9258af-4322-4136-aec9-4636a938913d"/>
-				<textFieldExpression><![CDATA[$P{TEXTO_HTML}]]></textFieldExpression>
-			</textField>
 			<break>
 				<reportElement x="0" y="402" width="555" height="1" uuid="1805c58b-5b26-4192-ae73-8fc10b7743e5"/>
 			</break>
+			<componentElement>
+				<reportElement x="1" y="0" width="554" height="402" uuid="4cc624f4-e105-484f-989d-b11c46ea0359"/>
+				<hc:html xmlns:hc="http://jasperreports.sourceforge.net/htmlcomponent" xsi:schemaLocation="http://jasperreports.sourceforge.net/htmlcomponent http://jasperreports.sourceforge.net/xsd/htmlcomponent.xsd" scaleType="RetainShape" horizontalAlign="Left" verticalAlign="Middle">
+					<hc:htmlContentExpression><![CDATA[$P{TEXTO_HTML}]]></hc:htmlContentExpression>
+				</hc:html>
+			</componentElement>
 		</band>
 	</detail>
 	<pageFooter>

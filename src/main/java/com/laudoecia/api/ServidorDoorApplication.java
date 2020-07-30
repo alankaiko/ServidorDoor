@@ -46,7 +46,7 @@ public class ServidorDoorApplication {
 	
 	@Value("${pacs.storage.backup}")
     private String pastabackup;
-	 
+	
 	 /************************** Handler for incoming files works with asynchronous event bus initiated by the DicomServer ****************************/    
     @Bean // only one incoming file handler. Even we have multiple DicomServer instances, they all forward files to the same handler...
     public IncomingFileHandler incomingFileHandler(){

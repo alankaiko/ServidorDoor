@@ -17,18 +17,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.laudoecia.api.domain.Atendimento;
-import com.laudoecia.api.domain.ParametrosDoSistema;
 import com.laudoecia.api.domain.Patient;
 import com.laudoecia.api.domain.ProfissionalExecutante;
 import com.laudoecia.api.domain.SubcategoriaCid10;
 import com.laudoecia.api.repository.AtendimentoRepository;
 import com.laudoecia.api.repository.filtro.AtendimentoFilter;
-import com.laudoecia.api.repository.filtro.PdfFiltroDados;
 
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+
+
 
 @Service
 public class AtendimentoService {
@@ -37,6 +37,9 @@ public class AtendimentoService {
 	
 	@Autowired
 	private ParametrosDoSistemaService serviceparam;
+	
+	@Autowired
+	private ModeloLaudoClienteSalvoService servicesalvo;
 	
 	
 	@Autowired
@@ -55,7 +58,7 @@ public class AtendimentoService {
 		try {
 			return this.dao.findByCodigo(codigo);
 		} catch (Exception e) {
-			LOG.error("Erro ao executar o metodo Deletar------------------ de ConvenioService");
+			LOG.error("Erro ao executar o metodo BuscarListaPorId------------------ de AtendimentoService");
 			e.printStackTrace();
 			return null;
 		}
@@ -65,7 +68,7 @@ public class AtendimentoService {
 		try {
 			return this.dao.findByPatientPatientnameStartingWith(patientname);
 		} catch (Exception e) {
-			LOG.error("Erro ao executar o metodo Deletar------------------ de ConvenioService");
+			LOG.error("Erro ao executar o metodo BuscarPorNomePaciente------------------ de AtendimentoService");
 			e.printStackTrace();
 			return null;
 		}
@@ -95,7 +98,7 @@ public class AtendimentoService {
 		try {
 			this.dao.deleteById(id);
 		} catch (Exception e) {
-			LOG.error("Erro ao executar o metodo Deletar------------------ de AtendimentoService");
+			LOG.error("Erro ao executar o metodo BuscarPorId------------------ de AtendimentoService");
 			e.printStackTrace();
 		}
 	}
@@ -111,8 +114,6 @@ public class AtendimentoService {
 
 	public Atendimento Atualizar(Long id, Atendimento atendimento) {
 		try {
-			
-			
 			Atendimento salvo = this.BuscarPorId(id);
 			
 			salvo.getProcedimentos().clear();
@@ -122,7 +123,7 @@ public class AtendimentoService {
 			BeanUtils.copyProperties(atendimento, salvo, "codigo", "procedimentos");
 			return this.Criar(salvo);
 		} catch (Exception e) {
-			LOG.error("Erro ao executar o metodo Atualizar------------------ de AbreviaturaService");
+			LOG.error("Erro ao executar o metodo Atualizar------------------ de AtendimentoService");
 			e.printStackTrace();
 			return null;
 		}
@@ -142,7 +143,7 @@ public class AtendimentoService {
 		try {
 			return this.dao.Filtrando(filtro, page);
 		} catch (Exception e) {
-			LOG.error("Erro ao executar o metodo Filtrando------------------ de AbreviaturaService");
+			LOG.error("Erro ao executar o metodo Filtrando------------------ de AtendimentoService");
 			e.printStackTrace();
 			return null;
 		}
@@ -172,261 +173,5 @@ public class AtendimentoService {
 		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parametros, new JRBeanCollectionDataSource(lista));
 
 		return JasperExportManager.exportReportToPdf(jasperPrint);
-	}
-	
-	public byte[] PdfLaudo(Long codigo, PdfFiltroDados dados) throws Exception {
-		try {
-			Atendimento atendimento = this.BuscarPorId(codigo);
-			
-			ParametrosDoSistema parame = this.serviceparam.BuscarPorId(1L);	
-			List<ParametrosDoSistema> lista = new ArrayList<ParametrosDoSistema>();
-			lista.add(parame);
-			String tes = "arametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", atarametros.put(\"NOME_PACIENTE\", atendimento.getPatient().getPatientname());\r\n" + 
-					"			parametros.put(\"COD_ATENDIMENTO\", String.format(\"%07d\", atendimento.getCodigo()));\r\n" + 
-					"			parametros.put(\"DATA_ATENDIMENTO\", atendimento.getDataatendimento().toString());\r\n" + 
-					"			parametros.put(\"DATA_NASCIMENTO\", at";
-			
-			Map<String, Object> parametros = new HashMap<>();	
-			parametros.put("NOME_PACIENTE", atendimento.getPatient().getPatientname());
-			parametros.put("COD_ATENDIMENTO", String.format("%07d", atendimento.getCodigo()));
-			parametros.put("DATA_ATENDIMENTO", atendimento.getDataatendimento().toString());
-			parametros.put("DATA_NASCIMENTO", atendimento.getPatient().getBirthday().toString());
-			parametros.put("SOLICITANTE", atendimento.getCodigoprofexecutante());
-			parametros.put("CONVENIO", atendimento.getConvenio().getNome());
-			parametros.put("PROCEDIMENTO", dados.getProcedimento());
-			parametros.put("EXECUTANTE",  dados.getExecutante());
-			parametros.put("TEXTO_HTML",  tes);
-			
-			InputStream inputStream = this.getClass().getResourceAsStream("/jasper/PdfLaudo.jasper");	
-			JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parametros, new JRBeanCollectionDataSource(lista));
-
-			return JasperExportManager.exportReportToPdf(jasperPrint);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-		
 	}
 }

@@ -49,7 +49,7 @@ public class ProcedimentoAtendimento implements Serializable {
 	}
 
 	@ManyToOne(cascade = CascadeType.DETACH)
-	@JoinColumn(name = "tbl_profexecutante_id", referencedColumnName = "codigo")
+	@JoinColumn(name = "tbl_profexecutante_id", referencedColumnName = "codigo", nullable = true)
 	public ProfissionalExecutante getProfexecutante() {
 		return profexecutante;
 	}
@@ -111,7 +111,7 @@ public class ProcedimentoAtendimento implements Serializable {
 	}
 	
 	@OneToOne
-	@JoinColumn(name = "codigo_modelosalvo")
+	@JoinColumn(name = "codigo_modelosalvo", nullable = true)
 	public ModeloLaudoClienteSalvo getModelosalvo() {
 		return modelosalvo;
 	}

@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.laudoecia.api.domain.Atendimento;
 import com.laudoecia.api.event.RecursoCriadoEvent;
 import com.laudoecia.api.repository.filtro.AtendimentoFilter;
-import com.laudoecia.api.repository.filtro.PdfFiltroDados;
 import com.laudoecia.api.service.AtendimentoService;
 
 @RestController
@@ -101,17 +100,5 @@ public class AtendimentoResource {
 			e.printStackTrace();
 			return null;
 		}		
-	}
-	
-	@GetMapping(value = "/pdflaudo/{codigo}", params = "pdff")
-	public ResponseEntity<byte[]> PdfLaudo(@PathVariable Long codigo, PdfFiltroDados dados) throws Exception {
-		try {
-			byte[] relatorio = this.service.PdfLaudo(codigo, dados);
-			return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PDF_VALUE).body(relatorio);
-		} catch (Exception e) {
-			
-			return null;
-		}		
-	}
-	
+	}	
 }
