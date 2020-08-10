@@ -65,7 +65,13 @@ public class ModeloLaudoClienteSalvoService {
 
 	public ModeloLaudoClienteSalvo Atualizar(Long id, ModeloLaudoClienteSalvo modelo) {
 		try {
+			System.out.println("valor " + id);
 			ModeloLaudoClienteSalvo salvo = this.BuscarPorId(id);
+			
+			salvo.getPaginas().clear();
+			salvo.getPaginas().addAll(modelo.getPaginas());
+			salvo.getPaginas().forEach(pro -> pro.setModelosalvo(salvo));
+			
 			BeanUtils.copyProperties(modelo, salvo, "codigo", "procedimentomedico", "paginas");
 			return this.Criar(salvo);
 		} catch (Exception e) {

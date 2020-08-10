@@ -35,7 +35,7 @@ public class PaginaImagens {
 		this.descricao = descricao;
 	}
 
-	@Column(length = 40000)
+	@Column(length = 1000)
 	public String getDados() {
 		return dados;
 	}

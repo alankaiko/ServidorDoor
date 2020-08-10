@@ -97,7 +97,6 @@ public class ProcedimentoAtendimentoService {
 			else 
 				laudosalvo = this.servicesalvomodelo.Atualizar(procedimento.getModelosalvo().getCodigo(), procedimento.getModelosalvo());
 			
-			
 			salvo.setModelosalvo(laudosalvo);			
 			BeanUtils.copyProperties(procedimento, salvo, "codigo", "listaimagem", "atendimento", "modelosalvo");				
 			return this.Criar(salvo);
