@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
 
 import com.laudoecia.api.domain.Imagem;
-import com.laudoecia.api.domain.ModeloLaudoClienteSalvo;
 import com.laudoecia.api.domain.ProcedimentoAtendimento;
 import com.laudoecia.api.repository.ProcedimentoAtendimentoRepository;
 import com.laudoecia.api.utils.ConverterParaJpeg;
@@ -25,9 +24,6 @@ import com.laudoecia.api.utils.ConverterParaJpeg;
 public class ProcedimentoAtendimentoService {
 	@Autowired
 	ProcedimentoAtendimentoRepository dao;
-	
-	@Autowired
-	ModeloLaudoClienteSalvoService servicesalvomodelo;
 	
 	@Autowired
 	private ImagemService serviceimagem;
@@ -90,14 +86,7 @@ public class ProcedimentoAtendimentoService {
 	public ProcedimentoAtendimento Atualizar(Long id, ProcedimentoAtendimento procedimento) {
 		try {
 			ProcedimentoAtendimento salvo = this.BuscarPorId(id);
-			ModeloLaudoClienteSalvo laudosalvo = null;
 			
-			if(procedimento.getModelosalvo().getCodigo() == null) 
-				laudosalvo = this.servicesalvomodelo.Criar(procedimento.getModelosalvo());
-			else 
-				laudosalvo = this.servicesalvomodelo.Atualizar(procedimento.getModelosalvo().getCodigo(), procedimento.getModelosalvo());
-			
-			salvo.setModelosalvo(laudosalvo);			
 			BeanUtils.copyProperties(procedimento, salvo, "codigo", "listaimagem", "atendimento", "modelosalvo");				
 			return this.Criar(salvo);
 		} catch (Exception e) {

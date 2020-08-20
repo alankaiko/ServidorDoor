@@ -47,7 +47,7 @@ public class ModeloDeLaudoDoProcRepositoryImpl implements ModeloDeLaudoDoProcRep
 			lista.add(builder.like(builder.lower(root.get(ModeloDeLaudoDoProc_.descricao)), "%"+ filtro.getDescricao().toLowerCase()+"%"));
 		
 		if(!StringUtils.isEmpty(filtro.getCustomstring()))
-			lista.add(builder.like(builder.lower(root.get(ModeloDeLaudoDoProc_.customstring)), "%"+ filtro.getCustomstring().toLowerCase()+"%"));
+			lista.add(builder.like(builder.lower(root.get(ModeloDeLaudoDoProc_.customString)), "%"+ filtro.getCustomstring().toLowerCase()+"%"));
 		
 		return lista.toArray(new Predicate[lista.size()]);
 	}

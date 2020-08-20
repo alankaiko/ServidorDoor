@@ -10,21 +10,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.laudoecia.api.domain.PaginaImagens;
-import com.laudoecia.api.repository.PaginaImagensRepository;
+import com.laudoecia.api.domain.PaginaDeImagens;
+import com.laudoecia.api.repository.PaginaDeImagensRepository;
 
 @Service
 public class PaginaImagensService {
 	@Autowired
-	private PaginaImagensRepository dao;
+	private PaginaDeImagensRepository dao;
 
 	private final Logger LOG = LoggerFactory.getLogger(AbreviaturaService.class);
 
-	public List<PaginaImagens> Listar() {
+	public List<PaginaDeImagens> Listar() {
 		return this.dao.findAll();
 	}
 
-	public PaginaImagens Criar(PaginaImagens pagina) {
+	public PaginaDeImagens Criar(PaginaDeImagens pagina) {
 		try {
 			return this.dao.save(pagina);
 		} catch (Exception e) {
@@ -34,8 +34,8 @@ public class PaginaImagensService {
 		}
 	}
 
-	public PaginaImagens BuscarPorId(Long id) {
-		Optional<PaginaImagens> pagina = this.dao.findById(id);
+	public PaginaDeImagens BuscarPorId(Long id) {
+		Optional<PaginaDeImagens> pagina = this.dao.findById(id);
 
 		if (pagina.get() == null)
 			throw new EmptyResultDataAccessException(1);
@@ -52,7 +52,7 @@ public class PaginaImagensService {
 		}
 	}
 
-	public void Deletar(PaginaImagens pagina) {
+	public void Deletar(PaginaDeImagens pagina) {
 		try {
 			this.dao.delete(pagina);
 		} catch (Exception e) {
@@ -61,9 +61,9 @@ public class PaginaImagensService {
 		}
 	}
 
-	public PaginaImagens Atualizar(Long id, PaginaImagens pagina) {
+	public PaginaDeImagens Atualizar(Long id, PaginaDeImagens pagina) {
 		try {
-			PaginaImagens salvo = this.BuscarPorId(id);
+			PaginaDeImagens salvo = this.BuscarPorId(id);
 			BeanUtils.copyProperties(pagina, salvo, "codigo");
 			return this.Criar(salvo);
 		} catch (Exception e) {

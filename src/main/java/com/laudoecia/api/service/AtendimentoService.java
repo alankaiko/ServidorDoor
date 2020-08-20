@@ -36,13 +36,6 @@ public class AtendimentoService {
 	private AtendimentoRepository dao;
 	
 	@Autowired
-	private ParametrosDoSistemaService serviceparam;
-	
-	@Autowired
-	private ModeloLaudoClienteSalvoService servicesalvo;
-	
-	
-	@Autowired
 	private SubcategoriaCid10Service cidservice;
 	
 	@Autowired

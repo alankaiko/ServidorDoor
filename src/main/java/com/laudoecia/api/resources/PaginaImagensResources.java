@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.laudoecia.api.domain.PaginaImagens;
+import com.laudoecia.api.domain.PaginaDeImagens;
 import com.laudoecia.api.event.RecursoCriadoEvent;
 import com.laudoecia.api.service.PaginaImagensService;
 
@@ -35,13 +35,13 @@ public class PaginaImagensResources {
 	private ApplicationEventPublisher publisher;
 	
 	@GetMapping
-	public List<PaginaImagens> ListarTodos(){
+	public List<PaginaDeImagens> ListarTodos(){
 		return this.service.Listar();
 	}	
 	
 	@PostMapping
-	public ResponseEntity<PaginaImagens> Salvar(@Valid @RequestBody PaginaImagens pagina, HttpServletResponse resposta){
-		PaginaImagens salvo = this.service.Criar(pagina);
+	public ResponseEntity<PaginaDeImagens> Salvar(@Valid @RequestBody PaginaDeImagens pagina, HttpServletResponse resposta){
+		PaginaDeImagens salvo = this.service.Criar(pagina);
 		this.publisher.publishEvent(new RecursoCriadoEvent(this, resposta, salvo.getCodigo()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
 	}
@@ -53,14 +53,14 @@ public class PaginaImagensResources {
 	}
 	
 	@GetMapping("/{codigo}")
-	public ResponseEntity<PaginaImagens> PorId(@PathVariable Long codigo){
-		PaginaImagens salvo = this.service.BuscarPorId(codigo);
+	public ResponseEntity<PaginaDeImagens> PorId(@PathVariable Long codigo){
+		PaginaDeImagens salvo = this.service.BuscarPorId(codigo);
 		return ResponseEntity.ok(salvo);
 	}
 	
 	@PutMapping("/{codigo}")
-	public ResponseEntity<PaginaImagens> Atualizar(@PathVariable Long codigo, @Valid @RequestBody PaginaImagens pagina){
-		PaginaImagens salvo = this.service.Atualizar(codigo, pagina);
+	public ResponseEntity<PaginaDeImagens> Atualizar(@PathVariable Long codigo, @Valid @RequestBody PaginaDeImagens pagina){
+		PaginaDeImagens salvo = this.service.Atualizar(codigo, pagina);
 		return ResponseEntity.ok(salvo);
 	}
 }

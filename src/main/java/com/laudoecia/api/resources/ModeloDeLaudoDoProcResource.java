@@ -43,7 +43,7 @@ public class ModeloDeLaudoDoProcResource {
 	}	
 	
 	@GetMapping("/proc/{codigo}")
-	public List<ModeloDeLaudoDoProc> ListarPorProcedimentoMedico(@PathVariable Long codigo) {
+	public List<ModeloDeLaudoDoProc> PorProcedimentoMedico(@PathVariable Long codigo) {
 		return this.service.ListarPeloCodigoProcedimento(codigo);
 	}
 	

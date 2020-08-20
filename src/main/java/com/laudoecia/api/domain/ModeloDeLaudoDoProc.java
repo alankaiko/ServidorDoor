@@ -1,6 +1,7 @@
 package com.laudoecia.api.domain;
 
-import javax.persistence.CascadeType;
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,37 +12,40 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "modelodelaudodoproc")
-public class ModeloDeLaudoDoProc {
-
+public class ModeloDeLaudoDoProc implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
 	private Long codigo;
 	private ProcedimentoMedico procedimentomedico;
+	private ModeloDeLaudo modelodeLaudo;
 	private String descricao;
-	private String customstring;
-	private int prioridade;
+	private String customString;
+	private int prioridade = 0;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "codigo")
 	public Long getCodigo() {
 		return codigo;
 	}
-
+	
 	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
-	@JoinColumn(name = "tbl_procedimentomedico_id", referencedColumnName = "codigo")
-	public ProcedimentoMedico getProcedimentomedico() {
-		return procedimentomedico;
+	@Column(name = "customstring", nullable = false, length = 100000)
+	public String getCustomString() {
+		return customString == null ? "" : customString;
 	}
 
-	public void setProcedimentomedico(ProcedimentoMedico procedimentomedico) {
-		this.procedimentomedico = procedimentomedico;
+	public void setCustomString(String customString) {
+		this.customString = customString == null ? "" : customString;
 	}
 
-	@Column(name = "descricao")
 	public String getDescricao() {
 		return descricao;
 	}
@@ -50,22 +54,40 @@ public class ModeloDeLaudoDoProc {
 		this.descricao = descricao;
 	}
 
-	@Column(name = "customstring", length = 100000)
-	public String getCustomstring() {
-		return customstring;
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	@JoinColumn(name = "modelolaudo_codigo", referencedColumnName = "codigo", nullable = true)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	public ModeloDeLaudo getModelodeLaudo() {
+		return modelodeLaudo;
+	}
+	
+	public void setModelodeLaudo(ModeloDeLaudo modelodeLaudo) {
+		this.modelodeLaudo = modelodeLaudo;
 	}
 
-	public void setCustomstring(String customstring) {
-		this.customstring = customstring;
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+	@JoinColumn(name = "procmedico_codigo", referencedColumnName = "codigo", nullable = false)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	public ProcedimentoMedico getProcedimentomedico() {
+		return procedimentomedico;
 	}
-
-	@Column(name = "prioridade")
+	
+	public void setProcedimentomedico(ProcedimentoMedico procedimentomedico) {
+		this.procedimentomedico = procedimentomedico;
+	}
+	
+	@Column(name = "prioridade", nullable = false)
 	public int getPrioridade() {
 		return prioridade;
 	}
 
 	public void setPrioridade(int prioridade) {
 		this.prioridade = prioridade;
+	}
+
+	@Override
+	public String toString() {
+		return descricao;
 	}
 
 }

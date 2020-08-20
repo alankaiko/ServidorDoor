@@ -1,5 +1,7 @@
 package com.laudoecia.api.domain;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,11 +11,11 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "modelodelaudo")
-public class ModeloDeLaudo {
+public class ModeloDeLaudo implements Serializable {
+	private static final long serialVersionUID = 1L;
 	public static final int DIVERSOS = 5;
 	public static final int TEXTO_LIVRE = 27;
 
-	
 	private Long codigo;
 	private String nome;
 	private String contexto;
@@ -25,21 +27,12 @@ public class ModeloDeLaudo {
 	public Long getCodigo() {
 		return codigo;
 	}
-
+	
 	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
 	}
 
-	@Column(name = "nome", unique = true)
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	@Column(name = "contexto", length = 999999)
+	@Column(name = "contexto", nullable = false, length = 999999)
 	public String getContexto() {
 		return contexto;
 	}
@@ -48,7 +41,16 @@ public class ModeloDeLaudo {
 		this.contexto = contexto;
 	}
 
-	@Column(name = "visao", length = 100000)
+	@Column(name = "nome", nullable = false, unique = true)
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	@Column(name = "visao", nullable = false, length = 100000)
 	public String getVisao() {
 		return visao;
 	}
@@ -56,6 +58,10 @@ public class ModeloDeLaudo {
 	public void setVisao(String visao) {
 		this.visao = visao;
 	}
-	
+
+	@Override
+	public String toString() {
+		return nome;
+	}
 
 }

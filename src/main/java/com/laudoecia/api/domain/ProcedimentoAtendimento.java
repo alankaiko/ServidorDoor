@@ -14,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -35,7 +34,6 @@ public class ProcedimentoAtendimento implements Serializable {
 	private Atendimento atendimento;
 	private List<Imagem> listaimagem;
 	private Long codigoatdteste;
-	private ModeloLaudoClienteSalvo modelosalvo;
 
 	
 	@Id
@@ -108,16 +106,6 @@ public class ProcedimentoAtendimento implements Serializable {
 
 	public void setAtendimento(Atendimento atendimento) {
 		this.atendimento = atendimento;
-	}
-	
-	@OneToOne
-	@JoinColumn(name = "codigo_modelosalvo", nullable = true)
-	public ModeloLaudoClienteSalvo getModelosalvo() {
-		return modelosalvo;
-	}
-	
-	public void setModelosalvo(ModeloLaudoClienteSalvo modelosalvo) {
-		this.modelosalvo = modelosalvo;
 	}
 	
 	@JsonIgnoreProperties("procedimentoatendimento")
