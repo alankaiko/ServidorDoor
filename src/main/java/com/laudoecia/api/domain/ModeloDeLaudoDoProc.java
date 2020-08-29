@@ -4,15 +4,12 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "modelodelaudodoproc")
@@ -21,9 +18,9 @@ public class ModeloDeLaudoDoProc implements Serializable{
 	
 	private Long codigo;
 	private ProcedimentoMedico procedimentomedico;
-	private ModeloDeLaudo modelodeLaudo;
+	private ModeloDeLaudo modelodelaudo;
 	private String descricao;
-	private String customString;
+	private String customstring;
 	private int prioridade = 0;
 
 	@Id
@@ -37,13 +34,13 @@ public class ModeloDeLaudoDoProc implements Serializable{
 		this.codigo = codigo;
 	}
 
-	@Column(name = "customstring", nullable = false, length = 100000)
-	public String getCustomString() {
-		return customString == null ? "" : customString;
+	@Column(name = "customstring", nullable = true, length = 100000)
+	public String getCustomstring() {
+		return customstring;
 	}
-
-	public void setCustomString(String customString) {
-		this.customString = customString == null ? "" : customString;
+	
+	public void setCustomstring(String customstring) {
+		this.customstring = customstring;
 	}
 
 	public String getDescricao() {
@@ -54,20 +51,18 @@ public class ModeloDeLaudoDoProc implements Serializable{
 		this.descricao = descricao;
 	}
 
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	@JoinColumn(name = "modelolaudo_codigo", referencedColumnName = "codigo", nullable = true)
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
-	public ModeloDeLaudo getModelodeLaudo() {
-		return modelodeLaudo;
+	@ManyToOne
+	@JoinColumn(name = "modelolaudo_codigo")
+	public ModeloDeLaudo getModelodelaudo() {
+		return modelodelaudo;
 	}
 	
-	public void setModelodeLaudo(ModeloDeLaudo modelodeLaudo) {
-		this.modelodeLaudo = modelodeLaudo;
+	public void setModelodelaudo(ModeloDeLaudo modelodelaudo) {
+		this.modelodelaudo = modelodelaudo;
 	}
 
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	@JoinColumn(name = "procmedico_codigo", referencedColumnName = "codigo", nullable = false)
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	@ManyToOne
+	@JoinColumn(name = "procmedico_codigo")
 	public ProcedimentoMedico getProcedimentomedico() {
 		return procedimentomedico;
 	}
@@ -76,7 +71,7 @@ public class ModeloDeLaudoDoProc implements Serializable{
 		this.procedimentomedico = procedimentomedico;
 	}
 	
-	@Column(name = "prioridade", nullable = false)
+	@Column(name = "prioridade", nullable = true)
 	public int getPrioridade() {
 		return prioridade;
 	}
@@ -90,4 +85,5 @@ public class ModeloDeLaudoDoProc implements Serializable{
 		return descricao;
 	}
 
+	
 }

@@ -26,6 +26,9 @@ public class ProcedimentoAtendimentoService {
 	ProcedimentoAtendimentoRepository dao;
 	
 	@Autowired
+	LaudoService servicelaudo;
+	
+	@Autowired
 	private ImagemService serviceimagem;
 	
 	private final Logger LOG = LoggerFactory.getLogger(ProcedimentoAtendimentoService.class);
@@ -87,13 +90,13 @@ public class ProcedimentoAtendimentoService {
 		try {
 			ProcedimentoAtendimento salvo = this.BuscarPorId(id);
 			
-			BeanUtils.copyProperties(procedimento, salvo, "codigo", "listaimagem", "atendimento", "modelosalvo");				
+			BeanUtils.copyProperties(procedimento, salvo, "codigo", "listaimagem", "atendimento");				
 			return this.Criar(salvo);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Atualizar------------------ de ProcedimentoAtendimentoService");
 			e.printStackTrace();
 			return null;
-		}		
+		}
 	}
 	
 	public ProcedimentoAtendimento AtualizarComImagens(Long id, ProcedimentoAtendimento procedimento) {
@@ -107,13 +110,13 @@ public class ProcedimentoAtendimentoService {
 			salvo.getListaimagem().addAll(listaatualizada);
 			salvo.getListaimagem().forEach(lista -> lista.setProcedimentoatendimento(salvo));			
 			
-			BeanUtils.copyProperties(procedimento, salvo, "codigo", "listaimagem", "atendimento", "modelosalvo");				
+			BeanUtils.copyProperties(procedimento, salvo, "codigo", "listaimagem", "atendimento");				
 			return this.Criar(salvo);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo AtualizarComImagens------------------ de ProcedimentoAtendimentoService");
 			e.printStackTrace();
 			return null;
-		}		
+		}
 	}
 	
 	public void DeletarImagens(List<Imagem> lista, Long codigoatendimento) {

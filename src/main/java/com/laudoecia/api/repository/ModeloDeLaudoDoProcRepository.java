@@ -9,6 +9,6 @@ import com.laudoecia.api.domain.ModeloDeLaudoDoProc;
 import com.laudoecia.api.repository.impl.ModeloDeLaudoDoProcRepositoryQuery;
 
 @Repository
-public interface ModeloDeLaudoDoProcRepository extends JpaRepository<ModeloDeLaudoDoProc, Long>, ModeloDeLaudoDoProcRepositoryQuery{
-	public List<ModeloDeLaudoDoProc> findByProcedimentomedicoCodigo(Long codigo);
+public interface ModeloDeLaudoDoProcRepository extends JpaRepository<ModeloDeLaudoDoProc, Long>, ModeloDeLaudoDoProcRepositoryQuery {
+	public List<ModeloDeLaudoDoProc> findByProcedimentomedicoCodigoOrderByPrioridade(Long codigo);
 }

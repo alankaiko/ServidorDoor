@@ -9,12 +9,10 @@ import javax.persistence.metamodel.StaticMetamodel;
 public abstract class ParametroDoLaudo_ {
 
 	public static volatile SingularAttribute<ParametroDoLaudo, Long> codigo;
-	public static volatile SingularAttribute<ParametroDoLaudo, Laudo> laudo;
 	public static volatile SingularAttribute<ParametroDoLaudo, String> valor;
 	public static volatile SingularAttribute<ParametroDoLaudo, Integer> index;
 
 	public static final String CODIGO = "codigo";
-	public static final String LAUDO = "laudo";
 	public static final String VALOR = "valor";
 	public static final String INDEX = "index";
 

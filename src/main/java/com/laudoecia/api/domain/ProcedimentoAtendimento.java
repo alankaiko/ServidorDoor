@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -33,9 +34,9 @@ public class ProcedimentoAtendimento implements Serializable {
 	private LocalDate dataexecucao;
 	private Atendimento atendimento;
 	private List<Imagem> listaimagem;
+	private Laudo laudo;
 	private Long codigoatdteste;
 
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getCodigo() {
@@ -114,8 +115,19 @@ public class ProcedimentoAtendimento implements Serializable {
 		return listaimagem;
 	}
 
+	
 	public void setListaimagem(List<Imagem> listaimagem) {
 		this.listaimagem = listaimagem;
+	}
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "codigo_laudo", referencedColumnName = "codigo")
+	public Laudo getLaudo() {
+		return laudo;
+	}
+	
+	public void setLaudo(Laudo laudo) {
+		this.laudo = laudo;
 	}
 	
 	@Transient

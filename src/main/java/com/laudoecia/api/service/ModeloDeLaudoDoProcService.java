@@ -91,7 +91,7 @@ public class ModeloDeLaudoDoProcService {
 	
 	public List<ModeloDeLaudoDoProc> ListarPeloCodigoProcedimento(Long codigo){
 		try {
-			List<ModeloDeLaudoDoProc> modelos = this.dao.findByProcedimentomedicoCodigo(codigo);
+			List<ModeloDeLaudoDoProc> modelos = this.dao.findByProcedimentomedicoCodigoOrderByPrioridade(codigo);
 			return modelos;
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Filtrando------------------ de ModeloDeLaudoDoProcService");

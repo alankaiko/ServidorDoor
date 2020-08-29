@@ -9,16 +9,16 @@ import javax.persistence.metamodel.StaticMetamodel;
 public abstract class ModeloDeLaudoDoProc_ {
 
 	public static volatile SingularAttribute<ModeloDeLaudoDoProc, Long> codigo;
-	public static volatile SingularAttribute<ModeloDeLaudoDoProc, ModeloDeLaudo> modelodeLaudo;
 	public static volatile SingularAttribute<ModeloDeLaudoDoProc, Integer> prioridade;
-	public static volatile SingularAttribute<ModeloDeLaudoDoProc, String> customString;
+	public static volatile SingularAttribute<ModeloDeLaudoDoProc, String> customstring;
+	public static volatile SingularAttribute<ModeloDeLaudoDoProc, ModeloDeLaudo> modelodelaudo;
 	public static volatile SingularAttribute<ModeloDeLaudoDoProc, String> descricao;
 	public static volatile SingularAttribute<ModeloDeLaudoDoProc, ProcedimentoMedico> procedimentomedico;
 
 	public static final String CODIGO = "codigo";
-	public static final String MODELODE_LAUDO = "modelodeLaudo";
 	public static final String PRIORIDADE = "prioridade";
-	public static final String CUSTOM_STRING = "customString";
+	public static final String CUSTOMSTRING = "customstring";
+	public static final String MODELODELAUDO = "modelodelaudo";
 	public static final String DESCRICAO = "descricao";
 	public static final String PROCEDIMENTOMEDICO = "procedimentomedico";
 
