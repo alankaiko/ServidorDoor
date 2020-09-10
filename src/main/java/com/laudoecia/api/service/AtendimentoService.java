@@ -113,7 +113,7 @@ public class AtendimentoService {
 			salvo.getProcedimentos().addAll(atendimento.getProcedimentos());
 			salvo.getProcedimentos().forEach(pro -> pro.setAtendimento(salvo));
 			
-			BeanUtils.copyProperties(atendimento, salvo, "codigo", "procedimentos");
+			BeanUtils.copyProperties(atendimento, salvo, "codigo", "procedimentos", "laudo");
 			return this.Criar(salvo);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Atualizar------------------ de AtendimentoService");

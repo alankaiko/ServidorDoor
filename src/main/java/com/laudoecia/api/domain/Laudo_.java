@@ -10,13 +10,13 @@ import javax.persistence.metamodel.StaticMetamodel;
 public abstract class Laudo_ {
 
 	public static volatile SingularAttribute<Laudo, Long> codigo;
-	public static volatile SingularAttribute<Laudo, ParametroDoLaudo> laudosalvo;
+	public static volatile SingularAttribute<Laudo, CamposDoLaudo> camposdolaudo;
 	public static volatile SingularAttribute<Laudo, SubcategoriaCid10> cidresultadodoexame;
 	public static volatile SingularAttribute<Laudo, ModeloDeLaudoDoProc> modelodelaudo;
 	public static volatile SingularAttribute<Laudo, STATUS_LAUDO> status;
 
 	public static final String CODIGO = "codigo";
-	public static final String LAUDOSALVO = "laudosalvo";
+	public static final String CAMPOSDOLAUDO = "camposdolaudo";
 	public static final String CIDRESULTADODOEXAME = "cidresultadodoexame";
 	public static final String MODELODELAUDO = "modelodelaudo";
 	public static final String STATUS = "status";

@@ -16,14 +16,12 @@ import javax.persistence.Table;
 
 import com.laudoecia.api.domain.enuns.STATUS_LAUDO;
 
-
-
 @Entity
 @Table
 public class Laudo {	
 	private Long codigo;
 	private STATUS_LAUDO status;
-	private ParametroDoLaudo laudosalvo;
+	private CamposDoLaudo camposdolaudo;
 	private ModeloDeLaudoDoProc modelodelaudo;
 	private SubcategoriaCid10 cidresultadodoexame;
 	
@@ -49,13 +47,13 @@ public class Laudo {
 	}
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "laudosalvo_codigo", referencedColumnName = "codigo", nullable = true)
-	public ParametroDoLaudo getLaudosalvo() {
-		return laudosalvo;
+    @JoinColumn(name = "camposdolaudo_codigo", referencedColumnName = "codigo", nullable = true)
+	public CamposDoLaudo getCamposdolaudo() {
+		return camposdolaudo;
 	}
 	
-	public void setLaudosalvo(ParametroDoLaudo laudosalvo) {
-		this.laudosalvo = laudosalvo;
+	public void setCamposdolaudo(CamposDoLaudo camposdolaudo) {
+		this.camposdolaudo = camposdolaudo;
 	}
 	
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)

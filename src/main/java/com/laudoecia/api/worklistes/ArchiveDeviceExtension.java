@@ -1,5 +1,23 @@
 package com.laudoecia.api.worklistes;
 
+import java.time.Period;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.dcm4che3.data.Attributes;
 import org.dcm4che3.data.Code;
 import org.dcm4che3.io.BasicBulkDataDescriptor;
@@ -9,14 +27,6 @@ import org.dcm4che3.util.ByteUtils;
 import org.dcm4che3.util.StringUtils;
 
 import com.laudoecia.api.utilities.FuzzyStr;
-
-import javax.servlet.http.HttpServletRequest;
-import java.time.Period;
-import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class ArchiveDeviceExtension extends DeviceExtension {
 
