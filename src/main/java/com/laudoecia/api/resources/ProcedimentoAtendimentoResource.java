@@ -80,8 +80,14 @@ public class ProcedimentoAtendimentoResource {
 	}
 	
 	@PutMapping("/atualizarcomimagens/{codigo}")
-	public ResponseEntity<ProcedimentoAtendimento> AtualizarComImage(@PathVariable Long codigo, @Valid @RequestBody ProcedimentoAtendimento procedimento){
+	public ResponseEntity<ProcedimentoAtendimento> AtualizarComImagem(@PathVariable Long codigo, @Valid @RequestBody ProcedimentoAtendimento procedimento){
 		ProcedimentoAtendimento salvo = this.service.AtualizarComImagens(codigo, procedimento);
+		return ResponseEntity.ok(salvo);
+	}
+	
+	@PutMapping("/atualizarcompaginas/teste/{codigo}")
+	public ResponseEntity<ProcedimentoAtendimento> AtualizarComPagina(@PathVariable Long codigo, @Valid @RequestBody ProcedimentoAtendimento procedimento){
+		ProcedimentoAtendimento salvo = this.service.AtualizarComPaginas(codigo, procedimento);
 		return ResponseEntity.ok(salvo);
 	}
 	

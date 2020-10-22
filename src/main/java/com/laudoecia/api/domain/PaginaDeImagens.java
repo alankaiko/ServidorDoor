@@ -1,6 +1,5 @@
 package com.laudoecia.api.domain;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -8,7 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,18 +15,17 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.laudoecia.api.domain.enuns.LAYOUT_IMG;
 
 
 @Entity
 @Table(name = "paginadeimagens")
-public class PaginaDeImagens implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class PaginaDeImagens{
 	private Long codigo;
 	private LAYOUT_IMG layout;
-	private List<ImagemImpressa> imagens;
-	private ProcedimentoAtendimento procedimentoatendimento;
+	private List<ImagemImpressa> imagemimpressa;
+	private ProcedimentoAtendimento proc;
 
 	public PaginaDeImagens(LAYOUT_IMG layout) {
 		this.layout = layout;
@@ -47,30 +44,19 @@ public class PaginaDeImagens implements Serializable {
 	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
 	}
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "pagina")
-	public List<ImagemImpressa> getImagens() {
-		return imagens;
+	
+	@JsonIgnoreProperties("paginadeimagens")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "paginadeimagens", orphanRemoval = true)
+	public List<ImagemImpressa> getImagemimpressa() {
+		return imagemimpressa;
 	}
-
-	public void setImagens(List<ImagemImpressa> imagens) {
-		this.imagens.clear();
-		if (imagens == null) {
-		} else {
-			this.imagens.addAll(imagens);
-		}
-	}
-
-	public void addImagem(ImagemImpressa imagem) {
-		imagens.add(imagem);
-	}
-
-	public void removeImagem(int index) {
-		imagens.remove(index);
+	
+	public void setImagemimpressa(List<ImagemImpressa> imagemimpressa) {
+		this.imagemimpressa = imagemimpressa;
 	}
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "layout", nullable = false)
+	@Column(name = "layout", nullable = true)
 	public LAYOUT_IMG getLayout() {
 		return layout;
 	}
@@ -79,13 +65,15 @@ public class PaginaDeImagens implements Serializable {
 		this.layout = layout;
 	}
 
-	@JoinColumn(name = "procdoatd_codigo", referencedColumnName = "codigo")
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
-	public ProcedimentoAtendimento getProcedimentoatendimento() {
-		return procedimentoatendimento;
+	@ManyToOne
+	@JoinColumn(name = "proc_codigo", nullable = true)
+	public ProcedimentoAtendimento getProc() {
+		return proc;
 	}
 	
-	public void setProcedimentoatendimento(ProcedimentoAtendimento procedimentoatendimento) {
-		this.procedimentoatendimento = procedimentoatendimento;
+	public void setProc(ProcedimentoAtendimento proc) {
+		this.proc = proc;
 	}
+
+	
 }

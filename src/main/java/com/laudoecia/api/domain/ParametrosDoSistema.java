@@ -94,8 +94,8 @@ public class ParametrosDoSistema implements Serializable {
 	private int bgColor = 0;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "layoutimagem", nullable = false)
-	private LAYOUT_IMG layoutImagem = LAYOUT_IMG.LAYOUT_4_IMG_MEDIAS;
+	@Column(name = "layoutimagem", nullable = true)
+	private LAYOUT_IMG layoutImagem;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "tipodecontroledeacesso", nullable = false)

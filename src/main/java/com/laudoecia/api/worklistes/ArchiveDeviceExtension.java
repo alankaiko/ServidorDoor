@@ -1484,7 +1484,8 @@ public class ArchiveDeviceExtension extends DeviceExtension {
     }
 
     public Map<String, AttributeSet> getAttributeSet(AttributeSet.Type type) {
-        return StringUtils.maskNull(attributeSet.get(type), Collections.emptyMap());
+        //return StringUtils.maskNull(attributeSet.get(type), Collections.emptyMap());
+    	return null;
     }
 
     public BulkDataDescriptor getBulkDataDescriptor(String bulkDataDescriptorID) {

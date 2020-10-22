@@ -1,6 +1,5 @@
 package com.laudoecia.api.domain;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -18,12 +17,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name ="procedimentoatendimento")
-public class ProcedimentoAtendimento implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class ProcedimentoAtendimento {
 
 	private Long codigo;
 	private ProfissionalExecutante profexecutante;
@@ -33,6 +34,7 @@ public class ProcedimentoAtendimento implements Serializable {
 	private LocalDate preventregalaudo;
 	private LocalDate dataexecucao;
 	private Atendimento atendimento;
+	private List<PaginaDeImagens> paginadeimagens;
 	private List<Imagem> listaimagem;
 	private Laudo laudo;
 	private Long codigoatdteste;
@@ -97,6 +99,17 @@ public class ProcedimentoAtendimento implements Serializable {
 
 	public void setPreventregalaudo(LocalDate preventregalaudo) {
 		this.preventregalaudo = preventregalaudo;
+	}
+	
+	@JsonIgnoreProperties("proc")
+	@OneToMany(mappedBy = "proc", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@Fetch(FetchMode.SUBSELECT)
+	public List<PaginaDeImagens> getPaginadeimagens() {
+		return paginadeimagens;
+	}
+	
+	public void setPaginadeimagens(List<PaginaDeImagens> paginadeimagens) {
+		this.paginadeimagens = paginadeimagens;
 	}
 
 	@ManyToOne
@@ -169,9 +182,7 @@ public class ProcedimentoAtendimento implements Serializable {
 		return "ProcedimentoAtendimento [codigo=" + codigo + ", profexecutante=" + profexecutante
 				+ ", procedimentomedico=" + procedimentomedico + ", valorpaciente=" + valorpaciente + ", valorconvenio="
 				+ valorconvenio + ", preventregalaudo=" + preventregalaudo + ", dataexecucao=" + dataexecucao
-				+ ", atendimento=" + atendimento + "]";
+				+ ", atendimento=" + atendimento + ", paginadeimagens=" + paginadeimagens + ", listaimagem="
+				+ listaimagem + ", laudo=" + laudo + ", codigoatdteste=" + codigoatdteste + "]";
 	}
-	
-	
-
 }

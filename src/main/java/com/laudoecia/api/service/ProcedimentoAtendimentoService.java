@@ -19,6 +19,7 @@ import com.laudoecia.api.domain.Imagem;
 import com.laudoecia.api.domain.ProcedimentoAtendimento;
 import com.laudoecia.api.repository.ProcedimentoAtendimentoRepository;
 import com.laudoecia.api.utils.ConverterParaJpeg;
+import com.lowagie.text.html.simpleparser.Img;
 
 @Service
 public class ProcedimentoAtendimentoService {
@@ -39,6 +40,17 @@ public class ProcedimentoAtendimentoService {
 
 	public ProcedimentoAtendimento Criar(ProcedimentoAtendimento procedimento) {
 		try {
+			return this.dao.save(procedimento);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo Criar------------------ de ProcedimentoAtendimentoService");
+			e.printStackTrace();
+			return null;
+		}		
+	}
+	
+	public ProcedimentoAtendimento CriarComPagina(ProcedimentoAtendimento procedimento) {
+		try {
+			procedimento.getPaginadeimagens().forEach(pro -> pro.getImagemimpressa().forEach(img -> img.setPaginadeimagens(pro)));
 			return this.dao.save(procedimento);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Criar------------------ de ProcedimentoAtendimentoService");
@@ -90,7 +102,7 @@ public class ProcedimentoAtendimentoService {
 		try {
 			ProcedimentoAtendimento salvo = this.BuscarPorId(id);
 		
-			BeanUtils.copyProperties(procedimento, salvo, "codigo", "listaimagem", "atendimento");				
+			BeanUtils.copyProperties(procedimento, salvo, "codigo", "listaimagem", "atendimento","paginadeimagens");				
 			return this.Criar(salvo);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Atualizar------------------ de ProcedimentoAtendimentoService");
@@ -110,10 +122,27 @@ public class ProcedimentoAtendimentoService {
 			salvo.getListaimagem().addAll(listaatualizada);
 			salvo.getListaimagem().forEach(lista -> lista.setProcedimentoatendimento(salvo));			
 			
-			BeanUtils.copyProperties(procedimento, salvo, "codigo", "listaimagem", "atendimento");				
+			BeanUtils.copyProperties(procedimento, salvo, "codigo", "listaimagem", "atendimento","paginadeimagens");				
 			return this.Criar(salvo);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo AtualizarComImagens------------------ de ProcedimentoAtendimentoService");
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public ProcedimentoAtendimento AtualizarComPaginas(Long id, ProcedimentoAtendimento procedimento) {
+		try {
+			ProcedimentoAtendimento salvo = this.BuscarPorId(id);
+			
+			salvo.getPaginadeimagens().clear();
+			salvo.getPaginadeimagens().addAll(procedimento.getPaginadeimagens());
+			salvo.getPaginadeimagens().forEach(pro -> pro.setProc(salvo));
+					
+			BeanUtils.copyProperties(procedimento, salvo, "codigo", "listaimagem", "atendimento","paginadeimagens");				
+			return this.CriarComPagina(salvo);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo Atualizar------------------ de ProcedimentoAtendimentoService");
 			e.printStackTrace();
 			return null;
 		}

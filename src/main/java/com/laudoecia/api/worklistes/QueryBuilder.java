@@ -1116,7 +1116,8 @@ public class QueryBuilder {
     }
 
     private static <T, Z, X> From<Z, X> correlate(Subquery<T> sq, From<Z, X> parent) {
-        return parent instanceof Root ? sq.correlate((Root) parent) : sq.correlate((Join) parent);
+        //return parent instanceof Root ? sq.correlate((Root) parent) : sq.correlate((Join) parent);
+    	return null;
     }
 
     private <T> void verifyingObserver(List<Predicate> predicates, CriteriaQuery<T> q,
