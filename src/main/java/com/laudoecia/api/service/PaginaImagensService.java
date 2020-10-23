@@ -64,7 +64,12 @@ public class PaginaImagensService {
 	public PaginaDeImagens Atualizar(Long id, PaginaDeImagens pagina) {
 		try {
 			PaginaDeImagens salvo = this.BuscarPorId(id);
-			BeanUtils.copyProperties(pagina, salvo, "codigo");
+			
+			salvo.getImagemimpressa().clear();
+			salvo.getImagemimpressa().addAll(pagina.getImagemimpressa());
+			salvo.getImagemimpressa().forEach(pro -> pro.setPaginadeimagens(salvo));
+			
+			BeanUtils.copyProperties(pagina, salvo, "codigo", "imagemimpressa");
 			return this.Criar(salvo);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Atualizar------------------ de PaginaImagensService");

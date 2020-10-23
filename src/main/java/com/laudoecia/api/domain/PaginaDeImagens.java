@@ -25,7 +25,7 @@ public class PaginaDeImagens{
 	private Long codigo;
 	private LAYOUT_IMG layout;
 	private List<ImagemImpressa> imagemimpressa;
-	private ProcedimentoAtendimento proc;
+	private ProcedimentoAtendimento procedimentoatendimento;
 
 	public PaginaDeImagens(LAYOUT_IMG layout) {
 		this.layout = layout;
@@ -67,13 +67,12 @@ public class PaginaDeImagens{
 
 	@ManyToOne
 	@JoinColumn(name = "proc_codigo", nullable = true)
-	public ProcedimentoAtendimento getProc() {
-		return proc;
+	public ProcedimentoAtendimento getProcedimentoatendimento() {
+		return procedimentoatendimento;
 	}
 	
-	public void setProc(ProcedimentoAtendimento proc) {
-		this.proc = proc;
+	public void setProcedimentoatendimento(ProcedimentoAtendimento procedimentoatendimento) {
+		this.procedimentoatendimento = procedimentoatendimento;
 	}
-
 	
 }

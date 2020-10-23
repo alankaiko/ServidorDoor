@@ -19,7 +19,6 @@ import com.laudoecia.api.domain.Imagem;
 import com.laudoecia.api.domain.ProcedimentoAtendimento;
 import com.laudoecia.api.repository.ProcedimentoAtendimentoRepository;
 import com.laudoecia.api.utils.ConverterParaJpeg;
-import com.lowagie.text.html.simpleparser.Img;
 
 @Service
 public class ProcedimentoAtendimentoService {
@@ -48,9 +47,9 @@ public class ProcedimentoAtendimentoService {
 		}		
 	}
 	
-	public ProcedimentoAtendimento CriarComPagina(ProcedimentoAtendimento procedimento) {
+	private ProcedimentoAtendimento CriarComPagina(ProcedimentoAtendimento procedimento) {
 		try {
-			procedimento.getPaginadeimagens().forEach(pro -> pro.getImagemimpressa().forEach(img -> img.setPaginadeimagens(pro)));
+			//procedimento.getPaginadeimagens().forEach(pro -> pro.getImagemimpressa().forEach(img -> img.setPaginadeimagens(pro)));
 			return this.dao.save(procedimento);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Criar------------------ de ProcedimentoAtendimentoService");
@@ -137,7 +136,7 @@ public class ProcedimentoAtendimentoService {
 			
 			salvo.getPaginadeimagens().clear();
 			salvo.getPaginadeimagens().addAll(procedimento.getPaginadeimagens());
-			salvo.getPaginadeimagens().forEach(pro -> pro.setProc(salvo));
+			salvo.getPaginadeimagens().forEach(pro -> pro.setProcedimentoatendimento(salvo));
 					
 			BeanUtils.copyProperties(procedimento, salvo, "codigo", "listaimagem", "atendimento","paginadeimagens");				
 			return this.CriarComPagina(salvo);

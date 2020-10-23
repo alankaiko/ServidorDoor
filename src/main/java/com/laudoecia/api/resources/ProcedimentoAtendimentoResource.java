@@ -90,7 +90,7 @@ public class ProcedimentoAtendimentoResource {
 		ProcedimentoAtendimento salvo = this.service.AtualizarComPaginas(codigo, procedimento);
 		return ResponseEntity.ok(salvo);
 	}
-	
+
 	@GetMapping(value = "/imagem/{codigo}", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<byte[]> BuscarImagem(@PathVariable Long codigo) throws IOException {
     	byte[] bytes = this.service.BuscarImagem(codigo);

@@ -101,9 +101,8 @@ public class ProcedimentoAtendimento {
 		this.preventregalaudo = preventregalaudo;
 	}
 	
-	@JsonIgnoreProperties("proc")
-	@OneToMany(mappedBy = "proc", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-	@Fetch(FetchMode.SUBSELECT)
+	@JsonIgnoreProperties("procedimentoatendimento")
+	@OneToMany(mappedBy = "procedimentoatendimento", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	public List<PaginaDeImagens> getPaginadeimagens() {
 		return paginadeimagens;
 	}
@@ -122,6 +121,7 @@ public class ProcedimentoAtendimento {
 		this.atendimento = atendimento;
 	}
 	
+	@Fetch(FetchMode.SUBSELECT)
 	@JsonIgnoreProperties("procedimentoatendimento")
 	@OneToMany(mappedBy = "procedimentoatendimento", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
 	public List<Imagem> getListaimagem() {

@@ -1,6 +1,5 @@
 package com.laudoecia.api.domain;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -8,7 +7,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "imagemimpressa")
@@ -28,7 +30,8 @@ public class ImagemImpressa{
 		this.codigo = codigo;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+	@JsonIgnoreProperties("procedimentoatendimento")
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "tbl_imagem_id", referencedColumnName = "codigo")
 	public Imagem getImagem() {
 		return imagem;
@@ -46,7 +49,7 @@ public class ImagemImpressa{
 		this.indice = indice;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "codigo_pagimagens")
 	public PaginaDeImagens getPaginadeimagens() {
 		return paginadeimagens;
