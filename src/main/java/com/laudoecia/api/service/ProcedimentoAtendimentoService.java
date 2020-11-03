@@ -119,7 +119,7 @@ public class ProcedimentoAtendimentoService {
 			
 			List<Imagem> listaatualizada = this.GravarListaImagens(procedimento.getListaimagem(),procedimento.getCodigoatdteste());
 			salvo.getListaimagem().addAll(listaatualizada);
-			salvo.getListaimagem().forEach(lista -> lista.setProcedimentoatendimento(salvo));			
+			salvo.getListaimagem().forEach(lista -> lista.setProcedimentoatendimento(salvo));
 			
 			BeanUtils.copyProperties(procedimento, salvo, "codigo", "listaimagem", "atendimento","paginadeimagens");				
 			return this.Criar(salvo);
@@ -137,6 +137,7 @@ public class ProcedimentoAtendimentoService {
 			salvo.getPaginadeimagens().clear();
 			salvo.getPaginadeimagens().addAll(procedimento.getPaginadeimagens());
 			salvo.getPaginadeimagens().forEach(pro -> pro.setProcedimentoatendimento(salvo));
+			salvo.getPaginadeimagens().forEach(pro -> pro.getImagemimpressa().forEach(img -> img.setPaginadeimagens(pro)));
 					
 			BeanUtils.copyProperties(procedimento, salvo, "codigo", "listaimagem", "atendimento","paginadeimagens");				
 			return this.CriarComPagina(salvo);
