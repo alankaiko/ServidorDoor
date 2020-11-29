@@ -47,6 +47,11 @@ public class GrupoProcedimentoResource {
 		return this.service.Filtrando(filtro, page);
 	}
 	
+	@GetMapping("/lista/{codigo}")
+	public List<GrupoProcedimento> ListarTodos(@PathVariable Long codigo){
+		return this.service.BuscarListaPorId(codigo);
+	}	
+	
 	@PostMapping
 	public ResponseEntity<GrupoProcedimento> Salvar(@Valid @RequestBody GrupoProcedimento procedimento, HttpServletResponse resposta){
 		GrupoProcedimento salvo = this.service.Criar(procedimento);

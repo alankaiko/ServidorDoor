@@ -22,7 +22,7 @@ public class EstadoService {
 	private EstadoRepository dao;	
 	private final Logger LOG = LoggerFactory.getLogger(EstadoService.class);
 
-	
+
 	public List<Estado> Listar() {
 		return this.dao.findAll();
 	}

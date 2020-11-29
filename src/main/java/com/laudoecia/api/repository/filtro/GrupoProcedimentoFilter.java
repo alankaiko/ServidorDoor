@@ -1,13 +1,13 @@
 package com.laudoecia.api.repository.filtro;
 
 public class GrupoProcedimentoFilter {
-	private String nome;
+	private String nomegrupo;
 
-	public String getNome() {
-		return nome;
+	public String getNomegrupo() {
+		return nomegrupo;
 	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
+	
+	public void setNomegrupo(String nomegrupo) {
+		this.nomegrupo = nomegrupo;
 	}
 }

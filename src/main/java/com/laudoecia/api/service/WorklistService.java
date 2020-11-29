@@ -31,7 +31,7 @@ public class WorklistService {
 			this.atributo = new Attributes();
 			atributo.setString(Tag.PatientID, VR.LO, pac.getPatientid());
 			atributo.setString(Tag.PatientName, VR.PN, pac.getPatientname());
-			atributo.setString(Tag.PatientSex, VR.CS, pac.getPatientsex());
+			atributo.setString(Tag.PatientSex, VR.CS, pac.getSexo().getValor());
 			atributo.setString(Tag.PatientAge, VR.AS, pac.getPatientage());
 			atributo.setDate(Tag.PatientBirthDate,Utils.ConverterToDate(pac.getBirthday()));			
 			

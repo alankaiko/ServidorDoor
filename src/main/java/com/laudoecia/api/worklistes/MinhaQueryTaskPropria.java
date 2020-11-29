@@ -3,16 +3,13 @@ package com.laudoecia.api.worklistes;
 import javax.persistence.EntityManager;
 
 import org.dcm4che3.data.Attributes;
-import org.dcm4che3.data.Sequence;
 import org.dcm4che3.data.Tag;
 import org.dcm4che3.data.VR;
 import org.dcm4che3.net.Association;
 import org.dcm4che3.net.pdu.PresentationContext;
 import org.dcm4che3.net.service.BasicQueryTask;
-import org.dcm4che3.net.service.DicomServiceException;
 import org.dcm4che3.net.service.QueryTask;
 
-import com.laudoecia.api.domain.MWLItem;
 import com.laudoecia.api.domain.Patient;
 import com.laudoecia.api.utils.Utils;
 
@@ -46,7 +43,7 @@ public class MinhaQueryTaskPropria extends BasicQueryTask implements QueryTask {
 		Attributes at = new Attributes();
 		at.setString(Tag.PatientID, VR.UI, item.getPatientid());
 		at.setString(Tag.PatientName, VR.UI, item.getPatientname());
-		at.setString(Tag.PatientSex, VR.UI, item.getPatientsex());
+		at.setString(Tag.PatientSex, VR.UI, item.getSexo().getValor());
 		at.setString(Tag.PatientAge, VR.UI, item.getPatientage());
 		at.setDate(Tag.PatientBirthDate, VR.DA, Utils.ConverterToDate(item.getBirthday()));
 		

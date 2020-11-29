@@ -17,6 +17,7 @@ public class Abreviatura implements Serializable {
 	private Long codigo;
 	private String titulo;
 	private String texto;
+	
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -8,7 +8,6 @@ public class PatientFilter {
 	private String patientid;
 	private String patientname;
 	private String patientage;
-	private String patientsex;
 	private boolean servidor;
 	private LocalDate birthday;
 
@@ -43,14 +42,6 @@ public class PatientFilter {
 
 	public void setPatientage(String patientage) {
 		this.patientage = patientage;
-	}
-
-	public String getPatientsex() {
-		return patientsex;
-	}
-
-	public void setPatientsex(String patientsex) {
-		this.patientsex = patientsex;
 	}
 	
 	public boolean isServidor() {

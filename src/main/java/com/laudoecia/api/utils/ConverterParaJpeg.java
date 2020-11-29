@@ -17,7 +17,6 @@ public class ConverterParaJpeg {
 
 	
 	public void CriaImagemNaPasta(String nomeimagem, byte[] imagem) {
-		
 		try {
 			this.Converter(nomeimagem, imagem);
 		} catch (Exception e) {

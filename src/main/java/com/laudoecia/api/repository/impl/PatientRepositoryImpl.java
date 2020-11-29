@@ -47,7 +47,7 @@ public class PatientRepositoryImpl implements PatientRepositoryQuery{
 		criteria.orderBy(builder.asc(root.get("idpatient")));
 		criteria.select(builder.construct(ResumoPatient.class, root.get(Patient_.idpatient), 
 			root.get(Patient_.patientid), root.get(Patient_.patientname), root.get(Patient_.birthday),
-			root.get(Patient_.patientage), root.get(Patient_.patientsex), root.get(Patient_.datecreate)));
+			root.get(Patient_.patientage), root.get(Patient_.sexo), root.get(Patient_.datecreate)));
 		
 		Predicate[] predicates = AdicionarRestricoes(builder, filtro, root);
 		criteria.where(predicates);
@@ -89,9 +89,6 @@ public class PatientRepositoryImpl implements PatientRepositoryQuery{
 		if(!StringUtils.isEmpty(filtro.getPatientage()))
 			lista.add(builder.like(builder.lower(root.get(Patient_.patientage)), "%" + filtro.getPatientage().toLowerCase() + "%"));
 		
-		if(!StringUtils.isEmpty(filtro.getPatientsex()))
-			lista.add(builder.like(builder.lower(root.get(Patient_.patientsex)), "%" + filtro.getPatientsex().toLowerCase() + "%"));
-
 		if(filtro.getBirthday() != null) {
 			lista.add(builder.equal(root.get(Patient_.birthday), filtro.getBirthday()));
 		}

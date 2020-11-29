@@ -156,11 +156,8 @@ public class ProcedimentoAtendimentoService {
 			File file = new File(montarnome);
 			if(file.exists()) {
 				file.delete();
-			}
-				
-		}
-		
-		
+			}		
+		}		
 	}
 
 	

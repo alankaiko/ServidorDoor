@@ -59,7 +59,7 @@ public class Crm implements Serializable {
 	public UF getUf() {
 		return uf;
 	}
-
+	
 	public void setUf(UF uf) {
 		this.uf = uf;
 	}

@@ -44,8 +44,8 @@ public class GrupoProcedimentoRepositoryImpl implements GrupoProcedimentoReposit
 	private Predicate[] AdicionarRestricoes(CriteriaBuilder builder, GrupoProcedimentoFilter filtro, Root<GrupoProcedimento> root) {
 		List<Predicate> lista= new ArrayList<Predicate>();
 		
-		if(!StringUtils.isEmpty(filtro.getNome()))
-			lista.add(builder.like(builder.lower(root.get(GrupoProcedimento_.nomegrupo)), "%"+ filtro.getNome().toLowerCase()+"%"));
+		if(!StringUtils.isEmpty(filtro.getNomegrupo()))
+			lista.add(builder.like(builder.lower(root.get(GrupoProcedimento_.nomegrupo)), "%"+ filtro.getNomegrupo().toLowerCase()+"%"));
 		
 		return lista.toArray(new Predicate[lista.size()]);
 	}

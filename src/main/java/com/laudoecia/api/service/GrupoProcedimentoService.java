@@ -37,6 +37,16 @@ public class GrupoProcedimentoService {
 			return null;
 		}		
 	}
+	
+	public List<GrupoProcedimento> BuscarListaPorId(Long codigo) {
+		try {
+			return this.dao.findByCodigo(codigo);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo Deletar------------------ de ConvenioService");
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	public GrupoProcedimento BuscarPorId(Long id) {
 		Optional<GrupoProcedimento> grupo = this.dao.findById(id);

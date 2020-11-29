@@ -3,6 +3,8 @@ package com.laudoecia.api.repository.resumo;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import com.laudoecia.api.domain.enuns.EnumSexo;
+
 public class ResumoPatient implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -11,16 +13,16 @@ public class ResumoPatient implements Serializable {
 	private String patientname;
 	private LocalDate birthday;
 	private String patientage;
-	private String patientsex;
+	private EnumSexo sexo;
 	private LocalDate datecreate;
 
-	public ResumoPatient(Long idpatient, String patientid, String patientname, LocalDate birthday, String patientage, String patientsex, LocalDate datecreate) {
+	public ResumoPatient(Long idpatient, String patientid, String patientname, LocalDate birthday, String patientage, EnumSexo sexo, LocalDate datecreate) {
 		this.idpatient = idpatient;
 		this.patientid = patientid;
 		this.patientname = patientname;
 		this.birthday = birthday;
 		this.patientage = patientage;
-		this.patientsex = patientsex;
+		this.sexo = sexo;
 		this.datecreate = datecreate;
 	}
 
@@ -65,12 +67,12 @@ public class ResumoPatient implements Serializable {
 		this.patientage = patientage;
 	}
 
-	public String getPatientsex() {
-		return patientsex;
+	public EnumSexo getSexo() {
+		return sexo;
 	}
-
-	public void setPatientsex(String patientsex) {
-		this.patientsex = patientsex;
+	
+	public void setSexo(EnumSexo sexo) {
+		this.sexo = sexo;
 	}
 
 	public LocalDate getDatecreate() {
