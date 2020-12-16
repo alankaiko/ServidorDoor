@@ -43,7 +43,7 @@ public class MinhaQueryTaskPropria extends BasicQueryTask implements QueryTask {
 		Attributes at = new Attributes();
 		at.setString(Tag.PatientID, VR.UI, item.getPatientid());
 		at.setString(Tag.PatientName, VR.UI, item.getPatientname());
-		at.setString(Tag.PatientSex, VR.UI, item.getSexo().getValor());
+		at.setString(Tag.PatientSex, VR.UI, item.getPatientsex());
 		at.setString(Tag.PatientAge, VR.UI, item.getPatientage());
 		at.setDate(Tag.PatientBirthDate, VR.DA, Utils.ConverterToDate(item.getBirthday()));
 		

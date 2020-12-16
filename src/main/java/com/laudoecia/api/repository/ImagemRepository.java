@@ -7,5 +7,5 @@ import com.laudoecia.api.domain.Imagem;
 
 @Repository
 public interface ImagemRepository extends JpaRepository<Imagem, Long> {
-
+	public Imagem findByCodigouid(String codigouid);
 }

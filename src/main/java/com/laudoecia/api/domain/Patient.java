@@ -1,5 +1,6 @@
 package com.laudoecia.api.domain;
 
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
@@ -26,7 +27,6 @@ import org.dcm4che3.data.Tag;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.laudoecia.api.domain.enuns.EnumSexo;
 import com.laudoecia.api.domain.enuns.VerificationStatus;
 import com.laudoecia.api.utilities.AttributeFilter;
 import com.laudoecia.api.utilities.BlobCorruptedException;
@@ -44,7 +44,7 @@ public class Patient implements Serializable {
 	private String patientname;
 	private LocalDate birthday;
 	private String patientage;
-	private EnumSexo sexo;
+	private String patientsex;
 	private LocalDate datecreate;
 	private LocalDate datemodify;
 	private List<Study> studyes;
@@ -97,14 +97,13 @@ public class Patient implements Serializable {
 		this.patientname = patientname;
 	}
 
-	@Enumerated(EnumType.STRING)
-	@Column(nullable = true)
-	public EnumSexo getSexo() {
-		return sexo;
+	@Column(length = 20)
+	public String getPatientsex() {
+		return patientsex;
 	}
-	
-	public void setSexo(EnumSexo sexo) {
-		this.sexo = sexo;
+
+	public void setPatientsex(String patientsex) {
+		this.patientsex = patientsex;
 	}
 
 	public LocalDate getBirthday() {
@@ -322,7 +321,7 @@ public class Patient implements Serializable {
 	@Override
 	public String toString() {
 		return "Patient [idpatient=" + idpatient + ", patientid=" + patientid + ", patientname=" + patientname
-				+ ", birthday=" + birthday + ", patientage=" + patientage + ", sexo=" + sexo
+				+ ", birthday=" + birthday + ", patientage=" + patientage + ", patientsex=" + patientsex
 				+ ", datecreate=" + datecreate + ", datemodify=" + datemodify + "]";
 	}
 

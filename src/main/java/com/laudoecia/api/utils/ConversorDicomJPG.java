@@ -21,22 +21,30 @@ public class ConversorDicomJPG {
 	public int n = 0;
 	private Boolean finish = false;
 
-	public void Dcm2jpg(File inputFile, File outputFile) throws IOException {
-		outputFile.mkdirs();
-		n = this.setNumber(inputFile);
-
-		if (n == 0) {
-			File destFinal = new File(outputFile + "\\" + inputFile.getName() + ".jpg");
-			convert(inputFile, destFinal, 0);
-		} else {
-			for (int i = 0; i <= n - 1; i++) {
-				File outputFile2 = new File(outputFile + "\\" + this.RetiraExtensao(inputFile.getName()));
-				outputFile2.mkdirs();
-				File destFinal2 = new File(outputFile2 + "\\" + "frame" + i +".jpg");
-				convert(inputFile, destFinal2, i);
+	public String Dcm2jpeg(File inputFile, File outputFile) {		
+		String valor = null;
+		try {
+			outputFile.mkdirs();
+			n = this.setNumber(inputFile);
+			
+			if (n == 0) {
+				File destFinal = new File(outputFile + "\\" + inputFile.getName() + ".jpeg");
+				convert(inputFile, destFinal, 0);
+			} else {
+				for (int i = 0; i <= n - 1; i++) {
+					File outputFile2 = new File(outputFile + "\\" + this.RetiraExtensao(inputFile.getName()));
+					outputFile2.mkdirs();
+					File destFinal2 = new File(outputFile2 + "\\" + "frame" + i +".jpeg");
+					
+					convert(inputFile, destFinal2, i);
+					valor = "frame" + i;
+				}
+				setFinish(true);
 			}
-			setFinish(true);
-		}
+			
+		} catch (Exception e) {}		
+		
+		return valor;
 	}
 	
 	private String RetiraExtensao(String titulo) {
@@ -46,7 +54,7 @@ public class ConversorDicomJPG {
 		return titulo;
 	}
 
-	public void Dcm2jpg2(File inputFile, File outputFile) {
+	public void Dcm2jpeg2(File inputFile, File outputFile) {
 		n = numberFile(inputFile);
 		for (int i = 0; i <= n - 2; i++) {
 
@@ -55,10 +63,10 @@ public class ConversorDicomJPG {
 				fileInput2 = listFolder(inputFile, i);
 
 				if (setNumber(fileInput2) == 1) {
-					File destFinal = new File(outputFile + "\\" + fileInput2.getName() + ".jpg");
+					File destFinal = new File(outputFile + "\\" + fileInput2.getName() + ".jpeg");
 					convert(fileInput2, destFinal, 0);
 				} else {
-					this.Dcm2jpg(fileInput2, outputFile);
+					this.Dcm2jpeg(fileInput2, outputFile);
 				}
 				setFinish(true);
 			} catch (IOException ex) {
@@ -97,7 +105,6 @@ public class ConversorDicomJPG {
 		ImageInputStream iis = ImageIO.createImageInputStream(file);
 		readers.setInput(iis, false);
 		BufferedImage image = readers.read(value, param1);
-		System.out.println(image);
 		readers.dispose();
 		return image;
 
@@ -106,11 +113,10 @@ public class ConversorDicomJPG {
 	public int setNumber(File file) throws IOException {
 		Iterator<ImageReader> iter = ImageIO.getImageReadersByFormatName("DICOM");
 		ImageReader readers = (ImageReader) iter.next();
-		DicomImageReadParam param1 = (DicomImageReadParam) readers.getDefaultReadParam();
+		// DicomImageReadParam param1 = (DicomImageReadParam) readers.getDefaultReadParam();
 		ImageInputStream iis = ImageIO.createImageInputStream(file);
 		readers.setInput(iis, false);
 		int number = readers.getNumImages(true);
-		System.out.println(number);
 		return number;
 	}
 
@@ -160,7 +166,7 @@ public class ConversorDicomJPG {
 	}
 
 	private void writeImage(BufferedImage bi, File outputFile)throws IOException {
-		ImageIO.write(bi, "jpg", outputFile);
+		ImageIO.write(bi, "jpeg", outputFile);
 	}
 
 	public void setFinish(Boolean finish) {

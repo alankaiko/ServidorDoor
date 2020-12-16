@@ -86,6 +86,7 @@ public class AtendimentoService {
 
 		return atendimento.get();
 	}
+	
 
 	public void Deletar(Long id) {
 		try {

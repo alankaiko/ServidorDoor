@@ -1,14 +1,18 @@
 package com.laudoecia.api.service;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StreamUtils;
 
 import com.laudoecia.api.domain.Imagem;
 import com.laudoecia.api.repository.ImagemRepository;
@@ -83,5 +87,45 @@ public class ImagemService {
 			return null;
 		}		
 	}
+	
+	public Imagem BuscarPeloCodigouid(String codigouid) {
+		try {
+			return this.dao.findByCodigouid(codigouid);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo BuscarPeloCodigouid------------------ de ImagemService");
+			e.printStackTrace();
+			return null;
+		}		
+	}
 
+	public byte[] BuscarImagem(Long codigo){
+    	Imagem img = this.BuscarPorId(codigo);
+    	
+    	byte[] bytes = null;
+    	try {
+    		InputStream imagem = new FileInputStream(img.getCaminho());
+    		bytes = StreamUtils.copyToByteArray(imagem);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}                
+        return bytes;
+    }
+	
+	public String BuscarImagemString(Long codigo){
+    	Imagem img = this.BuscarPorId(codigo);
+    	String encodedString = "";
+    	
+    	byte[] bytes = null;
+    	try {
+    		InputStream imagem = new FileInputStream(img.getCaminho());
+    		bytes = StreamUtils.copyToByteArray(imagem);
+
+            Base64 base64 = new Base64();
+            encodedString = new String(base64.encode(bytes));
+            encodedString = "data:image/jpeg;base64," + encodedString;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}                
+        return encodedString;
+    }
 }

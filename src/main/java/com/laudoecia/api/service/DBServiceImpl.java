@@ -65,8 +65,7 @@ public class DBServiceImpl implements DBService {
 			this.PatientService.Criar(patient);
 			patient = this.PatientService.BuscarPorPacienteId(reader.getPatientID());
 		} else {
-			LOG.info("Patient already exists; Patient Name: {}, Patient ID: {} ", reader.getPatientName(),
-					reader.getPatientID());
+			LOG.info("Patient already exists; Patient Name: {}, Patient ID: {} ", reader.getPatientName(), reader.getPatientID());
 		}
 	
 		return patient;

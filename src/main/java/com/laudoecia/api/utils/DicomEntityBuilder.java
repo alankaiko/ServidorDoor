@@ -8,7 +8,6 @@ import com.laudoecia.api.domain.Patient;
 import com.laudoecia.api.domain.Series;
 import com.laudoecia.api.domain.Study;
 import com.laudoecia.api.domain.Tagimagem;
-import com.laudoecia.api.domain.enuns.EnumSexo;
 
 public class DicomEntityBuilder {
 
@@ -20,7 +19,7 @@ public class DicomEntityBuilder {
 		patient.setDatecreate(Utils.ConverterToLocalDate(new Date()));
 		patient.setPatientid(patientID);
 		patient.setPatientname(patientName);
-		patient.setSexo(EnumSexo.valueOf(patientSex));
+		patient.setPatientsex(patientSex);
 		
 		return patient;
 	}

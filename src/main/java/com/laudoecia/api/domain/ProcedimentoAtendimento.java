@@ -127,7 +127,6 @@ public class ProcedimentoAtendimento {
 	public List<Imagem> getListaimagem() {
 		return listaimagem;
 	}
-
 	
 	public void setListaimagem(List<Imagem> listaimagem) {
 		this.listaimagem = listaimagem;

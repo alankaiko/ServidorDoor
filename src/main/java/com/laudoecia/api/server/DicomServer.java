@@ -58,7 +58,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.eventbus.EventBus;
+import com.laudoecia.api.domain.Imagem;
 import com.laudoecia.api.event.NewFileEvent;
+import com.laudoecia.api.service.manual.ImagemDicomService;
+import com.laudoecia.api.utils.ConversorDicomJPG;
 import com.laudoecia.api.worklistes.MWLCFindSCP;
 
 public class DicomServer {
@@ -87,6 +90,7 @@ public class DicomServer {
 	private boolean matchNoValue;
 	private DicomDirReader ddReader;
 	private DicomDirWriter ddWriter;
+	
 	//private HashMap<String, Connection> remoteConnections = new HashMap<String, Connection>();
 	private static final EnumSet<QueryRetrieveLevel2> PATIENT_ROOT_LEVELS = EnumSet.of(
 		QueryRetrieveLevel2.PATIENT,
@@ -116,7 +120,8 @@ public class DicomServer {
 			rsp.setInt(Tag.Status, VR.US, status);
 			if (storageDir == null)
 				return;
-			String ipAddress = as.getSocket().getInetAddress().getHostAddress(); // ip address
+			
+			String ipAddress = as.getSocket().getInetAddress().getHostAddress();
 			String associationName = as.toString();
 			
 			String cuid = rq.getString(Tag.AffectedSOPClassUID);
@@ -124,14 +129,13 @@ public class DicomServer {
 			String tsuid = pc.getTransferSyntax();
 
 			File file = new File(storageDir, iuid + DCM_EXT);
+			
 			try {
 				LOG.info("as: {}", as);
 				storeTo(as, as.createFileMetaInformation(iuid, cuid, tsuid), data, file);
-
+				
 				if (!file.exists()) {
-					LOG.error(
-							"File {} does not exists! Connection Details--> ipAddress: {}  associationName: {}  sopclassuid: {}  sopinstanceuid: {} transfersyntax: {}",
-							file.getAbsolutePath(), ipAddress, associationName, cuid, iuid, tsuid);
+					LOG.error("File {} does not exists! Connection Details--> ipAddress: {}  associationName: {}  sopclassuid: {}  sopinstanceuid: {} transfersyntax: {}", file.getAbsolutePath(), ipAddress, associationName, cuid, iuid, tsuid);
 					return;
 				}
 				eventBus.post(new NewFileEvent(file));
@@ -139,7 +143,14 @@ public class DicomServer {
 				LOG.error("Dicom Store EOFException: " + e.getMessage());
 			} catch (Exception e) {
 				deleteFile(as, file); // broken file, just remove...
-				LOG.error("Dicom Store Exception: " + e.getMessage());
+				e.printStackTrace();
+				//LOG.error("Dicom Store Exception testando: " + e.getMessage());
+			}
+			
+			try {
+				CriarImagemJPG(storageDir + "\\" + iuid + ".dcm", iuid);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	};
@@ -160,8 +171,8 @@ public class DicomServer {
 				if (errorCFind != 0) {
 					throw new DicomServiceException(errorCFind);
 				}			
-				String ipAddress = as.getSocket().getInetAddress().getHostAddress(); // ip address
-				String associationName = as.toString();
+				// String ipAddress = as.getSocket().getInetAddress().getHostAddress(); // ip address
+				// String associationName = as.toString();
 				switch (level) {
 				case PATIENT:
 					return new PatientQueryTask(as, pc, rq, keys, DicomServer.this);
@@ -179,9 +190,7 @@ public class DicomServer {
 				e.printStackTrace();
 				return null;
 			}
-		}
-	
-		
+		}		
 	
 		private boolean relational(Association as, Attributes rq) {
 			String cuid = rq.getString(Tag.AffectedSOPClassUID);
@@ -189,10 +198,44 @@ public class DicomServer {
 			return QueryOption.toOptions(extNeg).contains(QueryOption.RELATIONAL);
 		}
 	}
+	
+	private void CriarImagemJPG(String caminho, String nome) throws IOException {
+		File arquivo = new File(caminho);
+		File saida = new File("./arquivo/dicomjpeg");
 
+		ConversorDicomJPG conversor = new ConversorDicomJPG();
+		String retorno = conversor.Dcm2jpeg(arquivo, saida);	
+		
+		if(!retorno.isEmpty())
+			this.SalvarImagem("./arquivo/dicomjpeg/" + nome, retorno, nome);
+		
+		arquivo = null;
+		saida = null;
+	}
+	
+	private void SalvarImagem(String caminho, String nome, String iuid) {
+		try {
+			ImagemDicomService service = new ImagemDicomService();
+			Imagem imagem = service.BuscandoPorNome(nome);
+			
+			if(imagem.getCodigo() == null) {
+				imagem = new Imagem();
+				imagem.setCaminho(caminho + "/" + nome +".jpeg");
+				imagem.setExtensao(".jpeg");
+				imagem.setCodigouid(iuid);
+				imagem.setNomeimagem(nome);
+				imagem.setDicom(true);
+				
+				service.Salvando(imagem);
+			} else {
+				service.Atualizando(imagem);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+	}
 
 	private final class StgCmtSCPImpl extends AbstractDicomService {
-		
 		public StgCmtSCPImpl() {
 			super(UID.StorageCommitmentPushModelSOPClass);
 		}
@@ -221,7 +264,6 @@ public class DicomServer {
 				LOG.warn("{} << N-ACTION-RSP failed: {}", as, e.getMessage());
 			}
 		}
-
 	}
 	
 	
@@ -375,8 +417,10 @@ public class DicomServer {
 
 	private void storeTo(Association as, Attributes fmi, PDVInputStream data, File file) throws IOException {
 		LOG.info("{}: M-WRITE {}", as, file);
+
 		file.getParentFile().mkdirs();
 		DicomOutputStream out = new DicomOutputStream(file);
+		
 		try {
 			out.writeFileMetaInformation(fmi);
 			data.copyTo(out);
@@ -400,8 +444,7 @@ public class DicomServer {
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>(size * 4 / 3);
 		for (int i = 0; i < sopIUIDs.length; i++) {
 			Attributes item = requestSeq.get(i);
-			map.put(sopIUIDs[i] = item.getString(Tag.ReferencedSOPInstanceUID),
-					item.getString(Tag.ReferencedSOPClassUID));
+			map.put(sopIUIDs[i] = item.getString(Tag.ReferencedSOPInstanceUID), item.getString(Tag.ReferencedSOPClassUID));
 		}
 		DicomDirReader ddr = ddReader;
 		try {

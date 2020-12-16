@@ -4,29 +4,26 @@ import java.time.LocalDate;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.laudoecia.api.domain.Patient;
-import com.laudoecia.api.domain.ProfissionalSolicitante;
-
 public class AtendimentoFilter {
-	private Patient patient;
-	private ProfissionalSolicitante solicitante;
+	private String patientname;
+	private String solicitantenome;
 	private LocalDate datainicial;
 	private LocalDate datafinal;
 
-	public Patient getPatient() {
-		return patient;
+	public String getPatientname() {
+		return patientname;
+	}
+	
+	public void setPatientname(String patientname) {
+		this.patientname = patientname;
 	}
 
-	public void setPatient(Patient patient) {
-		this.patient = patient;
+	public String getSolicitantenome() {
+		return solicitantenome;
 	}
-
-	public ProfissionalSolicitante getSolicitante() {
-		return solicitante;
-	}
-
-	public void setSolicitante(ProfissionalSolicitante solicitante) {
-		this.solicitante = solicitante;
+	
+	public void setSolicitantenome(String solicitantenome) {
+		this.solicitantenome = solicitantenome;
 	}
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")

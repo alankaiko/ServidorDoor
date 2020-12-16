@@ -100,7 +100,7 @@ public class ProcedimentoAtendimentoService {
 	public ProcedimentoAtendimento Atualizar(Long id, ProcedimentoAtendimento procedimento) {
 		try {
 			ProcedimentoAtendimento salvo = this.BuscarPorId(id);
-		
+	
 			BeanUtils.copyProperties(procedimento, salvo, "codigo", "listaimagem", "atendimento","paginadeimagens");				
 			return this.Criar(salvo);
 		} catch (Exception e) {

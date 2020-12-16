@@ -85,7 +85,7 @@ public class Atendimento implements Serializable {
 	}
 
 	@JsonIgnoreProperties("atendimento")
-	@OneToMany(mappedBy = "atendimento", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "atendimento", cascade = CascadeType.ALL)
 	public List<ProcedimentoAtendimento> getProcedimentos() {
 		return procedimentos;
 	}

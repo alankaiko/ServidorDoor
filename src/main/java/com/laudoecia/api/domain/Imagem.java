@@ -1,5 +1,8 @@
 package com.laudoecia.api.domain;
 
+import java.util.Arrays;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +19,8 @@ public class Imagem {
 	private String caminho;
 	private String nomeimagem;
 	private String extensao;
+	private boolean dicom;
+	private String codigouid;
 	private ProcedimentoAtendimento procedimentoatendimento;
 	byte[] imagem;
 	
@@ -52,6 +57,14 @@ public class Imagem {
 	public void setExtensao(String extensao) {
 		this.extensao = extensao;
 	}
+	
+	public boolean isDicom() {
+		return dicom;
+	}
+	
+	public void setDicom(boolean dicom) {
+		this.dicom = dicom;
+	}
 
 	@ManyToOne
 	@JoinColumn(name = "procedimento_codigo", nullable = true)
@@ -62,6 +75,15 @@ public class Imagem {
 	public void setProcedimentoatendimento(ProcedimentoAtendimento procedimentoatendimento) {
 		this.procedimentoatendimento = procedimentoatendimento;
 	}
+	
+	@Column(nullable = true)
+	public String getCodigouid() {
+		return codigouid;
+	}
+	
+	public void setCodigouid(String codigouid) {
+		this.codigouid = codigouid;
+	}
 
 	@Transient
 	public byte[] getImagem() {
@@ -71,4 +93,13 @@ public class Imagem {
 	public void setImagem(byte[] imagem) {
 		this.imagem = imagem;
 	}
+
+	@Override
+	public String toString() {
+		return "Imagem [codigo=" + codigo + ", caminho=" + caminho + ", nomeimagem=" + nomeimagem + ", extensao="
+				+ extensao + ", dicom=" + dicom + ", procedimentoatendimento=" + procedimentoatendimento + ", imagem="
+				+ Arrays.toString(imagem) + "]";
+	}
+	
+	
 }

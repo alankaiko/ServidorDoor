@@ -46,9 +46,7 @@ public class IncomingFileHandler {
 			//LOG.info("Active Dicoms:{} Received Patient Name:{} ID:{} Age:{} Sex:{} ", activeDicoms.toString(), reader.getPatientName(), reader.getPatientID(), reader.getPatientAge(), reader.getPatientSex());
 			synchronized(dbService){
 				dbService.buildEntities(reader);//lets build our dicom database entities
-			}
-			
-			
+			}			
 		}catch(Exception e){
 			LOG.error(e.getMessage());
 		}

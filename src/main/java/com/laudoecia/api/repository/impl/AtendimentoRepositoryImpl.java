@@ -17,7 +17,10 @@ import org.springframework.data.domain.Pageable;
 
 import com.laudoecia.api.domain.Atendimento;
 import com.laudoecia.api.domain.Atendimento_;
+import com.laudoecia.api.domain.Patient;
 import com.laudoecia.api.domain.Patient_;
+import com.laudoecia.api.domain.ProfissionalSolicitante;
+import com.laudoecia.api.domain.ProfissionalSolicitante_;
 import com.laudoecia.api.repository.filtro.AtendimentoFilter;
 
 public class AtendimentoRepositoryImpl implements AtendimentoRepositoryQuery{
@@ -40,15 +43,23 @@ public class AtendimentoRepositoryImpl implements AtendimentoRepositoryQuery{
 		return new PageImpl<>(query.getResultList(), pageable, Total(filtro));
 	}
 	
+	
 	private Predicate[] AdicionarRestricoes(CriteriaBuilder builder, AtendimentoFilter filtro, Root<Atendimento> root) {
 		List<Predicate> lista= new ArrayList<Predicate>();
+
+		CriteriaBuilder builderpac = em.getCriteriaBuilder();
+		CriteriaQuery<Patient> criteriapac = builderpac.createQuery(Patient.class);
+		Root<Patient> rootpac = criteriapac.from(Patient.class);
 		
-		if(filtro.getPatient() != null)
-			lista.add(builder.equal(root.get(Atendimento_.patient), filtro.getPatient()));
+		CriteriaBuilder buildersol = em.getCriteriaBuilder();
+		CriteriaQuery<ProfissionalSolicitante> criteriasol = buildersol.createQuery(ProfissionalSolicitante.class);
+		Root<ProfissionalSolicitante> rootesol = criteriasol.from(ProfissionalSolicitante.class);
 		
+		if(filtro.getPatientname() != null)
+			lista.add(builder.equal(rootpac.get(Patient_.patientname), filtro.getPatientname()));
 		
-		if(filtro.getSolicitante() != null)
-			lista.add(builder.equal(root.get(Atendimento_.solicitante), filtro.getSolicitante()));
+		if(filtro.getSolicitantenome() != null)
+			lista.add(builder.equal(rootesol.get(ProfissionalSolicitante_.nome), filtro.getSolicitantenome()));
 		
 		if (filtro.getDatainicial() != null)
 			lista.add(builder.greaterThanOrEqualTo(root.get(Atendimento_.datacadastro), filtro.getDatainicial()));
