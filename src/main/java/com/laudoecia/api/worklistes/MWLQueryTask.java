@@ -2,8 +2,6 @@ package com.laudoecia.api.worklistes;
 
 import java.io.IOException;
 
-import javax.persistence.Persistence;
-
 import org.dcm4che3.data.Attributes;
 import org.dcm4che3.data.AttributesCoercion;
 import org.dcm4che3.data.Tag;
@@ -40,10 +38,11 @@ public class MWLQueryTask extends BasicQueryTask {
 		try {
 			QueryContext ctx = query.getQueryContext();
 			ArchiveAEExtension arcAE = ctx.getArchiveAEExtension();
-			ArchiveDeviceExtension arcdev = arcAE.getArchiveDeviceExtension();
+			ArchiveDeviceExtension arcdev = arcAE.getArchiveDeviceExtension();			
 			query.executeQuery(arcdev.getQueryFetchSize());
 			super.run();
 		} catch (Exception e) {
+			e.printStackTrace();
 			writeDimseRSP(new DicomServiceException(Status.UnableToProcess, e));
 		} finally {
 			query.close();

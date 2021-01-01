@@ -39,6 +39,7 @@ public class QueryAttributesEJB {
 	EntityManager em;
 
 	public StudyQueryAttributes calculateStudyQueryAttributes(Long studyPk, QueryRetrieveView qrView) {
+		System.out.println("vindo aqui");
 //		CriteriaBuilder cb = em.getCriteriaBuilder();
 //		CriteriaQuery<Tuple> q = cb.createTupleQuery();
 //		Root<Series> series = q.from(Series.class);

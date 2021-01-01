@@ -39,24 +39,24 @@ public class MWLCFindSCP extends BasicCFindSCP {
     @Override
     protected QueryTask calculateMatches(Association as, PresentationContext pc, Attributes rq, Attributes keys) {
     	//LOG.info("{}: Process MWL C-FIND RQ:\n{}", as, keys);
-//    	try {
-//    		this.queryService = new QueryServiceImpl();
-//    		String sopClassUID = rq.getString(Tag.AffectedSOPClassUID);
-//            EnumSet<QueryOption> queryOpts = as.getQueryOptionsFor(sopClassUID);
-//            QueryContext ctx = queryService.newQueryContextFIND(as, sopClassUID, queryOpts);
-//            IDWithIssuer idWithIssuer = IDWithIssuer.pidOf(keys);
-//            if (idWithIssuer != null && !idWithIssuer.getID().equals("*"))
-//            ctx.setPatientIDs(idWithIssuer);
-//            ctx.setQueryKeys(keys);
-//            ctx.setReturnKeys(createReturnKeys(keys));
-//
-//            coerceAttributes(ctx);
-            //return new MWLQueryTask(as, pc, rq, keys, queryService.createMWLQuery(ctx), queryService.getAttributesCoercion(ctx), runInTx);
-            return new MinhaQueryTaskPropria(as, pc, rq, keys);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return null;
-//		}
+    	try {
+    		this.queryService = new QueryServiceImpl();
+    		String sopClassUID = rq.getString(Tag.AffectedSOPClassUID);
+            EnumSet<QueryOption> queryOpts = as.getQueryOptionsFor(sopClassUID);
+            QueryContext ctx = queryService.newQueryContextFIND(as, sopClassUID, queryOpts);
+            IDWithIssuer idWithIssuer = IDWithIssuer.pidOf(keys);
+            if (idWithIssuer != null && !idWithIssuer.getID().equals("*"))
+            ctx.setPatientIDs(idWithIssuer);
+            ctx.setQueryKeys(keys);
+            ctx.setReturnKeys(createReturnKeys(keys));
+            
+            coerceAttributes(ctx);
+            return new MWLQueryTask(as, pc, rq, keys, queryService.createMWLQuery(ctx), queryService.getAttributesCoercion(ctx), runInTx);
+            //return new MinhaQueryTaskPropria(as, pc, rq, keys);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
         
     }
 
@@ -68,16 +68,15 @@ public class MWLCFindSCP extends BasicCFindSCP {
     }
 
     private void coerceAttributes(QueryContext ctx) {
-    	ArchiveAttributeCoercion rule = new ArchiveAttributeCoercion();
-//        ArchiveAttributeCoercion rule = ctx.getArchiveAEExtension().findAttributeCoercion(
-//                Dimse.C_FIND_RQ,
-//                TransferCapability.Role.SCU,
-//                ctx.getSOPClassUID(),
-//                ctx.getRemoteHostName(),
-//                ctx.getCallingAET(),
-//                ctx.getLocalHostName(),
-//                ctx.getCalledAET(),
-//                ctx.getQueryKeys());
+        ArchiveAttributeCoercion rule = ctx.getArchiveAEExtension().findAttributeCoercion(
+                Dimse.C_FIND_RQ,
+                TransferCapability.Role.SCU,
+                ctx.getSOPClassUID(),
+                ctx.getRemoteHostName(),
+                ctx.getCallingAET(),
+                ctx.getLocalHostName(),
+                ctx.getCalledAET(),
+                ctx.getQueryKeys());
         if (rule == null)
             return;
 

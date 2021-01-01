@@ -47,7 +47,6 @@ public class MinhaQueryTaskPropria extends BasicQueryTask implements QueryTask {
 		at.setString(Tag.PatientAge, VR.UI, item.getPatientage());
 		at.setDate(Tag.PatientBirthDate, VR.DA, Utils.ConverterToDate(item.getBirthday()));
 		
-		
 		return at;
 	}
 	

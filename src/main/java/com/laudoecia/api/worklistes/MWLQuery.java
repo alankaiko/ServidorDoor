@@ -52,77 +52,82 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.dcm4che3.data.Attributes;
+import org.dcm4che3.data.Tag;
+import org.dcm4che3.data.VR;
 
+import com.laudoecia.api.domain.AttributesBlob;
+import com.laudoecia.api.domain.AttributesBlob_;
 import com.laudoecia.api.domain.MWLItem;
+import com.laudoecia.api.domain.MWLItem_;
 import com.laudoecia.api.domain.Patient;
+import com.laudoecia.api.domain.Patient_;
 
 public class MWLQuery extends AbstractQuery {
 
-    private Root<MWLItem> mwlItem;
-    private Join<MWLItem, Patient> patient;
-    private Path<byte[]> patientAttrBlob;
-    private Path<byte[]> mwlAttrBlob;
+	private Root<MWLItem> mwlItem;
+	private Join<MWLItem, Patient> patient;
+	private Path<byte[]> patientAttrBlob;
+	private Path<byte[]> mwlAttrBlob;
 
-    public MWLQuery(QueryContext context, EntityManager em) {
-        super(context, em);
-    }
+	public MWLQuery(QueryContext context, EntityManager em) {
+		super(context, em);
+	}
 
-    @Override
-    protected CriteriaQuery<Tuple> multiselect() {
-//        CriteriaQuery<Tuple> q = cb.createTupleQuery();
-//        this.mwlItem = q.from(MWLItem.class);
-//        this.patient = mwlItem.join(MWLItem_.patient);
-//        return order(restrict(q, patient, mwlItem)).multiselect(
-//                patient.get(Patient_.numberOfStudies),
-//                patientAttrBlob = patient.join(Patient_.attributesBlob).get(AttributesBlob_.encodedAttributes),
-//                mwlAttrBlob = mwlItem.join(MWLItem_.attributesBlob).get(AttributesBlob_.encodedAttributes));
-    	return null;
-    }
+	@Override
+	protected CriteriaQuery<Tuple> multiselect() {
+		try {
+			CriteriaQuery<Tuple> q = cb.createTupleQuery();
+			this.mwlItem = q.from(MWLItem.class);
+			this.patient = mwlItem.join(MWLItem_.patient);
 
-    @Override
-    protected CriteriaQuery<Long> count() {
-//        CriteriaQuery<Long> q = cb.createQuery(Long.class);
-//        Root<MWLItem> mwlItem = q.from(MWLItem.class);
-//        Join<MWLItem, Patient> patient = mwlItem.join(MWLItem_.patient);
-//        return restrict(q, patient, mwlItem).select(cb.count(mwlItem));
-    	return null;
-    }
+			return order(restrict(q, patient, mwlItem)).multiselect(patient.get(Patient_.numberofstudies),
+					patientAttrBlob = patient.join(Patient_.attributesblob).get(AttributesBlob_.encodedattributes),
+					mwlAttrBlob = mwlItem.join(MWLItem_.attributesblob).get(AttributesBlob_.encodedattributes));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
-    @Override
-    protected Attributes toAttributes(Tuple results) {
-//        Attributes mwlAttrs = AttributesBlob.decodeAttributes(results.get(mwlAttrBlob), null);
-//        Attributes patAttrs = AttributesBlob.decodeAttributes(results.get(patientAttrBlob), null);
-//        Attributes.unifyCharacterSets(patAttrs, mwlAttrs);
-//        Attributes attrs = new Attributes(patAttrs.size() + mwlAttrs.size() + 1);
-//        attrs.addAll(patAttrs);
-//        attrs.addAll(mwlAttrs);
-//        attrs.setInt(Tag.NumberOfPatientRelatedStudies, VR.IS, results.get(patient.get(Patient_.numberOfStudies)));
-//        return attrs;
-    	return null;
-    }
+	@Override
+	protected CriteriaQuery<Long> count() {
+		CriteriaQuery<Long> q = cb.createQuery(Long.class);
+		Root<MWLItem> mwlItem = q.from(MWLItem.class);
+		Join<MWLItem, Patient> patient = mwlItem.join(MWLItem_.patient);
+		return restrict(q, patient, mwlItem).select(cb.count(mwlItem));
+	}
 
-    @Override
-    public boolean isOptionalKeysNotSupported() {
-        //TODO
-        return false;
-    }
+	@Override
+	protected Attributes toAttributes(Tuple results) {
+		Attributes mwlAttrs = AttributesBlob.decodeAttributes(results.get(mwlAttrBlob), null);
+		Attributes patAttrs = AttributesBlob.decodeAttributes(results.get(patientAttrBlob), null);
+		Attributes.unifyCharacterSets(patAttrs, mwlAttrs);
+		Attributes attrs = new Attributes(patAttrs.size() + mwlAttrs.size() + 1);
+		attrs.addAll(patAttrs);
+		attrs.addAll(mwlAttrs);
+		attrs.setInt(Tag.NumberOfPatientRelatedStudies, VR.IS, results.get(patient.get(Patient_.numberofstudies)));
+		return attrs;
+	}
 
-    private CriteriaQuery<Tuple> order(CriteriaQuery<Tuple> q) {
-//        if (context.getOrderByTags() != null)
-//            q.orderBy(builder.orderMWLItems(patient, mwlItem, context.getOrderByTags()));
-//        return q;
-    	return null;
-    }
+	@Override
+	public boolean isOptionalKeysNotSupported() {
+		return false;
+	}
 
-    private <T> CriteriaQuery<T> restrict(CriteriaQuery<T> q, Join<MWLItem, Patient> patient, Root<MWLItem> mwlItem) {
-//        List<Predicate> predicates = builder.mwlItemPredicates(q, patient, mwlItem,
-//                context.getPatientIDs(),
-//                context.getQueryKeys(),
-//                context.getQueryParam());
-//        if (!predicates.isEmpty())
-//            q.where(predicates.toArray(new Predicate[0]));
-//        return q;
-    	return null;
-    }
+	private CriteriaQuery<Tuple> order(CriteriaQuery<Tuple> q) {
+		if (context.getOrderByTags() != null)
+			q.orderBy(builder.orderMWLItems(patient, mwlItem, context.getOrderByTags()));
+		return q;
+	}
+
+	private <T> CriteriaQuery<T> restrict(CriteriaQuery<T> q, Join<MWLItem, Patient> patient, Root<MWLItem> mwlItem) {
+		List<Predicate> predicates = builder.mwlItemPredicates(q, patient, mwlItem, context.getPatientIDs(),
+				context.getQueryKeys(), context.getQueryParam());
+		if (!predicates.isEmpty())
+			q.where(predicates.toArray(new Predicate[0]));
+
+		return q;
+	}
 
 }

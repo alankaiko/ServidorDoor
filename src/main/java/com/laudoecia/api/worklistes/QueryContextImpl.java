@@ -111,7 +111,8 @@ class QueryContextImpl implements QueryContext {
 
     @Override
     public ArchiveAEExtension getArchiveAEExtension() {
-        return ae.getAEExtension(ArchiveAEExtension.class);
+        //return ae.getAEExtension(ArchiveAEExtension.class);
+    	return new ArchiveAEExtension();
     }
 
     @Override

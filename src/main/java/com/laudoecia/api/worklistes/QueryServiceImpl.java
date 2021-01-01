@@ -1,11 +1,16 @@
 package com.laudoecia.api.worklistes;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.concurrent.CompletionStage;
 import java.util.zip.ZipInputStream;
 
+import javax.enterprise.event.Event;
+import javax.enterprise.event.NotificationOptions;
+import javax.enterprise.util.TypeLiteral;
 import javax.persistence.EntityManager;
 import javax.xml.transform.Templates;
 import javax.xml.transform.TransformerConfigurationException;
@@ -28,14 +33,15 @@ import org.slf4j.LoggerFactory;
 
 import com.laudoecia.api.utils.Utils;
 
+
 class QueryServiceImpl implements QueryService {
     private static Logger LOG = LoggerFactory.getLogger(QueryServiceImpl.class);
     private EntityManager em;
     QuerySizeEJB querySizeEJB;
     QueryAttributesEJB queryAttributesEJB;
     private CFindSCU cfindscu;
-   // private Event<QueryContext> queryEvent;
-
+   // private Event<QueryContext> queryEvent = new AAAATestando();
+    
     @Override
     public QueryContext newQueryContextFIND(Association as, String sopClassUID, EnumSet<QueryOption> queryOpts) {
         ApplicationEntity ae = as.getApplicationEntity();
@@ -44,18 +50,17 @@ class QueryServiceImpl implements QueryService {
         queryParam.setCombinedDatetimeMatching(queryOpts.contains(QueryOption.DATETIME));
         queryParam.setFuzzySemanticMatching(queryOpts.contains(QueryOption.FUZZY));
         return new QueryContextImpl(ae, queryParam, this).find(as, sopClassUID);
-        
     }
     
     
     @Override
     public Query createMWLQuery(QueryContext ctx) {
-     //   queryEvent.fire(ctx);
+        //queryEvent.fire(ctx);
+    	this.em = Utils.entidade.createEntityManager();
         return new MWLQuery(ctx, em);
     }
     
   
-
     @Override
     public AttributesCoercion getAttributesCoercion(QueryContext ctx) {
         ArchiveAEExtension aeExt = ctx.getArchiveAEExtension();
