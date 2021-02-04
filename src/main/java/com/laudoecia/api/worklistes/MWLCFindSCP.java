@@ -34,11 +34,12 @@ public class MWLCFindSCP extends BasicCFindSCP {
 
     public MWLCFindSCP() {
         super(UID.ModalityWorklistInformationModelFIND);
+        System.out.println(UID.ModalityWorklistInformationModelFIND + " sera que vinga agora");
     }
 
     @Override
     protected QueryTask calculateMatches(Association as, PresentationContext pc, Attributes rq, Attributes keys) {
-    	//LOG.info("{}: Process MWL C-FIND RQ:\n{}", as, keys);
+    	LOG.info("{}: Process MWL C-FIND RQ:\n{}", as, keys);
     	try {
     		this.queryService = new QueryServiceImpl();
     		String sopClassUID = rq.getString(Tag.AffectedSOPClassUID);

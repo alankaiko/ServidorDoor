@@ -76,13 +76,15 @@ public class AttributesBlob {
         return out.toByteArray();
     }
 
-    public static Attributes decodeAttributes(byte[] b, Attributes result) {
-        if (b == null || b.length == 0)
+    public static Attributes decodeAttributes(byte[] resultado, Attributes result) {
+        if (resultado == null || resultado.length == 0)
             return result != null ? result : new Attributes(0);
 
         if (result == null)
             result = new Attributes();
-        ByteArrayInputStream is = new ByteArrayInputStream(b);
+        
+        ByteArrayInputStream is = new ByteArrayInputStream(resultado);
+        
         try {
             DicomInputStream dis = new DicomInputStream(is);
             dis.readFileMetaInformation();

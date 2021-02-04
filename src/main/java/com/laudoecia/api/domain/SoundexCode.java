@@ -15,7 +15,7 @@ import javax.persistence.Table;
 import org.dcm4che3.data.PersonName.Component;
 
 @Entity
-@Table
+@Table(name = "soundexcode")
 public class SoundexCode {
 	private Long codigo;
 	private Component personnamecomponent;

@@ -32,20 +32,12 @@ import com.laudoecia.api.utilities.UtilsDecm;
 @Entity
 @Table(name = "mwlitem")
 public class MWLItem implements Serializable {
-    public static final String SCHEDULED = "SCHEDULED";
-    public static final String ARRIVED = "ARRIVED";
-    public static final String READY = "READY";
-    public static final String STARTED = "STARTED";
-    public static final String DEPARTED = "DEPARTED";
-    public static final String COMPLETED = "COMPLETED";
-    public static final String DISCONTINUED = "DISCONTINUED";
-
     private static final long serialVersionUID = 5655030469102270878L;
 
     private Long codigo;
     private long version;    
-    private Date createdTime;
-    private Date updatedTime;
+    private Date createdtime;
+    private Date updatedtime;
     private String scheduledprocedurestepid;
     private String requestedprocedureid;
     private String studyinstanceuid;
@@ -54,13 +46,20 @@ public class MWLItem implements Serializable {
     private String scheduledstartdate;
     private String scheduledstarttime;
     private String status;
+    private String admissionid;
+    private String institutionaldepartmentname;
+    private String institutionname;
+    private String localaet;
     private AttributesBlob attributesblob;
     private Attributes cachedattributes;
     private PersonName scheduledperformingphysicianname;
     private Collection<ScheduledStationAETitle> scheduledstationaets; 
     private Patient patient;
-  
-    
+    private IssuerEntity issuerofaccessionnumber;
+    private IssuerEntity issuerofadmissionid;
+    private CodeEntity institutioncode;
+    private CodeEntity institutionaldepartmenttypecode;
+
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     public Long getCodigo() {
@@ -80,20 +79,20 @@ public class MWLItem implements Serializable {
 		this.version = version;
 	}
 
-	public Date getCreatedTime() {
-		return createdTime;
+	public Date getCreatedtime() {
+		return createdtime;
+	}
+	
+	public void setCreatedtime(Date createdtime) {
+		this.createdtime = createdtime;
 	}
 
-	public void setCreatedTime(Date createdTime) {
-		this.createdTime = createdTime;
+	public Date getUpdatedtime() {
+		return updatedtime;
 	}
-
-	public Date getUpdatedTime() {
-		return updatedTime;
-	}
-
-	public void setUpdatedTime(Date updatedTime) {
-		this.updatedTime = updatedTime;
+	
+	public void setUpdatedtime(Date updatedtime) {
+		this.updatedtime = updatedtime;
 	}
 
 	public String getScheduledprocedurestepid() {
@@ -199,7 +198,7 @@ public class MWLItem implements Serializable {
 	}
 
 	@ManyToOne
-    @JoinColumn(name = "patient_fk")
+    @JoinColumn(name = "patient_codigo")
 	public Patient getPatient() {
 		return patient;
 	}
@@ -207,7 +206,80 @@ public class MWLItem implements Serializable {
 	public void setPatient(Patient patient) {
 		this.patient = patient;
 	}
-
+	
+	public String getAdmissionid() {
+		return admissionid;
+	}
+	
+	public void setAdmissionid(String admissionid) {
+		this.admissionid = admissionid;
+	}
+	
+	public String getInstitutionaldepartmentname() {
+		return institutionaldepartmentname;
+	}
+	
+	public void setInstitutionaldepartmentname(String institutionaldepartmentname) {
+		this.institutionaldepartmentname = institutionaldepartmentname;
+	}
+	
+	public String getInstitutionname() {
+		return institutionname;
+	}
+	
+	public void setInstitutionname(String institutionname) {
+		this.institutionname = institutionname;
+	}
+	
+	
+	@ManyToOne
+    @JoinColumn(name = "issuerofaccessionnumber_cod")
+	public IssuerEntity getIssuerofaccessionnumber() {
+		return issuerofaccessionnumber;
+	}
+	
+	public void setIssuerofaccessionnumber(IssuerEntity issuerofaccessionnumber) {
+		this.issuerofaccessionnumber = issuerofaccessionnumber;
+	}
+	
+	@ManyToOne
+    @JoinColumn(name = "issuerofadmissionid_cod")
+	public IssuerEntity getIssuerofadmissionid() {
+		return issuerofadmissionid;
+	}
+	
+	public void setIssuerofadmissionid(IssuerEntity issuerofadmissionid) {
+		this.issuerofadmissionid = issuerofadmissionid;
+	}
+	
+	@ManyToOne
+    @JoinColumn(name = "institutioncode_cod")
+	public CodeEntity getInstitutioncode() {
+		return institutioncode;
+	}
+	
+	public void setInstitutioncode(CodeEntity institutioncode) {
+		this.institutioncode = institutioncode;
+	}
+	
+	@ManyToOne
+    @JoinColumn(name = "institutionalde_cod")
+	public CodeEntity getInstitutionaldepartmenttypecode() {
+		return institutionaldepartmenttypecode;
+	}
+	
+	public void setInstitutionaldepartmenttypecode(CodeEntity institutionaldepartmenttypecode) {
+		this.institutionaldepartmenttypecode = institutionaldepartmenttypecode;
+	}
+	
+	public String getLocalaet() {
+		return localaet;
+	}
+	
+	public void setLocalaet(String localaet) {
+		this.localaet = localaet;
+	}
+	
 	@Override
     public String toString() {
         return "MWLItem[codigo=" + codigo
@@ -225,13 +297,13 @@ public class MWLItem implements Serializable {
     @PrePersist
     public void onPrePersist() {
         Date now = new Date();
-        createdTime = now;
-        updatedTime = now;
+        createdtime = now;
+        updatedtime = now;
     }
 
     @PreUpdate
     public void onPreUpdate() {
-        updatedTime = new Date();
+        updatedtime = new Date();
     }
 
    
@@ -257,7 +329,7 @@ public class MWLItem implements Serializable {
             scheduledstarttime = nullValue;
         }
         scheduledperformingphysicianname = PersonName.valueOf( attrs.getString(Tag.ScheduledPerformingPhysicianName), fuzzyStr, scheduledperformingphysicianname);
-        status = spsItem.getString(Tag.ScheduledProcedureStepStatus, SCHEDULED);
+        // status = spsItem.getString(Tag.ScheduledProcedureStepStatus, SCHEDULED);
         
         requestedprocedureid = attrs.getString(Tag.RequestedProcedureID);
         studyinstanceuid = attrs.getString(Tag.StudyInstanceUID);

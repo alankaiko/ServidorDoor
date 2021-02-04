@@ -1,16 +1,11 @@
 package com.laudoecia.api.worklistes;
 
 import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.concurrent.CompletionStage;
 import java.util.zip.ZipInputStream;
 
-import javax.enterprise.event.Event;
-import javax.enterprise.event.NotificationOptions;
-import javax.enterprise.util.TypeLiteral;
 import javax.persistence.EntityManager;
 import javax.xml.transform.Templates;
 import javax.xml.transform.TransformerConfigurationException;
@@ -39,8 +34,8 @@ class QueryServiceImpl implements QueryService {
     private EntityManager em;
     QuerySizeEJB querySizeEJB;
     QueryAttributesEJB queryAttributesEJB;
-    private CFindSCU cfindscu;
-   // private Event<QueryContext> queryEvent = new AAAATestando();
+    //private CFindSCU cfindscu;
+    //private Event<QueryContext> queryEvent = new AAAATestando();
     
     @Override
     public QueryContext newQueryContextFIND(Association as, String sopClassUID, EnumSet<QueryOption> queryOpts) {
@@ -90,7 +85,7 @@ class QueryServiceImpl implements QueryService {
             }
         coercion = rule.mergeAttributes(coercion);
         coercion = NullifyAttributesCoercion.valueOf(rule.getNullifyTags(), coercion);
-        String leadingCFindSCP = rule.getLeadingCFindSCP();
+//        String leadingCFindSCP = rule.getLeadingCFindSCP();
 //        if (leadingCFindSCP != null) {
 //            coercion = new CFindSCUAttributeCoercion(ctx.getLocalApplicationEntity(), leadingCFindSCP, rule.getAttributeUpdatePolicy(), cfindscu, leadingCFindSCPQueryCache, coercion);
 //        }

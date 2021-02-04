@@ -55,17 +55,24 @@ public class MWLQueryTask extends BasicQueryTask {
 		try {
 			as.writeDimseRSP(pc, rsp, null);
 		} catch (IOException e1) {
+			e1.printStackTrace();
 			// handled by Association
 		}
 	}
 
+	
+	
+	
+	
 	@Override
 	protected boolean hasMoreMatches() throws DicomServiceException {
 		try {
 			return query.hasMoreMatches();
 		} catch (DicomServiceException e) {
+			e.printStackTrace();
 			throw e;
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new DicomServiceException(Status.UnableToProcess, e);
 		}
 	}
@@ -75,6 +82,7 @@ public class MWLQueryTask extends BasicQueryTask {
 		try {
 			return query.nextMatch();
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new DicomServiceException(Status.UnableToProcess, e);
 		}
 	}

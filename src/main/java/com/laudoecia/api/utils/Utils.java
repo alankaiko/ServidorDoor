@@ -1,6 +1,7 @@
 package com.laudoecia.api.utils;
 
 import java.awt.Dimension;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -65,6 +66,23 @@ public class Utils {
 			}
 		}
 		return dat;
+	}
+	
+	public static Date TransformaDoBancoEmDate(String data) {
+		String[] teste = data.split(" ");
+		
+		if(teste.length == 1)
+			data += " 00:00:00";
+		
+		try {
+		    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		    Date parsedDate = dateFormat.parse(data);
+		    Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+		    return timestamp;
+		} catch(Exception e) {
+		    e.printStackTrace();
+		    return null;
+		}
 	}
 
 	public static String dateToString(Date date, String formato) {

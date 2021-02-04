@@ -1,23 +1,13 @@
 package com.laudoecia.api.domain;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import org.dcm4che3.data.Code;
 import org.dcm4che3.util.StringUtils;
 
+import javax.persistence.*;
 
 @Entity
-@Table(name = "code")
+@Table(name = "codeentity")
 public class CodeEntity {
-
-    public static final String FIND_BY_CODE_VALUE_WITH_SCHEME_VERSION ="CodeEntity.findByCodeValueWithSchemeVersion";
-
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name = "pk")

@@ -39,6 +39,7 @@ import com.laudoecia.api.domain.IssuerEntity;
 import com.laudoecia.api.domain.MWLItem;
 import com.laudoecia.api.domain.MWLItem_;
 import com.laudoecia.api.domain.Patient;
+import com.laudoecia.api.domain.Patient_;
 import com.laudoecia.api.domain.Series;
 import com.laudoecia.api.domain.Study;
 
@@ -331,8 +332,7 @@ public class QueryBuilder {
 //        return predicates;
 //    }
 
-    public <T> List<Predicate> mwlItemPredicates(CriteriaQuery<T> q,
-            From<MWLItem, Patient> patient, Root<MWLItem> mwlItem,
+    public <T> List<Predicate> mwlItemPredicates(CriteriaQuery<T> q, From<MWLItem, Patient> patient, Root<MWLItem> mwlItem,
             IDWithIssuer[] pids, Attributes keys, QueryParam queryParam) {
         List<Predicate> predicates = new ArrayList<>();
         patientLevelPredicates(predicates, q, patient, pids, keys, queryParam, null);
@@ -340,8 +340,7 @@ public class QueryBuilder {
         return predicates;
     }
 
-    public <T> List<Predicate> upsPredicates(CriteriaQuery<T> q,
-            Join<UPS, Patient> patient, Root<UPS> ups,
+    public <T> List<Predicate> upsPredicates(CriteriaQuery<T> q, Join<UPS, Patient> patient, Root<UPS> ups,
             IDWithIssuer[] pids, Attributes keys, QueryParam queryParam) {
         List<Predicate> predicates = new ArrayList<>();
         patientLevelPredicates(predicates, q, patient, pids, keys, queryParam, null);
@@ -355,27 +354,20 @@ public class QueryBuilder {
         if (patient == null)
             return;
 
-//        if (queryRetrieveLevel == QueryRetrieveLevel2.PATIENT) {
-//            predicates.add(patient.get(Patient_.mergedWith).isNull());
-//            if (queryParam.isOnlyWithStudies())
-//                predicates.add(cb.greaterThan(patient.get(Patient_.numberOfStudies), 0));
-//        }
-//        patientIDPredicate(predicates, patient, pids);
-//        personName(predicates, q, patient, Patient_.patientName,
-//                keys.getString(Tag.PatientName, "*"), queryParam);
-//        anyOf(predicates, patient.get(Patient_.patientSex),
-//                toUpperCase(keys.getStrings(Tag.PatientSex)), false);
-//        dateRange(predicates, patient.get(Patient_.patientBirthDate),
-//                keys.getDateRange(Tag.PatientBirthDate), FormatDate.DA);
-//        personName(predicates, q, patient, Patient_.responsiblePerson,
-//                keys.getString(Tag.ResponsiblePerson, "*"), queryParam);
-//        AttributeFilter attrFilter = queryParam.getAttributeFilter(Entity.Patient);
-//        wildCard(predicates, patient.get(Patient_.patientCustomAttribute1),
-//                AttributeFilter.selectStringValue(keys, attrFilter.getCustomAttribute1(), "*"), true);
-//        wildCard(predicates, patient.get(Patient_.patientCustomAttribute2),
-//                AttributeFilter.selectStringValue(keys, attrFilter.getCustomAttribute2(), "*"), true);
-//        wildCard(predicates, patient.get(Patient_.patientCustomAttribute3),
-//                AttributeFilter.selectStringValue(keys, attrFilter.getCustomAttribute3(), "*"), true);
+        if (queryRetrieveLevel == QueryRetrieveLevel2.PATIENT) {
+            predicates.add(patient.get(Patient_.mergedwith).isNull());
+            if (queryParam.isOnlyWithStudies())
+                predicates.add(cb.greaterThan(patient.get(Patient_.numberofstudies), 0));
+        }
+        patientIDPredicate(predicates, patient, pids);
+        //personName(predicates, q, patient, Patient_.patientName, keys.getString(Tag.PatientName, "*"), queryParam);
+        anyOf(predicates, patient.get(Patient_.patientsex), toUpperCase(keys.getStrings(Tag.PatientSex)), false);
+        //dateRange(predicates, patient.get(Patient_.birthday), keys.getDateRange(Tag.PatientBirthDate), FormatDate.DA);
+        //personName(predicates, q, patient, Patient_.responsibleperson, keys.getString(Tag.ResponsiblePerson, "*"), queryParam);
+        //AttributeFilter attrFilter = queryParam.getAttributeFilter(Entity.Patient);
+//        wildCard(predicates, patient.get(Patient_.patientcustomattribute1), AttributeFilter.selectStringValue(keys, attrFilter.getCustomAttribute1(), "*"), true);
+//        wildCard(predicates, patient.get(Patient_.patientcustomattribute2), AttributeFilter.selectStringValue(keys, attrFilter.getCustomAttribute2(), "*"), true);
+//        wildCard(predicates, patient.get(Patient_.patientcustomattribute3), AttributeFilter.selectStringValue(keys, attrFilter.getCustomAttribute3(), "*"), true);
 //        if (queryParam.getPatientVerificationStatus() != null)
 //            predicates.add(cb.equal(patient.get(Patient_.verificationStatus), queryParam.getPatientVerificationStatus()));
     }
@@ -646,63 +638,50 @@ public class QueryBuilder {
     	return null;
     }
 
-    private <T> void mwlItemLevelPredicates(List<Predicate> predicates, CriteriaQuery<T> q, Root<MWLItem> mwlItem,
-            Attributes keys, QueryParam queryParam) {
-//        uidsPredicate(predicates, mwlItem.get(MWLItem_.studyInstanceUID), keys.getStrings(Tag.StudyInstanceUID));
-//        anyOf(predicates, mwlItem.get(MWLItem_.requestedProcedureID),
-//                keys.getStrings(Tag.RequestedProcedureID), false);
-//        String accNo = keys.getString(Tag.AccessionNumber, "*");
-//        if (!isUniversalMatching(accNo)) {
-//            Issuer issuer = Issuer.valueOf(keys.getNestedDataset(Tag.IssuerOfAccessionNumberSequence));
-//            if (issuer == null) {
-//                issuer = queryParam.getDefaultIssuerOfAccessionNumber();
-//            }
-//            idWithIssuer(predicates, mwlItem, MWLItem_.accessionNumber, MWLItem_.issuerOfAccessionNumber, accNo, issuer);
-//        }
-//        Attributes sps = keys.getNestedDataset(Tag.ScheduledProcedureStepSequence);
-//        if (sps != null) {
-//            anyOf(predicates, mwlItem.get(MWLItem_.scheduledProcedureStepID),
-//                    sps.getStrings(Tag.ScheduledProcedureStepID), false);
-//            dateRange(predicates,
-//                    mwlItem.get(MWLItem_.scheduledStartDate),
-//                    mwlItem.get(MWLItem_.scheduledStartTime),
-//                    Tag.ScheduledProcedureStepStartDate,
-//                    Tag.ScheduledProcedureStepStartTime,
-//                    Tag.ScheduledProcedureStepStartDateAndTime,
-//                    sps, true);
-//            personName(predicates, q, mwlItem, MWLItem_.scheduledPerformingPhysicianName,
-//                    sps.getString(Tag.ScheduledPerformingPhysicianName, "*"), queryParam);
-//            anyOf(predicates, mwlItem.get(MWLItem_.modality),
-//                    toUpperCase(sps.getStrings(Tag.Modality)), false);
-//            anyOf(predicates, mwlItem.get(MWLItem_.status), SPSStatus::valueOf,
-//                    toUpperCase(sps.getStrings(Tag.ScheduledProcedureStepStatus)));
-//            String spsAET = sps.getString(Tag.ScheduledStationAETitle, "*");
+    private <T> void mwlItemLevelPredicates(List<Predicate> predicates, CriteriaQuery<T> q, Root<MWLItem> mwlItem, Attributes keys, QueryParam queryParam) {
+        uidsPredicate(predicates, mwlItem.get(MWLItem_.studyinstanceuid), keys.getStrings(Tag.StudyInstanceUID));
+        anyOf(predicates, mwlItem.get(MWLItem_.requestedprocedureid),
+                keys.getStrings(Tag.RequestedProcedureID), false);
+        String accNo = keys.getString(Tag.AccessionNumber, "*");
+        if (!isUniversalMatching(accNo)) {
+            Issuer issuer = Issuer.valueOf(keys.getNestedDataset(Tag.IssuerOfAccessionNumberSequence));
+            if (issuer == null) {
+                issuer = queryParam.getDefaultIssuerOfAccessionNumber();
+            }
+            //idWithIssuer(predicates, mwlItem, MWLItem_.accessionnumber, MWLItem_.issuerofaccessionnumber, accNo, issuer);
+        }
+        Attributes sps = keys.getNestedDataset(Tag.ScheduledProcedureStepSequence);
+        if (sps != null) {
+            anyOf(predicates, mwlItem.get(MWLItem_.scheduledprocedurestepid),
+                    sps.getStrings(Tag.ScheduledProcedureStepID), false);
+            dateRange(predicates,
+                    mwlItem.get(MWLItem_.scheduledstartdate),
+                    mwlItem.get(MWLItem_.scheduledstarttime),
+                    Tag.ScheduledProcedureStepStartDate,
+                    Tag.ScheduledProcedureStepStartTime,
+                    Tag.ScheduledProcedureStepStartDateAndTime,
+                    sps, true);
+            //personName(predicates, q, mwlItem, MWLItem_.scheduledperformingphysicianname, sps.getString(Tag.ScheduledPerformingPhysicianName, "*"), queryParam);
+            anyOf(predicates, mwlItem.get(MWLItem_.modality), toUpperCase(sps.getStrings(Tag.Modality)), false);
+            //anyOf(predicates, mwlItem.get(MWLItem_.status), SPSStatus::valueOf, toUpperCase(sps.getStrings(Tag.ScheduledProcedureStepStatus)));
+            String spsAET = sps.getString(Tag.ScheduledStationAETitle, "*");
 //            if (!isUniversalMatching(spsAET))
-//                predicates.add(cb.isMember(spsAET, mwlItem.get(MWLItem_.scheduledStationAETs)));
-//        }
-//        hideSPSWithStatus(predicates, mwlItem, queryParam);
-//        String admissionID = keys.getString(Tag.AdmissionID, "*");
-//        if (!isUniversalMatching(admissionID)) {
-//            Issuer issuer = Issuer.valueOf(keys.getNestedDataset(Tag.IssuerOfAdmissionIDSequence));
+//                predicates.add(cb.isMember(spsAET, mwlItem.get(MWLItem_.scheduledstationaets)));
+        }
+        hideSPSWithStatus(predicates, mwlItem, queryParam);
+        String admissionID = keys.getString(Tag.AdmissionID, "*");
+        if (!isUniversalMatching(admissionID)) {
+            Issuer issuer = Issuer.valueOf(keys.getNestedDataset(Tag.IssuerOfAdmissionIDSequence));
 //            if (issuer != null)
-//                idWithIssuer(predicates,
-//                        mwlItem,
-//                        MWLItem_.admissionID,
-//                        MWLItem_.issuerOfAdmissionID,
-//                        admissionID,
-//                        issuer);
+//                idWithIssuer(predicates, mwlItem, MWLItem_.admissionid, MWLItem_.issuerofadmissionid, admissionID, issuer);
 //            else
-//                predicates.add(cb.equal(mwlItem.get(MWLItem_.admissionID), admissionID));
-//        }
-//        anyOf(predicates, mwlItem.get(MWLItem_.institutionName),
-//                keys.getStrings(Tag.InstitutionName), true);
-//        code(predicates, mwlItem.get(MWLItem_.institutionCode), keys.getNestedDataset(Tag.InstitutionCodeSequence));
-//        anyOf(predicates, mwlItem.get(MWLItem_.institutionalDepartmentName),
-//                keys.getStrings(Tag.InstitutionalDepartmentName), true);
-//        code(predicates,
-//                mwlItem.get(MWLItem_.institutionalDepartmentTypeCode),
-//                keys.getNestedDataset(Tag.InstitutionalDepartmentTypeCodeSequence));
-//        predicates.add(mwlItem.get(MWLItem_.localAET).in(queryParam.getAETitle(), "*"));
+//                predicates.add(cb.equal(mwlItem.get(MWLItem_.admissionid), admissionID));
+        }
+//        anyOf(predicates, mwlItem.get(MWLItem_.institutionname), keys.getStrings(Tag.InstitutionName), true);
+//        code(predicates, mwlItem.get(MWLItem_.institutioncode), keys.getNestedDataset(Tag.InstitutionCodeSequence));
+//        anyOf(predicates, mwlItem.get(MWLItem_.institutionaldepartmentname), keys.getStrings(Tag.InstitutionalDepartmentName), true);
+//        code(predicates, mwlItem.get(MWLItem_.institutionaldepartmenttypecode), keys.getNestedDataset(Tag.InstitutionalDepartmentTypeCodeSequence));
+//        predicates.add(mwlItem.get(MWLItem_.localaet).in(queryParam.getAETitle(), "*"));
     	
     }
 

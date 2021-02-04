@@ -113,6 +113,7 @@ public class DicomServer {
 
 		CStoreSCPImpl() {
 			super("*");
+			System.out.println("DICON SERVER LINHA 116");
 		}
 
 		@Override
@@ -120,7 +121,7 @@ public class DicomServer {
 			rsp.setInt(Tag.Status, VR.US, status);
 			if (storageDir == null)
 				return;
-			
+			System.out.println("DICON SERVER LINHA 116");
 			String ipAddress = as.getSocket().getInetAddress().getHostAddress();
 			String associationName = as.toString();
 			
@@ -160,13 +161,16 @@ public class DicomServer {
 
 		public CFindSCPImpl(String sopClass, EnumSet<QueryRetrieveLevel2> qrLevels) {
 			super(sopClass);
+			System.out.println("DICOM SERVER LINHA 164");
 			this.qrLevels = qrLevels;
 		}
 
 
 		@Override
 		protected QueryTask calculateMatches(Association as, PresentationContext pc, Attributes rq, Attributes keys) throws DicomServiceException {
+			System.out.println("DICOM SERVER LINHA 164");
 			try {
+				
 				QueryRetrieveLevel2 level = QueryRetrieveLevel2.validateQueryIdentifier(keys, qrLevels, relational(as, rq));
 				if (errorCFind != 0) {
 					throw new DicomServiceException(errorCFind);
@@ -238,6 +242,7 @@ public class DicomServer {
 	private final class StgCmtSCPImpl extends AbstractDicomService {
 		public StgCmtSCPImpl() {
 			super(UID.StorageCommitmentPushModelSOPClass);
+			System.out.println("DICON SERVER LINHA 242");
 		}
 
 		@Override
@@ -245,6 +250,7 @@ public class DicomServer {
 			if (dimse != Dimse.N_ACTION_RQ)
 				throw new DicomServiceException(Status.UnrecognizedOperation);
 			
+			System.out.println("DICON SERVER LINHA 242");
 			int actionTypeID = rq.getInt(Tag.ActionTypeID, 0);
 			if (actionTypeID != 1)
 				throw new DicomServiceException(Status.NoSuchActionType).setActionTypeID(actionTypeID);
@@ -274,11 +280,13 @@ public class DicomServer {
 		public CGetSCPImpl(String sopClass, EnumSet<QueryRetrieveLevel2> qrLevels) {
 			super(sopClass);
 			this.qrLevels = qrLevels;
+			System.out.println("DICOM SERVER LINHA 283");
 			this.withoutBulkData = qrLevels.size() == 1;
 		}
 
 		@Override
 		protected RetrieveTask calculateMatches(Association as, PresentationContext pc, Attributes rq, Attributes keys) throws DicomServiceException {
+			System.out.println("DICOM SERVER LINHA 283");
 			QueryRetrieveLevel2.validateRetrieveIdentifier(keys, qrLevels, relational(as, rq));
 			if (errorCGet != 0)
 				throw new DicomServiceException(errorCGet);
@@ -352,11 +360,13 @@ public class DicomServer {
 
 		public CMoveSCPImpl(String sopClass, EnumSet<QueryRetrieveLevel2> qrLevels) {
 			super(sopClass);
+			System.out.println("DICOM SERVER LINHA 363");
 			this.qrLevels = qrLevels;
 		}
 
 		@Override
 		protected RetrieveTask calculateMatches(Association as, PresentationContext pc, final Attributes rq,Attributes keys) throws DicomServiceException {
+			System.out.println("DICOM SERVER LINHA 363");
 			QueryRetrieveLevel2.validateRetrieveIdentifier(keys, qrLevels, relational(as, rq));
 			if (errorCMove != 0)
 				throw new DicomServiceException(errorCMove);

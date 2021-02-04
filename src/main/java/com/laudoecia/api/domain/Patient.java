@@ -64,6 +64,10 @@ public class Patient implements Serializable {
     private Patient mergedwith;
     private PatientID patientidclasse;
     private String observacoes;
+    private String patientfamilynamesoundex;
+    private String patientgivennamesoundex;
+    private String patientideographicname;
+    private String patientphoneticname;
 
 	public Patient() {
 		super();
@@ -285,7 +289,6 @@ public class Patient implements Serializable {
 		this.patientidclasse = patientidclasse;
 	}
 	
-	
 	public Attributes pegarAttributes() throws BlobCorruptedException {
         return attributesblob.getAttributes();
     }
@@ -298,6 +301,37 @@ public class Patient implements Serializable {
 		this.observacoes = observacoes;
 	}
 
+	public String getPatientfamilynamesoundex() {
+		return patientfamilynamesoundex;
+	}
+	
+	public void setPatientfamilynamesoundex(String patientfamilynamesoundex) {
+		this.patientfamilynamesoundex = patientfamilynamesoundex;
+	}
+	
+	public String getPatientgivennamesoundex() {
+		return patientgivennamesoundex;
+	}
+	
+	public void setPatientgivennamesoundex(String patientgivennamesoundex) {
+		this.patientgivennamesoundex = patientgivennamesoundex;
+	}
+	
+	public String getPatientideographicname() {
+		return patientideographicname;
+	}
+	
+	public void setPatientideographicname(String patientideographicname) {
+		this.patientideographicname = patientideographicname;
+	}
+	
+	public String getPatientphoneticname() {
+		return patientphoneticname;
+	}
+	
+	public void setPatientphoneticname(String patientphoneticname) {
+		this.patientphoneticname = patientphoneticname;
+	}
 	
     public void insereAttributes(Attributes attrs, AttributeFilter filter, FuzzyStr fuzzyStr) {
         //patientname = PersonName.valueOf(attrs.getString(Tag.PatientName), fuzzyStr, patientname);

@@ -1,6 +1,8 @@
 package com.laudoecia.api.worklistes;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.stream.Stream;
 
 import javax.persistence.EntityManager;
@@ -54,12 +56,11 @@ abstract class AbstractQuery implements Query {
         rejected = 0;
         matches = 0;
         close(resultStream);
-        TypedQuery<Tuple> query = em.createQuery(multiselect())
-                .setHint(QueryHints.FETCH_SIZE, fetchSize);
-        if (offset > 0)
-            query.setFirstResult(offset);
-        if (limit > 0)
-            query.setMaxResults(limit);
+        TypedQuery<Tuple> query = em.createQuery(multiselect());//.setHint(QueryHints.FETCH_SIZE, fetchSize);
+//        if (offset > 0)
+//            query.setFirstResult(offset);
+//        if (limit > 0)
+//            query.setMaxResults(limit);
         resultStream = query.getResultStream();
         results = resultStream.iterator();
     }
@@ -76,9 +77,7 @@ abstract class AbstractQuery implements Query {
 
     @Override
     public Stream<Long> withUnknownSize(int fetchSize) {
-        return em.createQuery(withUnknownSize())
-                .setHint(QueryHints.FETCH_SIZE, fetchSize)
-                .getResultStream();
+        return em.createQuery(withUnknownSize()).setHint(QueryHints.FETCH_SIZE, fetchSize).getResultStream();
     }
 
     @Override

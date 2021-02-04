@@ -1447,7 +1447,7 @@ public class ArchiveAEExtension extends AEExtension {
     }
 
     public ArchiveDeviceExtension getArchiveDeviceExtension() {
-        //return ae.getDevice().getDeviceExtension(ArchiveDeviceExtension.class) == null ?
+        //return ae.getDevice().getDeviceExtension(ArchiveDeviceExtension.class);
         return new ArchiveDeviceExtension();
     }
 
