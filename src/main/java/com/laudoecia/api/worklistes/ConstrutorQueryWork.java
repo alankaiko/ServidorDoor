@@ -44,11 +44,11 @@ import com.laudoecia.api.domain.Series;
 import com.laudoecia.api.domain.Study;
 
 
-public class QueryBuilder {
+public class ConstrutorQueryWork {
 
     private final CriteriaBuilder cb;
 
-    public QueryBuilder(CriteriaBuilder cb) {
+    public ConstrutorQueryWork(CriteriaBuilder cb) {
         this.cb = Objects.requireNonNull(cb);
     }
 

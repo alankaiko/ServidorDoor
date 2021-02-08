@@ -27,20 +27,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.laudoecia.api.utils.Utils;
+import com.laudoecia.api.worklist.ListaDeTrabalhoImpl;
+import com.laudoecia.api.worklist.ListaDeTrabalhoQuery;
 
 
 class QueryServiceImpl implements QueryService {
     private static Logger LOG = LoggerFactory.getLogger(QueryServiceImpl.class);
-    private EntityManager em;
-    QuerySizeEJB querySizeEJB;
-    QueryAttributesEJB queryAttributesEJB;
-    //private CFindSCU cfindscu;
-    //private Event<QueryContext> queryEvent = new AAAATestando();
+    private EntityManager conexaobanco;
+
     
     @Override
     public QueryContext newQueryContextFIND(Association as, String sopClassUID, EnumSet<QueryOption> queryOpts) {
         ApplicationEntity ae = as.getApplicationEntity();
-        this.em = Utils.entidade.createEntityManager();
+        this.conexaobanco = Utils.entidade.createEntityManager();
         QueryParam queryParam = new QueryParam(ae);
         queryParam.setCombinedDatetimeMatching(queryOpts.contains(QueryOption.DATETIME));
         queryParam.setFuzzySemanticMatching(queryOpts.contains(QueryOption.FUZZY));
@@ -49,10 +48,9 @@ class QueryServiceImpl implements QueryService {
     
     
     @Override
-    public Query createMWLQuery(QueryContext ctx) {
-        //queryEvent.fire(ctx);
-    	this.em = Utils.entidade.createEntityManager();
-        return new MWLQuery(ctx, em);
+    public ListaDeTrabalhoQuery createMWLQuery(QueryContext ctx) {
+    	this.conexaobanco = Utils.entidade.createEntityManager();
+        return new ListaDeTrabalhoImpl(ctx, this.conexaobanco);
     }
     
   
@@ -85,11 +83,8 @@ class QueryServiceImpl implements QueryService {
             }
         coercion = rule.mergeAttributes(coercion);
         coercion = NullifyAttributesCoercion.valueOf(rule.getNullifyTags(), coercion);
-//        String leadingCFindSCP = rule.getLeadingCFindSCP();
-//        if (leadingCFindSCP != null) {
-//            coercion = new CFindSCUAttributeCoercion(ctx.getLocalApplicationEntity(), leadingCFindSCP, rule.getAttributeUpdatePolicy(), cfindscu, leadingCFindSCPQueryCache, coercion);
-//        }
         LOG.info("Coerce Attributes from rule: {}", rule);
+        
         return coercion;
     }
    
@@ -104,8 +99,7 @@ class QueryServiceImpl implements QueryService {
     }
 
 	@Override
-	public QueryContext newQueryContextQIDO(HttpServletRequestInfo httpRequest, String searchMethod,
-			ApplicationEntity ae, QueryParam queryParam) {
+	public QueryContext newQueryContextQIDO(HttpServletRequestInfo httpRequest, String searchMethod, ApplicationEntity ae, QueryParam queryParam) {
 		
 		return null;
 	}
@@ -117,93 +111,76 @@ class QueryServiceImpl implements QueryService {
 	}
 
 	@Override
-	public Query createQuery(QueryContext ctx) {
-		
+	public ListaDeTrabalhoQuery createQuery(QueryContext ctx) {	
 		return null;
 	}
 
 	@Override
-	public Query createPatientQuery(QueryContext ctx) {
-		
+	public ListaDeTrabalhoQuery createPatientQuery(QueryContext ctx) {
 		return null;
 	}
 
 	@Override
-	public Query createStudyQuery(QueryContext ctx) {
-		
+	public ListaDeTrabalhoQuery createStudyQuery(QueryContext ctx) {
 		return null;
 	}
 
 	@Override
-	public Query createSeriesQuery(QueryContext ctx) {
-		
+	public ListaDeTrabalhoQuery createSeriesQuery(QueryContext ctx) {
 		return null;
 	}
 
 	@Override
-	public Query createInstanceQuery(QueryContext ctx) {
-		
+	public ListaDeTrabalhoQuery createInstanceQuery(QueryContext ctx) {
 		return null;
 	}
 
 	@Override
-	public Query createUPSQuery(QueryContext ctx) {
-		
+	public ListaDeTrabalhoQuery createUPSQuery(QueryContext ctx) {
 		return null;
 	}
 
 	@Override
-	public Query createUPSWithoutQueryEvent(QueryContext ctx) {
-		
+	public ListaDeTrabalhoQuery createUPSWithoutQueryEvent(QueryContext ctx) {
 		return null;
 	}
 
 	@Override
 	public Attributes getSeriesAttributes(QueryContext context, Long seriesPk) {
-		
 		return null;
 	}
 
 	@Override
-	public void addLocationAttributes(Attributes attrs, Long instancePk) {
-		
-		
-	}
+	public void addLocationAttributes(Attributes attrs, Long instancePk) {}
 
 	@Override
 	public long calculateStudySize(Long studyPk) {
-		
 		return 0;
 	}
 
 	@Override
 	public StudyQueryAttributes calculateStudyQueryAttributes(Long studyPk, QueryRetrieveView qrView) {
-		
 		return null;
 	}
 
 	@Override
 	public SeriesQueryAttributes calculateSeriesQueryAttributesIfNotExists(Long seriesPk, QueryRetrieveView qrView) {
-		
 		return null;
 	}
 
 	@Override
 	public SeriesQueryAttributes calculateSeriesQueryAttributes(Long seriesPk, QueryRetrieveView qrView) {
+		return null;
+	}
+
+	@Override
+	public Attributes getStudyAttributesWithSOPInstanceRefs(String studyUID, ApplicationEntity ae, Collection<Attributes> seriesAttrs) {
 		
 		return null;
 	}
 
 	@Override
-	public Attributes getStudyAttributesWithSOPInstanceRefs(String studyUID, ApplicationEntity ae,
-			Collection<Attributes> seriesAttrs) {
-		
-		return null;
-	}
-
-	@Override
-	public Attributes createIAN(ApplicationEntity ae, String studyUID, String seriesUID, String[] retrieveAETs,
-			String retrieveLocationUID, Availability availability) {
+	public Attributes createIAN(ApplicationEntity ae, String studyUID, String seriesUID, String[] retrieveAETs, String retrieveLocationUID, Availability availability) {
 		
 		return null;
 	}

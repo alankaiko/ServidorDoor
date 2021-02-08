@@ -1,5 +1,15 @@
 package com.laudoecia.api.worklistes;
 
+import java.io.File;
+import java.time.Period;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
+
 import org.dcm4che3.data.Attributes;
 import org.dcm4che3.io.BulkDataDescriptor;
 import org.dcm4che3.net.AEExtension;
@@ -7,13 +17,6 @@ import org.dcm4che3.net.Association;
 import org.dcm4che3.net.Dimse;
 import org.dcm4che3.net.TransferCapability;
 import org.dcm4che3.util.StringUtils;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.time.Period;
-import java.util.*;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 public class ArchiveAEExtension extends AEExtension {
     private String defaultCharacterSet;

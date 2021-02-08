@@ -34,12 +34,11 @@ public class MWLCFindSCP extends BasicCFindSCP {
 
     public MWLCFindSCP() {
         super(UID.ModalityWorklistInformationModelFIND);
-        System.out.println(UID.ModalityWorklistInformationModelFIND + " sera que vinga agora");
     }
 
     @Override
     protected QueryTask calculateMatches(Association as, PresentationContext pc, Attributes rq, Attributes keys) {
-    	LOG.info("{}: Process MWL C-FIND RQ:\n{}", as, keys);
+    	//LOG.info("{}: Process MWL C-FIND RQ:\n{}", as, keys);
     	try {
     		this.queryService = new QueryServiceImpl();
     		String sopClassUID = rq.getString(Tag.AffectedSOPClassUID);
@@ -47,13 +46,13 @@ public class MWLCFindSCP extends BasicCFindSCP {
             QueryContext ctx = queryService.newQueryContextFIND(as, sopClassUID, queryOpts);
             IDWithIssuer idWithIssuer = IDWithIssuer.pidOf(keys);
             if (idWithIssuer != null && !idWithIssuer.getID().equals("*"))
-            ctx.setPatientIDs(idWithIssuer);
+            	ctx.setPatientIDs(idWithIssuer);
+            
             ctx.setQueryKeys(keys);
             ctx.setReturnKeys(createReturnKeys(keys));
             
             coerceAttributes(ctx);
             return new MWLQueryTask(as, pc, rq, keys, queryService.createMWLQuery(ctx), queryService.getAttributesCoercion(ctx), runInTx);
-            //return new MinhaQueryTaskPropria(as, pc, rq, keys);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

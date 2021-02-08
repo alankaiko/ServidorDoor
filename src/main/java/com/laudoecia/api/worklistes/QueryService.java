@@ -53,20 +53,22 @@ import org.dcm4che3.net.ApplicationEntity;
 import org.dcm4che3.net.Association;
 import org.dcm4che3.net.QueryOption;
 
+import com.laudoecia.api.worklist.ListaDeTrabalhoQuery;
+
 
 
 public interface QueryService {
     QueryContext newQueryContextFIND(Association as, String sopClassUID, EnumSet<QueryOption> queryOpts);
     QueryContext newQueryContextQIDO(HttpServletRequestInfo httpRequest, String searchMethod, ApplicationEntity ae, QueryParam queryParam);
     QueryContext newQueryContext(ApplicationEntity ae, QueryParam queryParam);
-    Query createQuery(QueryContext ctx);
-    Query createPatientQuery(QueryContext ctx);
-    Query createStudyQuery(QueryContext ctx);
-    Query createSeriesQuery(QueryContext ctx);
-    Query createInstanceQuery(QueryContext ctx);
-    Query createMWLQuery(QueryContext ctx);
-    Query createUPSQuery(QueryContext ctx);
-    Query createUPSWithoutQueryEvent(QueryContext ctx);
+    ListaDeTrabalhoQuery createQuery(QueryContext ctx);
+    ListaDeTrabalhoQuery createPatientQuery(QueryContext ctx);
+    ListaDeTrabalhoQuery createStudyQuery(QueryContext ctx);
+    ListaDeTrabalhoQuery createSeriesQuery(QueryContext ctx);
+    ListaDeTrabalhoQuery createInstanceQuery(QueryContext ctx);
+    ListaDeTrabalhoQuery createMWLQuery(QueryContext ctx);
+    ListaDeTrabalhoQuery createUPSQuery(QueryContext ctx);
+    ListaDeTrabalhoQuery createUPSWithoutQueryEvent(QueryContext ctx);
     Attributes getSeriesAttributes(QueryContext context, Long seriesPk);
     void addLocationAttributes(Attributes attrs, Long instancePk);
     long calculateStudySize(Long studyPk);

@@ -1,7 +1,5 @@
 package com.laudoecia.api.worklistes;
 
-import java.io.IOException;
-
 import org.dcm4che3.data.Attributes;
 import org.dcm4che3.data.AttributesCoercion;
 import org.dcm4che3.data.Tag;
@@ -11,90 +9,77 @@ import org.dcm4che3.net.Status;
 import org.dcm4che3.net.pdu.PresentationContext;
 import org.dcm4che3.net.service.BasicQueryTask;
 import org.dcm4che3.net.service.DicomServiceException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import com.laudoecia.api.worklist.ListaDeTrabalhoQuery;
 
 public class MWLQueryTask extends BasicQueryTask {
-	private static final Logger LOG = LoggerFactory.getLogger(MWLQueryTask.class);
+	private final ListaDeTrabalhoQuery listatrabalho;
+	private final AttributesCoercion coercao;
+	private final RunInTransaction transacao;
 
-	private final Query query;
-	private final AttributesCoercion coercion;
-	private final RunInTransaction runInTx;
-
-	public MWLQueryTask(Association as, PresentationContext pc, Attributes rq, Attributes keys, Query query, AttributesCoercion coercion, RunInTransaction runInTx) {
-		super(as, pc, rq, keys);
-		this.query = query;
-		this.coercion = coercion;
-		this.runInTx = runInTx;
-		setOptionalKeysNotSupported(query.isOptionalKeysNotSupported());
+	public MWLQueryTask(Association associacao, PresentationContext present, Attributes atrib, Attributes chaves, ListaDeTrabalhoQuery listatrabalho, AttributesCoercion coercao, RunInTransaction transacao) {
+		super(associacao, present, atrib, chaves);
+		this.listatrabalho = listatrabalho;
+		this.coercao = coercao;
+		this.transacao = transacao;
+		this.setOptionalKeysNotSupported(this.listatrabalho.ChaveOpcionNaoSuportada());
 	}
 
 	@Override
 	public void run() {
-		runInTx.execute(this::run0);
+		this.transacao.execute(this::ExecutaRequisicao);
 	}
 
-	private void run0() {
+	private void ExecutaRequisicao() {
 		try {
-			QueryContext ctx = query.getQueryContext();
-			ArchiveAEExtension arcAE = ctx.getArchiveAEExtension();
-			ArchiveDeviceExtension arcdev = arcAE.getArchiveDeviceExtension();			
-			query.executeQuery(arcdev.getQueryFetchSize());
+			QueryContext contexto = this.listatrabalho.RetornaQueryContexto();
+			ArchiveAEExtension arcAE = contexto.getArchiveAEExtension();
+			ArchiveDeviceExtension arcdev = arcAE.getArchiveDeviceExtension();		
+			this.listatrabalho.ExecutarRequisicao(arcdev.getQueryFetchSize());
 			super.run();
-		} catch (Exception e) {
-			e.printStackTrace();
-			writeDimseRSP(new DicomServiceException(Status.UnableToProcess, e));
+		} catch (Exception excecao) {
+			this.EscreverDimseRSP(new DicomServiceException(Status.UnableToProcess, excecao));
 		} finally {
-			query.close();
+			this.listatrabalho.close();
 		}
 	}
 
-	private void writeDimseRSP(DicomServiceException e) {
-		int msgId = rq.getInt(Tag.MessageID, -1);
-		Attributes rsp = e.mkRSP(Dimse.C_FIND_RSP.commandField(), msgId);
+	private void EscreverDimseRSP(DicomServiceException excecao) {
+		int msgcodigo = rq.getInt(Tag.MessageID, -1);
+		Attributes rsp = excecao.mkRSP(Dimse.C_FIND_RSP.commandField(), msgcodigo);
 		try {
 			as.writeDimseRSP(pc, rsp, null);
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			// handled by Association
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
-
-	
-	
-	
 	
 	@Override
 	protected boolean hasMoreMatches() throws DicomServiceException {
 		try {
-			return query.hasMoreMatches();
-		} catch (DicomServiceException e) {
-			e.printStackTrace();
-			throw e;
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new DicomServiceException(Status.UnableToProcess, e);
+			return this.listatrabalho.ExisteMaisAtributos();
+		} catch (Exception excecao) {
+			throw new DicomServiceException(Status.UnableToProcess,"MWLQuery linha 63 " + excecao);
 		}
 	}
 
 	@Override
 	protected Attributes nextMatch() throws DicomServiceException {
 		try {
-			return query.nextMatch();
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new DicomServiceException(Status.UnableToProcess, e);
+			return this.listatrabalho.AdicionarAtributos();
+		} catch (Exception excecao) {
+			throw new DicomServiceException(Status.UnableToProcess,"MWLQuery linha 69 " +  excecao);
 		}
 	}
 
 	@Override
-	protected Attributes adjust(Attributes match) {
-		if (match == null)
+	protected Attributes adjust(Attributes atributos) {
+		if (atributos == null)
 			return null;
 
-		if (coercion != null)
-			coercion.coerce(match, null);
+		if (this.coercao != null)
+			this.coercao.coerce(atributos, null);
 
-		return query.adjust(match);
+		return this.listatrabalho.Ajustar(atributos);
 	}
 }
