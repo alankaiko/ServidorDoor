@@ -18,8 +18,8 @@ import org.springframework.util.StringUtils;
 
 import com.laudoecia.api.domain.ProfissionalSolicitante;
 import com.laudoecia.api.domain.ProfissionalSolicitante_;
-import com.laudoecia.api.domain.TISS_Conselho;
-import com.laudoecia.api.domain.TISS_Conselho_;
+import com.laudoecia.api.domain.TISSConselho;
+import com.laudoecia.api.domain.TISSConselho_;
 import com.laudoecia.api.repository.filtro.ProfissionalSolicitanteFilter;
 
 public class ProfissionalSolicitanteRepositoryImpl implements ProfissionalSolicitanteRepositoryQuery{
@@ -45,14 +45,14 @@ public class ProfissionalSolicitanteRepositoryImpl implements ProfissionalSolici
 	private Predicate[] AdicionarRestricoes(CriteriaBuilder builder, ProfissionalSolicitanteFilter filtro, Root<ProfissionalSolicitante> root) {
 		List<Predicate> lista= new ArrayList<Predicate>();
 		
-		CriteriaQuery<TISS_Conselho> criteria = builder.createQuery(TISS_Conselho.class);
-		Root<TISS_Conselho> rootgrupo = criteria.from(TISS_Conselho.class);
+		CriteriaQuery<TISSConselho> criteria = builder.createQuery(TISSConselho.class);
+		Root<TISSConselho> rootgrupo = criteria.from(TISSConselho.class);
 		
 		if(!StringUtils.isEmpty(filtro.getNome()))
 			lista.add(builder.like(builder.lower(root.get(ProfissionalSolicitante_.nome)), "%"+ filtro.getNome().toLowerCase()+"%"));
 		
 		if(!StringUtils.isEmpty(filtro.getNumnoconselho()))
-			lista.add(builder.like(builder.lower(rootgrupo.get(TISS_Conselho_.descricao)), "%"+ filtro.getNumnoconselho().toLowerCase()+"%"));
+			lista.add(builder.like(builder.lower(rootgrupo.get(TISSConselho_.descricao)), "%"+ filtro.getNumnoconselho().toLowerCase()+"%"));
 	
 		
 		return lista.toArray(new Predicate[lista.size()]);

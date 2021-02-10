@@ -10,6 +10,6 @@ import com.laudoecia.api.repository.impl.StudyRepositoryQuery;
 
 @Repository
 public interface StudyRepository extends JpaRepository<Study, Long>, StudyRepositoryQuery{
-	public List<Study> findByPatientIdpatient(Long idpatient);
+	public List<Study> findByPacienteIdpatient(Long idpatient);
 	public Study findByStudyinstanceuid(String studyinstanceuid);
 }

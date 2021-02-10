@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.laudoecia.api.component.DicomRepost;
-import com.laudoecia.api.domain.Dispositive;
 import com.laudoecia.api.domain.Instance;
-import com.laudoecia.api.domain.Patient;
+import com.laudoecia.api.domain.Modality;
+import com.laudoecia.api.domain.Paciente;
 import com.laudoecia.api.domain.Series;
 import com.laudoecia.api.domain.Study;
 import com.laudoecia.api.domain.Tagimagem;
@@ -52,11 +52,11 @@ public class DBServiceImpl implements DBService {
 
 	@Transactional
 	@Override
-	public Patient buildPatient(DicomReader reader) {
+	public Paciente buildPatient(DicomReader reader) {
 
 		LOG.info("In process; Patient Name: {}, Patient ID: {}", reader.getPatientName(), reader.getPatientID());
 
-		Patient patient = this.PatientService.BuscarPorPacienteId(reader.getPatientID());
+		Paciente patient = this.PatientService.BuscarPorPacienteId(reader.getPatientID());
 
 		if (patient == null) {// let's create new patient
 			patient = DicomEntityBuilder.newPatient(reader.getPatientAge(), reader.getPatientBirthDay(),
@@ -73,7 +73,7 @@ public class DBServiceImpl implements DBService {
 
 	@Transactional
 	@Override
-	public Study buildStudy(DicomReader reader, Patient patient) {
+	public Study buildStudy(DicomReader reader, Paciente patient) {
 
 		// check if study exists
 		Study study = this.StudyService.BuscarPorStudyInstanceuid(reader.getStudyInstanceUID());
@@ -83,7 +83,7 @@ public class DBServiceImpl implements DBService {
 					reader.getAdmittingDiagnosesDescription(), reader.getReferringPhysicianName(),
 					reader.getSeriesDateTime(), reader.getStudyID(), reader.getStudyDescription(),
 					reader.getStudyInstanceUID(), reader.getStudyPriorityID(), reader.getStudyStatusID());
-			study.setPatient(patient);
+			study.setPaciente(patient);
 
 			this.StudyService.Criar(study);
 			study = this.StudyService.BuscarPorStudyInstanceuid(reader.getStudyInstanceUID());
@@ -123,8 +123,8 @@ public class DBServiceImpl implements DBService {
 
 	@Transactional
 	@Override
-	public Dispositive buildEquipment(DicomReader reader, Series series) {
-		Dispositive equipment = this.DispositiveService.BuscarPorSerieEquipamento(series.getIdseries());
+	public Modality buildEquipment(DicomReader reader, Series series) {
+		Modality equipment = this.DispositiveService.BuscarPorSerieEquipamento(series.getCodigo());
 
 		if (equipment == null) {
 			equipment = DicomEntityBuilder.newEquipment(reader.getConversionType(), reader.getDeviceSerialNumber(),
@@ -135,10 +135,10 @@ public class DBServiceImpl implements DBService {
 
 			equipment.setSeries(series);// set the Series to Equipment because we now have the pkTBLSeriesID
 			this.DispositiveService.Criar(equipment);
-			equipment = this.DispositiveService.BuscarPorSerieEquipamento(series.getIdseries());
+			equipment = this.DispositiveService.BuscarPorSerieEquipamento(series.getCodigo());
 
 		} else {
-			LOG.info("Dispositive já existe; Código do Dispositive {}", equipment.getIddispositive());
+			LOG.info("Dispositive já existe; Código do Dispositive {}", equipment.getCodigo());
 		}
 
 		return equipment;
@@ -181,7 +181,7 @@ public class DBServiceImpl implements DBService {
 					"=================================================================================================================================");
 			printStats(reader.getPatientName() + " " + reader.getPatientID() + " " + reader.getPatientAge() + " "
 					+ reader.getPatientSex() + " Started");
-			Patient patient = buildPatient(reader);
+			Paciente patient = buildPatient(reader);
 			reposter.add(reader.getMediaStorageSopInstanceUID(), patient.toString());
 
 			if (patient != null) {
@@ -189,20 +189,20 @@ public class DBServiceImpl implements DBService {
 				if (study != null) {
 					Series series = buildSeries(reader, study);
 					if (series != null) {
-						Dispositive equipment = buildEquipment(reader, series);// one2one relationship with series
+						Modality equipment = buildEquipment(reader, series);// one2one relationship with series
 						Instance instance = buildInstance(reader, series);
 
 						// update entity modification dates according to the instance creation
-						series.setDatemodify(instance.getDatecreate());
+						series.setDatamodicifacao(instance.getDatacriacao());
 						this.SeriesService.Criar(series);
 
-						equipment.setDatemodify(instance.getDatecreate());
+						equipment.setDatamodificacao(instance.getDatacriacao());
 						this.DispositiveService.Criar(equipment);
 
-						study.setDatemodify(instance.getDatecreate());
+						study.setDatamodificacao(instance.getDatacriacao());
 						this.StudyService.Criar(study);
 
-						patient.setDatemodify(Utils.ConverterToLocalDate(instance.getDatecreate()));
+						patient.setDatamodificacao(Utils.ConverterToLocalDate(instance.getDatacriacao()));
 						this.PatientService.Criar(patient);
 
 						LOG.info("Dicom Instance saved successfully! {}", instance.toString());

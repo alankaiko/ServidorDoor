@@ -31,8 +31,7 @@ public class PaginaDeImagens{
 		this.layout = layout;
 	}
 
-	public PaginaDeImagens() {
-	}
+	public PaginaDeImagens() {}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -2,24 +2,24 @@ package com.laudoecia.api.utils;
 
 import java.util.Date;
 
-import com.laudoecia.api.domain.Dispositive;
+import com.laudoecia.api.domain.Modality;
 import com.laudoecia.api.domain.Instance;
-import com.laudoecia.api.domain.Patient;
+import com.laudoecia.api.domain.Paciente;
 import com.laudoecia.api.domain.Series;
 import com.laudoecia.api.domain.Study;
 import com.laudoecia.api.domain.Tagimagem;
 
 public class DicomEntityBuilder {
 
-	public static Patient newPatient(String patientAge, Date patientBirthday, String patientID, String patientName, String patientSex) {
+	public static Paciente newPatient(String patientAge, Date patientBirthday, String patientID, String patientName, String patientSex) {
 
-		Patient patient = new Patient();
-		patient.setPatientage(patientAge);
-		patient.setBirthday(Utils.ConverterToLocalDate(patientBirthday));
-		patient.setDatecreate(Utils.ConverterToLocalDate(new Date()));
+		Paciente patient = new Paciente();
+		patient.setIdade(patientAge);
+		patient.setDatanasc(Utils.ConverterToLocalDate(patientBirthday));
+		patient.setDatacriacao(Utils.ConverterToLocalDate(new Date()));
 		patient.setPatientid(patientID);
-		patient.setPatientname(patientName);
-		patient.setPatientsex(patientSex);
+		patient.setNome(patientName);
+		patient.setSexo(patientSex);
 		
 		return patient;
 	}
@@ -61,19 +61,19 @@ public class DicomEntityBuilder {
 		return series;
 	}
 
-	public static Dispositive newEquipment(String conversionType, String deviceSerialNumber, String institutionAddress,
+	public static Modality newEquipment(String conversionType, String deviceSerialNumber, String institutionAddress,
 			String institutionName, String institutionalDepartmentName, String manufacturer,
 			String manufacturerModelName, String modality, String softwareVersion, String stationName) {
 
-		Dispositive equipment = new Dispositive();
+		Modality equipment = new Modality();
 		equipment.setConversiontype(conversionType);
-		equipment.setDeviceserialnumber(deviceSerialNumber);
-		equipment.setInstitutionaddress(institutionAddress);
-		equipment.setInstitutionname(institutionName);
-		equipment.setInstitutionaldepartmentname(institutionalDepartmentName);
-		equipment.setManufacturer(manufacturer);
-		equipment.setManufacturermodelname(manufacturerModelName);
-		equipment.setModality(modality);
+		equipment.setSerial(deviceSerialNumber);
+		equipment.setEndereco(institutionAddress);
+		equipment.setInstituicao(institutionName);
+		equipment.setDepartamento(institutionalDepartmentName);
+		equipment.setFabricante(manufacturer);
+		equipment.setModelo(manufacturerModelName);
+		equipment.setNomemodality(modality);
 		equipment.setSoftwareversion(softwareVersion);
 		equipment.setStationname(stationName);
 

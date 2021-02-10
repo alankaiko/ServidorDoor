@@ -19,31 +19,12 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 @Entity
 @Table(name="study")
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@idstudy")
 public class Study implements Serializable {
 	private static final long serialVersionUID = 1L;
-	public static final String FIND_BY_PATIENT = "Study.findByPatient";
-    public static final String FIND_BY_STUDY_IUID = "Study.findByStudyIUID";
-    public static final String FIND_BY_STUDY_IUID_EAGER = "Study.findByStudyIUIDEager";
-    public static final String UPDATE_ACCESS_TIME = "Study.UpdateAccessTime";
-    public static final String SET_STUDY_SIZE = "Study.setStudySize";
-    public static final String SET_COMPLETENESS = "Study.setCompleteness";
-    public static final String INCREMENT_FAILED_RETRIEVES = "Study.incrementFailedRetrieves";
-    public static final String COUNT_STUDIES_OF_PATIENT = "Study.countStudiesOfPatient";
-    public static final String GET_EXPIRED_STUDIES = "Study.getExpiredStudies";
-    public static final String CLAIM_EXPIRED_STUDY = "Study.claimExpiredStudy";
-    public static final String STUDY_IUIDS_BY_ACCESSION_NUMBER = "Study.studyIUIDsByAccessionNumber";
-    public static final String FIND_PK_BY_STUDY_UID = "Study.findPkByStudyUID";
-    public static final String STORAGE_IDS_BY_STUDY_UID = "Study.storageIDsByStudyUID";
-    public static final String SET_STORAGE_IDS = "Study.setStorageIDs";
-    public static final String UPDATE_ACCESS_CONTROL_ID = "Study.updateAccessControlID";
-
-	private Long idstudy;
+	
+	private Long codigo;
 	private String accessionnumber;
 	private String studyid;
 	private String studyinstanceuid;
@@ -54,9 +35,9 @@ public class Study implements Serializable {
 	private String studystatusid;
 	private String additionalpatienthistory;
 	private String admittingdiagnosesdescription;
-	private Date datecreate;
-	private Date datemodify;
-	private Patient patient;
+	private Date datacriacao;
+	private Date datamodificacao;
+	private Paciente paciente;
 	private List<Series> series;
 
 	public Study() {
@@ -65,12 +46,12 @@ public class Study implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Long getIdstudy() {
-		return idstudy;
+	public Long getCodigo() {
+		return codigo;
 	}
-
-	public void setIdstudy(Long idstudy) {
-		this.idstudy = idstudy;
+	
+	public void setCodigo(Long codigo) {
+		this.codigo = codigo;
 	}
 
 	@Column(length = 160)
@@ -164,31 +145,31 @@ public class Study implements Serializable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	public Date getDatecreate() {
-		return datecreate;
+	public Date getDatacriacao() {
+		return datacriacao;
 	}
-
-	public void setDatecreate(Date datecreate) {
-		this.datecreate = datecreate;
+	
+	public void setDatacriacao(Date datacriacao) {
+		this.datacriacao = datacriacao;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	public Date getDatemodify() {
-		return datemodify;
+	public Date getDatamodificacao() {
+		return datamodificacao;
 	}
-
-	public void setDatemodify(Date datemodify) {
-		this.datemodify = datemodify;
+	
+	public void setDatamodificacao(Date datamodificacao) {
+		this.datamodificacao = datamodificacao;
 	}
 
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "tbl_patient_id", referencedColumnName = "idpatient")
-	public Patient getPatient() {
-		return patient;
+	@JoinColumn(name = "tbl_paciente_id", referencedColumnName = "idpatient")
+	public Paciente getPaciente() {
+		return paciente;
 	}
-
-	public void setPatient(Patient param) {
-		this.patient = param;
+	
+	public void setPaciente(Paciente paciente) {
+		this.paciente = paciente;
 	}
 
 	@OneToMany(mappedBy = "study")
@@ -203,10 +184,10 @@ public class Study implements Serializable {
 	@PreUpdate
 	@PrePersist
 	public void updateTimeStamps() {
-		datemodify = new Date();
+		datamodificacao = new Date();
 
-		if (datecreate == null)
-			datecreate = new Date();
+		if (datacriacao == null)
+			datacriacao = new Date();
 	}
 
 }

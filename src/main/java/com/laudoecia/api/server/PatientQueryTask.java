@@ -14,7 +14,7 @@ import org.dcm4che3.net.service.BasicQueryTask;
 import org.dcm4che3.net.service.DicomServiceException;
 import org.dcm4che3.util.StringUtils;
 
-import com.laudoecia.api.domain.Patient;
+import com.laudoecia.api.domain.Paciente;
 import com.laudoecia.api.service.PatientService;
 import com.laudoecia.api.utils.Utils;
 

@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import com.laudoecia.api.domain.enuns.DIA_DA_SEMANA;
 import com.laudoecia.api.domain.enuns.TIPO_BACKUP;
@@ -24,29 +25,15 @@ import com.laudoecia.api.domain.enuns.TIPO_BACKUP;
 public class BackupAutomatico implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private Long codigo;
+	private ParametrosDoSistema parametrosdosistema;
+	private DIA_DA_SEMANA diadasemana;
+	private TIPO_BACKUP tipo;
+	private Date horario;
+	private String diretoriodoarquivo;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long codigo;
-
-	@JoinColumn(name = "parametrosdosistema_codigo", referencedColumnName = "codigo", nullable = false)
-	@ManyToOne(optional = false, fetch = FetchType.LAZY)
-	private ParametrosDoSistema parametrosDoSistema;
-
-	@Enumerated(EnumType.STRING)
-	@Column(name = "diadasemana", nullable = false)
-	private DIA_DA_SEMANA diaDaSemana;
-
-	@Enumerated(EnumType.STRING)
-	@Column(name = "tipo", nullable = false)
-	private TIPO_BACKUP tipo;
-
-	@Column(name = "horario", nullable = true)
-	@Temporal(javax.persistence.TemporalType.TIME)
-	private Date horario;
-
-	@Column(name = "diretoriodoarquivo", nullable = false)
-	private String diretorioDoArquivo;
-
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -55,28 +42,33 @@ public class BackupAutomatico implements Serializable {
 		this.codigo = codigo;
 	}
 
-	public DIA_DA_SEMANA getDiaDaSemana() {
-		return diaDaSemana;
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	public DIA_DA_SEMANA getDiadasemana() {
+		return diadasemana;
+	}
+	
+	public void setDiadasemana(DIA_DA_SEMANA diadasemana) {
+		this.diadasemana = diadasemana;
 	}
 
-	public void setDiaDaSemana(DIA_DA_SEMANA diaDaSemana) {
-		this.diaDaSemana = diaDaSemana;
+	@Column(nullable = false)
+	public String getDiretoriodoarquivo() {
+		return diretoriodoarquivo;
 	}
-
-	public String getDiretorioDoArquivo() {
-		return diretorioDoArquivo;
-	}
-
-	public void setDiretorioDoArquivo(String diretorioDoArquivo) {
-		this.diretorioDoArquivo = diretorioDoArquivo;
-		if (!(diretorioDoArquivo == null || diretorioDoArquivo.isEmpty())) {
-			if (diretorioDoArquivo.endsWith("/") || diretorioDoArquivo.endsWith("\\")) {
+	
+	public void setDiretoriodoarquivo(String diretoriodoarquivo) {
+		this.diretoriodoarquivo = diretoriodoarquivo;
+		if (!(diretoriodoarquivo == null || diretoriodoarquivo.isEmpty())) {
+			if (diretoriodoarquivo.endsWith("/") || diretoriodoarquivo.endsWith("\\")) {
 			} else {
-				this.diretorioDoArquivo += "\\";
+				this.diretoriodoarquivo += "\\";
 			}
 		}
 	}
 
+	@Column(nullable = true)
+	@Temporal(TemporalType.TIME)
 	public Date getHorario() {
 		return horario;
 	}
@@ -85,14 +77,18 @@ public class BackupAutomatico implements Serializable {
 		this.horario = horario;
 	}
 
-	public ParametrosDoSistema getParametrosDoSistema() {
-		return parametrosDoSistema;
+	@JoinColumn(name = "parametrosdosistema_codigo", referencedColumnName = "codigo", nullable = false)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
+	public ParametrosDoSistema getParametrosdosistema() {
+		return parametrosdosistema;
+	}
+	
+	public void setParametrosdosistema(ParametrosDoSistema parametrosdosistema) {
+		this.parametrosdosistema = parametrosdosistema;
 	}
 
-	public void setParametrosDoSistema(ParametrosDoSistema parametrosDoSistema) {
-		this.parametrosDoSistema = parametrosDoSistema;
-	}
-
+	@Enumerated(EnumType.STRING)
+	@Column(name = "tipo", nullable = false)
 	public TIPO_BACKUP getTipo() {
 		return tipo;
 	}

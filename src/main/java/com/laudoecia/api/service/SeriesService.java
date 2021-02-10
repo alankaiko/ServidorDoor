@@ -97,7 +97,7 @@ public class SeriesService {
 
 	public List<Series> BuscarPorIdEstudo(Long idstudy) {
 		try {
-			return this.dao.findByStudyIdstudy(idstudy);
+			return this.dao.findByStudyCodigo(idstudy);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo ------------------ de StudyService");
 			e.printStackTrace();
@@ -127,7 +127,7 @@ public class SeriesService {
 
 	public List<Series> BuscarTodosEstudosPorPacietne(Long idpatient) {
 		try {
-			return this.dao.findAllByStudyPatientIdpatient(idpatient);
+			return this.dao.findAllByStudyPacienteIdpatient(idpatient);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo BuscarTodosEstudosPorPacietne------------------ de StudyService");
 			e.printStackTrace();

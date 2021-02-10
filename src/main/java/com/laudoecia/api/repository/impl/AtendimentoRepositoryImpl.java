@@ -17,8 +17,8 @@ import org.springframework.data.domain.Pageable;
 
 import com.laudoecia.api.domain.Atendimento;
 import com.laudoecia.api.domain.Atendimento_;
-import com.laudoecia.api.domain.Patient;
-import com.laudoecia.api.domain.Patient_;
+import com.laudoecia.api.domain.Paciente;
+import com.laudoecia.api.domain.Paciente_;
 import com.laudoecia.api.domain.ProfissionalSolicitante;
 import com.laudoecia.api.domain.ProfissionalSolicitante_;
 import com.laudoecia.api.repository.filtro.AtendimentoFilter;
@@ -48,15 +48,15 @@ public class AtendimentoRepositoryImpl implements AtendimentoRepositoryQuery{
 		List<Predicate> lista= new ArrayList<Predicate>();
 
 		CriteriaBuilder builderpac = em.getCriteriaBuilder();
-		CriteriaQuery<Patient> criteriapac = builderpac.createQuery(Patient.class);
-		Root<Patient> rootpac = criteriapac.from(Patient.class);
+		CriteriaQuery<Paciente> criteriapac = builderpac.createQuery(Paciente.class);
+		Root<Paciente> rootpac = criteriapac.from(Paciente.class);
 		
 		CriteriaBuilder buildersol = em.getCriteriaBuilder();
 		CriteriaQuery<ProfissionalSolicitante> criteriasol = buildersol.createQuery(ProfissionalSolicitante.class);
 		Root<ProfissionalSolicitante> rootesol = criteriasol.from(ProfissionalSolicitante.class);
 		
 		if(filtro.getPatientname() != null)
-			lista.add(builder.equal(rootpac.get(Patient_.patientname), filtro.getPatientname()));
+			lista.add(builder.equal(rootpac.get(Paciente_.nome), filtro.getPatientname()));
 		
 		if(filtro.getSolicitantenome() != null)
 			lista.add(builder.equal(rootesol.get(ProfissionalSolicitante_.nome), filtro.getSolicitantenome()));

@@ -20,8 +20,7 @@ public class ScheduledStationAETitle implements Serializable {
 	private String aetitle;
 	private MWLItem mwlitem;
 
-	public ScheduledStationAETitle() {
-	}
+	public ScheduledStationAETitle() {}
 
 	public ScheduledStationAETitle(String aetitle) {
 		this.aetitle = aetitle;
@@ -47,7 +46,7 @@ public class ScheduledStationAETitle implements Serializable {
 	}
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "mwl_item_fk")
+	@JoinColumn(name = "mwlitem_id", nullable = true)
 	public MWLItem getMwlitem() {
 		return mwlitem;
 	}

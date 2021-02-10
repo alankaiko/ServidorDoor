@@ -20,7 +20,7 @@ public class ModeloDeLaudoDoProc implements Serializable{
 	private ProcedimentoMedico procedimentomedico;
 	private ModeloDeLaudo modelodelaudo;
 	private String descricao;
-	private String customstring;
+	private String textogeral;
 	private int prioridade = 0;
 
 	@Id
@@ -35,12 +35,12 @@ public class ModeloDeLaudoDoProc implements Serializable{
 	}
 
 	@Column(name = "customstring", nullable = true, length = 100000)
-	public String getCustomstring() {
-		return customstring;
+	public String getTextogeral() {
+		return textogeral;
 	}
 	
-	public void setCustomstring(String customstring) {
-		this.customstring = customstring;
+	public void setTextogeral(String textogeral) {
+		this.textogeral = textogeral;
 	}
 
 	public String getDescricao() {

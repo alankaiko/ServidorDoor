@@ -50,7 +50,7 @@ public class InstanceResource {
 	@PostMapping
 	public ResponseEntity<Instance> Salvar(@Valid @RequestBody Instance instance, HttpServletResponse resposta){
 		Instance salvo = this.service.Criar(instance);
-		this.publisher.publishEvent(new RecursoCriadoEvent(this, resposta, salvo.getIdinstance()));
+		this.publisher.publishEvent(new RecursoCriadoEvent(this, resposta, salvo.getCodigo()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
 	}
 	

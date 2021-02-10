@@ -27,7 +27,7 @@ public class Atendimento implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long codigo;
-	private Patient patient;
+	private Paciente paciente;
 	private Convenio convenio;
 	private ProfissionalSolicitante solicitante;
 	private List<ProcedimentoAtendimento> procedimentos;
@@ -55,13 +55,13 @@ public class Atendimento implements Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
-	@JoinColumn(name = "tbl_patient_id", referencedColumnName = "idpatient")
-	public Patient getPatient() {
-		return patient;
+	@JoinColumn(name = "tbl_paciente_id", referencedColumnName = "idpatient")
+	public Paciente getPaciente() {
+		return paciente;
 	}
-
-	public void setPatient(Patient patient) {
-		this.patient = patient;
+	
+	public void setPaciente(Paciente paciente) {
+		this.paciente = paciente;
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
@@ -187,7 +187,7 @@ public class Atendimento implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Atendimento [codigo=" + codigo + ", patient=" + patient + ", convenio=" + convenio + ", solicitante="
+		return "Atendimento [codigo=" + codigo + ", paciente=" + paciente + ", convenio=" + convenio + ", solicitante="
 				+ solicitante + ", procedimentos=" + procedimentos + ", dataatendimento=" + dataatendimento
 				+ ", observacoes=" + observacoes + "]";
 	}

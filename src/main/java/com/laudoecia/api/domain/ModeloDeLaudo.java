@@ -13,8 +13,6 @@ import javax.persistence.Table;
 @Table(name = "modelodelaudo")
 public class ModeloDeLaudo implements Serializable {
 	private static final long serialVersionUID = 1L;
-	public static final int DIVERSOS = 5;
-	public static final int TEXTO_LIVRE = 27;
 
 	private Long codigo;
 	private String nome;

@@ -31,13 +31,13 @@ public class InstanceRepositoryImpl implements InstanceRepositoryQuery{
 		Root<Tagimagem> rootteste = criteria.from(Tagimagem.class);
 		
 		criteria.orderBy(builder.asc(root.get("codigo")));
-		criteria.where(builder.equal(root.get(Instance_.idinstance), idinstance));
+		criteria.where(builder.equal(root.get(Instance_.codigo), idinstance));
 		//cq.where(cb.equal(model.get("id"), modelId));
 		
 		
 		criteria.where(builder.equal(root.get("idinstance"), idinstance));
 		
-		criteria.select(builder.construct(ResumoInstance.class, root.get(Instance_.idinstance), 
+		criteria.select(builder.construct(ResumoInstance.class, root.get(Instance_.codigo), 
 			root.get(Instance_.mediastoragesopinstanceuid), rootteste.get(Tagimagem_.codigo)));
 		
 		

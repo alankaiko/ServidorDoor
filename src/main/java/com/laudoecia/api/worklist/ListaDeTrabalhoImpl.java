@@ -18,15 +18,12 @@ import org.dcm4che3.net.service.DicomServiceException;
 
 import com.laudoecia.api.domain.MWLItem;
 import com.laudoecia.api.domain.MWLItem_;
-import com.laudoecia.api.domain.Patient;
-import com.laudoecia.api.worklistes.ConstrutorQueryWork;
-import com.laudoecia.api.worklistes.QueryContext;
+import com.laudoecia.api.domain.Paciente;
 
 public class ListaDeTrabalhoImpl implements ListaDeTrabalhoQuery{
 	protected final EntityManager conexaobanco;
     protected final QueryContext contexto;
     protected final CriteriaBuilder criteriabuilder;
-    protected final ConstrutorQueryWork work;
     private Stream<MWLItem> resultado;
     private Iterator<MWLItem> itera;
     private int desl;
@@ -39,13 +36,12 @@ public class ListaDeTrabalhoImpl implements ListaDeTrabalhoQuery{
 		this.contexto = contexto;
         this.conexaobanco = conexaobanco;
         this.criteriabuilder = this.conexaobanco.getCriteriaBuilder();
-        this.work = new ConstrutorQueryWork(criteriabuilder);
 	}
 
 	public Attributes CriarAtributos(MWLItem results) {
 		try {
 			ConverterParaAtributo converte = new ConverterParaAtributo();
-			Attributes atributos = converte.ConverterPadaAtributos(results);
+			Attributes atributos = converte.ConverterParaAtributos(results);
 			
 			converte = null;
 			return atributos;
@@ -70,7 +66,7 @@ public class ListaDeTrabalhoImpl implements ListaDeTrabalhoQuery{
         
 		CriteriaQuery<MWLItem> query = this.criteriabuilder.createQuery(MWLItem.class);
 		Root<MWLItem> root = query.from(MWLItem.class);
-		Join<MWLItem, Patient> rootpatient = root.join(MWLItem_.patient);
+		Join<MWLItem, Paciente> rootpatient = root.join(MWLItem_.paciente);
 		query.orderBy(this.criteriabuilder.asc(root.get("codigo")));
 		
 		Predicate[] predicato = AdicionarRestricoes(this.criteriabuilder, root, rootpatient);
@@ -81,7 +77,7 @@ public class ListaDeTrabalhoImpl implements ListaDeTrabalhoQuery{
         itera = resultado.iterator();
     }
 	    
-    private Predicate[] AdicionarRestricoes(CriteriaBuilder builder, Root<MWLItem> root, Join<MWLItem, Patient> rootpatient) {
+    private Predicate[] AdicionarRestricoes(CriteriaBuilder builder, Root<MWLItem> root, Join<MWLItem, Paciente> rootpatient) {
 		List<Predicate> lista = new ArrayList<Predicate>();
 	
 //			if (!StringUtils.isEmpty(filtro.getDescricao()))

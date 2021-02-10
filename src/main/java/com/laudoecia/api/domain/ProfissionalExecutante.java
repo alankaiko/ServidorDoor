@@ -24,12 +24,12 @@ public class ProfissionalExecutante implements Serializable {
 	private String numnoconselho;
 	private Contato contato;
 	private Endereco endereco;
-	private TISS_Conselho conselho;
+	private TISSConselho conselho;
 	private String frasepessoal = "";
 	private byte[] assinatura;
-	private double asswidth = 0;
-	private double assheight = 0;
-	private int espacoass = 10;
+	private double largura = 0;
+	private double algura = 0;
+	private int espaco = 10;
 	private long version = 0;
 
 	@Id
@@ -83,11 +83,11 @@ public class ProfissionalExecutante implements Serializable {
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "tabela_conselho_id", referencedColumnName = "codigo")
-	public TISS_Conselho getConselho() {
+	public TISSConselho getConselho() {
 		return conselho;
 	}
 
-	public void setConselho(TISS_Conselho conselho) {
+	public void setConselho(TISSConselho conselho) {
 		this.conselho = conselho;
 	}
 
@@ -107,28 +107,28 @@ public class ProfissionalExecutante implements Serializable {
 		this.assinatura = assinatura;
 	}
 
-	public double getAsswidth() {
-		return asswidth;
+	public double getLargura() {
+		return largura;
+	}
+	
+	public void setLargura(double largura) {
+		this.largura = largura;
 	}
 
-	public void setAsswidth(double asswidth) {
-		this.asswidth = asswidth;
+	public double getAlgura() {
+		return algura;
+	}
+	
+	public void setAlgura(double algura) {
+		this.algura = algura;
 	}
 
-	public double getAssheight() {
-		return assheight;
+	public int getEspaco() {
+		return espaco;
 	}
-
-	public void setAssheight(double assheight) {
-		this.assheight = assheight;
-	}
-
-	public int getEspacoass() {
-		return espacoass;
-	}
-
-	public void setEspacoass(int espacoass) {
-		this.espacoass = espacoass;
+	
+	public void setEspaco(int espaco) {
+		this.espaco = espaco;
 	}
 
 	public long getVersion() {

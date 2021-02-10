@@ -95,7 +95,7 @@ public class StudyService {
 
 	public List<Study> BuscarPorIdPaciente(Long idpatient) {
 		try {
-			return this.dao.findByPatientIdpatient(idpatient);
+			return this.dao.findByPacienteIdpatient(idpatient);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo BuscarPorIdPaciente------------------ de StudyService");
 			e.printStackTrace();

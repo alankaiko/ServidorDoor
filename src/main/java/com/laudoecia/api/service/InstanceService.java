@@ -86,7 +86,7 @@ public class InstanceService {
 
 	public List<Instance> BuscarPorIdSerieDaInstancia(Long idseries) {
 		try {
-			return this.dao.findBySeriesIdseries(idseries);
+			return this.dao.findBySeriesCodigo(idseries);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo BuscarPorIdSerieDaInstancia------------------ de InstanceRepository");
 			e.printStackTrace();
@@ -106,7 +106,7 @@ public class InstanceService {
 
 	public List<Instance> BuscarPacientesPeloEstudoSerie(Long idpatient) {
 		try {
-			return this.dao.findAllByseriesStudyPatientIdpatient(idpatient);
+			return this.dao.findAllByseriesStudyPacienteIdpatient(idpatient);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo BuscarPacientesPeloEstudoSerie------------------ de InstanceRepository");
 			e.printStackTrace();
@@ -118,7 +118,7 @@ public class InstanceService {
 		try {
 			Instance insta = this.BuscarPorId(codigo);
 			ResumoInstance resumo = new ResumoInstance();
-			resumo.setIdinstance(insta.getIdinstance());
+			resumo.setIdinstance(insta.getCodigo());
 			resumo.setMediastoragesopinstanceuid(insta.getMediastoragesopinstanceuid());
 			resumo.setTagimagem(insta.getTagimagem().getCodigo());
 			return resumo;

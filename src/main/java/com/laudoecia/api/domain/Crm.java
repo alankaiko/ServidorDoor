@@ -23,7 +23,7 @@ public class Crm implements Serializable {
 	private Long codigo;
 	private String crm;
 	private String nome;
-	private UF uf;
+	private Estado estado;
 	private List<EspecialidadeMedica> especialidades;
 
 	@Id
@@ -56,12 +56,12 @@ public class Crm implements Serializable {
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "tabela_uf", referencedColumnName = "codigo", nullable = false)
-	public UF getUf() {
-		return uf;
+	public Estado getEstado() {
+		return estado;
 	}
 	
-	public void setUf(UF uf) {
-		this.uf = uf;
+	public void setEstado(Estado estado) {
+		this.estado = estado;
 	}
 
 	@ManyToMany(fetch = FetchType.LAZY)

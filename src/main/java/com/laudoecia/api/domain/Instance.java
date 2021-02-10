@@ -27,7 +27,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 public class Instance implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private Long idinstance;
+	private Long codigo;
 	private Integer instancenumber;
 	private String patientorientation;
 	private String mediastoragesopinstanceuid;
@@ -47,8 +47,8 @@ public class Instance implements Serializable {
 	private String windowcenter;
 	private String windowwidth;
 	private Date contentdatetime;
-	private Date datecreate;
-	private Date datemodify;
+	private Date datacriacao;
+	private Date datamodificacao;
 	private Series series;
 	private Tagimagem tagimagem;
 
@@ -58,12 +58,12 @@ public class Instance implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Long getIdinstance() {
-		return idinstance;
+	public Long getCodigo() {
+		return codigo;
 	}
-
-	public void setIdinstance(Long idinstance) {
-		this.idinstance = idinstance;
+	
+	public void setCodigo(Long codigo) {
+		this.codigo = codigo;
 	}
 
 	public Integer getInstancenumber() {
@@ -232,21 +232,21 @@ public class Instance implements Serializable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	public Date getDatecreate() {
-		return datecreate;
+	public Date getDatacriacao() {
+		return datacriacao;
 	}
-
-	public void setDatecreate(Date datecreate) {
-		this.datecreate = datecreate;
+	
+	public void setDatacriacao(Date datacriacao) {
+		this.datacriacao = datacriacao;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	public Date getDatemodify() {
-		return datemodify;
+	public Date getDatamodificacao() {
+		return datamodificacao;
 	}
-
-	public void setDatemodify(Date datemodify) {
-		this.datemodify = datemodify;
+	
+	public void setDatamodificacao(Date datamodificacao) {
+		this.datamodificacao = datamodificacao;
 	}
 
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -272,10 +272,10 @@ public class Instance implements Serializable {
 	@PreUpdate
 	@PrePersist
 	public void updateTimeStamps() {
-		datemodify = new Date();
+		datamodificacao = new Date();
 
-		if (datecreate == null)
-			datecreate = new Date();
+		if (datacriacao == null)
+			datacriacao = new Date();
 	}
 	
 }

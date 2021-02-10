@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.laudoecia.api.domain.Patient;
+import com.laudoecia.api.domain.Paciente;
 import com.laudoecia.api.domain.Series;
 import com.laudoecia.api.domain.Study;
 import com.laudoecia.api.event.RecursoCriadoEvent;
@@ -41,7 +41,7 @@ public class ServerDicom {
 	private ApplicationEventPublisher publisher;
 
 	@GetMapping
-	public List<Patient> ListarPacientes() {
+	public List<Paciente> ListarPacientes() {
 		return this.service.Listar();
 	}
 
@@ -51,25 +51,25 @@ public class ServerDicom {
 	}
 
 	@GetMapping("/filtro")
-	public Page<Patient> ListarPacientes(PatientFilter filtro, Pageable pageable) {
+	public Page<Paciente> ListarPacientes(PatientFilter filtro, Pageable pageable) {
 		return this.service.Listar(filtro, pageable);
 	}
 	
 	@GetMapping("/lista/{idpatient}")
-	public List<Patient> ListarTodos(@PathVariable Long idpatient){
+	public List<Paciente> ListarTodos(@PathVariable Long idpatient){
 		return this.service.ListaPorId(idpatient);
 	}
 
 	@PostMapping
-	public ResponseEntity<Patient> Salvar(@Valid @RequestBody Patient patient, HttpServletResponse resposta) {
-		Patient salvo = this.service.Criar(patient);
+	public ResponseEntity<Paciente> Salvar(@Valid @RequestBody Paciente patient, HttpServletResponse resposta) {
+		Paciente salvo = this.service.Criar(patient);
 		this.publisher.publishEvent(new RecursoCriadoEvent(this, resposta, salvo.getIdpatient()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
 	}
 
 	@GetMapping("/{idpatient}")
-	public ResponseEntity<Patient> PorId(@PathVariable Long idpatient) {
-		Patient patient = this.service.BuscarPorId(idpatient);
+	public ResponseEntity<Paciente> PorId(@PathVariable Long idpatient) {
+		Paciente patient = this.service.BuscarPorId(idpatient);
 		return ResponseEntity.ok(patient);
 	}
 	
@@ -81,8 +81,8 @@ public class ServerDicom {
 	}
 
 	@PutMapping("/{idpatient}")
-	public ResponseEntity<Patient> Atualizar(@PathVariable Long idpatient, @Valid @RequestBody Patient patient) {
-		Patient salvo = this.service.Atualizar(idpatient, patient);
+	public ResponseEntity<Paciente> Atualizar(@PathVariable Long idpatient, @Valid @RequestBody Paciente patient) {
+		Paciente salvo = this.service.Atualizar(idpatient, patient);
 		return ResponseEntity.ok(salvo);
 	}
 
@@ -94,7 +94,7 @@ public class ServerDicom {
 
 	@GetMapping("/series/{idpatient}")
 	public Series BuscarInstancias(@PathVariable Long idpatient) {
-		Patient paciente = this.service.BuscarPorId(idpatient);
+		Paciente paciente = this.service.BuscarPorId(idpatient);
 		return paciente.getStudyes().get(0).getSeries().get(0);
 	}
 	

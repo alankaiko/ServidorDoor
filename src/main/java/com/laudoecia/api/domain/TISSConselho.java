@@ -1,7 +1,5 @@
 package com.laudoecia.api.domain;
 
-import java.io.Serializable;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,14 +11,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="profissionalsolicitante")
-public class ProfissionalSolicitante implements Serializable {
-	private static final long serialVersionUID = 1L;
+@Table(name = "tissconselho")
+public class TISSConselho {
 
 	private Long codigo;
-	private String nome;
-	private String numnoconselho;
-	private TISSConselho conselho;
+	private Sigla sigla;
+	private String descricao;
+	private Estado estado;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,30 +29,33 @@ public class ProfissionalSolicitante implements Serializable {
 		this.codigo = codigo;
 	}
 
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getNumnoconselho() {
-		return numnoconselho;
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+	@JoinColumn(name = "tbl_sigla_id", referencedColumnName = "codigo")
+	public Sigla getSigla() {
+		return sigla;
 	}
 	
-	public void setNumnoconselho(String numnoconselho) {
-		this.numnoconselho = numnoconselho;
+	public void setSigla(Sigla sigla) {
+		this.sigla = sigla;
 	}
 
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "tabela_conselho_id", referencedColumnName = "codigo")
-	public TISSConselho getConselho() {
-		return conselho;
+	public String getDescricao() {
+		return descricao;
 	}
 
-	public void setConselho(TISSConselho conselho) {
-		this.conselho = conselho;
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+	
+	
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
+	@JoinColumn(name = "tbl_estado_id", referencedColumnName = "codigo")
+	public Estado getEstado() {
+		return estado;
+	}
+	
+	public void setEstado(Estado estado) {
+		this.estado = estado;
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class ProfissionalSolicitante implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ProfissionalSolicitante other = (ProfissionalSolicitante) obj;
+		TISSConselho other = (TISSConselho) obj;
 		if (codigo == null) {
 			if (other.codigo != null)
 				return false;
@@ -82,5 +82,6 @@ public class ProfissionalSolicitante implements Serializable {
 			return false;
 		return true;
 	}
-
+	
+	
 }

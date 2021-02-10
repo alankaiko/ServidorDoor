@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
 
 import com.laudoecia.api.domain.Instance;
-import com.laudoecia.api.domain.Patient;
+import com.laudoecia.api.domain.Paciente;
 import com.laudoecia.api.domain.Study;
 import com.laudoecia.api.repository.PatientRepository;
 import com.laudoecia.api.repository.filtro.PatientFilter;
@@ -46,7 +46,7 @@ public class PatientService {
 	@Autowired
 	StudyService servStudy;
 	
-	public List<Patient> Listar() {
+	public List<Paciente> Listar() {
 		return this.dao.findAll(Sort.by(Sort.Direction.ASC, "datemodify"));
 	}
 	
@@ -54,7 +54,7 @@ public class PatientService {
 		return this.dao.Resumir(filtro, page);		
 	}
 	
-	public List<Patient> ListaPorId(Long codigo) {
+	public List<Paciente> ListaPorId(Long codigo) {
 		try {
 			return this.dao.findByIdpatient(codigo);
 		} catch (Exception e) {
@@ -64,7 +64,7 @@ public class PatientService {
 		}
 	}
 	
-	public Page<Patient> Listar(PatientFilter filtro, Pageable pageable){
+	public Page<Paciente> Listar(PatientFilter filtro, Pageable pageable){
 		try {
 			return this.dao.Filtrar(filtro, pageable);
 		} catch (Exception e) {
@@ -74,7 +74,7 @@ public class PatientService {
 		}
 	}
 
-	public List<Patient> ListarResultMaximo(int primeiro, int maximo) {
+	public List<Paciente> ListarResultMaximo(int primeiro, int maximo) {
 		try {
 			return this.dao.ListarMaximoCom(primeiro, maximo);
 		} catch (Exception e) {
@@ -84,7 +84,7 @@ public class PatientService {
 		}
 	}
 
-	public Patient Criar(Patient patient) {
+	public Paciente Criar(Paciente patient) {
 		try {
 			return this.dao.save(patient);
 		} catch (Exception e) {
@@ -94,8 +94,8 @@ public class PatientService {
 		}
 	}
 
-	public Patient BuscarPorId(Long id) {
-		Optional<Patient> patient = this.dao.findById(id);
+	public Paciente BuscarPorId(Long id) {
+		Optional<Paciente> patient = this.dao.findById(id);
 
 		if (patient.get() == null)
 			throw new EmptyResultDataAccessException(1);
@@ -112,7 +112,7 @@ public class PatientService {
 		}
 	}
 
-	public void Deletar(Patient paciente) {
+	public void Deletar(Paciente paciente) {
 		try {
 			this.dao.delete(paciente);
 		} catch (Exception e) {
@@ -121,9 +121,9 @@ public class PatientService {
 		}
 	}
 
-	public Patient Atualizar(Long id, Patient paciente) {
+	public Paciente Atualizar(Long id, Paciente paciente) {
 		try {
-			Patient salvo = this.BuscarPorId(id);
+			Paciente salvo = this.BuscarPorId(id);
 			BeanUtils.copyProperties(paciente, salvo, "id");
 			return this.Criar(salvo);
 		} catch (Exception e) {
@@ -143,7 +143,7 @@ public class PatientService {
 		}
 	}
 
-	public Patient BuscarPorPacienteId(String patientid) {
+	public Paciente BuscarPorPacienteId(String patientid) {
 		try {
 			return this.dao.findByPatientid(patientid);
 		} catch (Exception e) {
@@ -168,7 +168,7 @@ public class PatientService {
     }
 	
 	public List<Instance> BuscarPorInstanciasDoPaciente(Long idpatient){
-		Patient paciente = this.BuscarPorId(idpatient);
+		Paciente paciente = this.BuscarPorId(idpatient);
 		return paciente.getStudyes().get(0).getSeries().get(0).getInstance();
 	}
 	

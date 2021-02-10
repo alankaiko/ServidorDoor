@@ -17,7 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.laudoecia.api.domain.Atendimento;
-import com.laudoecia.api.domain.Patient;
+import com.laudoecia.api.domain.Paciente;
 import com.laudoecia.api.domain.ProfissionalExecutante;
 import com.laudoecia.api.domain.SubcategoriaCid10;
 import com.laudoecia.api.repository.AtendimentoRepository;
@@ -59,7 +59,7 @@ public class AtendimentoService {
 	
 	public List<Atendimento> BuscarPorNomePaciente(String patientname){
 		try {
-			return this.dao.findByPatientPatientnameStartingWith(patientname);
+			return this.dao.findByPacienteNomeStartingWith(patientname);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo BuscarPorNomePaciente------------------ de AtendimentoService");
 			e.printStackTrace();
@@ -149,8 +149,8 @@ public class AtendimentoService {
 		System.out.println(atendimento.getCodigodecid());
 		SubcategoriaCid10 cid = this.cidservice.BuscarPorId(atendimento.getCodigodecid());
 		ProfissionalExecutante executa = this.executaservice.BuscarPorId(atendimento.getCodigoprofexecutante());
-		List<Patient> lista = new ArrayList<Patient>();
-		lista.add(atendimento.getPatient());
+		List<Paciente> lista = new ArrayList<Paciente>();
+		lista.add(atendimento.getPaciente());
 		
 		
 		Map<String, Object> parametros = new HashMap<>();	

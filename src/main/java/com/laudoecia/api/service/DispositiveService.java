@@ -11,7 +11,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.laudoecia.api.domain.Dispositive;
+import com.laudoecia.api.domain.Modality;
 import com.laudoecia.api.repository.DispositiveRepository;
 
 @Service
@@ -21,11 +21,11 @@ public class DispositiveService {
 	private DispositiveRepository dao;
 	private final Logger LOG = LoggerFactory.getLogger(DispositiveService.class);
 
-	public List<Dispositive> ListarTodos() {
+	public List<Modality> ListarTodos() {
 		return this.dao.findAll(Sort.by(Sort.Direction.ASC, "datemodify"));
 	}
 
-	public Dispositive Criar(Dispositive dispositivo) {
+	public Modality Criar(Modality dispositivo) {
 		try {
 			return this.dao.save(dispositivo);
 		} catch (Exception e) {
@@ -35,8 +35,8 @@ public class DispositiveService {
 		}
 	}
 
-	public Dispositive BuscarPorId(Long id) {
-		Optional<Dispositive> dispositivo = this.dao.findById(id);
+	public Modality BuscarPorId(Long id) {
+		Optional<Modality> dispositivo = this.dao.findById(id);
 
 		if (dispositivo.get() == null)
 			throw new EmptyResultDataAccessException(1);
@@ -53,7 +53,7 @@ public class DispositiveService {
 		}
 	}
 
-	public void Deletar(Dispositive dispositivo) {
+	public void Deletar(Modality dispositivo) {
 		try {
 			this.dao.delete(dispositivo);
 		} catch (Exception e) {
@@ -62,9 +62,9 @@ public class DispositiveService {
 		}
 	}
 
-	public Dispositive Atualizar(Long id, Dispositive dispositivo) {
+	public Modality Atualizar(Long id, Modality dispositivo) {
 		try {
-			Dispositive salvo = this.BuscarPorId(id);
+			Modality salvo = this.BuscarPorId(id);
 			BeanUtils.copyProperties(dispositivo, salvo, "id");
 			return this.Criar(salvo);
 		} catch (Exception e) {
@@ -84,9 +84,9 @@ public class DispositiveService {
 		}
 	}
 
-	public Dispositive BuscarPorSerieEquipamento(Long idseries) {
+	public Modality BuscarPorSerieEquipamento(Long idseries) {
 		try {
-			return this.dao.findBySeriesIdseries(idseries);
+			return this.dao.findBySeriesCodigo(idseries);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo BuscarPorSerieEquipamento------------------ de StudyService");
 			e.printStackTrace();

@@ -77,7 +77,7 @@ public class ParametrosDoSistemaService {
     	
 		byte[] bytes = null;
     	try {
-    		bytes = parametros.getLogomarcaLaudo();
+    		bytes = parametros.getLogomarcalaudo();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}                

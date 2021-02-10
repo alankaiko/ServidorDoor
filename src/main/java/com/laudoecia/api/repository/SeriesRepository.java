@@ -10,7 +10,7 @@ import com.laudoecia.api.repository.impl.SeriesRepositoryQuery;
 
 @Repository
 public interface SeriesRepository extends JpaRepository<Series, Long>, SeriesRepositoryQuery{
-	public List<Series> findByStudyIdstudy(Long idstudy);
+	public List<Series> findByStudyCodigo(Long codigo);
 	public Series findBySeriesinstanceuid(String seriesinstanceuid);
-	public List<Series> findAllByStudyPatientIdpatient(Long idpatient);
+	public List<Series> findAllByStudyPacienteIdpatient(Long idpatient);
 }

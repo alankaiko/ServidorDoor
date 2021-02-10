@@ -10,8 +10,8 @@ import com.laudoecia.api.repository.impl.InstanceRepositoryQuery;
 
 @Repository
 public interface InstanceRepository extends JpaRepository<Instance, Long>, InstanceRepositoryQuery{
-	public List<Instance> findBySeriesIdseries(Long idseries);
+	public List<Instance> findBySeriesCodigo(Long codigo);
 	public Instance findBySopinstanceuid(String sopinstanceuid);
-	public List<Instance> findAllByseriesStudyPatientIdpatient(Long idpatient);
-	public Instance findByIdinstance(Long idpatient);
+	public List<Instance> findAllByseriesStudyPacienteIdpatient(Long idpatient);
+	public Instance findByCodigo(Long codigo);
 }

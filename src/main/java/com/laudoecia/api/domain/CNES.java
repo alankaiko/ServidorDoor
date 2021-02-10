@@ -25,7 +25,7 @@ public class CNES implements Serializable {
 	private String cpf;
 	private String codmunicipio;
 	private String municipio;
-	private UF uf;
+	private Estado estado;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -101,12 +101,12 @@ public class CNES implements Serializable {
 
 	@ManyToOne(optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name = "tabela_uf", referencedColumnName = "codigo", nullable = false)
-	public UF getUf() {
-		return uf;
+	public Estado getEstado() {
+		return estado;
 	}
-
-	public void setUf(UF uf) {
-		this.uf = uf;
+	
+	public void setEstado(Estado estado) {
+		this.estado = estado;
 	}
 
 	@Override

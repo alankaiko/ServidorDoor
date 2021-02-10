@@ -1,7 +1,6 @@
 package com.laudoecia.api.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -29,114 +28,39 @@ import com.laudoecia.api.domain.enuns.VERSAO_DO_SW;
 public class ParametrosDoSistema implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
-
-	@OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "parametrosDoSistema")
-	private List<BackupAutomatico> backups = new ArrayList<>();
-
-	@Column(name = "backupautomaticoenabled", nullable = false)
-	private boolean backupAutomaticoEnabled = true;
-
-	@Column(name = "topmargin", nullable = false)
-	private double topMargin = 1.0;
-
-	@Column(name = "bottommargin", nullable = false)
-	private double bottomMargin = 1.0;
-
-	@Column(name = "leftmargin", nullable = false)
-	private double leftMargin = 1.5;
-
-	@Column(name = "rightmargin", nullable = false)
-	private double rightMargin = 1.0;
-
-	@Column(name = "paperwidth", nullable = false)
-	private double paperWidth = 21.0;
-
-	@Column(name = "paperheight", nullable = false)
-	private double paperHeight = 29.7;
-
-	@Column(name = "imprimecabecalholaudo", nullable = false)
-	private boolean imprimeCabecalhoLaudo = true;
-
-	@Column(name = "tamanhoseprodape", nullable = false)
-	private int tamanhoSepRodape = 1;
-
-	@Column(name = "logomarcalaudo", nullable = true)
-	private byte[] logomarcaLaudo;
-
-	@Column(name = "logomarcawidth", nullable = false)
-	private double logomarcaWidth = 1.0;
-
-	@Column(name = "logomarcaheight", nullable = false)
-	private double logomarcaHeight = 1.0;
-
-	@Column(name = "leftmarginlogomarca", nullable = false)
-	private double leftMarginLogomarca = 0.0;
-
-	@Column(name = "textocabecalholaudo", nullable = true, length = 10000)
-	private String textoCabecalhoLaudo = "";
-
-	@Column(name = "imprimerodapelaudo", nullable = false)
-	private boolean imprimeRodapeLaudo = true;
-
-	@Column(name = "fraserodapelaudo", nullable = true, length = 10000)
-	private String fraseRodapeLaudo = "";
-
-	@Column(name = "textorodapelaudo", nullable = true, length = 10000)
-	private String textoRodapeLaudo = "";
-
-	@Column(name = "imprimepaginacaolaudo", nullable = false)
-	private boolean imprimePaginacaoLaudo = true;
-
-	@Column(name = "bgcolor", nullable = true)
-	private int bgColor = 0;
-
-	@Enumerated(EnumType.STRING)
-	@Column(name = "layoutimagem", nullable = true)
-	private LAYOUT_IMG layoutImagem;
-
-	@Enumerated(EnumType.STRING)
-	@Column(name = "tipodecontroledeacesso", nullable = false)
-	private CONTROLE_DE_ACESSO tipoControleDeAcesso = CONTROLE_DE_ACESSO.SEM_CONTROLE;
-
-	@Column(name = "diretoriodevideos", nullable = false)
-	private String diretorioDeVideos = "C:\\videos";
-
-	@Enumerated(EnumType.STRING)
-	@Column(name = "versaodosw", nullable = false)
-	private VERSAO_DO_SW versaoDoSw = VERSAO_DO_SW.V1;
-
-	@Column(name = "defprinterlaudo", nullable = true)
+	private List<BackupAutomatico> backups;
+	private boolean backupautomaticoenabled = true;
+	private double topmargin = 1.0;
+	private double bottommargin = 1.0;
+	private double leftmargin = 1.5;
+	private double rightmargin = 1.0;
+	private double paperwidth = 21.0;
+	private double paperheight = 29.7;
+	private boolean imprimecabecalholaudo = true;
+	private int tamanhoseprodape = 1;
+	private byte[] logomarcalaudo;
+	private double logomarcawidth = 1.0;
+	private double logomarcaheight = 1.0;
+	private double leftmarginlogomarca = 0.0;
+	private String textocabecalholaudo = "";
+	private boolean imprimerodapelaudo = true;
+	private String fraserodapelaudo = "";
+	private String textorodapelaudo = "";
+	private boolean imprimepaginacaolaudo = true;
+	private int bgcolor = 0;
+	private LAYOUT_IMG layoutimagem;
+	private CONTROLE_DE_ACESSO tipodecontroledeacesso = CONTROLE_DE_ACESSO.SEM_CONTROLE;
+	private String diretoriodevideos = "C:\\videos";
+	private VERSAO_DO_SW versaodosw = VERSAO_DO_SW.V1;
 	private String defprinterlaudo = "";
-
-	@Column(name = "defprinterimagens", nullable = true)
 	private String defprinterimagens = "";
-
-	@Column(name = "imprimirsolcon", nullable = false)
 	private boolean imprimirsolcon = true;
-
-	@Column(name = "imprimiratd", nullable = false)
-	private boolean imprimirAtd = true;
-
-	// <editor-fold defaultstate="collapsed" desc="Versioned">
-
-	@Version
+	private boolean imprimiratd = true;
 	private long version = 0;
 
-	public long getVersion() {
-		return version;
-	}
-
-	public boolean isImprimirAtd() {
-		return imprimirAtd;
-	}
-
-	public void setImprimirAtd(boolean imprimirAtd) {
-		this.imprimirAtd = imprimirAtd;
-	}
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -145,6 +69,7 @@ public class ParametrosDoSistema implements Serializable {
 		this.codigo = codigo;
 	}
 
+	@OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "parametrosdosistema")
 	public List<BackupAutomatico> getBackups() {
 		return Collections.unmodifiableList(backups);
 	}
@@ -157,221 +82,267 @@ public class ParametrosDoSistema implements Serializable {
 		}
 	}
 
-	public String getFraseRodapeLaudo() {
-		return fraseRodapeLaudo;
+	@Column(name = "fraserodapelaudo", nullable = true, length = 10000)
+	public String getFraserodapelaudo() {
+		return fraserodapelaudo;
+	}
+	
+	public void setFraserodapelaudo(String fraserodapelaudo) {
+		this.fraserodapelaudo = fraserodapelaudo;
 	}
 
-	public void setFraseRodapeLaudo(String fraseRodapeLaudo) {
-		this.fraseRodapeLaudo = fraseRodapeLaudo;
-	}
-
-	public byte[] getLogomarcaLaudo() {
-		if (logomarcaLaudo == null) {
+	@Column(name = "logomarcalaudo", nullable = true)
+	public byte[] getLogomarcalaudo() {
+		if (logomarcalaudo == null) {
 			return null;
 		} else {
-			return Arrays.copyOf(logomarcaLaudo, logomarcaLaudo.length);
+			return Arrays.copyOf(logomarcalaudo, logomarcalaudo.length);
 		}
 	}
-
-	public void setLogomarcaLaudo(byte[] logomarcaLaudo) {
-		if (logomarcaLaudo == null) {
-			this.logomarcaLaudo = null;
+	
+	public void setLogomarcalaudo(byte[] logomarcalaudo) {
+		if (logomarcalaudo == null) {
+			this.logomarcalaudo = null;
 		} else {
-			this.logomarcaLaudo = Arrays.copyOf(logomarcaLaudo,
-					logomarcaLaudo.length);
+			this.logomarcalaudo = Arrays.copyOf(logomarcalaudo, logomarcalaudo.length);
 		}
 	}
-
-	public double getLogomarcaHeight() {
-		return logomarcaHeight;
+	
+	@Column(name = "logomarcaheight", nullable = false)
+	public double getLogomarcaheight() {
+		return logomarcaheight;
+	}
+	
+	public void setLogomarcaheight(double logomarcaheight) {
+		this.logomarcaheight = logomarcaheight;
 	}
 
-	public void setLogomarcaHeight(double logomarcaHeight) {
-		this.logomarcaHeight = logomarcaHeight;
+	@Column(name = "logomarcawidth", nullable = false)
+	public double getLogomarcawidth() {
+		return logomarcawidth;
+	}
+	
+	public void setLogomarcawidth(double logomarcawidth) {
+		this.logomarcawidth = logomarcawidth;
 	}
 
-	public double getLogomarcaWidth() {
-		return logomarcaWidth;
+	@Column(name = "leftmarginlogomarca", nullable = false)
+	public double getLeftmarginlogomarca() {
+		return leftmarginlogomarca;
+	}
+	
+	public void setLeftmarginlogomarca(double leftmarginlogomarca) {
+		this.leftmarginlogomarca = leftmarginlogomarca;
 	}
 
-	public void setLogomarcaWidth(double logomarcaWidth) {
-		this.logomarcaWidth = logomarcaWidth;
+	@Column(name = "bottommargin", nullable = false)
+	public double getBottommargin() {
+		return bottommargin;
+	}
+	
+	public void setBottommargin(double bottommargin) {
+		this.bottommargin = bottommargin;
 	}
 
-	public double getLeftMarginLogomarca() {
-		return leftMarginLogomarca;
+	@Column(name = "leftmargin", nullable = false)
+	public double getLeftmargin() {
+		return leftmargin;
+	}
+	
+	public void setLeftmargin(double leftmargin) {
+		this.leftmargin = leftmargin;
 	}
 
-	public void setLeftMarginLogomarca(double leftMarginLogomarca) {
-		this.leftMarginLogomarca = leftMarginLogomarca;
+	@Column(name = "rightmargin", nullable = false)
+	public double getRightmargin() {
+		return rightmargin;
+	}
+	
+	public void setRightmargin(double rightmargin) {
+		this.rightmargin = rightmargin;
 	}
 
-	public double getBottomMargin() {
-		return bottomMargin;
+	@Column(name = "topmargin", nullable = false)
+	public double getTopmargin() {
+		return topmargin;
+	}
+	
+	public void setTopmargin(double topmargin) {
+		this.topmargin = topmargin;
 	}
 
-	public void setBottomMargin(double bottomMargin) {
-		this.bottomMargin = bottomMargin < 0.5 ? 0.5 : bottomMargin;
+	@Column(name = "paperheight", nullable = false)
+	public double getPaperheight() {
+		return paperheight;
+	}
+	
+	public void setPaperheight(double paperheight) {
+		this.paperheight = paperheight;
 	}
 
-	public double getLeftMargin() {
-		return leftMargin;
+	@Column(name = "paperwidth", nullable = false)
+	public double getPaperwidth() {
+		return paperwidth;
+	}
+	
+	public void setPaperwidth(double paperwidth) {
+		this.paperwidth = paperwidth;
 	}
 
-	public void setLeftMargin(double leftMargin) {
-		this.leftMargin = leftMargin < 0.5 ? 0.5 : leftMargin;
+	@Column(name = "backupautomaticoenabled", nullable = false)
+	public boolean isBackupautomaticoenabled() {
+		return backupautomaticoenabled;
+	}
+	
+	public void setBackupautomaticoenabled(boolean backupautomaticoenabled) {
+		this.backupautomaticoenabled = backupautomaticoenabled;
 	}
 
-	public double getRightMargin() {
-		return rightMargin;
+	@Column(name = "imprimecabecalholaudo", nullable = false)
+	public boolean isImprimecabecalholaudo() {
+		return imprimecabecalholaudo;
+	}
+	
+	public void setImprimecabecalholaudo(boolean imprimecabecalholaudo) {
+		this.imprimecabecalholaudo = imprimecabecalholaudo;
 	}
 
-	public void setRightMargin(double rightMargin) {
-		this.rightMargin = rightMargin < 0.5 ? 0.5 : rightMargin;
+	@Column(name = "imprimepaginacaolaudo", nullable = false)
+	public boolean isImprimepaginacaolaudo() {
+		return imprimepaginacaolaudo;
+	}
+	
+	public void setImprimepaginacaolaudo(boolean imprimepaginacaolaudo) {
+		this.imprimepaginacaolaudo = imprimepaginacaolaudo;
 	}
 
-	public double getTopMargin() {
-		return topMargin;
+	@Column(name = "imprimerodapelaudo", nullable = false)
+	public boolean isImprimerodapelaudo() {
+		return imprimerodapelaudo;
+	}
+	
+	public void setImprimerodapelaudo(boolean imprimerodapelaudo) {
+		this.imprimerodapelaudo = imprimerodapelaudo;
 	}
 
-	public void setTopMargin(double topMargin) {
-		this.topMargin = topMargin < 0.5 ? 0.5 : topMargin;
+	@Column(name = "textocabecalholaudo", nullable = true, length = 10000)
+	public String getTextocabecalholaudo() {
+		return textocabecalholaudo;
+	}
+	
+	public void setTextocabecalholaudo(String textocabecalholaudo) {
+		this.textocabecalholaudo = textocabecalholaudo;
 	}
 
-	public double getPaperHeight() {
-		return paperHeight;
+	@Column(name = "textorodapelaudo", nullable = true, length = 10000)
+	public String getTextorodapelaudo() {
+		return textorodapelaudo;
+	}
+	
+	public void setTextorodapelaudo(String textorodapelaudo) {
+		this.textorodapelaudo = textorodapelaudo;
 	}
 
-	public void setPaperHeight(double paperHeight) {
-		this.paperHeight = paperHeight;
+	@Column(name = "bgcolor", nullable = true)
+	public int getBgcolor() {
+		return bgcolor;
+	}
+	
+	public void setBgcolor(int bgcolor) {
+		this.bgcolor = bgcolor;
 	}
 
-	public double getPaperWidth() {
-		return paperWidth;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "layoutimagem", nullable = true)
+	public LAYOUT_IMG getLayoutimagem() {
+		return layoutimagem;
+	}
+	
+	public void setLayoutimagem(LAYOUT_IMG layoutimagem) {
+		this.layoutimagem = layoutimagem;
 	}
 
-	public void setPaperWidth(double paperWidth) {
-		this.paperWidth = paperWidth;
+	@Column(name = "diretoriodevideos", nullable = false)
+	public String getDiretoriodevideos() {
+		return diretoriodevideos;
+	}
+	
+	public void setDiretoriodevideos(String diretoriodevideos) {
+		this.diretoriodevideos = diretoriodevideos;
 	}
 
-	public boolean isBackupAutomaticoEnabled() {
-		return backupAutomaticoEnabled;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "tipodecontroledeacesso", nullable = false)
+	public CONTROLE_DE_ACESSO getTipodecontroledeacesso() {
+		return tipodecontroledeacesso;
+	}
+	
+	public void setTipodecontroledeacesso(CONTROLE_DE_ACESSO tipodecontroledeacesso) {
+		this.tipodecontroledeacesso = tipodecontroledeacesso;
 	}
 
-	public void setBackupAutomaticoEnabled(boolean backupAutomaticoEnabled) {
-		this.backupAutomaticoEnabled = backupAutomaticoEnabled;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "versaodosw", nullable = false)
+	public VERSAO_DO_SW getVersaodosw() {
+		return versaodosw;
+	}
+	
+	public void setVersaodosw(VERSAO_DO_SW versaodosw) {
+		this.versaodosw = versaodosw;
 	}
 
-	public boolean isImprimeCabecalhoLaudo() {
-		return imprimeCabecalhoLaudo;
+	@Column(name = "tamanhoseprodape", nullable = false)
+	public int getTamanhoseprodape() {
+		return tamanhoseprodape;
+	}
+	
+	public void setTamanhoseprodape(int tamanhoseprodape) {
+		this.tamanhoseprodape = tamanhoseprodape;
 	}
 
-	public void setImprimeCabecalhoLaudo(boolean imprimeCabecalhoLaudo) {
-		this.imprimeCabecalhoLaudo = imprimeCabecalhoLaudo;
-	}
-
-	public boolean isImprimePaginacaoLaudo() {
-		return imprimePaginacaoLaudo;
-	}
-
-	public void setImprimePaginacaoLaudo(boolean imprimePaginacaoLaudo) {
-		this.imprimePaginacaoLaudo = imprimePaginacaoLaudo;
-	}
-
-	public boolean isImprimeRodapeLaudo() {
-		return imprimeRodapeLaudo;
-	}
-
-	public void setImprimeRodapeLaudo(boolean imprimeRodapeLaudo) {
-		this.imprimeRodapeLaudo = imprimeRodapeLaudo;
-	}
-
-	public String getTextoCabecalhoLaudo() {
-		return textoCabecalhoLaudo;
-	}
-
-	public void setTextoCabecalhoLaudo(String textoCabecalhoLaudo) {
-		this.textoCabecalhoLaudo = textoCabecalhoLaudo;
-	}
-
-	public String getTextoRodapeLaudo() {
-		return textoRodapeLaudo;
-	}
-
-	public void setTextoRodapeLaudo(String textoRodapeLaudo) {
-		this.textoRodapeLaudo = textoRodapeLaudo;
-	}
-
-	public int getBgColor() {
-		return bgColor;
-	}
-
-	public void setBgColor(int bgColor) {
-		this.bgColor = bgColor;
-	}
-
-	public LAYOUT_IMG getLayoutImagem() {
-		return layoutImagem;
-	}
-
-	public void setLayoutImagem(LAYOUT_IMG layoutImagem) {
-		this.layoutImagem = layoutImagem;
-	}
-
-	public String getDiretorioDeVideos() {
-		return diretorioDeVideos;
-	}
-
-	public void setDiretorioDeVideos(String diretorioDeVideos) {
-		this.diretorioDeVideos = diretorioDeVideos;
-	}
-
-	public CONTROLE_DE_ACESSO getTipoControleDeAcesso() {
-		return tipoControleDeAcesso;
-	}
-
-	public void setTipoControleDeAcesso(CONTROLE_DE_ACESSO tipoControleDeAcesso) {
-		this.tipoControleDeAcesso = tipoControleDeAcesso;
-	}
-
-	public VERSAO_DO_SW getVersaoDoSw() {
-		return versaoDoSw;
-	}
-
-	public void setVersaoDoSw(VERSAO_DO_SW versaoDoSw) {
-		this.versaoDoSw = versaoDoSw;
-	}
-
-	public int getTamanhoSepRodape() {
-		return tamanhoSepRodape;
-	}
-
-	public void setTamanhoSepRodape(int tamanhoSepRodape) {
-		this.tamanhoSepRodape = tamanhoSepRodape;
-	}
-
+	@Column(name = "defprinterlaudo", nullable = true)
 	public String getDefprinterlaudo() {
 		return defprinterlaudo;
 	}
-
+	
 	public void setDefprinterlaudo(String defprinterlaudo) {
 		this.defprinterlaudo = defprinterlaudo;
 	}
 
+	@Column(name = "defprinterimagens", nullable = true)
 	public String getDefprinterimagens() {
 		return defprinterimagens;
 	}
-
+	
 	public void setDefprinterimagens(String defprinterimagens) {
 		this.defprinterimagens = defprinterimagens;
 	}
 
+	@Column(name = "imprimirsolcon", nullable = false)
 	public boolean isImprimirsolcon() {
 		return imprimirsolcon;
 	}
 
 	public void setImprimirsolcon(boolean imprimirsolcon) {
 		this.imprimirsolcon = imprimirsolcon;
+	}
+	
+	@Column(name = "imprimiratd", nullable = false)
+	public boolean isImprimiratd() {
+		return imprimiratd;
+	}
+	
+	public void setImprimiratd(boolean imprimiratd) {
+		this.imprimiratd = imprimiratd;
+	}
+	
+	@Version
+	public long getVersion() {
+		return version;
+	}
+	
+	public void setVersion(long version) {
+		this.version = version;
 	}
 
 	@Override
