@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.laudoecia.api.domain.Imagem;
-import com.laudoecia.api.event.RecursoCriadoEvent;
+import com.laudoecia.api.gerenciarentrada.RecursoCriadoEvent;
+import com.laudoecia.api.modelo.Imagem;
 import com.laudoecia.api.service.ImagemService;
 
 @RestController

@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.laudoecia.api.domain.Licenciado;
-import com.laudoecia.api.event.RecursoCriadoEvent;
+import com.laudoecia.api.gerenciarentrada.RecursoCriadoEvent;
+import com.laudoecia.api.modelo.Licenciado;
 import com.laudoecia.api.repository.filtro.LicenciadoFilter;
 import com.laudoecia.api.service.LicenciadoService;
 

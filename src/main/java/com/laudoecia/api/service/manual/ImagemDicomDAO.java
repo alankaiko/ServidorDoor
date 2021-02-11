@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.laudoecia.api.domain.Imagem;
+import com.laudoecia.api.modelo.Imagem;
 
 public class ImagemDicomDAO {
 private Connection conexao;
@@ -16,7 +16,7 @@ private Connection conexao;
 	}
 	
 	public void Salvar(Imagem imagem){
-		String sql = "insert into imagem(caminho, nomeimagem, extensao, dicom, codigouid) values(?,?,?,?,?)";
+		String sql = "INSERT INTO imagem(caminho, nomeimagem, extensao, dicom, codigouid) VALUES(?,?,?,?,?)";
 		
 		try {
 			PreparedStatement prepara = this.conexao.prepareStatement(sql);
@@ -35,7 +35,7 @@ private Connection conexao;
 	}
 	
 	public void Atualizar(Imagem imagem){
-		String sql = "update imagem set caminho=?, nomeimagem=?, extensao=?, dicom=?, codigouid=? where codigo=?";
+		String sql = "UPDATE imagem SET caminho=?, nomeimagem=?, extensao=?, dicom=?, codigouid=? WHERE codigo=?";
 		
 		PreparedStatement prepara;
 		

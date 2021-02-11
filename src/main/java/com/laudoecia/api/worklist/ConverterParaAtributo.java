@@ -4,7 +4,8 @@ import org.dcm4che3.data.Attributes;
 import org.dcm4che3.data.Tag;
 import org.dcm4che3.data.VR;
 
-import com.laudoecia.api.domain.MWLItem;
+import com.laudoecia.api.modelo.Estudo;
+import com.laudoecia.api.modelo.MWLItem;
 
 public class ConverterParaAtributo {
 
@@ -15,7 +16,7 @@ public class ConverterParaAtributo {
 			atributos.setString(Tag.AccessionNumber, VR.SH, work.getAccessionnumber());	
 			atributos.setString(Tag.ReferringPhysicianName, VR.PN, work.getPaciente().getStudyes().get(0).getReferringphysicianname());
 			atributos.setString(Tag.PatientName, VR.PN, work.getPaciente().getNome());	
-			atributos.setString(Tag.PatientID, VR.LO, work.getPaciente().getPatientid());
+			atributos.setString(Tag.PatientID, VR.LO, work.getPaciente().getCodigo());
 			atributos.setString(Tag.PatientBirthDate, VR.DA, work.getPaciente().getDatanasc().toString());
 			atributos.setString(Tag.PatientSex, VR.CS, work.getPaciente().getSexo());
 			atributos.setString(Tag.PatientSize, VR.DS, work.getPaciente().getTamanho());
@@ -24,11 +25,14 @@ public class ConverterParaAtributo {
 			atributos.setString(Tag.StudyInstanceUID, VR.UI, work.getStudyinstanceuid());
 			atributos.setString(Tag.RequestedProcedureID, VR.SH, work.getRequestedprocedureid());
 			
-			//atributos.setString(Tag.ReferencedStudySequence, VR.SQ, sequencia);	
-				Attributes studosequence = new Attributes();
-				studosequence.setString(Tag.ReferencedSOPClassUID, VR.UI, "");
-				studosequence.setString(Tag.ReferencedSOPInstanceUID, VR.UI, "");	
-			atributos.newSequence(Tag.ReferencedStudySequence, 1).add(studosequence);		
+			for(Estudo estudo : work.getPaciente().getStudyes()) {
+				//atributos.setString(Tag.ReferencedStudySequence, VR.SQ, sequencia);	
+					Attributes studosequence = new Attributes();
+					studosequence.setString(Tag.ReferencedSOPClassUID, VR.UI,"");
+					studosequence.setString(Tag.ReferencedSOPInstanceUID, VR.UI, estudo.getStudyinstanceuid());	
+				atributos.newSequence(Tag.ReferencedStudySequence, 1).add(studosequence);		
+			}
+			
 				
 			//atributos.setString(Tag.RequestedProcedureCodeSequence, VR.SQ, "US");	
 				Attributes procsequence = new Attributes();

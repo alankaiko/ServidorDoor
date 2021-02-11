@@ -2,33 +2,36 @@ package com.laudoecia.api.utils;
 
 import java.util.Date;
 
-import com.laudoecia.api.domain.Modality;
-import com.laudoecia.api.domain.Instance;
-import com.laudoecia.api.domain.Paciente;
-import com.laudoecia.api.domain.Series;
-import com.laudoecia.api.domain.Study;
-import com.laudoecia.api.domain.Tagimagem;
+import com.laudoecia.api.modelo.Equipamento;
+import com.laudoecia.api.modelo.Estudo;
+import com.laudoecia.api.modelo.Instancia;
+import com.laudoecia.api.modelo.Paciente;
+import com.laudoecia.api.modelo.Serie;
+import com.laudoecia.api.modelo.Tagimagem;
 
 public class DicomEntityBuilder {
 
-	public static Paciente newPatient(String patientAge, Date patientBirthday, String patientID, String patientName, String patientSex) {
-
-		Paciente patient = new Paciente();
-		patient.setIdade(patientAge);
-		patient.setDatanasc(Utils.ConverterToLocalDate(patientBirthday));
-		patient.setDatacriacao(Utils.ConverterToLocalDate(new Date()));
-		patient.setPatientid(patientID);
-		patient.setNome(patientName);
-		patient.setSexo(patientSex);
+	public static Paciente NovoPaciente(String idade, Date dataaniversario, String codigo, String nome,
+		String sexo, Date datacriacao, String tamanho, String peso) {
 		
-		return patient;
+		Paciente paciente = new Paciente();
+		paciente.setIdade(idade);
+		paciente.setDatanasc(Utils.ConverterToLocalDate(dataaniversario));
+		paciente.setDatacriacao(Utils.ConverterToLocalDate(datacriacao));
+		paciente.setCodigo(codigo);
+		paciente.setNome(nome);
+		paciente.setSexo(sexo);
+		paciente.setTamanho(tamanho);
+		paciente.setPeso(peso);
+
+		return paciente;
 	}
 
-	public static Study newStudy(String accessionNumber, String additionalPatientHistory,
+	public static Estudo NovoEstudo(String accessionNumber, String additionalPatientHistory,
 			String admittingDiagnosesDescription, String referringPhysicianName, Date studyDateTime, String studyID,
 			String studyDescription, String studyInstanceUID, String studyPriorityID, String studyStatusID) {
 
-		Study study = new Study();
+		Estudo study = new Estudo();
 		study.setAccessionnumber(accessionNumber);
 		study.setAdditionalpatienthistory(additionalPatientHistory);
 		study.setAdmittingdiagnosesdescription(admittingDiagnosesDescription);
@@ -43,11 +46,11 @@ public class DicomEntityBuilder {
 		return study;
 	}
 
-	public static Series newSeries(String bodyPartExamined, String laterality, String operatorsName,
+	public static Serie NovaSerie(String bodyPartExamined, String laterality, String operatorsName,
 			String patientPosition, String protocolName, Date seriesDateTime, String seriesDescription,
 			String seriesInstanceUID, Integer seriesNumber) {
 
-		Series series = new Series();
+		Serie series = new Serie();
 		series.setBodypartexamined(bodyPartExamined);
 		series.setLaterality(laterality);
 		series.setOperatorsname(operatorsName);
@@ -61,11 +64,11 @@ public class DicomEntityBuilder {
 		return series;
 	}
 
-	public static Modality newEquipment(String conversionType, String deviceSerialNumber, String institutionAddress,
+	public static Equipamento NovoEquipamento(String conversionType, String deviceSerialNumber, String institutionAddress,
 			String institutionName, String institutionalDepartmentName, String manufacturer,
 			String manufacturerModelName, String modality, String softwareVersion, String stationName) {
 
-		Modality equipment = new Modality();
+		Equipamento equipment = new Equipamento();
 		equipment.setConversiontype(conversionType);
 		equipment.setSerial(deviceSerialNumber);
 		equipment.setEndereco(institutionAddress);
@@ -80,13 +83,13 @@ public class DicomEntityBuilder {
 		return equipment;
 	}
 
-	public static Instance newInstance(Date acquisitionDateTime, Date contentDateTime, Integer exposureTime,
+	public static Instancia newInstance(Date acquisitionDateTime, Date contentDateTime, Integer exposureTime,
 			String imageOrientation, String imagePosition, String imageType, Integer instanceNumber, String kvp,
 			String mediaStorageSopInstanceUID, String patientOrientation, Float pixelSpacing, Float sliceLocation,
 			Float sliceThickness, String sopClassUID, String sopInstanceUID, String transferSyntaxUID,
 			String windowCenter, String windowWidth, Integer xrayTubeCurrent) {
 
-		Instance instance = new Instance();
+		Instancia instance = new Instancia();
 		instance.setAcquisitiondatetime(acquisitionDateTime);
 		instance.setContentdatetime(contentDateTime);
 		instance.setExposuretime(exposureTime);

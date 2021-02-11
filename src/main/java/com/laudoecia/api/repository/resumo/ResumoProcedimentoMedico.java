@@ -1,6 +1,6 @@
 package com.laudoecia.api.repository.resumo;
 
-import com.laudoecia.api.domain.GrupoProcedimento;
+import com.laudoecia.api.modelo.GrupoProcedimento;
 
 public class ResumoProcedimentoMedico {
 	private Long codigo;

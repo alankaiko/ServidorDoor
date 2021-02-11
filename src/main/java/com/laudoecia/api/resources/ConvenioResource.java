@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.laudoecia.api.domain.Convenio;
-import com.laudoecia.api.event.RecursoCriadoEvent;
+import com.laudoecia.api.gerenciarentrada.RecursoCriadoEvent;
+import com.laudoecia.api.modelo.Convenio;
 import com.laudoecia.api.repository.filtro.ConvenioFilter;
 import com.laudoecia.api.repository.resumo.ResumoConvenio;
 import com.laudoecia.api.service.ConvenioService;

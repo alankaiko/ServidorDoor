@@ -12,7 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.laudoecia.api.domain.Estado;
+import com.laudoecia.api.modelo.Estado;
 import com.laudoecia.api.repository.EstadoRepository;
 import com.laudoecia.api.repository.filtro.EstadoFilter;
 

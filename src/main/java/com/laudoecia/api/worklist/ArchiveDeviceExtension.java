@@ -21,8 +21,6 @@ import org.dcm4che3.io.BulkDataDescriptor;
 import org.dcm4che3.net.DeviceExtension;
 import org.dcm4che3.util.StringUtils;
 
-import com.laudoecia.api.utilities.FuzzyStr;
-
 public class ArchiveDeviceExtension extends DeviceExtension {
 
     public static final String AUDIT_UNKNOWN_STUDY_INSTANCE_UID = "1.2.40.0.13.1.15.110.3.165.1";
@@ -177,8 +175,6 @@ public class ArchiveDeviceExtension extends DeviceExtension {
     private final Map<String,String> impaxReportProperties = new HashMap<>();
     private final Map<String, String> importReportTemplateParams = new HashMap<>();
 
-    private transient FuzzyStr fuzzyStr;
-
     public String getDefaultCharacterSet() {
         return defaultCharacterSet;
     }
@@ -213,30 +209,6 @@ public class ArchiveDeviceExtension extends DeviceExtension {
 
     public String getFuzzyAlgorithmClass() {
         return fuzzyAlgorithmClass;
-    }
-
-    public void setFuzzyAlgorithmClass(String fuzzyAlgorithmClass) {
-        this.fuzzyStr = fuzzyStr(fuzzyAlgorithmClass);
-        this.fuzzyAlgorithmClass = fuzzyAlgorithmClass;
-    }
-
-    public FuzzyStr getFuzzyStr() {
-        if (fuzzyStr == null)
-            if (fuzzyAlgorithmClass == null)
-                throw new IllegalStateException("No Fuzzy Algorithm Class configured");
-            else
-                fuzzyStr = fuzzyStr(fuzzyAlgorithmClass);
-        return fuzzyStr;
-    }
-
-    private static FuzzyStr fuzzyStr(String s) {
-        try {
-            return (FuzzyStr) Class.forName(s).newInstance();
-        } catch (RuntimeException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new IllegalArgumentException(s);
-        }
     }
 
     public boolean isRecordAttributeModification() {
@@ -1495,7 +1467,6 @@ public class ArchiveDeviceExtension extends DeviceExtension {
         upsEventSCUs = arcdev.upsEventSCUs;
         upsEventSCUKeepAlive = arcdev.upsEventSCUKeepAlive;
         fuzzyAlgorithmClass = arcdev.fuzzyAlgorithmClass;
-        fuzzyStr = arcdev.fuzzyStr;
         bulkDataDescriptorID = arcdev.bulkDataDescriptorID;
         seriesMetadataStorageIDs = arcdev.seriesMetadataStorageIDs;
         seriesMetadataFetchSize = arcdev.seriesMetadataFetchSize;

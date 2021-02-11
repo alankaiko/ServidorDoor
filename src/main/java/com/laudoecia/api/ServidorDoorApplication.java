@@ -25,9 +25,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;
-import com.laudoecia.api.component.DicomRepost;
-import com.laudoecia.api.handler.IncomingFileHandler;
-import com.laudoecia.api.server.DicomServer;
+import com.laudoecia.api.gerenciarentrada.GerenciaArquivoEntrada;
+import com.laudoecia.api.gerenciarentrada.ReplicarDicom;
+import com.laudoecia.api.servidor.DicomServer;
 import com.laudoecia.api.utils.Utils;
 
 @SpringBootApplication
@@ -49,8 +49,8 @@ public class ServidorDoorApplication {
 	
 	 /************************** Handler for incoming files works with asynchronous event bus initiated by the DicomServer ****************************/    
     @Bean // only one incoming file handler. Even we have multiple DicomServer instances, they all forward files to the same handler...
-    public IncomingFileHandler incomingFileHandler(){
-        return new IncomingFileHandler();
+    public GerenciaArquivoEntrada incomingFileHandler(){
+        return new GerenciaArquivoEntrada();
     }
 
     @Bean //Guava asynch event bus that initiates 100 fixed thread pool
@@ -76,10 +76,9 @@ public class ServidorDoorApplication {
     
     @Bean
     @Qualifier(value = "activeDicoms")
-    public DicomRepost activeDicoms(){    
-    	return new DicomRepost();    	
-    }
-    
+    public ReplicarDicom activeDicoms(){    
+    	return new ReplicarDicom();    	
+    }    
     
     /************************************************** Database JPA and Hibernate Settings ********************************************************/
     //@Bean //Creating and registering in spring context an entityManager

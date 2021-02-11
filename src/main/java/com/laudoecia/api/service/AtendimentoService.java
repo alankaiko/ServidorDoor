@@ -16,10 +16,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.laudoecia.api.domain.Atendimento;
-import com.laudoecia.api.domain.Paciente;
-import com.laudoecia.api.domain.ProfissionalExecutante;
-import com.laudoecia.api.domain.SubcategoriaCid10;
+import com.laudoecia.api.modelo.Atendimento;
+import com.laudoecia.api.modelo.Paciente;
+import com.laudoecia.api.modelo.ProfissionalExecutante;
+import com.laudoecia.api.modelo.SubcategoriaCid10;
 import com.laudoecia.api.repository.AtendimentoRepository;
 import com.laudoecia.api.repository.filtro.AtendimentoFilter;
 

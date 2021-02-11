@@ -12,7 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.laudoecia.api.domain.ModeloDeLaudoDoProc;
+import com.laudoecia.api.modelo.ModeloDeLaudoDoProc;
 import com.laudoecia.api.repository.ModeloDeLaudoDoProcRepository;
 import com.laudoecia.api.repository.filtro.ModeloDeLaudoDoProcFilter;
 

@@ -3,7 +3,7 @@ package com.laudoecia.api.worklist;
 import org.dcm4che3.data.Attributes;
 import org.dcm4che3.net.service.DicomServiceException;
 
-import com.laudoecia.api.domain.MWLItem;
+import com.laudoecia.api.modelo.MWLItem;
 
 public interface ListaDeTrabalhoQuery {
 	public Attributes CriarAtributos(MWLItem results);

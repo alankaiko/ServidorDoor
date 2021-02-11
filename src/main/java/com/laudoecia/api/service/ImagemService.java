@@ -14,7 +14,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
 
-import com.laudoecia.api.domain.Imagem;
+import com.laudoecia.api.modelo.Imagem;
 import com.laudoecia.api.repository.ImagemRepository;
 
 @Service

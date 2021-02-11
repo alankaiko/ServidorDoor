@@ -12,7 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.laudoecia.api.domain.SubcategoriaCid10;
+import com.laudoecia.api.modelo.SubcategoriaCid10;
 import com.laudoecia.api.repository.SubcategoriaCid10Repository;
 import com.laudoecia.api.repository.filtro.SubcategoriaCid10Filter;
 

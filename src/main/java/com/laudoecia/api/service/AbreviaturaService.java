@@ -12,7 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.laudoecia.api.domain.Abreviatura;
+import com.laudoecia.api.modelo.Abreviatura;
 import com.laudoecia.api.repository.AbreviaturaRepository;
 import com.laudoecia.api.repository.filtro.AbreviaturaFilter;
 

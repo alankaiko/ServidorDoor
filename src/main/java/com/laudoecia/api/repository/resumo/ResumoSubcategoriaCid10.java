@@ -1,6 +1,6 @@
 package com.laudoecia.api.repository.resumo;
 
-import com.laudoecia.api.domain.CategoriaCID10;
+import com.laudoecia.api.modelo.CategoriaCID10;
 
 public class ResumoSubcategoriaCid10 {
 	private String codigotexto;

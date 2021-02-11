@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.laudoecia.api.domain.ProcedimentoMedico;
-import com.laudoecia.api.event.RecursoCriadoEvent;
+import com.laudoecia.api.gerenciarentrada.RecursoCriadoEvent;
+import com.laudoecia.api.modelo.ProcedimentoMedico;
 import com.laudoecia.api.repository.filtro.ProcedimentoMedicoFilter;
 import com.laudoecia.api.repository.resumo.ResumoProcedimentoMedico;
 import com.laudoecia.api.service.ProcedimentoMedicoService;

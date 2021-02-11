@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.laudoecia.api.domain.CategoriaCID10;
+import com.laudoecia.api.modelo.CategoriaCID10;
 import com.laudoecia.api.repository.CategoriaCID10Repository;
 
 @Service

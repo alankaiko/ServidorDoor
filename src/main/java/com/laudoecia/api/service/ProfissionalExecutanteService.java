@@ -15,8 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.laudoecia.api.domain.Licenciado;
-import com.laudoecia.api.domain.ProfissionalExecutante;
+import com.laudoecia.api.modelo.Licenciado;
+import com.laudoecia.api.modelo.ProfissionalExecutante;
 import com.laudoecia.api.repository.ProfissionalExecutanteRepository;
 import com.laudoecia.api.repository.filtro.ProfissionalExecutanteFilter;
 

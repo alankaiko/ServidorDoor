@@ -9,213 +9,199 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.laudoecia.api.component.DicomRepost;
-import com.laudoecia.api.domain.Instance;
-import com.laudoecia.api.domain.Modality;
-import com.laudoecia.api.domain.Paciente;
-import com.laudoecia.api.domain.Series;
-import com.laudoecia.api.domain.Study;
-import com.laudoecia.api.domain.Tagimagem;
-import com.laudoecia.api.server.DicomReader;
+import com.laudoecia.api.gerenciarentrada.ReplicarDicom;
+import com.laudoecia.api.modelo.Equipamento;
+import com.laudoecia.api.modelo.Estudo;
+import com.laudoecia.api.modelo.Instancia;
+import com.laudoecia.api.modelo.Paciente;
+import com.laudoecia.api.modelo.Serie;
+import com.laudoecia.api.modelo.Tagimagem;
 import com.laudoecia.api.service.interf.DBService;
+import com.laudoecia.api.servidor.LeitorDicom;
 import com.laudoecia.api.utils.DicomEntityBuilder;
 import com.laudoecia.api.utils.Utils;
 
 @Service
-public class DBServiceImpl implements DBService {
+public class DBServiceImpl implements DBService{
 
 	private static final Logger LOG = LoggerFactory.getLogger(DBServiceImpl.class);
 
 	@Autowired
-	private InstanceService InstanceService;
+	private InstanciaService serviceinstancia;
 
 	@Autowired
-	private SeriesService SeriesService;
+	private SerieService serviceserie;
 
 	@Autowired
-	private StudyService StudyService;
+	private EstudoService serviceestudo;
 
 	@Autowired
-	private PatientService PatientService;
+	private PacienteService servicepaciente;
 
 	@Autowired
 	private TagImagemService TagImagemService;
 
 	@Autowired
-	private DispositiveService DispositiveService;
+	private EquipamentoService serviceesquipamento;
 
 	@PersistenceContext
-	private EntityManager entityManager;
+	private EntityManager manager;
 
 	@Autowired
-	private DicomRepost reposter;
+	private ReplicarDicom reposter;
 
 	@Transactional
 	@Override
-	public Paciente buildPatient(DicomReader reader) {
+	public Paciente ConstruirPaciente(LeitorDicom reader) {
+		LOG.info("Processando; Paciente: {}, Código: {}", reader.getPacienteNome(), reader.getPacienteCodigo());
+		Paciente paciente = this.servicepaciente.BuscarPorPacienteId(reader.getPacienteCodigo());
 
-		LOG.info("In process; Patient Name: {}, Patient ID: {}", reader.getPatientName(), reader.getPatientID());
+		if (paciente == null) {
+			paciente = DicomEntityBuilder.NovoPaciente(reader.getPacienteIdade(), reader.getPacienteDataAniversario(),
+				reader.getPacienteCodigo(), reader.getPacienteNome(), reader.getPacienteSexo(), reader.getDataCriacao(),
+				reader.getTamanho(), reader.getPeso());
 
-		Paciente patient = this.PatientService.BuscarPorPacienteId(reader.getPatientID());
-
-		if (patient == null) {// let's create new patient
-			patient = DicomEntityBuilder.newPatient(reader.getPatientAge(), reader.getPatientBirthDay(),
-					reader.getPatientID(), reader.getPatientName(), reader.getPatientSex());
-
-			this.PatientService.Criar(patient);
-			patient = this.PatientService.BuscarPorPacienteId(reader.getPatientID());
+			this.servicepaciente.Criar(paciente);
+			paciente = this.servicepaciente.BuscarPorPacienteId(reader.getPacienteCodigo());
 		} else {
-			LOG.info("Patient already exists; Patient Name: {}, Patient ID: {} ", reader.getPatientName(), reader.getPatientID());
+			LOG.info("Paciente já existe; Nome: {}, Código: {} ", reader.getPacienteNome(), reader.getPacienteCodigo());
 		}
 	
-		return patient;
+		return paciente;
 	}
 
 	@Transactional
 	@Override
-	public Study buildStudy(DicomReader reader, Paciente patient) {
+	public Estudo ConstruirEstudo(LeitorDicom reader, Paciente paciente) {
+		Estudo estudo = this.serviceestudo.BuscarPorStudyInstanceuid(reader.getStudyInstanceUID());
 
-		// check if study exists
-		Study study = this.StudyService.BuscarPorStudyInstanceuid(reader.getStudyInstanceUID());
+		if (estudo == null) {
+			estudo = DicomEntityBuilder.NovoEstudo(reader.getAccessionNumber(), reader.getAdditionalPatientHistory(),
+				reader.getAdmittingDiagnosesDescription(), reader.getReferringPhysicianName(),
+				reader.getSeriesDateTime(), reader.getStudyID(), reader.getStudyDescription(),
+				reader.getStudyInstanceUID(), reader.getStudyPriorityID(), reader.getStudyStatusID());
+			estudo.setPaciente(paciente);
 
-		if (study == null) {// let's create new study
-			study = DicomEntityBuilder.newStudy(reader.getAccessionNumber(), reader.getAdditionalPatientHistory(),
-					reader.getAdmittingDiagnosesDescription(), reader.getReferringPhysicianName(),
-					reader.getSeriesDateTime(), reader.getStudyID(), reader.getStudyDescription(),
-					reader.getStudyInstanceUID(), reader.getStudyPriorityID(), reader.getStudyStatusID());
-			study.setPaciente(patient);
-
-			this.StudyService.Criar(study);
-			study = this.StudyService.BuscarPorStudyInstanceuid(reader.getStudyInstanceUID());
+			this.serviceestudo.Criar(estudo);
+			estudo = this.serviceestudo.BuscarPorStudyInstanceuid(reader.getStudyInstanceUID());
 		} else {
-			// LOG.info("Study already exists; Study Instance UID: {}",
-			// study.getStudyInstanceUID());
+			LOG.info("Estudo já existe; Estudo instance UID: {}", estudo.getStudyinstanceuid());
 		}
 
-		return study;
+		return estudo;
 	}
 
 	@Transactional
 	@Override
-	public Series buildSeries(DicomReader reader, Study study) {
+	public Serie ConstruirSerie(LeitorDicom reader, Estudo estudo) {
+		Serie serie = this.serviceserie.BuscaPorInstanceENumber(reader.getSeriesInstanceUID(), reader.getSeriesNumber());
 
-		// check if series exists
-		Series series = this.SeriesService.BuscarPorSeriesInstanceENumber(reader.getSeriesInstanceUID(),
+		if (serie == null) {
+			serie = DicomEntityBuilder.NovaSerie(reader.getBodyPartExamined(), reader.getLaterality(),
+				reader.getOperatorsName(), reader.getPatientPosition(), reader.getProtocolName(),
+				reader.getSeriesDateTime(), reader.getSeriesDescription(), reader.getSeriesInstanceUID(),
 				reader.getSeriesNumber());
 
-		if (series == null) {// let's create new series
-			series = DicomEntityBuilder.newSeries(reader.getBodyPartExamined(), reader.getLaterality(),
-					reader.getOperatorsName(), reader.getPatientPosition(), reader.getProtocolName(),
-					reader.getSeriesDateTime(), reader.getSeriesDescription(), reader.getSeriesInstanceUID(),
-					reader.getSeriesNumber());
-
-			series.setStudy(study);
-			this.SeriesService.Criar(series);
-			series = this.SeriesService.BuscarPorSeriesInstanceENumber(reader.getSeriesInstanceUID(),
-					reader.getSeriesNumber());
+			serie.setStudy(estudo);
+			this.serviceserie.Criar(serie);
+			serie = this.serviceserie.BuscaPorInstanceENumber(reader.getSeriesInstanceUID(), reader.getSeriesNumber());
 		} else {
-			// LOG.info("Series already exists; Series Instance UID: {}",
-			// series.getSeriesInstanceUID());
+			LOG.info("Serie já existe; Serie Instance UID: {}", serie.getSeriesinstanceuid());
 		}
 
-		return series;
+		return serie;
 	}
 
 	@Transactional
 	@Override
-	public Modality buildEquipment(DicomReader reader, Series series) {
-		Modality equipment = this.DispositiveService.BuscarPorSerieEquipamento(series.getCodigo());
+	public Equipamento ConstruirEquipamento(LeitorDicom reader, Serie serie) {
+		Equipamento equipmento = this.serviceesquipamento.BuscarPorSerieEquipamento(serie.getCodigo());
 
-		if (equipment == null) {
-			equipment = DicomEntityBuilder.newEquipment(reader.getConversionType(), reader.getDeviceSerialNumber(),
+		if (equipmento == null) {
+			equipmento = DicomEntityBuilder.NovoEquipamento(reader.getConversionType(), reader.getDeviceSerialNumber(),
 					reader.getInstitutionAddress(), reader.getInstitutionName(),
 					reader.getInstitutionalDepartmentName(), reader.getManufacturer(),
 					reader.getManufacturerModelName(), reader.getModality(), reader.getSoftwareVersion(),
 					reader.getStationName());
 
-			equipment.setSeries(series);// set the Series to Equipment because we now have the pkTBLSeriesID
-			this.DispositiveService.Criar(equipment);
-			equipment = this.DispositiveService.BuscarPorSerieEquipamento(series.getCodigo());
+			equipmento.setSeries(serie);
+			this.serviceesquipamento.Criar(equipmento);
+			equipmento = this.serviceesquipamento.BuscarPorSerieEquipamento(serie.getCodigo());
 
 		} else {
-			LOG.info("Dispositive já existe; Código do Dispositive {}", equipment.getCodigo());
+			LOG.info("Equipamento já existe; Código {}", equipmento.getCodigo());
 		}
 
-		return equipment;
+		return equipmento;
 	}
 
 	@Transactional
 	@Override
-	public Instance buildInstance(DicomReader reader, Series series) {
-		Instance instance = this.InstanceService.BuscarPorInstanciaUid(reader.getSOPInstanceUID());
+	public Instancia ConstruirInstancia(LeitorDicom reader, Serie serie) {
+		Instancia instancia = this.serviceinstancia.BuscarPorInstanciaUid(reader.getSOPInstanceUID());
 
-		if (instance == null) {
-			instance = DicomEntityBuilder.newInstance(reader.getAcquisitionDateTime(), reader.getContentDateTime(),
-					reader.getExposureTime(), reader.getImageOrientation(), reader.getImagePosition(),
-					reader.getImageType(), reader.getInstanceNumber(), reader.getKvp(),
-					reader.getMediaStorageSopInstanceUID(), reader.getPatientOrientation(), reader.getPixelSpacing(),
-					reader.getSliceLocation(), reader.getSliceThickness(), reader.getSopClassUID(),
-					reader.getSOPInstanceUID(), reader.getTransferSyntaxUID(), reader.getWindowCenter(),
-					reader.getWindowWidth(), reader.getXrayTubeCurrent());
+		if (instancia == null) {
+			instancia = DicomEntityBuilder.newInstance(reader.getAcquisitionDateTime(), reader.getContentDateTime(),
+				reader.getExposureTime(), reader.getImageOrientation(), reader.getImagePosition(),
+				reader.getImageType(), reader.getInstanceNumber(), reader.getKvp(),
+				reader.getMediaStorageSopInstanceUID(), reader.getPatientOrientation(), reader.getPixelSpacing(),
+				reader.getSliceLocation(), reader.getSliceThickness(), reader.getSopClassUID(),
+				reader.getSOPInstanceUID(), reader.getTransferSyntaxUID(), reader.getWindowCenter(),
+				reader.getWindowWidth(), reader.getXrayTubeCurrent());
 
-			instance.setSeries(series);
-			instance.setTagimagem(this.buildTagImagem(reader));
-			this.InstanceService.Criar(instance);
-			instance = this.InstanceService.BuscarPorInstanciaUid(reader.getSOPInstanceUID());
+			instancia.setSeries(serie);
+			instancia.setTagimagem(this.ConstruirTagImagem(reader));
+			this.serviceinstancia.Criar(instancia);
+			instancia = this.serviceinstancia.BuscarPorInstanciaUid(reader.getSOPInstanceUID());
 
 		} else {
-			LOG.info("Instancia já existe; SOP Instance UID {}, Instance Number {}", instance.getInstancenumber(),
-					instance.getInstancenumber());
+			LOG.info("Instancia já existe; InstanceUOD {}, Instance Number {}", instancia.getInstancenumber(), instancia.getInstancenumber());
 		}
 
-		return instance;
+		return instancia;
 	}
 
-	// apply dicom logic; patient -> Nxstudy -> Nxseries -> Nxinstance
 	@Transactional
 	@Override
-	public void buildEntities(DicomReader reader) {
+	public void ConstruirEntidade(LeitorDicom reader) {
 
 		try {
-			LOG.info(
-					"=================================================================================================================================");
-			printStats(reader.getPatientName() + " " + reader.getPatientID() + " " + reader.getPatientAge() + " "
-					+ reader.getPatientSex() + " Started");
-			Paciente patient = buildPatient(reader);
-			reposter.add(reader.getMediaStorageSopInstanceUID(), patient.toString());
+			LOG.info("====================================================================================================");
+			printStats(reader.getPacienteNome() + " " + reader.getPacienteCodigo() + " " 
+					+ reader.getPacienteIdade() + " " + reader.getPacienteSexo() + " Started");
+			Paciente paciente = ConstruirPaciente(reader);
+			reposter.Adicionar(reader.getMediaStorageSopInstanceUID(), paciente.toString());
 
-			if (patient != null) {
-				Study study = buildStudy(reader, patient);
+			if (paciente != null) {
+				Estudo study = ConstruirEstudo(reader, paciente);
+				
 				if (study != null) {
-					Series series = buildSeries(reader, study);
+					Serie series = ConstruirSerie(reader, study);
 					if (series != null) {
-						Modality equipment = buildEquipment(reader, series);// one2one relationship with series
-						Instance instance = buildInstance(reader, series);
+						Equipamento equipment = ConstruirEquipamento(reader, series);
+						Instancia instance = ConstruirInstancia(reader, series);
 
-						// update entity modification dates according to the instance creation
 						series.setDatamodicifacao(instance.getDatacriacao());
-						this.SeriesService.Criar(series);
+						this.serviceserie.Criar(series);
 
 						equipment.setDatamodificacao(instance.getDatacriacao());
-						this.DispositiveService.Criar(equipment);
+						this.serviceesquipamento.Criar(equipment);
 
 						study.setDatamodificacao(instance.getDatacriacao());
-						this.StudyService.Criar(study);
+						this.serviceestudo.Criar(study);
 
-						patient.setDatamodificacao(Utils.ConverterToLocalDate(instance.getDatacriacao()));
-						this.PatientService.Criar(patient);
+						paciente.setDatamodificacao(Utils.ConverterToLocalDate(instance.getDatacriacao()));
+						this.servicepaciente.Criar(paciente);
 
-						LOG.info("Dicom Instance saved successfully! {}", instance.toString());
+						LOG.info("Dicom Instancia salvo! {}", instance.toString());
 					}
 				}
 			}
 
-			reposter.remove(reader.getMediaStorageSopInstanceUID());
+			reposter.Remover(reader.getMediaStorageSopInstanceUID());
 
-			printStats(reader.getPatientName() + " " + reader.getPatientID() + " " + reader.getPatientAge() + " "
-					+ reader.getPatientSex() + " Ended");
-			LOG.info(
-					"=================================================================================================================================");
+			printStats(reader.getPacienteNome() + " " + reader.getPacienteCodigo() + " " + reader.getPacienteIdade() + " "+ reader.getPacienteSexo() + " Ended");
+			LOG.info("=================================================================================================================================");
 			LOG.info("");
 
 		} catch (Exception e) {
@@ -225,13 +211,13 @@ public class DBServiceImpl implements DBService {
 	}
 
 	public void printStats(String status) {
-		LOG.info("{} {} {} [Active Threads: {}] ", Thread.currentThread().getId(), Thread.currentThread().getName(),
-				status, Thread.activeCount());
+		LOG.info("{} {} {} [Active Threads: {}] ", Thread.currentThread().getId(), Thread.currentThread().getName(), status, Thread.activeCount());
 
 	}
 
+	@Transactional
 	@Override
-	public Tagimagem buildTagImagem(DicomReader reader) {
+	public Tagimagem ConstruirTagImagem(LeitorDicom reader) {
 		
 		try {
 			Tagimagem tagimagem = DicomEntityBuilder.newTagimagem(reader.getimagetype(),reader.getsopclassuid(), 

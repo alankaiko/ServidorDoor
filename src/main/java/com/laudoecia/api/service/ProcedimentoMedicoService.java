@@ -12,7 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.laudoecia.api.domain.ProcedimentoMedico;
+import com.laudoecia.api.modelo.ProcedimentoMedico;
 import com.laudoecia.api.repository.ProcedimentoMedicoRepository;
 import com.laudoecia.api.repository.filtro.ProcedimentoMedicoFilter;
 import com.laudoecia.api.repository.resumo.ResumoProcedimentoMedico;

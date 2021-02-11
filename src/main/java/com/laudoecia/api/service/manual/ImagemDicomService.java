@@ -1,6 +1,6 @@
 package com.laudoecia.api.service.manual;
 
-import com.laudoecia.api.domain.Imagem;
+import com.laudoecia.api.modelo.Imagem;
 
 public class ImagemDicomService {
 	private ImagemDicomDAO dao;

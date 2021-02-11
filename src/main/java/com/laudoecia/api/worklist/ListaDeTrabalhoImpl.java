@@ -16,9 +16,9 @@ import javax.persistence.criteria.Root;
 import org.dcm4che3.data.Attributes;
 import org.dcm4che3.net.service.DicomServiceException;
 
-import com.laudoecia.api.domain.MWLItem;
-import com.laudoecia.api.domain.MWLItem_;
-import com.laudoecia.api.domain.Paciente;
+import com.laudoecia.api.modelo.MWLItem;
+import com.laudoecia.api.modelo.MWLItem_;
+import com.laudoecia.api.modelo.Paciente;
 
 public class ListaDeTrabalhoImpl implements ListaDeTrabalhoQuery{
 	protected final EntityManager conexaobanco;

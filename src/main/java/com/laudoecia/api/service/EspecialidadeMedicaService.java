@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.laudoecia.api.domain.EspecialidadeMedica;
+import com.laudoecia.api.modelo.EspecialidadeMedica;
 import com.laudoecia.api.repository.EspecialidadesMedicasRepository;
 
 @Service

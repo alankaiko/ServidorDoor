@@ -5,8 +5,6 @@ import java.util.List;
 import org.dcm4che3.data.Issuer;
 import org.dcm4che3.net.ApplicationEntity;
 
-import com.laudoecia.api.utilities.FuzzyStr;
-
 
 public class QueryParam {
     private final ArchiveAEExtension arcAE;
@@ -44,10 +42,6 @@ public class QueryParam {
 
     public String[] getAccessControlIDs() {
         return arcAE.getAccessControlIDs();
-    }
-
-    public FuzzyStr getFuzzyStr() {
-        return arcDev.getFuzzyStr();
     }
 
     public boolean isPersonNameComponentOrderInsensitiveMatching() {

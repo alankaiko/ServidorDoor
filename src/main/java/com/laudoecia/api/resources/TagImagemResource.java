@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.laudoecia.api.repository.resumo.TagImagemGamb;
+import com.laudoecia.api.repository.resumo.TagImagemResumo;
 import com.laudoecia.api.service.TagImagemService;
 
 @RestController
@@ -20,7 +20,7 @@ public class TagImagemResource {
 	private TagImagemService service;
 	
 	@GetMapping("/tab/{codigo}")
-	public List<TagImagemGamb> BuscarTabela(@PathVariable Long codigo) {
+	public List<TagImagemResumo> BuscarTabela(@PathVariable Long codigo) {
 		return this.service.CriarTabela(codigo);
 	}
 }

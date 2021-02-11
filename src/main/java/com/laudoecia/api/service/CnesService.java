@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.laudoecia.api.domain.CNES;
+import com.laudoecia.api.modelo.CNES;
 import com.laudoecia.api.repository.CnesRepository;
 
 @Service
