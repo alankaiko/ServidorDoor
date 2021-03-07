@@ -25,7 +25,6 @@ public class SubcategoriaCid10Service {
 
 	
 	public List<SubcategoriaCid10> Listar() {
-
 		return this.dao.findAll();
 	}
 	
@@ -41,6 +40,11 @@ public class SubcategoriaCid10Service {
 
 	public SubcategoriaCid10 Criar(SubcategoriaCid10 subcategoria) {
 		try {
+			Long codigo = this.dao.BuscarIdMax();
+			if(codigo == null)
+				codigo = 0L;
+			
+			subcategoria.setCodigo(codigo + 1);
 			return this.dao.save(subcategoria);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Criar------------------ de SubcategoriaCid10Service");

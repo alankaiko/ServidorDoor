@@ -25,6 +25,12 @@ public class EstadoRepositoryImpl implements EstadoRepositoryQuery {
 	private EntityManager em;
 
 	@Override
+	public Long BuscarIdMax() {
+		Long codigo = em.createQuery("SELECT MAX(estado.codigo) FROM Estado estado", Long.class).getSingleResult();
+		return codigo;
+	}
+
+	@Override
 	public Page<Estado> Filtrando(EstadoFilter filtro, Pageable pageable) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<Estado> query = builder.createQuery(Estado.class);
@@ -72,5 +78,4 @@ public class EstadoRepositoryImpl implements EstadoRepositoryQuery {
 		query.select(builder.count(root));
 		return em.createQuery(query).getSingleResult();
 	}
-
 }

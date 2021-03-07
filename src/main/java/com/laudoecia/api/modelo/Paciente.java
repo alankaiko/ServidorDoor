@@ -9,6 +9,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -20,14 +22,15 @@ import javax.persistence.Table;
 public class Paciente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private String codigo;
+	private Long codigo; 
+	private String pacienteid;
 	private String nome;
 	private LocalDate datanasc;
 	private String idade;
 	private String sexo;
 	private LocalDate datacriacao;
 	private LocalDate datamodificacao;
-	private List<Estudo> studyes;
+	private List<Estudo> estudos;
 	private Endereco endereco;
 	private Contato contato;
 	private String tamanho;
@@ -45,13 +48,21 @@ public class Paciente implements Serializable {
 	}
 
 	@Id
-	@Column(length = 8)
-	public String getCodigo() {
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	public Long getCodigo() {
 		return codigo;
 	}
 	
-	public void setCodigo(String codigo) {
+	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
+	}
+	
+	public String getPacienteid() {
+		return pacienteid;
+	}
+	
+	public void setPacienteid(String pacienteid) {
+		this.pacienteid = pacienteid;
 	}
 	
 	@Column(length = 200)
@@ -106,12 +117,12 @@ public class Paciente implements Serializable {
 	}
 
 	@OneToMany(mappedBy = "paciente")
-	public List<Estudo> getStudyes() {
-		return studyes;
+	public List<Estudo> getEstudos() {
+		return estudos;
 	}
-
-	public void setStudyes(List<Estudo> studyes) {
-		this.studyes = studyes;
+	
+	public void setEstudos(List<Estudo> estudos) {
+		this.estudos = estudos;
 	}
 
 	@Embedded
@@ -156,6 +167,7 @@ public class Paciente implements Serializable {
 		this.atributoextra3 = atributoextra3;
 	}
 
+	@Column(nullable = true)
 	public int getNumerodeestudos() {
 		return numerodeestudos;
 	}
@@ -205,4 +217,17 @@ public class Paciente implements Serializable {
 	public void setDatamenstruacao(LocalDate datamenstruacao) {
 		this.datamenstruacao = datamenstruacao;
 	}
+
+	@Override
+	public String toString() {
+		return "Paciente [codigo=" + codigo + ", pacienteid=" + pacienteid + ", nome=" + nome + ", datanasc=" + datanasc
+				+ ", idade=" + idade + ", sexo=" + sexo + ", datacriacao=" + datacriacao + ", datamodificacao="
+				+ datamodificacao + ", estudos=" + estudos + ", endereco=" + endereco + ", contato=" + contato
+				+ ", tamanho=" + tamanho + ", peso=" + peso + ", datamenstruacao=" + datamenstruacao
+				+ ", atributoextra1=" + atributoextra1 + ", atributoextra2=" + atributoextra2 + ", atributoextra3="
+				+ atributoextra3 + ", numerodeestudos=" + numerodeestudos + ", personname=" + personname
+				+ ", observacoes=" + observacoes + "]";
+	}
+	
+	
 }

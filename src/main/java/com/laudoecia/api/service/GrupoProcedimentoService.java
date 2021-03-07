@@ -29,6 +29,11 @@ public class GrupoProcedimentoService {
 
 	public GrupoProcedimento Criar(GrupoProcedimento grupo) {
 		try {
+			Long codigo = this.dao.BuscarIdMax();
+			if(codigo == null)
+				codigo = 0L;
+			
+			grupo.setCodigo(codigo + 1);
 			grupo.setNomegrupo(grupo.getNomegrupo().toUpperCase());
 			return this.dao.save(grupo);
 		} catch (Exception e) {

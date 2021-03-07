@@ -3,82 +3,86 @@ package com.laudoecia.api.repository.resumo;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class ResumoPaciente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private Long idpatient;
-	private String patientid;
-	private String patientname;
-	private LocalDate birthday;
-	private String patientage;
-	private String patientsex;
-	private LocalDate datecreate;
+	private Long codigo;
+	private String pacienteid;
+	private String nome;
+	private LocalDate datanasc;
+	private String idade;
+	private String sexo;
+	private LocalDate datacriacao;
 
-	public ResumoPaciente(Long idpatient, String patientid, String patientname, LocalDate birthday, String patientage, String patientsex, LocalDate datecreate) {
-		this.idpatient = idpatient;
-		this.patientid = patientid;
-		this.patientname = patientname;
-		this.birthday = birthday;
-		this.patientage = patientage;
-		this.patientsex = patientsex;
-		this.datecreate = datecreate;
-	}
-
-	public Long getIdpatient() {
-		return idpatient;
-	}
-
-	public void setIdpatient(Long idpatient) {
-		this.idpatient = idpatient;
-	}
-
-	public String getPatientid() {
-		return patientid;
-	}
-
-	public void setPatientid(String patientid) {
-		this.patientid = patientid;
-	}
-
-	public String getPatientname() {
-		return patientname;
-	}
-
-	public void setPatientname(String patientname) {
-		this.patientname = patientname;
-	}
-
-	public LocalDate getBirthday() {
-		return birthday;
-	}
 	
-	
-	public void setBirthday(LocalDate birthday) {
-		this.birthday = birthday;
+
+	public ResumoPaciente(Long codigo, String pacienteid, String nome, LocalDate datanasc, String idade, String sexo,LocalDate datacriacao) {
+		this.codigo = codigo;
+		this.pacienteid = pacienteid;
+		this.nome = nome;
+		this.datanasc = datanasc;
+		this.idade = idade;
+		this.sexo = sexo;
+		this.datacriacao = datacriacao;
 	}
 
-	public String getPatientage() {
-		return patientage;
+	public Long getCodigo() {
+		return codigo;
 	}
 
-	public void setPatientage(String patientage) {
-		this.patientage = patientage;
+	public void setCodigo(Long codigo) {
+		this.codigo = codigo;
 	}
 
-	public String getPatientsex() {
-		return patientsex;
-	}
-	
-	public void setPatientsex(String patientsex) {
-		this.patientsex = patientsex;
+	public String getPacienteid() {
+		return pacienteid;
 	}
 
-	public LocalDate getDatecreate() {
-		return datecreate;
+	public void setPacienteid(String pacienteid) {
+		this.pacienteid = pacienteid;
 	}
-	
-	public void setDatecreate(LocalDate datecreate) {
-		this.datecreate = datecreate;
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public LocalDate getDatanasc() {
+		return datanasc;
+	}
+
+	public void setDatanasc(LocalDate datanasc) {
+		this.datanasc = datanasc;
+	}
+
+	public String getIdade() {
+		return idade;
+	}
+
+	public void setIdade(String idade) {
+		this.idade = idade;
+	}
+
+	public String getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
+
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	public LocalDate getDatacriacao() {
+		return datacriacao;
+	}
+
+	public void setDatacriacao(LocalDate datacriacao) {
+		this.datacriacao = datacriacao;
 	}
 
 }

@@ -124,7 +124,7 @@ public class DBServiceImpl implements DBService{
 					reader.getManufacturerModelName(), reader.getModality(), reader.getSoftwareVersion(),
 					reader.getStationName());
 
-			equipmento.setSeries(serie);
+			equipmento.setSerie(serie);
 			this.serviceesquipamento.Criar(equipmento);
 			equipmento = this.serviceesquipamento.BuscarPorSerieEquipamento(serie.getCodigo());
 

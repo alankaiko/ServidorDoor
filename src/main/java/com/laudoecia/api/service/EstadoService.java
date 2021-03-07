@@ -29,6 +29,11 @@ public class EstadoService {
 
 	public Estado Criar(Estado estado) {
 		try {
+			Long codigo = this.dao.BuscarIdMax();
+			if(codigo == null)
+				codigo = 0L;
+	
+			estado.setCodigo(codigo + 1);
 			return this.dao.save(estado);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Criar------------------ de EstadoService");

@@ -26,6 +26,12 @@ public class SubcategoriaCid10RepositoryImpl implements SubcategoriaCid10Reposit
 	private EntityManager em;
 	
 	@Override
+	public Long BuscarIdMax() {
+		Long codigo = em.createQuery("SELECT MAX(subcategoria.codigo) FROM SubcategoriaCid10 subcategoria", Long.class).getSingleResult();
+		return codigo;
+	}
+	
+	@Override
 	public Page<ResumoSubcategoriaCid10> Resumir(SubcategoriaCid10Filter filtro, Pageable pageable) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<ResumoSubcategoriaCid10> criteria = builder.createQuery(ResumoSubcategoriaCid10.class);

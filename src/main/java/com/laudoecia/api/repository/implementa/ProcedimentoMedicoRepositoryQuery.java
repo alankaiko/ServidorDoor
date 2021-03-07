@@ -8,4 +8,5 @@ import com.laudoecia.api.repository.resumo.ResumoProcedimentoMedico;
 
 public interface ProcedimentoMedicoRepositoryQuery {
 	public Page<ResumoProcedimentoMedico> resumir(ProcedimentoMedicoFilter filtro, Pageable pageable);
+	public Long BuscarIdMax();
 }

@@ -30,6 +30,11 @@ public class ProcedimentoMedicoService {
 
 	public ProcedimentoMedico Criar(ProcedimentoMedico procedimento) {
 		try {
+			Long codigo = this.dao.BuscarIdMax();
+			if(codigo == null)
+				codigo = 0L;
+			
+			procedimento.setCodigo(codigo + 1);
 			return this.dao.save(procedimento);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Criar------------------ de ProcedimentoMedicoService");

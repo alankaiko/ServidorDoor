@@ -14,9 +14,9 @@ public class ConverterParaAtributo {
 
 		try {
 			atributos.setString(Tag.AccessionNumber, VR.SH, work.getAccessionnumber());	
-			atributos.setString(Tag.ReferringPhysicianName, VR.PN, work.getPaciente().getStudyes().get(0).getReferringphysicianname());
+			atributos.setString(Tag.ReferringPhysicianName, VR.PN, work.getPaciente().getEstudos().get(0).getReferringphysicianname());
 			atributos.setString(Tag.PatientName, VR.PN, work.getPaciente().getNome());	
-			atributos.setString(Tag.PatientID, VR.LO, work.getPaciente().getCodigo());
+			atributos.setString(Tag.PatientID, VR.LO, work.getPaciente().getPacienteid());
 			atributos.setString(Tag.PatientBirthDate, VR.DA, work.getPaciente().getDatanasc().toString());
 			atributos.setString(Tag.PatientSex, VR.CS, work.getPaciente().getSexo());
 			atributos.setString(Tag.PatientSize, VR.DS, work.getPaciente().getTamanho());
@@ -25,7 +25,7 @@ public class ConverterParaAtributo {
 			atributos.setString(Tag.StudyInstanceUID, VR.UI, work.getStudyinstanceuid());
 			atributos.setString(Tag.RequestedProcedureID, VR.SH, work.getRequestedprocedureid());
 			
-			for(Estudo estudo : work.getPaciente().getStudyes()) {
+			for(Estudo estudo : work.getPaciente().getEstudos()) {
 				//atributos.setString(Tag.ReferencedStudySequence, VR.SQ, sequencia);	
 					Attributes studosequence = new Attributes();
 					studosequence.setString(Tag.ReferencedSOPClassUID, VR.UI,"");

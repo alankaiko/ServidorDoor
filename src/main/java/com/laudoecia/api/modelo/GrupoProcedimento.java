@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -18,7 +16,6 @@ public class GrupoProcedimento implements Serializable {
 	private String nomegrupo;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -61,4 +58,10 @@ public class GrupoProcedimento implements Serializable {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "GrupoProcedimento [codigo=" + codigo + ", nomegrupo=" + nomegrupo + "]";
+	}
+
+	
 }

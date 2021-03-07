@@ -39,7 +39,7 @@ public class Serie implements Serializable {
 	private Date datamodicifacao;
 	private Estudo study;
 	private  List<Instancia> instance;
-	private Equipamento modality;
+	private Equipamento equipamento;
 
 	public Serie() {
 		super();
@@ -172,13 +172,13 @@ public class Serie implements Serializable {
 		this.instance = instance;
 	}
 
-	@OneToOne(mappedBy = "series")
-	public Equipamento getModality() {
-		return modality;
+	@OneToOne(mappedBy = "serie")
+	public Equipamento getEquipamento() {
+		return equipamento;
 	}
 	
-	public void setModality(Equipamento modality) {
-		this.modality = modality;
+	public void setEquipamento(Equipamento equipamento) {
+		this.equipamento = equipamento;
 	}
 
 	@PreUpdate

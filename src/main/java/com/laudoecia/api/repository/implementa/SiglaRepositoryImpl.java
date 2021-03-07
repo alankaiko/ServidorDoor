@@ -23,6 +23,12 @@ import com.laudoecia.api.repository.filtro.SiglaFilter;
 public class SiglaRepositoryImpl implements SiglaRepositoryQuery{
 	@PersistenceContext
 	private EntityManager em;
+	
+	@Override
+	public Long BuscarIdMax() {
+		Long codigo = em.createQuery("SELECT MAX(sigla.codigo) FROM Sigla sigla", Long.class).getSingleResult();
+		return codigo;
+	}
 
 	@Override
 	public Page<Sigla> Filtrando(SiglaFilter filtro, Pageable pageable) {

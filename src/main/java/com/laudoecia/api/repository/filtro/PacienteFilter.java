@@ -5,25 +5,21 @@ import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class PacienteFilter {
-	private String codigo;
+	private String pacienteid;
 	private String nome;
 	private String idade;
 	private boolean servidor;
-	private LocalDate dataaniversario;
+	private LocalDate datanasc;
 
 	public PacienteFilter() {
 	}
 
-	public PacienteFilter(String codigo) {
-		this.codigo = codigo;
+	public String getPacienteid() {
+		return pacienteid;
 	}
-
-	public String getCodigo() {
-		return codigo;
-	}
-
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
+	
+	public void setPacienteid(String pacienteid) {
+		this.pacienteid = pacienteid;
 	}
 
 	public String getNome() {
@@ -43,12 +39,12 @@ public class PacienteFilter {
 	}
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	public LocalDate getDataaniversario() {
-		return dataaniversario;
+	public LocalDate getDatanasc() {
+		return datanasc;
 	}
-
-	public void setDataaniversario(LocalDate dataaniversario) {
-		this.dataaniversario = dataaniversario;
+	
+	public void setDatanasc(LocalDate datanasc) {
+		this.datanasc = datanasc;
 	}
 
 	public boolean isServidor() {
@@ -59,4 +55,11 @@ public class PacienteFilter {
 		this.servidor = servidor;
 	}
 
+	@Override
+	public String toString() {
+		return "PacienteFilter [pacienteid=" + pacienteid + ", nome=" + nome + ", idade=" + idade + ", servidor="
+				+ servidor + ", datanasc=" + datanasc + "]";
+	}
+
+	
 }

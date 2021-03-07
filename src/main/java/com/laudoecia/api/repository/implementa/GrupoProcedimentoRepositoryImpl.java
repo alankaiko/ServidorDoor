@@ -23,6 +23,12 @@ import com.laudoecia.api.repository.filtro.GrupoProcedimentoFilter;
 public class GrupoProcedimentoRepositoryImpl implements GrupoProcedimentoRepositoryQuery{
 	@PersistenceContext
 	private EntityManager em;
+	
+	@Override
+	public Long BuscarIdMax() {
+		Long codigo = em.createQuery("SELECT MAX(grupo.codigo) FROM GrupoProcedimento grupo", Long.class).getSingleResult();
+		return codigo;
+	}
 
 	@Override
 	public Page<GrupoProcedimento> resumir(GrupoProcedimentoFilter filtro, Pageable pageable) {

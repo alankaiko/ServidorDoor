@@ -35,7 +35,7 @@ public class Equipamento implements Serializable {
 	private String softwareversion;
 	private Date datacriacao;
 	private Date datamodificacao;
-	private Serie series;
+	private Serie serie;
 
 	public Equipamento() {
 		super();
@@ -160,12 +160,12 @@ public class Equipamento implements Serializable {
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn
-	public Serie getSeries() {
-		return series;
+	public Serie getSerie() {
+		return serie;
 	}
-
-	public void setSeries(Serie param) {
-		this.series = param;
+	
+	public void setSerie(Serie serie) {
+		this.serie = serie;
 	}
 
 	@PreUpdate

@@ -37,7 +37,6 @@ public class PacienteService {
 		super();
 	}
 	
-	
 	@Value("${pacs.storage.dcm}")
 	private String storageDir;
 	
@@ -45,21 +44,11 @@ public class PacienteService {
 	EstudoService servStudy;
 	
 	public List<Paciente> Listar() {
-		return this.dao.findAll(Sort.by(Sort.Direction.ASC, "datemodify"));
+		return this.dao.findAll(Sort.by(Sort.Direction.ASC, "datamodificacao"));
 	}
 	
 	public Page<ResumoPaciente> ListaFiltros(PacienteFilter filtro, Pageable page){
 		return this.dao.Resumir(filtro, page);		
-	}
-	
-	public List<Paciente> ListaPorId(String codigo) {
-		try {
-			return this.dao.ListarPacientePorCodigo(codigo);
-		} catch (Exception e) {
-			LOG.error("Erro ao executar o metodo ListaPorId------------------ de PatientService");
-			e.printStackTrace();
-			return null;
-		}
 	}
 	
 	public Page<Paciente> Listar(PacienteFilter filtro, Pageable pageable){
@@ -82,9 +71,9 @@ public class PacienteService {
 		}
 	}
 
-	public Paciente Criar(Paciente patient) {
+	public Paciente Criar(Paciente paciente) {
 		try {
-			return this.dao.save(patient);
+			return this.dao.save(paciente);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Criar------------------ de PatientService");
 			e.printStackTrace();
@@ -92,8 +81,8 @@ public class PacienteService {
 		}
 	}
 
-	public Paciente BuscarPorId(Long id) {
-		Optional<Paciente> patient = this.dao.findById(id);
+	public Paciente BuscarPorId(Long codigo) {
+		Optional<Paciente> patient = this.dao.findById(codigo);
 
 		if (patient.get() == null)
 			throw new EmptyResultDataAccessException(1);
@@ -101,9 +90,9 @@ public class PacienteService {
 		return patient.get();
 	}
 
-	public void Deletar(Long id) {
+	public void Deletar(Long codigo) {
 		try {
-			this.dao.deleteById(id);
+			this.dao.deleteById(codigo);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Deletar------------------ de PatientService");
 			e.printStackTrace();
@@ -119,10 +108,10 @@ public class PacienteService {
 		}
 	}
 
-	public Paciente Atualizar(Long id, Paciente paciente) {
+	public Paciente Atualizar(Long codigo, Paciente paciente) {
 		try {
-			Paciente salvo = this.BuscarPorId(id);
-			BeanUtils.copyProperties(paciente, salvo, "id");
+			Paciente salvo = this.BuscarPorId(codigo);
+			BeanUtils.copyProperties(paciente, salvo, "codigo", "estudos");
 			return this.Criar(salvo);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Atualizar------------------ de PatientService");
@@ -140,17 +129,6 @@ public class PacienteService {
 			return null;
 		}
 	}
-
-	public Paciente BuscarPorPacienteId(String codigo) {
-		try {
-			return this.dao.BuscarUnicoPacPorCodigo(codigo);
-		} catch (Exception e) {
-			LOG.error("Erro ao executar o metodo BuscarPorPacienteId------------------ de PatientService");
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
 	
 	public byte[] BuscarImagem(String instanceuid){
 		String caminho = this.storageDir + "/" + instanceuid + ".dcm";
@@ -167,21 +145,37 @@ public class PacienteService {
 	
 	public List<Instancia> BuscarPorInstanciasDoPaciente(Long idpatient){
 		Paciente paciente = this.BuscarPorId(idpatient);
-		return paciente.getStudyes().get(0).getSeries().get(0).getInstance();
+		return paciente.getEstudos().get(0).getSeries().get(0).getInstance();
 	}
 	
 	public List<Estudo> BuscaEstudo(String codigo) {
 		return this.servStudy.BuscarPorIdPaciente(codigo);
 	}
+	
+	public Paciente BuscarPorPacienteId(String patientid) {
+		try {
+			return this.dao.findBypacienteid(patientid);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo BuscarPorPacienteId------------------ de PatientService");
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+//	public List<Paciente> ListaPorId(Long codigo) {
+//		try {
+//			return this.dao.findByCodigo(codigo);
+//		} catch (Exception e) {
+//			LOG.error("Erro ao executar o metodo ListaPorId------------------ de PatientService");
+//			e.printStackTrace();
+//			return null;
+//		}
+//	}
 
 //	public List<TagImagemGamb> BuscarTags(Long idinstance){
 //		Patient paciente = this.BuscarPorId(idpatient);
 //		return paciente.getStudyes().get(0).getSeries().get(0).getInstance().get(0).getTagimagem();
 //	}
 }
-
-
-
-
 
 

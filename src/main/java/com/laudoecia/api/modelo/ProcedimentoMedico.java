@@ -6,9 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -31,7 +28,6 @@ public class ProcedimentoMedico implements Serializable {
 	
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -82,7 +78,7 @@ public class ProcedimentoMedico implements Serializable {
 		this.laudomodelo = laudomodelo;
 	}
 
-	@ManyToOne(optional = false, fetch = FetchType.EAGER)
+	@ManyToOne
 	@JoinColumn(name = "grupo_codigo", referencedColumnName = "codigo", nullable = false)
 	public GrupoProcedimento getGrupo() {
 		return grupo;
@@ -118,4 +114,12 @@ public class ProcedimentoMedico implements Serializable {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "ProcedimentoMedico [codigo=" + codigo + ", nome=" + nome + ", restricaosexo=" + restricaosexo
+				+ ", caminhoimagem1=" + caminhoimagem1 + ", caminhoimagem2=" + caminhoimagem2 + ", laudomodelo="
+				+ laudomodelo + ", grupo=" + grupo + "]";
+	}
+
+	
 }

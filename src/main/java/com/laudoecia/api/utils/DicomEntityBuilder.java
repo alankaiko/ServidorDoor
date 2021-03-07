@@ -11,14 +11,14 @@ import com.laudoecia.api.modelo.Tagimagem;
 
 public class DicomEntityBuilder {
 
-	public static Paciente NovoPaciente(String idade, Date dataaniversario, String codigo, String nome,
+	public static Paciente NovoPaciente(String idade, Date dataaniversario, String pacienteid, String nome,
 		String sexo, Date datacriacao, String tamanho, String peso) {
 		
 		Paciente paciente = new Paciente();
 		paciente.setIdade(idade);
 		paciente.setDatanasc(Utils.ConverterToLocalDate(dataaniversario));
 		paciente.setDatacriacao(Utils.ConverterToLocalDate(datacriacao));
-		paciente.setCodigo(codigo);
+		paciente.setPacienteid(pacienteid);
 		paciente.setNome(nome);
 		paciente.setSexo(sexo);
 		paciente.setTamanho(tamanho);

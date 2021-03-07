@@ -8,5 +8,6 @@ import com.laudoecia.api.repository.implementa.PacienteRepositoryQuery;
 
 @Repository
 public interface PacienteRepository extends JpaRepository<Paciente, Long>, PacienteRepositoryQuery{
-
+	public Paciente findBypacienteid(String pacienteid);
+	//public List<Paciente> findByCodigo(Long codigo);
 }

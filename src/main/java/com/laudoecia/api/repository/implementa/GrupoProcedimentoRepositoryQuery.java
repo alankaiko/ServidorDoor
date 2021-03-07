@@ -8,4 +8,5 @@ import com.laudoecia.api.repository.filtro.GrupoProcedimentoFilter;
 
 public interface GrupoProcedimentoRepositoryQuery {
 	public Page<GrupoProcedimento> resumir(GrupoProcedimentoFilter filtro, Pageable pageable);
+	public Long BuscarIdMax();
 }

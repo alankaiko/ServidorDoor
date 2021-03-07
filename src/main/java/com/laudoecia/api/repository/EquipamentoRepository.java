@@ -7,5 +7,5 @@ import com.laudoecia.api.modelo.Equipamento;
 
 @Repository
 public interface EquipamentoRepository extends JpaRepository<Equipamento, Long>{
-	public Equipamento findBySeriesCodigo(Long codigo);
+	public Equipamento findBySerieCodigo(Long codigo);
 }

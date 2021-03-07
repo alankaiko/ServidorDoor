@@ -32,7 +32,6 @@ public class PacienteRepositoryImpl implements PacienteRepositoryQuery{
 			TypedQuery<Paciente> tiped = em.createQuery("FROM Patient patient order by datemodify", Paciente.class);
 			return tiped.setFirstResult(primeiro).setMaxResults(maximo).getResultList();
 		} catch (Exception e) {
-			System.out.println("deu erro aqui");
 			e.printStackTrace();
 			return null;
 		}
@@ -46,9 +45,10 @@ public class PacienteRepositoryImpl implements PacienteRepositoryQuery{
 		
 		criteria.orderBy(builder.asc(root.get("codigo")));
 		criteria.select(builder.construct(ResumoPaciente.class, root.get(Paciente_.codigo), 
-			root.get(Paciente_.codigo), root.get(Paciente_.nome), root.get(Paciente_.datanasc),
+			root.get(Paciente_.pacienteid), root.get(Paciente_.nome), root.get(Paciente_.datanasc),
 			root.get(Paciente_.idade), root.get(Paciente_.sexo), root.get(Paciente_.datacriacao)));
 		
+
 		Predicate[] predicates = AdicionarRestricoes(builder, filtro, root);
 		criteria.where(predicates);
 		
@@ -74,41 +74,11 @@ public class PacienteRepositoryImpl implements PacienteRepositoryQuery{
 		return new PageImpl<>(tiped.getResultList(), pageable, Total(filtro));
 	}
 
-	@Override
-	public Paciente BuscarUnicoPacPorCodigo(String codigo) {
-		CriteriaBuilder builder = em.getCriteriaBuilder();
-		CriteriaQuery<Paciente> query = builder.createQuery(Paciente.class);
-		Root<Paciente> root = query.from(Paciente.class);
-		
-		query.orderBy(builder.asc(root.get("codigo")));
-		Predicate[] predicato = AdicionarRestricoes(builder, new PacienteFilter(codigo), root);
-		query.where(predicato);
-		
-		TypedQuery<Paciente> tiped = em.createQuery(query);
-		
-		return tiped.getSingleResult();
-	}
-
-	@Override
-	public List<Paciente> ListarPacientePorCodigo(String codigo) {
-		CriteriaBuilder builder = em.getCriteriaBuilder();
-		CriteriaQuery<Paciente> query = builder.createQuery(Paciente.class);
-		Root<Paciente> root = query.from(Paciente.class);
-		
-		query.orderBy(builder.asc(root.get("codigo")));
-		Predicate[] predicato = AdicionarRestricoes(builder, new PacienteFilter(codigo), root);
-		query.where(predicato);
-		
-		TypedQuery<Paciente> tiped = em.createQuery(query);
-		
-		return tiped.getResultList();
-	}
-
 	private Predicate[] AdicionarRestricoes(CriteriaBuilder builder, PacienteFilter filtro, Root<Paciente> root) {
 		List<Predicate> lista = new ArrayList<Predicate>();
 		
-		if(!StringUtils.isEmpty(filtro.getCodigo()))
-			lista.add(builder.like(builder.lower(root.get(Paciente_.codigo)), "%" + filtro.getCodigo().toLowerCase() + "%"));
+		if(!StringUtils.isEmpty(filtro.getPacienteid()))
+			lista.add(builder.like(builder.lower(root.get(Paciente_.pacienteid)), "%" + filtro.getPacienteid().toLowerCase() + "%"));
 		
 		if(!StringUtils.isEmpty(filtro.getNome()))
 			lista.add(builder.like(builder.lower(root.get(Paciente_.nome)), "%" + filtro.getNome().toLowerCase() +"%"));
@@ -117,8 +87,8 @@ public class PacienteRepositoryImpl implements PacienteRepositoryQuery{
 		if(!StringUtils.isEmpty(filtro.getIdade()))
 			lista.add(builder.like(builder.lower(root.get(Paciente_.idade)), "%" + filtro.getIdade().toLowerCase() + "%"));
 		
-		if(filtro.getDataaniversario() != null) {
-			lista.add(builder.equal(root.get(Paciente_.datanasc), filtro.getDataaniversario()));
+		if(filtro.getDatanasc() != null) {
+			lista.add(builder.equal(root.get(Paciente_.datanasc), filtro.getDatanasc()));
 		}
 		
 		if(filtro.isServidor())

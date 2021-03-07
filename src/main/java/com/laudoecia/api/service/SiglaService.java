@@ -29,6 +29,11 @@ public class SiglaService {
 
 	public Sigla Criar(Sigla sigla) {
 		try {
+			Long codigo = this.dao.BuscarIdMax();
+			if(codigo == null)
+				codigo = 0L;
+			
+			sigla.setCodigo(codigo + 1);
 			return this.dao.save(sigla);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Criar------------------ de SiglaService");

@@ -26,6 +26,12 @@ public class ProcedimentoMedicoRepositoryImpl implements ProcedimentoMedicoRepos
 	private EntityManager em;
 
 	@Override
+	public Long BuscarIdMax() {
+		Long codigo = em.createQuery("SELECT MAX(procedimento.codigo) FROM ProcedimentoMedico procedimento", Long.class).getSingleResult();
+		return codigo;
+	}
+	
+	@Override
 	public Page<ResumoProcedimentoMedico> resumir(ProcedimentoMedicoFilter filtro, Pageable pageable) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
 		CriteriaQuery<ResumoProcedimentoMedico> criteria = builder.createQuery(ResumoProcedimentoMedico.class);
