@@ -9,4 +9,5 @@ import com.laudoecia.api.repository.filtro.ProfissionalExecutanteFilter;
 public interface ProfissionalExecutanteRepositoryQuery {
 	public Page<ProfissionalExecutante> resumir(ProfissionalExecutanteFilter filtro, Pageable page);
 	public Page<ProfissionalExecutante> filtrando(ProfissionalExecutanteFilter filtro, Pageable page);
+	public boolean VerificarProfExecNome(String nome);
 }

@@ -91,4 +91,8 @@ public class ServerDicom {
 		return this.service.BuscaEstudo(codigo);
 	}
 
+	@GetMapping("/verificar/{nome}")
+	public Boolean SeNomeExiste(@PathVariable String nome){
+		return this.service.VerificarSeNomeExiste(nome);
+	}
 }

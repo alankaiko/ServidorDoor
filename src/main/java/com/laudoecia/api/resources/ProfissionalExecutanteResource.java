@@ -91,4 +91,9 @@ public class ProfissionalExecutanteResource {
 			return null;
 		}		
 	}
+	
+	@GetMapping("/verificar/{nome}")
+	public Boolean SeNomeExiste(@PathVariable String nome){
+		return this.service.VerificarSeNomeExiste(nome);
+	}
 }

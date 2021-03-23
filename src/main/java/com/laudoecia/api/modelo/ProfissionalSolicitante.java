@@ -3,7 +3,10 @@ package com.laudoecia.api.modelo;
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.laudoecia.api.modelo.enuns.EnumTitulo;
+
 @Entity
 @Table(name="profissionalsolicitante")
 public class ProfissionalSolicitante implements Serializable {
@@ -19,7 +24,7 @@ public class ProfissionalSolicitante implements Serializable {
 
 	private Long codigo;
 	private String nome;
-	private String numnoconselho;
+	private EnumTitulo titulo;
 	private TISSConselho conselho;
 
 	@Id
@@ -32,6 +37,7 @@ public class ProfissionalSolicitante implements Serializable {
 		this.codigo = codigo;
 	}
 
+	@Column(nullable = true)
 	public String getNome() {
 		return nome;
 	}
@@ -39,13 +45,15 @@ public class ProfissionalSolicitante implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
-	public String getNumnoconselho() {
-		return numnoconselho;
+	
+	@Column(nullable = true)
+	@Enumerated(EnumType.STRING)
+	public EnumTitulo getTitulo() {
+		return titulo;
 	}
 	
-	public void setNumnoconselho(String numnoconselho) {
-		this.numnoconselho = numnoconselho;
+	public void setTitulo(EnumTitulo titulo) {
+		this.titulo = titulo;
 	}
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

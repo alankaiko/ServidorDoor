@@ -13,4 +13,5 @@ public interface PacienteRepositoryQuery {
 	public List<Paciente> ListarMaximoCom(int primeiro, int maximo);
 	public Page<Paciente> Filtrar(PacienteFilter filter, Pageable pageable);
 	public Page<ResumoPaciente> Resumir(PacienteFilter filtro, Pageable pageable);
+	public boolean VerificarPacienteNome(String nome);
 }

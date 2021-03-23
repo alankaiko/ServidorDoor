@@ -27,14 +27,15 @@ public class GrupoProcedimentoService {
 		return this.dao.findAll();
 	}
 
-	public GrupoProcedimento Criar(GrupoProcedimento grupo) {
+	public GrupoProcedimento Criar(GrupoProcedimento grupo, boolean conf) {
 		try {
 			Long codigo = this.dao.BuscarIdMax();
-			if(codigo == null)
+			if(codigo == null) 
 				codigo = 0L;
 			
-			grupo.setCodigo(codigo + 1);
-			grupo.setNomegrupo(grupo.getNomegrupo().toUpperCase());
+			if(conf)
+				grupo.setCodigo(codigo + 1);
+			
 			return this.dao.save(grupo);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Criar------------------ de GrupoProcedimentoService");
@@ -85,7 +86,7 @@ public class GrupoProcedimentoService {
 			grupo.setNomegrupo(grupo.getNomegrupo().toUpperCase());
 			GrupoProcedimento salvo = this.BuscarPorId(id);
 			BeanUtils.copyProperties(grupo, salvo, "codigo");
-			return this.Criar(salvo);
+			return this.Criar(salvo, false);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Atualizar------------------ de GrupoProcedimentoService");
 			e.printStackTrace();
@@ -113,6 +114,15 @@ public class GrupoProcedimentoService {
 		}	
 	}
 	
+	public Boolean VerificarSeNomeExiste(String nome) {
+		try {
+			return this.dao.VerificarGrupoProcNome(nome);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo VerificarSeNomeExiste------------------ de ConvenioService");
+			e.printStackTrace();
+			return null;
+		}	
+	}
 
 
 }

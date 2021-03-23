@@ -34,10 +34,6 @@ public class ProfissionalExecutanteService {
 	@Autowired
 	private LicenciadoService licencaservice;
 	
-	@Autowired
-	private ParametrosDoSistemaService paramservice;
-
-	
 	public List<ProfissionalExecutante> Listar() {
 		return this.dao.findAll();
 	}
@@ -147,6 +143,16 @@ public class ProfissionalExecutanteService {
 		InputStream inputStream = this.getClass().getResourceAsStream("/jasper/RelProfExecutante.jasper");	
 		JasperPrint jasperPrint = JasperFillManager.fillReport(inputStream, parametros, new JRBeanCollectionDataSource(lista, false));
 		return JasperExportManager.exportReportToPdf(jasperPrint);
+	}
+	
+	public Boolean VerificarSeNomeExiste(String nome) {
+		try {
+			return this.dao.VerificarProfExecNome(nome);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo VerificarSeNomeExiste------------------ de ConvenioService");
+			e.printStackTrace();
+			return null;
+		}	
 	}
 
 }

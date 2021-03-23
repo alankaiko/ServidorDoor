@@ -24,7 +24,7 @@ public class GrupoProcedimento implements Serializable {
 		this.codigo = codigo;
 	}
 
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false)
 	public String getNomegrupo() {
 		return nomegrupo;
 	}

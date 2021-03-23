@@ -50,7 +50,7 @@ public class EstadoResource {
 	
 	@PostMapping
 	public ResponseEntity<Estado> Salvar(@Valid @RequestBody Estado estado, HttpServletResponse resposta){
-		Estado salvo = this.service.Criar(estado);
+		Estado salvo = this.service.Criar(estado, true);
 		this.publisher.publishEvent(new RecursoCriadoEvent(this, resposta, salvo.getCodigo()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
 	}
@@ -71,5 +71,10 @@ public class EstadoResource {
 	public ResponseEntity<Estado> Atualizar(@PathVariable Long codigo, @Valid @RequestBody Estado estado){
 		Estado salvo = this.service.Atualizar(codigo, estado);
 		return ResponseEntity.ok(salvo);
+	}
+	
+	@GetMapping("/verificar/{nome}")
+	public Boolean SeNomeExiste(@PathVariable String nome){
+		return this.service.VerificarSeNomeExiste(nome);
 	}
 }

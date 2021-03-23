@@ -9,4 +9,5 @@ import com.laudoecia.api.repository.filtro.SiglaFilter;
 public interface SiglaRepositoryQuery {
 	public Page<Sigla> Filtrando(SiglaFilter filtro, Pageable pageable);
 	public Long BuscarIdMax();
+	public boolean VerificarSiglaNome(String nome);
 }

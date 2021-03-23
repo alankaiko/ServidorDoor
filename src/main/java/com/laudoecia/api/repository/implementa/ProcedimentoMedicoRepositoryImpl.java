@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -25,6 +26,23 @@ public class ProcedimentoMedicoRepositoryImpl implements ProcedimentoMedicoRepos
 	@PersistenceContext
 	private EntityManager em;
 
+	@Override
+	public boolean VerificarProcedimentoMedNome(String nome) {
+		try {
+			CriteriaBuilder builder = em.getCriteriaBuilder();
+			CriteriaQuery<ProcedimentoMedico> criteria = builder.createQuery(ProcedimentoMedico.class);
+			Root<ProcedimentoMedico> root = criteria.from(ProcedimentoMedico.class);
+			
+			criteria.where(builder.equal(builder.lower(root.get(ProcedimentoMedico_.nome)), nome.toLowerCase()));
+			TypedQuery<ProcedimentoMedico> query = em.createQuery(criteria);
+			
+			query.getSingleResult();
+			return true;
+		} catch (NoResultException e) {
+			return false;
+		}
+	}
+	
 	@Override
 	public Long BuscarIdMax() {
 		Long codigo = em.createQuery("SELECT MAX(procedimento.codigo) FROM ProcedimentoMedico procedimento", Long.class).getSingleResult();
@@ -78,5 +96,4 @@ public class ProcedimentoMedicoRepositoryImpl implements ProcedimentoMedicoRepos
 		query.select(builder.count(root));
 		return em.createQuery(query).getSingleResult();
 	}
-	
 }

@@ -77,4 +77,9 @@ public class TextoPessoalResource {
 		TextoPessoal salvo = this.service.Atualizar(codigo, texto);
 		return ResponseEntity.ok(salvo);
 	}
+	
+	@GetMapping("/verificar/{nome}")
+	public Boolean SeNomeExiste(@PathVariable String nome){
+		return this.service.VerificarSeNomeExiste(nome);
+	}
 }

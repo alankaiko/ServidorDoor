@@ -8,4 +8,5 @@ import com.laudoecia.api.repository.resumo.ResumoConvenio;
 
 public interface ConvenioRepositoryQuery {
 	public Page<ResumoConvenio> resumir(ConvenioFilter filtro, Pageable pageable);
+	public boolean VerificarConvenioNome(String nome);
 }

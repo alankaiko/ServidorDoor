@@ -106,5 +106,14 @@ public class TextoPessoalService {
 		}	
 	}
 
+	public Boolean VerificarSeNomeExiste(String nome) {
+		try {
+			return this.dao.VerificarTextoPessoalNome(nome);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo VerificarSeNomeExiste------------------ de ConvenioService");
+			e.printStackTrace();
+			return null;
+		}	
+	}
 
 }

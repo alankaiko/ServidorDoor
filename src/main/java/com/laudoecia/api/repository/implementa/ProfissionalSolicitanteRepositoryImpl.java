@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -26,6 +27,23 @@ public class ProfissionalSolicitanteRepositoryImpl implements ProfissionalSolici
 	@PersistenceContext
 	private EntityManager em;
 
+	@Override
+	public boolean VerificarProcSolNome(String nome) {
+		try {
+			CriteriaBuilder builder = em.getCriteriaBuilder();
+			CriteriaQuery<ProfissionalSolicitante> criteria = builder.createQuery(ProfissionalSolicitante.class);
+			Root<ProfissionalSolicitante> root = criteria.from(ProfissionalSolicitante.class);
+			
+			criteria.where(builder.equal(builder.lower(root.get(ProfissionalSolicitante_.nome)), nome.toLowerCase()));
+			TypedQuery<ProfissionalSolicitante> query = em.createQuery(criteria);
+			
+			query.getSingleResult();
+			return true;
+		} catch (NoResultException e) {
+			return false;
+		}
+	}
+	
 	@Override
 	public Page<ProfissionalSolicitante> Filtrando(ProfissionalSolicitanteFilter filtro, Pageable page) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();

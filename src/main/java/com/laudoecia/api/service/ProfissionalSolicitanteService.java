@@ -106,4 +106,14 @@ public class ProfissionalSolicitanteService {
 			return null;
 		}		
 	}
+	
+	public Boolean VerificarSeNomeExiste(String nome) {
+		try {
+			return this.dao.VerificarProcSolNome(nome);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo VerificarSeNomeExiste------------------ de ConvenioService");
+			e.printStackTrace();
+			return null;
+		}	
+	}
 }

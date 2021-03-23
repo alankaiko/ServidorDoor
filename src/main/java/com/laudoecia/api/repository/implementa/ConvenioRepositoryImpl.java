@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -24,6 +25,23 @@ import com.laudoecia.api.repository.resumo.ResumoConvenio;
 public class ConvenioRepositoryImpl implements ConvenioRepositoryQuery{
 	@PersistenceContext
 	private EntityManager em;
+	
+	@Override
+	public boolean VerificarConvenioNome(String nome) {
+		try {
+			CriteriaBuilder builder = em.getCriteriaBuilder();
+			CriteriaQuery<Convenio> criteria = builder.createQuery(Convenio.class);
+			Root<Convenio> root = criteria.from(Convenio.class);
+			
+			criteria.where(builder.equal(builder.lower(root.get(Convenio_.nome)), nome.toLowerCase()));
+			TypedQuery<Convenio> query = em.createQuery(criteria);
+			
+			query.getSingleResult();
+			return true;
+		} catch (NoResultException e) {
+			return false;
+		}
+	}
 
 	@Override
 	public Page<ResumoConvenio> resumir(ConvenioFilter filtro, Pageable pageable) {
@@ -32,8 +50,7 @@ public class ConvenioRepositoryImpl implements ConvenioRepositoryQuery{
 		Root<Convenio> root = criteria.from(Convenio.class);
 		
 		criteria.orderBy(builder.asc(root.get("codigo")));		
-		criteria.select(builder.construct(
-				ResumoConvenio.class, root.get(Convenio_.codigo), root.get(Convenio_.nome), root.get(Convenio_.telefone), root.get(Convenio_.ativo)));
+		criteria.select(builder.construct(ResumoConvenio.class, root.get(Convenio_.codigo), root.get(Convenio_.nome), root.get(Convenio_.telefone), root.get(Convenio_.ativo)));
 		
 		Predicate[] predicates = AdicionarRestricoes(builder, filtro, root);
 		criteria.where(predicates);
@@ -84,5 +101,4 @@ public class ConvenioRepositoryImpl implements ConvenioRepositoryQuery{
 		query.select(builder.count(root));
 		return em.createQuery(query).getSingleResult();
 	}
-
 }

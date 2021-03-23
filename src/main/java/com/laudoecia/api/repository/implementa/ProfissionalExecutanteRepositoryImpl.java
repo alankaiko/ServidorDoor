@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -26,6 +27,22 @@ public class ProfissionalExecutanteRepositoryImpl implements ProfissionalExecuta
 	@PersistenceContext
 	private EntityManager em;
 	
+	@Override
+	public boolean VerificarProfExecNome(String nome) {
+		try {
+			CriteriaBuilder builder = em.getCriteriaBuilder();
+			CriteriaQuery<ProfissionalExecutante> criteria = builder.createQuery(ProfissionalExecutante.class);
+			Root<ProfissionalExecutante> root = criteria.from(ProfissionalExecutante.class);
+			
+			criteria.where(builder.equal(builder.lower(root.get(ProfissionalExecutante_.nome)), nome.toLowerCase()));
+			TypedQuery<ProfissionalExecutante> query = em.createQuery(criteria);
+			
+			query.getSingleResult();
+			return true;
+		} catch (NoResultException e) {
+			return false;
+		}
+	}
 	@Override
 	public Page<ProfissionalExecutante> filtrando(ProfissionalExecutanteFilter filtro, Pageable page) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
@@ -93,6 +110,4 @@ public class ProfissionalExecutanteRepositoryImpl implements ProfissionalExecuta
 		query.select(builder.count(root));
 		return em.createQuery(query).getSingleResult();
 	}
-
-
 }

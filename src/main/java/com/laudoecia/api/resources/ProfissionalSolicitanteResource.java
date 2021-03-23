@@ -76,4 +76,9 @@ public class ProfissionalSolicitanteResource {
 		ProfissionalSolicitante salvo = this.service.Atualizar(codigo, profissional);
 		return ResponseEntity.ok(salvo);
 	}
+	
+	@GetMapping("/verificar/{nome}")
+	public Boolean SeNomeExiste(@PathVariable String nome){
+		return this.service.VerificarSeNomeExiste(nome);
+	}
 }

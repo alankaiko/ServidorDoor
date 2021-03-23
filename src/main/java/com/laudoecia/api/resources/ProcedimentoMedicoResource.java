@@ -60,7 +60,7 @@ public class ProcedimentoMedicoResource {
 	
 	@PostMapping
 	public ResponseEntity<ProcedimentoMedico> Salvar(@Valid @RequestBody ProcedimentoMedico procedimento, HttpServletResponse resposta){
-		ProcedimentoMedico salvo = this.service.Criar(procedimento);
+		ProcedimentoMedico salvo = this.service.Criar(procedimento, true);
 		this.publisher.publishEvent(new RecursoCriadoEvent(this, resposta, salvo.getCodigo()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
 	}
@@ -81,5 +81,10 @@ public class ProcedimentoMedicoResource {
 	public ResponseEntity<ProcedimentoMedico> Atualizar(@PathVariable Long codigo, @Valid @RequestBody ProcedimentoMedico procedimento){
 		ProcedimentoMedico salvo = this.service.Atualizar(codigo, procedimento);
 		return ResponseEntity.ok(salvo);
+	}
+	
+	@GetMapping("/verificar/{nome}")
+	public Boolean SeNomeExiste(@PathVariable String nome){
+		return this.service.VerificarSeNomeExiste(nome);
 	}
 }

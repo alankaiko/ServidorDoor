@@ -65,7 +65,7 @@ public class Paciente implements Serializable {
 		this.pacienteid = pacienteid;
 	}
 	
-	@Column(length = 200)
+	@Column(length = 150, nullable = false)
 	public String getNome() {
 		return nome;
 	}
@@ -74,7 +74,7 @@ public class Paciente implements Serializable {
 		this.nome = nome;
 	}
 
-	@Column(length = 20)
+	@Column(length = 20, nullable = false)
 	public String getSexo() {
 		return sexo;
 	}
@@ -83,6 +83,7 @@ public class Paciente implements Serializable {
 		this.sexo = sexo;
 	}
 
+	@Column(nullable = false)
 	public LocalDate getDatanasc() {
 		return datanasc;
 	}

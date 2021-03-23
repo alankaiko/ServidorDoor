@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -23,6 +24,23 @@ import com.laudoecia.api.repository.filtro.GrupoProcedimentoFilter;
 public class GrupoProcedimentoRepositoryImpl implements GrupoProcedimentoRepositoryQuery{
 	@PersistenceContext
 	private EntityManager em;
+	
+	@Override
+	public boolean VerificarGrupoProcNome(String nome) {
+		try {
+			CriteriaBuilder builder = em.getCriteriaBuilder();
+			CriteriaQuery<GrupoProcedimento> criteria = builder.createQuery(GrupoProcedimento.class);
+			Root<GrupoProcedimento> root = criteria.from(GrupoProcedimento.class);
+			
+			criteria.where(builder.equal(builder.lower(root.get(GrupoProcedimento_.nomegrupo)), nome.toLowerCase()));
+			TypedQuery<GrupoProcedimento> query = em.createQuery(criteria);
+			
+			query.getSingleResult();
+			return true;
+		} catch (NoResultException e) {
+			return false;
+		}
+	}
 	
 	@Override
 	public Long BuscarIdMax() {

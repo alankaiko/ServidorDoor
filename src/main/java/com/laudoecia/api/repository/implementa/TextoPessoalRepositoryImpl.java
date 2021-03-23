@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -24,6 +25,24 @@ public class TextoPessoalRepositoryImpl implements TextoPessoalRepositoryQuery{
 	@PersistenceContext
 	private EntityManager em;
 
+	
+	@Override
+	public boolean VerificarTextoPessoalNome(String nome) {
+		try {
+			CriteriaBuilder builder = em.getCriteriaBuilder();
+			CriteriaQuery<TextoPessoal> criteria = builder.createQuery(TextoPessoal.class);
+			Root<TextoPessoal> root = criteria.from(TextoPessoal.class);
+			
+			criteria.where(builder.equal(builder.lower(root.get(TextoPessoal_.abreviatura)), nome.toLowerCase()));
+			TypedQuery<TextoPessoal> query = em.createQuery(criteria);
+			
+			query.getSingleResult();
+			return true;
+		} catch (NoResultException e) {
+			return false;
+		}
+	}
+	
 	@Override
 	public Page<TextoPessoal> Filtrando(TextoPessoalFilter filtro, Pageable pageable) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
@@ -71,5 +90,4 @@ public class TextoPessoalRepositoryImpl implements TextoPessoalRepositoryQuery{
 		query.select(builder.count(root));
 		return em.createQuery(query).getSingleResult();
 	}
-	
 }

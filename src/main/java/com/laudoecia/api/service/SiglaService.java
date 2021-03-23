@@ -27,13 +27,15 @@ public class SiglaService {
 		return this.dao.findAll();
 	}
 
-	public Sigla Criar(Sigla sigla) {
+	public Sigla Criar(Sigla sigla, boolean conf) {
 		try {
 			Long codigo = this.dao.BuscarIdMax();
-			if(codigo == null)
+			if(codigo == null) 
 				codigo = 0L;
 			
-			sigla.setCodigo(codigo + 1);
+			if(conf)
+				sigla.setCodigo(codigo + 1);
+			
 			return this.dao.save(sigla);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Criar------------------ de SiglaService");
@@ -73,7 +75,7 @@ public class SiglaService {
 		try {
 			Sigla salvo = this.BuscarPorId(id);
 			BeanUtils.copyProperties(sigla, salvo, "codigo");
-			return this.Criar(salvo);
+			return this.Criar(salvo, false);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Atualizar------------------ de SiglaService");
 			e.printStackTrace();
@@ -92,5 +94,14 @@ public class SiglaService {
 		}	
 	}
 
+	public Boolean VerificarSeNomeExiste(String nome) {
+		try {
+			return this.dao.VerificarSiglaNome(nome);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo VerificarSeNomeExiste------------------ de ConvenioService");
+			e.printStackTrace();
+			return null;
+		}	
+	}
 
 }

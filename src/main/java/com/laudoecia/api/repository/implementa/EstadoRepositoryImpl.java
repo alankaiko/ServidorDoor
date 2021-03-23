@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -25,6 +26,23 @@ public class EstadoRepositoryImpl implements EstadoRepositoryQuery {
 	private EntityManager em;
 
 	@Override
+	public boolean VerificarEstadoNome(String nome) {
+		try {
+			CriteriaBuilder builder = em.getCriteriaBuilder();
+			CriteriaQuery<Estado> criteria = builder.createQuery(Estado.class);
+			Root<Estado> root = criteria.from(Estado.class);
+			
+			criteria.where(builder.equal(builder.lower(root.get(Estado_.uf)), nome.toLowerCase()));
+			TypedQuery<Estado> query = em.createQuery(criteria);
+			
+			query.getSingleResult();
+			return true;
+		} catch (NoResultException e) {
+			return false;
+		}
+	}
+	
+	@Override
 	public Long BuscarIdMax() {
 		Long codigo = em.createQuery("SELECT MAX(estado.codigo) FROM Estado estado", Long.class).getSingleResult();
 		return codigo;
@@ -37,7 +55,7 @@ public class EstadoRepositoryImpl implements EstadoRepositoryQuery {
 		Root<Estado> root = query.from(Estado.class);
 
 		query.orderBy(builder.asc(root.get("codigo")));
-		Predicate[] predicato = AdicionarRestricoes(builder, filtro, root);
+		Predicate[] predicato = AdicionarRestricoes(builder, filtro, root, true);
 		query.where(predicato);
 
 		TypedQuery<Estado> tiped = em.createQuery(query);
@@ -46,15 +64,20 @@ public class EstadoRepositoryImpl implements EstadoRepositoryQuery {
 		return new PageImpl<>(tiped.getResultList(), pageable, Total(filtro));
 	}
 
-	private Predicate[] AdicionarRestricoes(CriteriaBuilder builder, EstadoFilter filtro, Root<Estado> root) {
+	private Predicate[] AdicionarRestricoes(CriteriaBuilder builder, EstadoFilter filtro, Root<Estado> root, boolean usarlike) {
 		List<Predicate> lista = new ArrayList<Predicate>();
 
-		if (!StringUtils.isEmpty(filtro.getUf()))
+		if (!StringUtils.isEmpty(filtro.getUf()) && usarlike)
 			lista.add(builder.like(builder.lower(root.get(Estado_.uf)), "%" + filtro.getUf().toLowerCase() + "%"));
+		
+		if (!StringUtils.isEmpty(filtro.getUf()) && !usarlike)
+			lista.add(builder.equal(builder.lower(root.get(Estado_.uf)), filtro.getUf().toLowerCase()));
 
-		if (!StringUtils.isEmpty(filtro.getDescricao()))
-			lista.add(builder.like(builder.lower(root.get(Estado_.descricao)),
-					"%" + filtro.getDescricao().toLowerCase() + "%"));
+		if (!StringUtils.isEmpty(filtro.getDescricao()) && usarlike)
+			lista.add(builder.like(builder.lower(root.get(Estado_.descricao)),"%" + filtro.getDescricao().toLowerCase() + "%"));
+		
+		if (!StringUtils.isEmpty(filtro.getDescricao()) && !usarlike)
+			lista.add(builder.equal(builder.lower(root.get(Estado_.descricao)), filtro.getDescricao().toLowerCase()));
 
 		return lista.toArray(new Predicate[lista.size()]);
 	}
@@ -73,7 +96,7 @@ public class EstadoRepositoryImpl implements EstadoRepositoryQuery {
 		CriteriaQuery<Long> query = builder.createQuery(Long.class);
 		Root<Estado> root = query.from(Estado.class);
 
-		Predicate[] predicato = AdicionarRestricoes(builder, filtro, root);
+		Predicate[] predicato = AdicionarRestricoes(builder, filtro, root, true);
 		query.where(predicato);
 		query.select(builder.count(root));
 		return em.createQuery(query).getSingleResult();

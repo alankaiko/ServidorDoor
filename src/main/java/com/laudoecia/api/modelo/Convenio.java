@@ -37,7 +37,7 @@ public class Convenio implements Serializable{
 		this.codigo = codigo;
 	}
 
-	@Column(name = "nome", nullable = false, unique = true)
+	@Column(name = "nome", nullable = false)
 	public String getNome() {
 		return nome;
 	}

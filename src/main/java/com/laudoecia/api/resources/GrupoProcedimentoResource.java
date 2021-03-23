@@ -54,7 +54,7 @@ public class GrupoProcedimentoResource {
 	
 	@PostMapping
 	public ResponseEntity<GrupoProcedimento> Salvar(@Valid @RequestBody GrupoProcedimento procedimento, HttpServletResponse resposta){
-		GrupoProcedimento salvo = this.service.Criar(procedimento);
+		GrupoProcedimento salvo = this.service.Criar(procedimento, true);
 		this.publisher.publishEvent(new RecursoCriadoEvent(this, resposta, salvo.getCodigo()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
 	}
@@ -75,5 +75,10 @@ public class GrupoProcedimentoResource {
 	public ResponseEntity<GrupoProcedimento> Atualizar(@PathVariable Long codigo, @Valid @RequestBody GrupoProcedimento procedimento){
 		GrupoProcedimento salvo = this.service.Atualizar(codigo, procedimento);
 		return ResponseEntity.ok(salvo);
+	}
+	
+	@GetMapping("/verificar/{nome}")
+	public Boolean SeNomeExiste(@PathVariable String nome){
+		return this.service.VerificarSeNomeExiste(nome);
 	}
 }

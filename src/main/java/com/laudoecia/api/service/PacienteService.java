@@ -111,7 +111,7 @@ public class PacienteService {
 	public Paciente Atualizar(Long codigo, Paciente paciente) {
 		try {
 			Paciente salvo = this.BuscarPorId(codigo);
-			BeanUtils.copyProperties(paciente, salvo, "codigo", "estudos");
+			BeanUtils.copyProperties(paciente, salvo, "codigo");
 			return this.Criar(salvo);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Atualizar------------------ de PatientService");
@@ -160,6 +160,16 @@ public class PacienteService {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	public Boolean VerificarSeNomeExiste(String nome) {
+		try {
+			return this.dao.VerificarPacienteNome(nome);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo VerificarSeNomeExiste------------------ de ConvenioService");
+			e.printStackTrace();
+			return null;
+		}	
 	}
 	
 //	public List<Paciente> ListaPorId(Long codigo) {

@@ -28,13 +28,15 @@ public class ProcedimentoMedicoService {
 		return this.dao.findAll();
 	}
 
-	public ProcedimentoMedico Criar(ProcedimentoMedico procedimento) {
+	public ProcedimentoMedico Criar(ProcedimentoMedico procedimento, boolean conf) {
 		try {
 			Long codigo = this.dao.BuscarIdMax();
 			if(codigo == null)
-				codigo = 0L;
+				codigo = 0L;	
 			
-			procedimento.setCodigo(codigo + 1);
+			if(conf)
+				procedimento.setCodigo(codigo + 1);
+			
 			return this.dao.save(procedimento);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Criar------------------ de ProcedimentoMedicoService");
@@ -94,8 +96,8 @@ public class ProcedimentoMedicoService {
 	public ProcedimentoMedico Atualizar(Long id, ProcedimentoMedico procedimento) {
 		try {
 			ProcedimentoMedico salvo = this.BuscarPorId(id);
-			BeanUtils.copyProperties(procedimento, salvo, "id");
-			return this.Criar(salvo);
+			BeanUtils.copyProperties(procedimento, salvo, "codigo");
+			return this.Criar(salvo, false);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Atualizar------------------ de ProcedimentoMedicoService");
 			e.printStackTrace();
@@ -123,4 +125,14 @@ public class ProcedimentoMedicoService {
 		}		
 	}
 
+	public Boolean VerificarSeNomeExiste(String nome) {
+		try {
+			return this.dao.VerificarProcedimentoMedNome(nome);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo VerificarSeNomeExiste------------------ de ConvenioService");
+			e.printStackTrace();
+			return null;
+		}	
+	}
+	
 }

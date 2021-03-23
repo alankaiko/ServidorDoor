@@ -2,10 +2,12 @@ package com.laudoecia.api.modelo;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -36,7 +38,7 @@ public class ProcedimentoMedico implements Serializable {
 		this.codigo = codigo;
 	}
 
-	@Column(name = "nome", nullable = false, unique = true)
+	@Column(name = "nome", nullable = false)
 	public String getNome() {
 		return nome;
 	}
@@ -78,7 +80,7 @@ public class ProcedimentoMedico implements Serializable {
 		this.laudomodelo = laudomodelo;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
 	@JoinColumn(name = "grupo_codigo", referencedColumnName = "codigo", nullable = false)
 	public GrupoProcedimento getGrupo() {
 		return grupo;

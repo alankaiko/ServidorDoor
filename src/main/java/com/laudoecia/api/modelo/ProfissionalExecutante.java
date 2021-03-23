@@ -6,6 +6,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.laudoecia.api.modelo.enuns.EnumTitulo;
+
 @Entity
 @Table(name = "profissionalexecutante")
 public class ProfissionalExecutante implements Serializable {
@@ -21,16 +25,12 @@ public class ProfissionalExecutante implements Serializable {
 
 	private Long codigo;
 	private String nome;
-	private String numnoconselho;
+	private EnumTitulo titulo;
 	private Contato contato;
 	private Endereco endereco;
 	private TISSConselho conselho;
-	private String frasepessoal = "";
-	private byte[] assinatura;
-	private double largura = 0;
-	private double algura = 0;
-	private int espaco = 10;
-	private long version = 0;
+	private String frasepessoal;
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,14 +49,6 @@ public class ProfissionalExecutante implements Serializable {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public String getNumnoconselho() {
-		return numnoconselho;
-	}
-
-	public void setNumnoconselho(String numnoconselho) {
-		this.numnoconselho = numnoconselho;
 	}
 
 	@Embedded
@@ -98,45 +90,14 @@ public class ProfissionalExecutante implements Serializable {
 	public void setFrasepessoal(String frasepessoal) {
 		this.frasepessoal = frasepessoal;
 	}
-
-	public byte[] getAssinatura() {
-		return assinatura;
-	}
-
-	public void setAssinatura(byte[] assinatura) {
-		this.assinatura = assinatura;
-	}
-
-	public double getLargura() {
-		return largura;
-	}
 	
-	public void setLargura(double largura) {
-		this.largura = largura;
+	@Enumerated(EnumType.STRING)
+	public EnumTitulo getTitulo() {
+		return titulo;
 	}
 
-	public double getAlgura() {
-		return algura;
-	}
-	
-	public void setAlgura(double algura) {
-		this.algura = algura;
-	}
-
-	public int getEspaco() {
-		return espaco;
-	}
-	
-	public void setEspaco(int espaco) {
-		this.espaco = espaco;
-	}
-
-	public long getVersion() {
-		return version;
-	}
-
-	public void setVersion(long version) {
-		this.version = version;
+	public void setTitulo(EnumTitulo titulo) {
+		this.titulo = titulo;
 	}
 
 	@Override

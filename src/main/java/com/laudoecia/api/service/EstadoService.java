@@ -27,13 +27,15 @@ public class EstadoService {
 		return this.dao.findAll();
 	}
 
-	public Estado Criar(Estado estado) {
+	public Estado Criar(Estado estado, boolean conf) {
 		try {
 			Long codigo = this.dao.BuscarIdMax();
 			if(codigo == null)
 				codigo = 0L;
+			
+			if(conf)
+				estado.setCodigo(codigo + 1);
 	
-			estado.setCodigo(codigo + 1);
 			return this.dao.save(estado);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Criar------------------ de EstadoService");
@@ -73,7 +75,7 @@ public class EstadoService {
 		try {
 			Estado salvo = this.BuscarPorId(id);
 			BeanUtils.copyProperties(estado, salvo, "codigo");
-			return this.Criar(salvo);
+			return this.Criar(salvo, false);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Atualizar------------------ de EstadoService");
 			e.printStackTrace();
@@ -91,4 +93,13 @@ public class EstadoService {
 		}	
 	}
 
+	public Boolean VerificarSeNomeExiste(String nome) {
+		try {
+			return this.dao.VerificarEstadoNome(nome);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo VerificarSeNomeExiste------------------ de ConvenioService");
+			e.printStackTrace();
+			return null;
+		}	
+	}
 }

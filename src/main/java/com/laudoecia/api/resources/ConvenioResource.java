@@ -92,4 +92,9 @@ public class ConvenioResource {
 			return null;
 		}		
 	}
+	
+	@GetMapping("/verificar/{nome}")
+	public Boolean SeNomeExiste(@PathVariable String nome){
+		return this.service.VerificarSeNomeExiste(nome);
+	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -23,6 +24,23 @@ import com.laudoecia.api.repository.filtro.SiglaFilter;
 public class SiglaRepositoryImpl implements SiglaRepositoryQuery{
 	@PersistenceContext
 	private EntityManager em;
+	
+	@Override
+	public boolean VerificarSiglaNome(String nome) {
+		try {
+			CriteriaBuilder builder = em.getCriteriaBuilder();
+			CriteriaQuery<Sigla> criteria = builder.createQuery(Sigla.class);
+			Root<Sigla> root = criteria.from(Sigla.class);
+			
+			criteria.where(builder.equal(builder.lower(root.get(Sigla_.descricao)), nome.toLowerCase()));
+			TypedQuery<Sigla> query = em.createQuery(criteria);
+			
+			query.getSingleResult();
+			return true;
+		} catch (NoResultException e) {
+			return false;
+		}
+	}
 	
 	@Override
 	public Long BuscarIdMax() {

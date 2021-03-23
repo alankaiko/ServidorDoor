@@ -134,4 +134,14 @@ public class ConvenioService {
 
 		return JasperExportManager.exportReportToPdf(jasperPrint);
 	}
+	
+	public Boolean VerificarSeNomeExiste(String nome) {
+		try {
+			return this.dao.VerificarConvenioNome(nome);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo VerificarSeNomeExiste------------------ de ConvenioService");
+			e.printStackTrace();
+			return null;
+		}	
+	}
 }
