@@ -1,6 +1,5 @@
 package com.laudoecia.api.modelo;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.CascadeType;
@@ -16,9 +15,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "cbhpm")
-public class CBHPM implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+public class CBHPM {
 	private Long codigo;
 	private String sku;
 	private String procedimento;

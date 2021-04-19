@@ -1,6 +1,5 @@
 package com.laudoecia.api.modelo;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -18,15 +17,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 @Entity
-@Table(name="instance")
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@idinstance")
-public class Instancia implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+@Table
+public class Instancia {
 	private Long codigo;
 	private Integer instancenumber;
 	private String patientorientation;
@@ -49,7 +42,7 @@ public class Instancia implements Serializable {
 	private Date contentdatetime;
 	private Date datacriacao;
 	private Date datamodificacao;
-	private Serie series;
+	private Series series;
 	private Tagimagem tagimagem;
 
 	public Instancia() {
@@ -251,12 +244,12 @@ public class Instancia implements Serializable {
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn
-	public Serie getSeries() {
+	public Series getSeries() {
 		return series;
 	}
-
-	public void setSeries(Serie param) {
-		this.series = param;
+	
+	public void setSeries(Series series) {
+		this.series = series;
 	}
 	
 	@OneToOne(cascade = CascadeType.ALL)

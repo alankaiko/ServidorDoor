@@ -27,7 +27,7 @@ import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;
 import com.laudoecia.api.gerenciarentrada.GerenciaArquivoEntrada;
 import com.laudoecia.api.gerenciarentrada.ReplicarDicom;
-import com.laudoecia.api.servidor.DicomServer;
+import com.laudoecia.api.sistemdicom.DicomServer;
 import com.laudoecia.api.utils.Utils;
 
 @SpringBootApplication

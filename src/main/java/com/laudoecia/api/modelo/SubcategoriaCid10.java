@@ -1,7 +1,5 @@
 package com.laudoecia.api.modelo;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -17,9 +15,7 @@ import com.laudoecia.api.modelo.enuns.RESTRICAO_SEXO;
 
 @Entity
 @Table(name = "subcategoriacid10")
-public class SubcategoriaCid10 implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+public class SubcategoriaCid10 {
 	private Long codigo;
 	private String codigotexto;
 	private String nome;

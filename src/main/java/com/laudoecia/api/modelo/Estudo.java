@@ -1,6 +1,5 @@
 package com.laudoecia.api.modelo;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -20,10 +19,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="study")
-public class Estudo implements Serializable {
-	private static final long serialVersionUID = 1L;
-	
+@Table
+public class Estudo {
 	private Long codigo;
 	private String accessionnumber;
 	private String studyid;
@@ -38,7 +35,7 @@ public class Estudo implements Serializable {
 	private Date datacriacao;
 	private Date datamodificacao;
 	private Paciente paciente;
-	private List<Serie> series;
+	private List<Series> series;
 
 	public Estudo() {
 		super();
@@ -172,12 +169,12 @@ public class Estudo implements Serializable {
 		this.paciente = paciente;
 	}
 
-	@OneToMany(mappedBy = "study")
-	public List<Serie> getSeries() {
+	@OneToMany(mappedBy = "estudo")
+	public List<Series> getSeries() {
 		return series;
 	}
-
-	public void setSeries(List<Serie> series) {
+	
+	public void setSeries(List<Series> series) {
 		this.series = series;
 	}
 

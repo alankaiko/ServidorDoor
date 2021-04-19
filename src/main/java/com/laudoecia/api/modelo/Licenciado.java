@@ -1,7 +1,5 @@
 package com.laudoecia.api.modelo;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -17,9 +15,7 @@ import com.laudoecia.api.modelo.enuns.TIPO_LICENCA;
 
 @Entity
 @Table
-public class Licenciado implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+public class Licenciado {
 	private Long codigo;
 	private String cnpj;
 	private String cnes;

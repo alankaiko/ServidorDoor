@@ -1,33 +1,31 @@
 package com.laudoecia.api.modelo;
 
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.laudoecia.api.modelo.enuns.EnumSexo;
 
 @Entity
 @Table
-public class Paciente implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+public class Paciente {
 	private Long codigo; 
 	private String pacienteid;
 	private String nome;
 	private LocalDate datanasc;
 	private String idade;
-	private String sexo;
+	private EnumSexo sexo;
 	private LocalDate datacriacao;
 	private LocalDate datamodificacao;
 	private List<Estudo> estudos;
@@ -40,7 +38,6 @@ public class Paciente implements Serializable {
     private String atributoextra2;
     private String atributoextra3;
     private int numerodeestudos;
-    private PersonName personname;
     private String observacoes;
 
 	public Paciente() {
@@ -74,16 +71,16 @@ public class Paciente implements Serializable {
 		this.nome = nome;
 	}
 
-	@Column(length = 20, nullable = false)
-	public String getSexo() {
+	@Enumerated(EnumType.STRING)
+	public EnumSexo getSexo() {
 		return sexo;
 	}
 	
-	public void setSexo(String sexo) {
+	public void setSexo(EnumSexo sexo) {
 		this.sexo = sexo;
 	}
 
-	@Column(nullable = false)
+	@Column(nullable = true)
 	public LocalDate getDatanasc() {
 		return datanasc;
 	}
@@ -177,16 +174,6 @@ public class Paciente implements Serializable {
 		this.numerodeestudos = numerodeestudos;
 	}
 
-	@OneToOne(cascade=CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "personname_fk")
-	public PersonName getPersonname() {
-		return personname;
-	}
-
-	public void setPersonname(PersonName personname) {
-		this.personname = personname;
-	}
-
 	public String getObservacoes() {
 		return observacoes;
 	}
@@ -226,8 +213,7 @@ public class Paciente implements Serializable {
 				+ datamodificacao + ", estudos=" + estudos + ", endereco=" + endereco + ", contato=" + contato
 				+ ", tamanho=" + tamanho + ", peso=" + peso + ", datamenstruacao=" + datamenstruacao
 				+ ", atributoextra1=" + atributoextra1 + ", atributoextra2=" + atributoextra2 + ", atributoextra3="
-				+ atributoextra3 + ", numerodeestudos=" + numerodeestudos + ", personname=" + personname
-				+ ", observacoes=" + observacoes + "]";
+				+ atributoextra3 + ", numerodeestudos=" + numerodeestudos + ", observacoes=" + observacoes + "]";
 	}
 	
 	

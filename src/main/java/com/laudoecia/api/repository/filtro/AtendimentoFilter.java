@@ -5,17 +5,18 @@ import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class AtendimentoFilter {
-	private String patientname;
+	private String pacientenome;
 	private String solicitantenome;
 	private LocalDate datainicial;
 	private LocalDate datafinal;
-
-	public String getPatientname() {
-		return patientname;
+	private LocalDate datanascpaciente;
+	
+	public String getPacientenome() {
+		return pacientenome;
 	}
 	
-	public void setPatientname(String patientname) {
-		this.patientname = patientname;
+	public void setPacientenome(String pacientenome) {
+		this.pacientenome = pacientenome;
 	}
 
 	public String getSolicitantenome() {
@@ -42,5 +43,14 @@ public class AtendimentoFilter {
 
 	public void setDatainicial(LocalDate datainicial) {
 		this.datainicial = datainicial;
+	}
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	public LocalDate getDatanascpaciente() {
+		return datanascpaciente;
+	}
+	
+	public void setDatanascpaciente(LocalDate datanascpaciente) {
+		this.datanascpaciente = datanascpaciente;
 	}
 }

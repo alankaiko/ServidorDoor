@@ -1,6 +1,5 @@
 package com.laudoecia.api.modelo;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -22,9 +21,7 @@ import com.laudoecia.api.modelo.enuns.TIPO_BACKUP;
 
 @Entity
 @Table(name = "backupautomatico")
-public class BackupAutomatico implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+public class BackupAutomatico {
 	private Long codigo;
 	private ParametrosDoSistema parametrosdosistema;
 	private DIA_DA_SEMANA diadasemana;

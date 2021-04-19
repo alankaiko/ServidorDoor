@@ -1,6 +1,5 @@
 package com.laudoecia.api.modelo;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -18,10 +17,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="dispositive")
-public class Equipamento implements Serializable {
-	private static final long serialVersionUID = 6245262777427705812L;
-
+@Table
+public class Equipamento  {
 	private Long codigo;
 	private String instituicao;
 	private String endereco;
@@ -35,7 +32,7 @@ public class Equipamento implements Serializable {
 	private String softwareversion;
 	private Date datacriacao;
 	private Date datamodificacao;
-	private Serie serie;
+	private Series series;
 
 	public Equipamento() {
 		super();
@@ -160,12 +157,12 @@ public class Equipamento implements Serializable {
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn
-	public Serie getSerie() {
-		return serie;
+	public Series getSeries() {
+		return series;
 	}
 	
-	public void setSerie(Serie serie) {
-		this.serie = serie;
+	public void setSeries(Series series) {
+		this.series = series;
 	}
 
 	@PreUpdate

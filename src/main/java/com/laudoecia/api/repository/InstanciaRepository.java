@@ -12,6 +12,6 @@ import com.laudoecia.api.repository.implementa.InstanciaRepositoryQuery;
 public interface InstanciaRepository extends JpaRepository<Instancia, Long>, InstanciaRepositoryQuery{
 	public List<Instancia> findBySeriesCodigo(Long codigo);
 	public Instancia findBySopinstanceuid(String sopinstanceuid);
-	public List<Instancia> findAllByseriesStudyPacienteCodigo(String codigo);
+	public List<Instancia> findAllByseriesEstudoPacienteCodigo(String codigo);
 	public Instancia findByCodigo(Long codigo);
 }

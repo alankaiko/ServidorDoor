@@ -1,7 +1,5 @@
 package com.laudoecia.api.modelo;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,9 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "cnes")
-public class CNES implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+public class CNES {
 	private Long codigo;
 	private String sku;
 	private String razaosocial;

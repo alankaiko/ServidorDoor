@@ -106,7 +106,7 @@ public class InstanciaService {
 
 	public List<Instancia> BuscarPacientesPeloEstudoSerie(String codigo) {
 		try {
-			return this.dao.findAllByseriesStudyPacienteCodigo(codigo);
+			return this.dao.findAllByseriesEstudoPacienteCodigo(codigo);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo BuscarPacientesPeloEstudoSerie------------------ de InstanceRepository");
 			e.printStackTrace();

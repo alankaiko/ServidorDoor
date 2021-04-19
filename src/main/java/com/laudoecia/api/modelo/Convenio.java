@@ -1,7 +1,5 @@
 package com.laudoecia.api.modelo;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -13,9 +11,7 @@ import javax.validation.constraints.Email;
 
 @Entity
 @Table
-public class Convenio implements Serializable{
-	private static final long serialVersionUID = 1L;
-	
+public class Convenio {
 	private Long codigo;
 	private String nome;
 	private String nomedocontato;

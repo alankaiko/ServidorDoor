@@ -1,7 +1,5 @@
 package com.laudoecia.api.modelo;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,9 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "modelodelaudodoproc")
-public class ModeloDeLaudoDoProc implements Serializable{
-	private static final long serialVersionUID = 1L;
-	
+public class ModeloDeLaudoDoProc {
 	private Long codigo;
 	private ProcedimentoMedico procedimentomedico;
 	private ModeloDeLaudo modelodelaudo;

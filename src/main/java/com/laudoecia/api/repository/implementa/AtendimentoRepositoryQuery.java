@@ -8,4 +8,5 @@ import com.laudoecia.api.repository.filtro.AtendimentoFilter;
 
 public interface AtendimentoRepositoryQuery {
 	public Page<Atendimento> Filtrando(AtendimentoFilter filtro, Pageable pageable);
+	public boolean VerificarPacienteNome(AtendimentoFilter filtro);
 }

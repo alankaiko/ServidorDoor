@@ -1,7 +1,5 @@
 package com.laudoecia.api.modelo;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,11 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-@Table(name="categoriacid10")
 @Entity
-public class CategoriaCID10 implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+@Table(name="categoriacid10")
+public class CategoriaCID10 {
 	private Long codigo;
 	private String codigotexto;
 	private String nome;

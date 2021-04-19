@@ -13,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
-import com.laudoecia.api.service.interf.DBService;
-import com.laudoecia.api.servidor.LeitorDicom;
+import com.laudoecia.api.sistemdicom.LeitorDicom;
+import com.laudoecia.api.sistemdicom.interfaces.DicomServicosQuery;
 
 
 public class GerenciaArquivoEntrada {
@@ -24,7 +24,7 @@ public class GerenciaArquivoEntrada {
 	private EventBus evento;
 	
 	@Autowired
-	private DBService service;
+	private DicomServicosQuery service;
 		
 	@Transactional
 	@Subscribe

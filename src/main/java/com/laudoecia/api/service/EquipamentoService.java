@@ -86,7 +86,7 @@ public class EquipamentoService {
 
 	public Equipamento BuscarPorSerieEquipamento(Long idseries) {
 		try {
-			return this.dao.findBySerieCodigo(idseries);
+			return this.dao.findBySeriesCodigo(idseries);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo BuscarPorSerieEquipamento------------------ de StudyService");
 			e.printStackTrace();

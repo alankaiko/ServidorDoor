@@ -1,7 +1,5 @@
 package com.laudoecia.api.modelo;
 
-import java.io.Serializable;
-
 import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,9 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "scheduledstationaetitle")
-public class ScheduledStationAETitle implements Serializable {
-	private static final long serialVersionUID = -145604862103707241L;
-	
+public class ScheduledStationAETitle {
 	private Long codigo;
 	private String aetitle;
 	private MWLItem mwlitem;

@@ -5,6 +5,8 @@ import java.time.LocalDate;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.laudoecia.api.modelo.enuns.EnumSexo;
+
 public class ResumoPaciente implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -13,12 +15,12 @@ public class ResumoPaciente implements Serializable {
 	private String nome;
 	private LocalDate datanasc;
 	private String idade;
-	private String sexo;
+	private EnumSexo sexo;
 	private LocalDate datacriacao;
 
 	
 
-	public ResumoPaciente(Long codigo, String pacienteid, String nome, LocalDate datanasc, String idade, String sexo,LocalDate datacriacao) {
+	public ResumoPaciente(Long codigo, String pacienteid, String nome, LocalDate datanasc, String idade, EnumSexo sexo,LocalDate datacriacao) {
 		this.codigo = codigo;
 		this.pacienteid = pacienteid;
 		this.nome = nome;
@@ -68,11 +70,11 @@ public class ResumoPaciente implements Serializable {
 		this.idade = idade;
 	}
 
-	public String getSexo() {
+	public EnumSexo getSexo() {
 		return sexo;
 	}
-
-	public void setSexo(String sexo) {
+	
+	public void setSexo(EnumSexo sexo) {
 		this.sexo = sexo;
 	}
 

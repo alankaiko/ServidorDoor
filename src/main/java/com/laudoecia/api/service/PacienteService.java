@@ -145,7 +145,7 @@ public class PacienteService {
 	
 	public List<Instancia> BuscarPorInstanciasDoPaciente(Long idpatient){
 		Paciente paciente = this.BuscarPorId(idpatient);
-		return paciente.getEstudos().get(0).getSeries().get(0).getInstance();
+		return paciente.getEstudos().get(0).getSeries().get(0).getInstancia();
 	}
 	
 	public List<Estudo> BuscaEstudo(String codigo) {
@@ -162,9 +162,9 @@ public class PacienteService {
 		}
 	}
 	
-	public Boolean VerificarSeNomeExiste(String nome) {
+	public Boolean VerificarSeNomeExiste(PacienteFilter filtro) {
 		try {
-			return this.dao.VerificarPacienteNome(nome);
+			return this.dao.VerificarPacienteNome(filtro);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo VerificarSeNomeExiste------------------ de ConvenioService");
 			e.printStackTrace();

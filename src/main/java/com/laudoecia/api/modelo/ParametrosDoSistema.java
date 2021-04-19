@@ -1,6 +1,5 @@
 package com.laudoecia.api.modelo;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -25,9 +24,7 @@ import com.laudoecia.api.modelo.enuns.VERSAO_DO_SW;
 
 @Entity
 @Table(name = "parametrosdosistema")
-public class ParametrosDoSistema implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+public class ParametrosDoSistema {
 	private Long codigo;
 	private List<BackupAutomatico> backups;
 	private boolean backupautomaticoenabled = true;

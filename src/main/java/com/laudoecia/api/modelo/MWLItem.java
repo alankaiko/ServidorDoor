@@ -1,6 +1,5 @@
 package com.laudoecia.api.modelo;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -20,9 +19,7 @@ import javax.persistence.Version;
 
 @Entity
 @Table(name = "mwlitem")
-public class MWLItem implements Serializable {
-    private static final long serialVersionUID = 5655030469102270878L;
-
+public class MWLItem {
     private Long codigo;
     private long version;    
     private Date datacriacao;
@@ -41,7 +38,6 @@ public class MWLItem implements Serializable {
     private String localaet;
     private List<ScheduledStationAETitle> scheduledstationaets; 
     private Paciente paciente;
-    private CodeEntity institutioncode;
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -185,16 +181,6 @@ public class MWLItem implements Serializable {
 		this.institutionname = institutionname;
 	}
 	
-	@ManyToOne
-    @JoinColumn(name = "institutioncode_cod")
-	public CodeEntity getInstitutioncode() {
-		return institutioncode;
-	}
-	
-	public void setInstitutioncode(CodeEntity institutioncode) {
-		this.institutioncode = institutioncode;
-	}
-
 	public String getLocalaet() {
 		return localaet;
 	}

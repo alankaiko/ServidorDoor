@@ -1,7 +1,5 @@
 package com.laudoecia.api.modelo;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,9 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "modelodelaudo")
-public class ModeloDeLaudo implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+public class ModeloDeLaudo {
 	private Long codigo;
 	private String nome;
 	private String contexto;

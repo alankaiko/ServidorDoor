@@ -101,4 +101,9 @@ public class AtendimentoResource {
 			return null;
 		}		
 	}	
+	
+	@GetMapping(params = "verificarexistencia")
+	public Boolean SeNomeExiste(AtendimentoFilter filtro){
+		return this.service.VerificarSeNomeExiste(filtro);
+	}
 }

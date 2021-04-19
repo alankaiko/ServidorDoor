@@ -1,6 +1,5 @@
 package com.laudoecia.api.modelo;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -16,10 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "crm")
-public class Crm implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+@Table
+public class Crm{
 	private Long codigo;
 	private String crm;
 	private String nome;

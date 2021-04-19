@@ -87,6 +87,16 @@ public class AtendimentoService {
 		return atendimento.get();
 	}
 	
+	public Boolean VerificarSeNomeExiste(AtendimentoFilter filtro) {
+		try {
+			return this.dao.VerificarPacienteNome(filtro);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo VerificarSeNomeExiste------------------ de AtendimentoService");
+			e.printStackTrace();
+			return null;
+		}	
+	}
+	
 
 	public void Deletar(Long id) {
 		try {

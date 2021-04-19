@@ -1,7 +1,5 @@
 package com.laudoecia.api.modelo;
 
-import java.io.Serializable;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,9 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "subgrupocbhpm")
-public class SubgrupoCBHPM implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+public class SubgrupoCBHPM {
 	private Long codigo;
 	private String sku;
 	private String subgrupo;

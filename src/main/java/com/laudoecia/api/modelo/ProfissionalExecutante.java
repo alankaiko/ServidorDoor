@@ -1,7 +1,5 @@
 package com.laudoecia.api.modelo;
 
-import java.io.Serializable;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -20,9 +18,7 @@ import com.laudoecia.api.modelo.enuns.EnumTitulo;
 
 @Entity
 @Table(name = "profissionalexecutante")
-public class ProfissionalExecutante implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+public class ProfissionalExecutante {
 	private Long codigo;
 	private String nome;
 	private EnumTitulo titulo;

@@ -25,7 +25,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 @Table(name ="procedimentoatendimento")
 public class ProcedimentoAtendimento {
-
 	private Long codigo;
 	private ProfissionalExecutante profexecutante;
 	private ProcedimentoMedico procedimentomedico;
@@ -49,7 +48,7 @@ public class ProcedimentoAtendimento {
 		this.codigo = codigo;
 	}
 
-	@ManyToOne(cascade = CascadeType.DETACH)
+	@ManyToOne
 	@JoinColumn(name = "tbl_profexecutante_id", referencedColumnName = "codigo", nullable = true)
 	public ProfissionalExecutante getProfexecutante() {
 		return profexecutante;

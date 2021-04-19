@@ -1,6 +1,5 @@
 package com.laudoecia.api.modelo;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,9 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table
-public class Atendimento implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+public class Atendimento {
 	private Long codigo;
 	private Paciente paciente;
 	private Convenio convenio;
@@ -74,8 +71,8 @@ public class Atendimento implements Serializable {
 		this.convenio = convenio;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
-	@JoinColumn(name = "tbl_profsolicitante_id", referencedColumnName = "codigo")
+	@ManyToOne
+	@JoinColumn(name = "tbl_profsolicitante_id", referencedColumnName = "codigo", nullable = true)
 	public ProfissionalSolicitante getSolicitante() {
 		return solicitante;
 	}

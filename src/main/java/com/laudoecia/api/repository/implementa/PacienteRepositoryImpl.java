@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -28,20 +27,27 @@ public class PacienteRepositoryImpl implements PacienteRepositoryQuery{
 	private EntityManager em;
 
 	@Override
-	public boolean VerificarPacienteNome(String nome) {
+	public boolean VerificarPacienteNome(PacienteFilter filtro) {
+		boolean valor = false;
+
 		try {
 			CriteriaBuilder builder = em.getCriteriaBuilder();
 			CriteriaQuery<Paciente> criteria = builder.createQuery(Paciente.class);
 			Root<Paciente> root = criteria.from(Paciente.class);
+
+			criteria.where(builder.and(builder.like(builder.lower(root.get(Paciente_.nome)), "%" + filtro.getNome().toLowerCase() +"%"),
+					builder.equal(root.get(Paciente_.datanasc), filtro.getDatanasc())));
 			
-			criteria.where(builder.equal(builder.lower(root.get(Paciente_.nome)), nome.toLowerCase()));
-			TypedQuery<Paciente> query = em.createQuery(criteria);
+		
+			TypedQuery<Paciente> tiped = em.createQuery(criteria);
 			
-			query.getSingleResult();
-			return true;
-		} catch (NoResultException e) {
-			return false;
+			if(tiped.getResultList().size() > 0)
+				valor = true;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		
+		return valor;
 	}
 	
 	@Override
