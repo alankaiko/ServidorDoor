@@ -87,4 +87,11 @@ public class ProfissionalSolicitante {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "ProfissionalSolicitante [codigo=" + codigo + ", nome=" + nome + ", titulo=" + titulo + ", conselho="
+				+ conselho + "]";
+	}
+
+	
 }

@@ -2,12 +2,15 @@ package com.laudoecia.api.utils;
 
 import java.util.Date;
 
+import org.springframework.util.StringUtils;
+
 import com.laudoecia.api.modelo.Equipamento;
 import com.laudoecia.api.modelo.Estudo;
 import com.laudoecia.api.modelo.Instancia;
 import com.laudoecia.api.modelo.Paciente;
-import com.laudoecia.api.modelo.Serie;
+import com.laudoecia.api.modelo.Series;
 import com.laudoecia.api.modelo.Tagimagem;
+import com.laudoecia.api.modelo.enuns.EnumSexo;
 
 public class DicomEntityBuilder {
 
@@ -20,10 +23,12 @@ public class DicomEntityBuilder {
 		paciente.setDatacriacao(Utils.ConverterToLocalDate(datacriacao));
 		paciente.setPacienteid(pacienteid);
 		paciente.setNome(nome);
-		paciente.setSexo(sexo);
 		paciente.setTamanho(tamanho);
 		paciente.setPeso(peso);
 
+		if(!StringUtils.isEmpty(sexo))
+			paciente.setSexo(EnumSexo.valueOf(sexo));
+		
 		return paciente;
 	}
 
@@ -46,11 +51,11 @@ public class DicomEntityBuilder {
 		return study;
 	}
 
-	public static Serie NovaSerie(String bodyPartExamined, String laterality, String operatorsName,
+	public static Series NovaSerie(String bodyPartExamined, String laterality, String operatorsName,
 			String patientPosition, String protocolName, Date seriesDateTime, String seriesDescription,
 			String seriesInstanceUID, Integer seriesNumber) {
 
-		Serie series = new Serie();
+		Series series = new Series();
 		series.setBodypartexamined(bodyPartExamined);
 		series.setLaterality(laterality);
 		series.setOperatorsname(operatorsName);

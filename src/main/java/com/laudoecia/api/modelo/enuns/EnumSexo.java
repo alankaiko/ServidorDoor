@@ -1,7 +1,7 @@
 package com.laudoecia.api.modelo.enuns;
 
 public enum EnumSexo {
-	NADA(" "),MASCULINO("Masculino"),FEMININO("Feminino");
+	N(" "),M("Masculino"),F("Feminino");
 	
 	private String valor;
 	

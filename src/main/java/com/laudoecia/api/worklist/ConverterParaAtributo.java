@@ -18,7 +18,7 @@ public class ConverterParaAtributo {
 			atributos.setString(Tag.PatientName, VR.PN, work.getPaciente().getNome());	
 			atributos.setString(Tag.PatientID, VR.LO, work.getPaciente().getPacienteid());
 			atributos.setString(Tag.PatientBirthDate, VR.DA, work.getPaciente().getDatanasc().toString());
-			atributos.setString(Tag.PatientSex, VR.CS, work.getPaciente().getSexo());
+			atributos.setString(Tag.PatientSex, VR.CS, work.getPaciente().getSexo().getValor());
 			atributos.setString(Tag.PatientSize, VR.DS, work.getPaciente().getTamanho());
 			atributos.setString(Tag.PatientWeight, VR.DS, work.getPaciente().getPeso());	
 			atributos.setString(Tag.LastMenstrualDate, VR.DA, work.getPaciente().getDatamenstruacao().toString());
@@ -78,7 +78,7 @@ public class ConverterParaAtributo {
 				stepsequence.setString(Tag.ScheduledStationAETitle, VR.AE, work.getScheduledstationaets().get(0).getAetitle());
 				stepsequence.setString(Tag.ScheduledProcedureStepStartDate, VR.DA, work.getScheduledstartdate());
 				stepsequence.setString(Tag.ScheduledProcedureStepStartTime, VR.TM, work.getScheduledstarttime());
-				stepsequence.setString(Tag.ScheduledPerformingPhysicianName, VR.PN, work.getPaciente().getPersonname().getSobrenome());
+				stepsequence.setString(Tag.ScheduledPerformingPhysicianName, VR.PN, work.getPaciente().getAtributoextra1());
 				stepsequence.setString(Tag.ScheduledProcedureStepDescription, VR.LO, "nao achei");
 				stepsequence.setString(Tag.ScheduledProcedureStepID, VR.SH, work.getScheduledprocedurestepid());
 				stepsequence.setString(Tag.ScheduledStationName, VR.SH, work.getScheduledstationaets().get(0).getAetitle());	

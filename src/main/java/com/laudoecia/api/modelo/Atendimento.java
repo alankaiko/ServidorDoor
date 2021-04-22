@@ -72,7 +72,7 @@ public class Atendimento {
 	}
 
 	@ManyToOne
-	@JoinColumn(name = "tbl_profsolicitante_id", referencedColumnName = "codigo", nullable = true)
+	@JoinColumn(name = "tbl_profsolicitante_id", nullable = true)
 	public ProfissionalSolicitante getSolicitante() {
 		return solicitante;
 	}

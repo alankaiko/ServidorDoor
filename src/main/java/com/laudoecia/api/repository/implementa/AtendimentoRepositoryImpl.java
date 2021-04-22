@@ -61,7 +61,7 @@ public class AtendimentoRepositoryImpl implements AtendimentoRepositoryQuery{
 		Root<Atendimento> root = criteria.from(Atendimento.class);
 		Join<Atendimento, Paciente> rootpaciente = root.join(Atendimento_.paciente);
 		Join<Atendimento, ProfissionalSolicitante> rootsolicitante = root.join(Atendimento_.solicitante);
-		criteria.orderBy(builder.desc(root.get("codigo")));		
+		//criteria.orderBy(builder.desc(root.get("codigo")));		
 		
 		Predicate[] predicates = AdicionarRestricoes(builder, filtro, root, rootpaciente, rootsolicitante);
 		criteria.where(predicates);

@@ -14,7 +14,7 @@ import com.laudoecia.api.modelo.Equipamento;
 import com.laudoecia.api.modelo.Estudo;
 import com.laudoecia.api.modelo.Instancia;
 import com.laudoecia.api.modelo.Paciente;
-import com.laudoecia.api.modelo.Serie;
+import com.laudoecia.api.modelo.Series;
 import com.laudoecia.api.modelo.Tagimagem;
 import com.laudoecia.api.service.interf.DBService;
 import com.laudoecia.api.servidor.LeitorDicom;
@@ -30,7 +30,7 @@ public class DBServiceImpl implements DBService{
 	private InstanciaService serviceinstancia;
 
 	@Autowired
-	private SerieService serviceserie;
+	private SeriesService serviceserie;
 
 	@Autowired
 	private EstudoService serviceestudo;
@@ -93,8 +93,8 @@ public class DBServiceImpl implements DBService{
 
 	@Transactional
 	@Override
-	public Serie ConstruirSerie(LeitorDicom reader, Estudo estudo) {
-		Serie serie = this.serviceserie.BuscaPorInstanceENumber(reader.getSeriesInstanceUID(), reader.getSeriesNumber());
+	public Series ConstruirSerie(LeitorDicom reader, Estudo estudo) {
+		Series serie = this.serviceserie.BuscaPorInstanceENumber(reader.getSeriesInstanceUID(), reader.getSeriesNumber());
 
 		if (serie == null) {
 			serie = DicomEntityBuilder.NovaSerie(reader.getBodyPartExamined(), reader.getLaterality(),
@@ -102,7 +102,7 @@ public class DBServiceImpl implements DBService{
 				reader.getSeriesDateTime(), reader.getSeriesDescription(), reader.getSeriesInstanceUID(),
 				reader.getSeriesNumber());
 
-			serie.setStudy(estudo);
+			serie.setEstudo(estudo);
 			this.serviceserie.Criar(serie);
 			serie = this.serviceserie.BuscaPorInstanceENumber(reader.getSeriesInstanceUID(), reader.getSeriesNumber());
 		} else {
@@ -114,7 +114,7 @@ public class DBServiceImpl implements DBService{
 
 	@Transactional
 	@Override
-	public Equipamento ConstruirEquipamento(LeitorDicom reader, Serie serie) {
+	public Equipamento ConstruirEquipamento(LeitorDicom reader, Series serie) {
 		Equipamento equipmento = this.serviceesquipamento.BuscarPorSerieEquipamento(serie.getCodigo());
 
 		if (equipmento == null) {
@@ -124,7 +124,7 @@ public class DBServiceImpl implements DBService{
 					reader.getManufacturerModelName(), reader.getModality(), reader.getSoftwareVersion(),
 					reader.getStationName());
 
-			equipmento.setSerie(serie);
+			equipmento.setSeries(serie);
 			this.serviceesquipamento.Criar(equipmento);
 			equipmento = this.serviceesquipamento.BuscarPorSerieEquipamento(serie.getCodigo());
 
@@ -137,7 +137,7 @@ public class DBServiceImpl implements DBService{
 
 	@Transactional
 	@Override
-	public Instancia ConstruirInstancia(LeitorDicom reader, Serie serie) {
+	public Instancia ConstruirInstancia(LeitorDicom reader, Series serie) {
 		Instancia instancia = this.serviceinstancia.BuscarPorInstanciaUid(reader.getSOPInstanceUID());
 
 		if (instancia == null) {
@@ -176,12 +176,12 @@ public class DBServiceImpl implements DBService{
 				Estudo study = ConstruirEstudo(reader, paciente);
 				
 				if (study != null) {
-					Serie series = ConstruirSerie(reader, study);
+					Series series = ConstruirSerie(reader, study);
 					if (series != null) {
 						Equipamento equipment = ConstruirEquipamento(reader, series);
 						Instancia instance = ConstruirInstancia(reader, series);
 
-						series.setDatamodicifacao(instance.getDatacriacao());
+						series.setDatamodificacao(instance.getDatacriacao());
 						this.serviceserie.Criar(series);
 
 						equipment.setDatamodificacao(instance.getDatacriacao());
