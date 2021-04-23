@@ -18,6 +18,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table
 public class Estudo {
@@ -169,6 +171,7 @@ public class Estudo {
 		this.paciente = paciente;
 	}
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "estudo")
 	public List<Series> getSeries() {
 		return series;

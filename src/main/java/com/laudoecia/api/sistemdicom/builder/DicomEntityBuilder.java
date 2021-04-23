@@ -4,6 +4,8 @@ import java.util.Date;
 
 import org.springframework.util.StringUtils;
 
+import com.laudoecia.api.modelo.Contato;
+import com.laudoecia.api.modelo.Endereco;
 import com.laudoecia.api.modelo.Equipamento;
 import com.laudoecia.api.modelo.Estudo;
 import com.laudoecia.api.modelo.Instancia;
@@ -26,6 +28,16 @@ public class DicomEntityBuilder {
 		paciente.setNome(nome);
 		paciente.setTamanho(tamanho);
 		paciente.setPeso(peso);
+		
+			Contato contato = new Contato();
+			contato.setTelefone(" ");
+			contato.setTelefone2(" ");
+			
+			Endereco endereco = new Endereco();
+			endereco.setCep(" ");
+			
+		paciente.setEndereco(endereco);
+		paciente.setContato(contato);
 		
 		if(!StringUtils.isEmpty(sexo))
 			paciente.setSexo(EnumSexo.valueOf(sexo));

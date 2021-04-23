@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.laudoecia.api.modelo.enuns.EnumSexo;
 
 @Entity
@@ -114,6 +115,7 @@ public class Paciente {
 		this.datamodificacao = datamodificacao;
 	}
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "paciente")
 	public List<Estudo> getEstudos() {
 		return estudos;

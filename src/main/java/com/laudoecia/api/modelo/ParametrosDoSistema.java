@@ -70,13 +70,9 @@ public class ParametrosDoSistema {
 	public List<BackupAutomatico> getBackups() {
 		return Collections.unmodifiableList(backups);
 	}
-
+	
 	public void setBackups(List<BackupAutomatico> backups) {
-		this.backups.clear();
-		if (backups == null) {
-		} else {
-			this.backups.addAll(backups);
-		}
+		this.backups = backups;
 	}
 
 	@Column(name = "fraserodapelaudo", nullable = true, length = 10000)
@@ -332,6 +328,8 @@ public class ParametrosDoSistema {
 	public void setImprimiratd(boolean imprimiratd) {
 		this.imprimiratd = imprimiratd;
 	}
+	
+	
 	
 	@Version
 	public long getVersion() {

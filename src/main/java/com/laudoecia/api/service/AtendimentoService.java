@@ -69,7 +69,6 @@ public class AtendimentoService {
 
 	public Atendimento Criar(Atendimento atendimento) {
 		try {
-			System.out.println("como sera que vem " + atendimento.getSolicitante().toString());
 			atendimento.getProcedimentos().forEach(pro -> pro.setAtendimento(atendimento));
 			return this.dao.save(atendimento);
 		} catch (Exception e) {
