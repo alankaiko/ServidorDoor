@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -38,7 +39,7 @@ public class Paciente {
     private String atributoextra1;
     private String atributoextra2;
     private String atributoextra3;
-    private int numerodeestudos;
+    private boolean dicom;
     private String observacoes;
 
 	public Paciente() {
@@ -73,6 +74,7 @@ public class Paciente {
 	}
 
 	@Enumerated(EnumType.STRING)
+	@Column(nullable = true)
 	public EnumSexo getSexo() {
 		return sexo;
 	}
@@ -80,7 +82,7 @@ public class Paciente {
 	public void setSexo(EnumSexo sexo) {
 		this.sexo = sexo;
 	}
-
+	
 	@Column(nullable = true)
 	public LocalDate getDatanasc() {
 		return datanasc;
@@ -168,12 +170,12 @@ public class Paciente {
 	}
 
 	@Column(nullable = true)
-	public int getNumerodeestudos() {
-		return numerodeestudos;
+	public boolean isDicom() {
+		return dicom;
 	}
 	
-	public void setNumerodeestudos(int numerodeestudos) {
-		this.numerodeestudos = numerodeestudos;
+	public void setDicom(boolean dicom) {
+		this.dicom = dicom;
 	}
 
 	public String getObservacoes() {
@@ -207,6 +209,18 @@ public class Paciente {
 	public void setDatamenstruacao(LocalDate datamenstruacao) {
 		this.datamenstruacao = datamenstruacao;
 	}
+	
+	@PrePersist
+	private void CriarObjeto() {
+		if(this.endereco.getCep() == null)
+			this.endereco.setCep("");
+		
+		if(this.contato.getTelefone() == null)
+			this.contato.setTelefone("");
+		
+		if(this.contato.getTelefone2() == null)
+			this.contato.setTelefone2("");
+	}
 
 	@Override
 	public String toString() {
@@ -215,8 +229,7 @@ public class Paciente {
 				+ datamodificacao + ", estudos=" + estudos + ", endereco=" + endereco + ", contato=" + contato
 				+ ", tamanho=" + tamanho + ", peso=" + peso + ", datamenstruacao=" + datamenstruacao
 				+ ", atributoextra1=" + atributoextra1 + ", atributoextra2=" + atributoextra2 + ", atributoextra3="
-				+ atributoextra3 + ", numerodeestudos=" + numerodeestudos + ", observacoes=" + observacoes + "]";
+				+ atributoextra3 + ", dicom=" + dicom + ", observacoes=" + observacoes + "]";
 	}
-	
 	
 }

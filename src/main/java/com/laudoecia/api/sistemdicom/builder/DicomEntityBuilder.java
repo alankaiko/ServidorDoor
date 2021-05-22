@@ -2,8 +2,6 @@ package com.laudoecia.api.sistemdicom.builder;
 
 import java.util.Date;
 
-import org.springframework.util.StringUtils;
-
 import com.laudoecia.api.modelo.Contato;
 import com.laudoecia.api.modelo.Endereco;
 import com.laudoecia.api.modelo.Equipamento;
@@ -12,7 +10,6 @@ import com.laudoecia.api.modelo.Instancia;
 import com.laudoecia.api.modelo.Paciente;
 import com.laudoecia.api.modelo.Series;
 import com.laudoecia.api.modelo.Tagimagem;
-import com.laudoecia.api.modelo.enuns.EnumSexo;
 import com.laudoecia.api.utils.Utils;
 
 public class DicomEntityBuilder {
@@ -28,20 +25,12 @@ public class DicomEntityBuilder {
 		paciente.setNome(nome);
 		paciente.setTamanho(tamanho);
 		paciente.setPeso(peso);
+		paciente.setSexo(Utils.VerificaSexo(sexo));
+		paciente.setDicom(true);
 		
-			Contato contato = new Contato();
-			contato.setTelefone(" ");
-			contato.setTelefone2(" ");
-			
-			Endereco endereco = new Endereco();
-			endereco.setCep(" ");
-			
-		paciente.setEndereco(endereco);
-		paciente.setContato(contato);
-		
-		if(!StringUtils.isEmpty(sexo))
-			paciente.setSexo(EnumSexo.valueOf(sexo));
-
+		paciente.setEndereco(new Endereco());
+		paciente.setContato(new Contato());
+	
 		return paciente;
 	}
 

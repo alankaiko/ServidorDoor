@@ -7,4 +7,5 @@ import com.laudoecia.api.modelo.ProcedimentoAtendimento;
 
 @Repository
 public interface ProcedimentoAtendimentoRepository extends JpaRepository<ProcedimentoAtendimento, Long>{
+
 }

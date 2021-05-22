@@ -177,6 +177,9 @@ public class DicomServer {
 				}			
 				// String ipAddress = as.getSocket().getInetAddress().getHostAddress(); // ip address
 				// String associationName = as.toString();
+				PatientQueryTask taque = new PatientQueryTask(as, pc, rq, keys, new DicomServer());
+				System.out.println("nulo " + taque);
+
 				switch (level) {
 				case PATIENT:
 					return new PatientQueryTask(as, pc, rq, keys, DicomServer.this);

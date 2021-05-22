@@ -61,6 +61,7 @@ public class AtendimentoResource {
 	
 	@PostMapping
 	public ResponseEntity<Atendimento> Salvar(@Valid @RequestBody Atendimento atendimento, HttpServletResponse resposta) {
+		System.out.println(atendimento.toString());
 		Atendimento salvo = this.service.Criar(atendimento);
 		this.publisher.publishEvent(new RecursoCriadoEvent(this, resposta, salvo.getCodigo()));
 		return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
@@ -75,6 +76,12 @@ public class AtendimentoResource {
 	@GetMapping("/{codigo}")
 	public ResponseEntity<Atendimento> PorId(@PathVariable Long codigo) {
 		Atendimento salvo = this.service.BuscarPorId(codigo);
+		return ResponseEntity.ok(salvo);
+	}
+	
+	@GetMapping("/atd/{codigo}")
+	public ResponseEntity<Atendimento> BuscarPorIdAtd(@PathVariable Long codigo) {
+		Atendimento salvo = this.service.BuscarResumoPraAtd(codigo);
 		return ResponseEntity.ok(salvo);
 	}
 

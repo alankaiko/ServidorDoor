@@ -190,4 +190,18 @@ public class Estudo {
 			datacriacao = new Date();
 	}
 
+	@Override
+	public String toString() {
+		return "Estudo [codigo=" + codigo + ", accessionnumber=" + accessionnumber + ", studyid=" + studyid
+				+ ", studyinstanceuid=" + studyinstanceuid + ", studydescription=" + studydescription
+				+ ", studydatetime=" + studydatetime + ", referringphysicianname=" + referringphysicianname
+				+ ", studypriorityid=" + studypriorityid + ", studystatusid=" + studystatusid
+				+ ", additionalpatienthistory=" + additionalpatienthistory + ", admittingdiagnosesdescription="
+				+ admittingdiagnosesdescription + ", datacriacao=" + datacriacao + ", datamodificacao="
+				+ datamodificacao + "]";
+	}
+
+	
+
+	
 }

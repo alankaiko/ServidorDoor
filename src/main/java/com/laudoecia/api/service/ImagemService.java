@@ -48,9 +48,9 @@ public class ImagemService {
 		return imagem.get();
 	}
 
-	public void Deletar(Long id) {
+	public void Deletar(Long codigo) {
 		try {
-			this.dao.deleteById(id);
+			this.dao.deleteById(codigo);
 		} catch (Exception e) {
 			LOG.error("Erro ao executar o metodo Deletar------------------ de ImagemService");
 			e.printStackTrace();

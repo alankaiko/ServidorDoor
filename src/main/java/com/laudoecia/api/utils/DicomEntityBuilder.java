@@ -2,15 +2,12 @@ package com.laudoecia.api.utils;
 
 import java.util.Date;
 
-import org.springframework.util.StringUtils;
-
 import com.laudoecia.api.modelo.Equipamento;
 import com.laudoecia.api.modelo.Estudo;
 import com.laudoecia.api.modelo.Instancia;
 import com.laudoecia.api.modelo.Paciente;
 import com.laudoecia.api.modelo.Series;
 import com.laudoecia.api.modelo.Tagimagem;
-import com.laudoecia.api.modelo.enuns.EnumSexo;
 
 public class DicomEntityBuilder {
 
@@ -25,9 +22,7 @@ public class DicomEntityBuilder {
 		paciente.setNome(nome);
 		paciente.setTamanho(tamanho);
 		paciente.setPeso(peso);
-
-		if(!StringUtils.isEmpty(sexo))
-			paciente.setSexo(EnumSexo.valueOf(sexo));
+		paciente.setSexo(Utils.VerificaSexo(sexo));
 		
 		return paciente;
 	}

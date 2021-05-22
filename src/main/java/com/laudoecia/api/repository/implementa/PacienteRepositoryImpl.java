@@ -111,12 +111,11 @@ public class PacienteRepositoryImpl implements PacienteRepositoryQuery{
 		if(!StringUtils.isEmpty(filtro.getIdade()))
 			lista.add(builder.like(builder.lower(root.get(Paciente_.idade)), "%" + filtro.getIdade().toLowerCase() + "%"));
 		
-		if(filtro.getDatanasc() != null) {
+		if(filtro.getDatanasc() != null)
 			lista.add(builder.equal(root.get(Paciente_.datanasc), filtro.getDatanasc()));
-		}
 		
-		if(filtro.isServidor())
-			lista.add(builder.isNotNull(root.get(Paciente_.codigo)));
+		if(filtro.isDicom())
+			lista.add(builder.isTrue(root.get(Paciente_.dicom)));
 		
 		return lista.toArray(new Predicate[lista.size()]);
 	}

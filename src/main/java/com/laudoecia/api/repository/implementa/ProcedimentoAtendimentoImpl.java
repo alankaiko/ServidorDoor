@@ -22,7 +22,8 @@ import com.laudoecia.api.repository.filtro.ProcedimentoAtendimentoFilter;
 public class ProcedimentoAtendimentoImpl implements ProcedimentoAtendimentoQuery{
 	@PersistenceContext
 	private EntityManager em;
-
+	
+	
 	@Override
 	public Page<ProcedimentoAtendimento> Filtrando(ProcedimentoAtendimentoFilter filtro, Pageable pageable) {
 		CriteriaBuilder builder = em.getCriteriaBuilder();
@@ -74,7 +75,5 @@ public class ProcedimentoAtendimentoImpl implements ProcedimentoAtendimentoQuery
 	public EntityManager getEm() {
 		return em;
 	}
-	
-	
 
 }

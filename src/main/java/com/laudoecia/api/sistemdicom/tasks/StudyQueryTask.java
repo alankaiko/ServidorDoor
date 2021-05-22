@@ -19,8 +19,11 @@ public class StudyQueryTask extends PatientQueryTask {
 
     public StudyQueryTask(Association as, PresentationContext pc, Attributes rq, Attributes keys, DicomServer qrscp) throws DicomServiceException {
         super(as, pc, rq, keys, qrscp);
+        System.out.println("danificou 1");
         studyIUIDs = StringUtils.maskNull(keys.getStrings(Tag.StudyInstanceUID));
+        System.out.println("danificou 2");
         wrappedFindNextStudy();
+        System.out.println("danificou 3");
     }
 
     @Override

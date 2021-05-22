@@ -16,8 +16,8 @@ import javax.persistence.criteria.Root;
 import org.dcm4che3.data.Attributes;
 import org.dcm4che3.net.service.DicomServiceException;
 
-import com.laudoecia.api.modelo.MWLItem;
-import com.laudoecia.api.modelo.MWLItem_;
+import com.laudoecia.api.modelo.Atendimento;
+import com.laudoecia.api.modelo.Atendimento_;
 import com.laudoecia.api.modelo.Paciente;
 import com.laudoecia.api.sistemdicom.interfaces.ListaDeTrabalhoQuery;
 
@@ -25,8 +25,8 @@ public class ListaDeTrabalhoImpl implements ListaDeTrabalhoQuery{
 	protected final EntityManager conexaobanco;
     protected final QueryContext contexto;
     protected final CriteriaBuilder criteriabuilder;
-    private Stream<MWLItem> resultado;
-    private Iterator<MWLItem> itera;
+    private Stream<Atendimento> resultado;
+    private Iterator<Atendimento> itera;
     private int desl;
     private int limite;
     private int tamanho;
@@ -39,10 +39,10 @@ public class ListaDeTrabalhoImpl implements ListaDeTrabalhoQuery{
         this.criteriabuilder = this.conexaobanco.getCriteriaBuilder();
 	}
 
-	public Attributes CriarAtributos(MWLItem results) {
+	public Attributes CriarAtributos(Atendimento atendimento) {
 		try {
 			ConverterParaAtributo converte = new ConverterParaAtributo();
-			Attributes atributos = converte.ConverterParaAtributos(results);
+			Attributes atributos = converte.ConverterParaAtributos(atendimento);
 			
 			converte = null;
 			return atributos;
@@ -65,20 +65,20 @@ public class ListaDeTrabalhoImpl implements ListaDeTrabalhoQuery{
         this.rejeicao = 0;
         this.valores = 0;
         
-		CriteriaQuery<MWLItem> query = this.criteriabuilder.createQuery(MWLItem.class);
-		Root<MWLItem> root = query.from(MWLItem.class);
-		Join<MWLItem, Paciente> rootpatient = root.join(MWLItem_.paciente);
+		CriteriaQuery<Atendimento> query = this.criteriabuilder.createQuery(Atendimento.class);
+		Root<Atendimento> root = query.from(Atendimento.class);
+		Join<Atendimento, Paciente> rootpatient = root.join(Atendimento_.paciente);
 		query.orderBy(this.criteriabuilder.asc(root.get("codigo")));
 		
 		Predicate[] predicato = AdicionarRestricoes(this.criteriabuilder, root, rootpatient);
 		query.where(predicato);
 		
-		TypedQuery<MWLItem> tiped = this.conexaobanco.createQuery(query);
+		TypedQuery<Atendimento> tiped = this.conexaobanco.createQuery(query);
 		resultado = tiped.getResultStream();
         itera = resultado.iterator();
     }
 	    
-    private Predicate[] AdicionarRestricoes(CriteriaBuilder builder, Root<MWLItem> root, Join<MWLItem, Paciente> rootpatient) {
+    private Predicate[] AdicionarRestricoes(CriteriaBuilder builder, Root<Atendimento> root, Join<Atendimento, Paciente> rootpatient) {
 		List<Predicate> lista = new ArrayList<Predicate>();
 	
 //			if (!StringUtils.isEmpty(filtro.getDescricao()))

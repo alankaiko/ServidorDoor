@@ -114,13 +114,14 @@ public class ProcedimentoAtendimentoService {
 		try {
 			ProcedimentoAtendimento salvo = this.BuscarPorId(id);
 			
-			this.DeletarImagens(salvo.getListaimagem(), procedimento.getCodigoatdteste());
+			//salvo.getListaimagem().removeAll(procedimento.getListaimagem());
+			//this.DeletarImagens(salvo.getListaimagem());
 			salvo.getListaimagem().clear();
 			
 			List<Imagem> listaatualizada = this.GravarListaImagens(procedimento.getListaimagem(),procedimento.getCodigoatdteste());
 			salvo.getListaimagem().addAll(listaatualizada);
 			salvo.getListaimagem().forEach(lista -> lista.setProcedimentoatendimento(salvo));
-			
+
 			BeanUtils.copyProperties(procedimento, salvo, "codigo", "listaimagem", "atendimento","paginadeimagens");				
 			return this.Criar(salvo);
 		} catch (Exception e) {
@@ -148,18 +149,16 @@ public class ProcedimentoAtendimentoService {
 		}
 	}
 	
-	public void DeletarImagens(List<Imagem> lista, Long codigoatendimento) {
-		String caminho = "./arquivo/procedimentos";
-		
-		for(Imagem im : lista) {
-			String montarnome = caminho + "/" + codigoatendimento + "/" + im.getNomeimagem() + im.getExtensao();
-			File file = new File(montarnome);
+	public void DeletarImagens(List<Imagem> lista) {
+		lista.forEach(im -> {
+			File file = new File(im.getCaminho());
+			
 			if(file.exists()) {
 				file.delete();
 			}		
-		}		
+		});
 	}
-
+	
 	
 	public List<Imagem> GravarListaImagens(List<Imagem> lista, Long codigoatendimento) {
 		ConverterParaJpeg converter = new ConverterParaJpeg();
@@ -232,4 +231,5 @@ public class ProcedimentoAtendimentoService {
 		}                
         return encodedString;
     }
+
 }

@@ -1,7 +1,6 @@
 package com.laudoecia.api.modelo;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,9 +36,6 @@ public class Atendimento {
 	private Long codigodecid;
 	private Date dataatestado;
 
-	public Atendimento() {
-		this.procedimentos = new ArrayList<ProcedimentoAtendimento>();
-	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,7 +67,7 @@ public class Atendimento {
 		this.convenio = convenio;
 	}
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.DETACH)
 	@JoinColumn(name = "tbl_profsolicitante_id", nullable = true)
 	public ProfissionalSolicitante getSolicitante() {
 		return solicitante;
@@ -82,7 +78,7 @@ public class Atendimento {
 	}
 
 	@JsonIgnoreProperties("atendimento")
-	@OneToMany(mappedBy = "atendimento", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "atendimento", cascade = CascadeType.ALL, orphanRemoval = true)
 	public List<ProcedimentoAtendimento> getProcedimentos() {
 		return procedimentos;
 	}

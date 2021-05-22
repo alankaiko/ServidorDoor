@@ -26,6 +26,7 @@ public class PaginaDeImagens{
 	private LAYOUT_IMG layout;
 	private List<ImagemImpressa> imagemimpressa;
 	private ProcedimentoAtendimento procedimentoatendimento;
+	
 
 	public PaginaDeImagens(LAYOUT_IMG layout) {
 		this.layout = layout;

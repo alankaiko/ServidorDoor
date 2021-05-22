@@ -1,10 +1,10 @@
 package com.laudoecia.api.modelo.enuns;
 
 public enum EnumSexo {
-	N(" "),M("Masculino"),F("Feminino");
-	
+	INDEFINIDO("Indefinido"), MASCULINO("Masculino"), FEMININO("Feminino");
+
 	private String valor;
-	
+
 	private EnumSexo(String valor) {
 		this.valor = valor;
 	}
@@ -16,7 +16,7 @@ public enum EnumSexo {
 	public void setValor(String valor) {
 		this.valor = valor;
 	}
-	
+
 	@Override
 	public String toString() {
 		return valor;

@@ -87,6 +87,23 @@ public class AtendimentoService {
 		return atendimento.get();
 	}
 	
+	public Atendimento BuscarResumoPraAtd(Long id) {
+		try {
+			Atendimento atd = this.BuscarPorId(id);
+			atd.getProcedimentos().forEach(proc -> {
+				proc.setListaimagem(null);
+				proc.setPaginadeimagens(null);
+				proc.setLaudo(null);;
+			});
+			
+			return atd;
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo BuscarResumoPraAtd------------------ de AtendimentoService");
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	public Boolean VerificarSeNomeExiste(AtendimentoFilter filtro) {
 		try {
 			return this.dao.VerificarPacienteNome(filtro);
@@ -116,9 +133,26 @@ public class AtendimentoService {
 		}
 	}
 
-	public Atendimento Atualizar(Long id, Atendimento atendimento) {
+	public Atendimento Atualizar(Long codigo, Atendimento atendimento) {
 		try {
-			Atendimento salvo = this.BuscarPorId(id);
+			//Atendimento salvo = this.BuscarPorId(codigo);
+			
+//			salvo.getProcedimentos().clear();
+//			salvo.getProcedimentos().addAll(atendimento.getProcedimentos());
+//			salvo.getProcedimentos().forEach(pro -> pro.setAtendimento(salvo));
+//			
+//			BeanUtils.copyProperties(atendimento, salvo, "codigo", "procedimentos");
+			return this.Criar(atendimento);
+		} catch (Exception e) {
+			LOG.error("Erro ao executar o metodo Atualizar------------------ de AtendimentoService");
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public Atendimento AtualizarParaAtd(Long codigo, Atendimento atendimento) {
+		try {
+			Atendimento salvo = this.BuscarPorId(codigo);
 			
 			salvo.getProcedimentos().clear();
 			salvo.getProcedimentos().addAll(atendimento.getProcedimentos());

@@ -8,7 +8,7 @@ public class PacienteFilter {
 	private String pacienteid;
 	private String nome;
 	private String idade;
-	private boolean servidor;
+	private boolean dicom;
 	private LocalDate datanasc;
 
 	public PacienteFilter() {
@@ -47,19 +47,18 @@ public class PacienteFilter {
 		this.datanasc = datanasc;
 	}
 
-	public boolean isServidor() {
-		return servidor;
+	public boolean isDicom() {
+		return dicom;
 	}
-
-	public void setServidor(boolean servidor) {
-		this.servidor = servidor;
+	
+	public void setDicom(boolean dicom) {
+		this.dicom = dicom;
 	}
 
 	@Override
 	public String toString() {
-		return "PacienteFilter [pacienteid=" + pacienteid + ", nome=" + nome + ", idade=" + idade + ", servidor="
-				+ servidor + ", datanasc=" + datanasc + "]";
+		return "PacienteFilter [pacienteid=" + pacienteid + ", nome=" + nome + ", idade=" + idade + ", dicom=" + dicom
+				+ ", datanasc=" + datanasc + "]";
 	}
 
-	
 }

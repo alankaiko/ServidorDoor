@@ -61,8 +61,8 @@ import com.google.common.eventbus.EventBus;
 import com.laudoecia.api.gerenciarentrada.Arquivo;
 import com.laudoecia.api.modelo.Imagem;
 import com.laudoecia.api.service.manual.ImagemDicomService;
+import com.laudoecia.api.sistemdicom.worklist.MWLCFindSCP;
 import com.laudoecia.api.utils.ConversorDicomJPG;
-import com.laudoecia.api.worklist.MWLCFindSCP;
 
 public class DicomServer {
 	private static final Logger LOG = LoggerFactory.getLogger(DicomServer.class);

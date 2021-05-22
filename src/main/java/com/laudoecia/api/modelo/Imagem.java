@@ -24,6 +24,9 @@ public class Imagem {
 	private ProcedimentoAtendimento procedimentoatendimento;
 	byte[] imagem;
 	
+	public Imagem() {
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getCodigo() {
@@ -97,9 +100,34 @@ public class Imagem {
 	@Override
 	public String toString() {
 		return "Imagem [codigo=" + codigo + ", caminho=" + caminho + ", nomeimagem=" + nomeimagem + ", extensao="
-				+ extensao + ", dicom=" + dicom + ", procedimentoatendimento=" + procedimentoatendimento + ", imagem="
-				+ Arrays.toString(imagem) + "]";
+				+ extensao + ", dicom=" + dicom + ", procedimentoatendimento=" + procedimentoatendimento + "]";
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Imagem other = (Imagem) obj;
+		if (codigo == null) {
+			if (other.codigo != null)
+				return false;
+		} else if (!codigo.equals(other.codigo))
+			return false;
+		return true;
+	}
+	
 	
 	
 }

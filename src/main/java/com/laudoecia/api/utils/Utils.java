@@ -12,6 +12,8 @@ import java.util.Locale;
 
 import javax.persistence.EntityManagerFactory;
 
+import com.laudoecia.api.modelo.enuns.EnumSexo;
+
 public class Utils {
 	public static EntityManagerFactory entidade;
 
@@ -77,6 +79,15 @@ public class Utils {
 		calendar.setTime(data);
 		calendar.add(Calendar.DATE, numeroDiasParaAdicionar);
 		return calendar.getTime();
+	}
+	
+	public static EnumSexo VerificaSexo(String sexo) {
+		if(sexo.startsWith("m") || sexo.startsWith("M"))
+			return EnumSexo.MASCULINO;
+		else if(sexo.startsWith("f") || sexo.startsWith("F"))
+			return EnumSexo.FEMININO;
+		else
+			return EnumSexo.INDEFINIDO;
 	}
 
 }

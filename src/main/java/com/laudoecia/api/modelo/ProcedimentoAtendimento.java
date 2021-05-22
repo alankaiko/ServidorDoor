@@ -2,10 +2,13 @@ package com.laudoecia.api.modelo;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +24,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.laudoecia.api.modelo.enuns.EnumStatusProcedimento;
 
 @Entity
 @Table(name ="procedimentoatendimento")
@@ -32,12 +36,17 @@ public class ProcedimentoAtendimento {
 	private BigDecimal valorconvenio;
 	private LocalDate preventregalaudo;
 	private LocalDate dataexecucao;
+	private LocalTime horaexecucao;
 	private Atendimento atendimento;
 	private List<PaginaDeImagens> paginadeimagens;
 	private List<Imagem> listaimagem;
 	private Laudo laudo;
 	private Long codigoatdteste;
+	private EnumStatusProcedimento status;
 
+	public ProcedimentoAtendimento() {
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getCodigo() {
@@ -92,6 +101,14 @@ public class ProcedimentoAtendimento {
 		this.dataexecucao = dataexecucao;
 	}
 
+	public LocalTime getHoraexecucao() {
+		return horaexecucao;
+	}
+	
+	public void setHoraexecucao(LocalTime horaexecucao) {
+		this.horaexecucao = horaexecucao;
+	}
+	
 	public LocalDate getPreventregalaudo() {
 		return preventregalaudo;
 	}
@@ -101,7 +118,7 @@ public class ProcedimentoAtendimento {
 	}
 	
 	@JsonIgnoreProperties("procedimentoatendimento")
-	@OneToMany(mappedBy = "procedimentoatendimento", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy = "procedimentoatendimento", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	public List<PaginaDeImagens> getPaginadeimagens() {
 		return paginadeimagens;
 	}
@@ -122,9 +139,9 @@ public class ProcedimentoAtendimento {
 	
 	@Fetch(FetchMode.SUBSELECT)
 	@JsonIgnoreProperties("procedimentoatendimento")
-	@OneToMany(mappedBy = "procedimentoatendimento", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+	@OneToMany(mappedBy = "procedimentoatendimento", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	public List<Imagem> getListaimagem() {
-		return listaimagem;
+		return this.listaimagem;
 	}
 	
 	public void setListaimagem(List<Imagem> listaimagem) {
@@ -139,6 +156,15 @@ public class ProcedimentoAtendimento {
 	
 	public void setLaudo(Laudo laudo) {
 		this.laudo = laudo;
+	}
+	
+	@Enumerated(EnumType.STRING)
+	public EnumStatusProcedimento getStatus() {
+		return status;
+	}
+	
+	public void setStatus(EnumStatusProcedimento status) {
+		this.status = status;
 	}
 	
 	@Transient
